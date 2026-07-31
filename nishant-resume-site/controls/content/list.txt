@@ -1,0 +1,2 @@
+# One project filename per line (no .md extension). Order doesn't matter — sorted by date automatically.
+auto-framing-camera
