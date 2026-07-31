@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Notes — Nishant Tyagi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="nav-logo">NISHANT<span>.</span>TYAGI</a>
+    <div class="nav-links">
+      <a href="#notes">Technical Notes</a>
+      <a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="padding:72px 0 24px;">
+  <div class="wrap">
+    <div class="eyebrow">IC Engine — Combustion, Performance &amp; Emissions</div>
+    <h1 style="font-size:clamp(32px,5vw,48px);">Nishant Tyagi</h1>
+    <p class="blog-intro">
+      Automotive engineer with hands-on experience in IC engine efficiency, power optimization,
+      and emission control. This is a working set of technical notes — calibration procedures
+      and techniques from my time in the industry, written up so I can revisit and refine them,
+      and so anyone evaluating this work can see it directly.
+    </p>
+    <div class="contact-row" style="margin-top:20px;">
+      <a href="mailto:nishant.tyagi@student.tugraz.at">nishant.tyagi@student.tugraz.at</a>
+      <span>Graz, Austria</span>
+    </div>
+  </div>
+</header>
+
+<div id="notes"></div>
+
+<div class="wrap">
+  <div class="filter-row" id="filterRow">
+    <span class="filter-tag active" data-filter="all">All</span>
+    <!-- Additional filter tags are generated automatically from post tags -->
+  </div>
+
+  <div class="post-grid" id="postGrid">
+    <!-- Cards are rendered here by JS from ../assets/ic-engine-data.js -->
+  </div>
+</div>
+
+<footer style="margin-top:20px;">
+  Built by Nishant Tyagi · Graz, Austria
+</footer>
+
+<script src="../assets/ic-engine-data.js"></script>
+<script>
+  const grid = document.getElementById('postGrid');
+  const filterRow = document.getElementById('filterRow');
+
+  // Sort newest first
+  const posts = [...BLOG_POSTS].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  // Build filter tag list from all unique tags used across posts
+  const allTags = [...new Set(posts.flatMap(p => p.tags))].sort();
+  allTags.forEach(tag => {
+    const el = document.createElement('span');
+    el.className = 'filter-tag';
+    el.dataset.filter = tag;
+    el.textContent = tag;
+    filterRow.appendChild(el);
+  });
+
+  function formatDate(d) {
+    return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function render() {
+    grid.innerHTML = '';
+    if (posts.length === 0) {
+      grid.innerHTML = '<div class="no-results">No posts yet — first one is on the way.</div>';
+      return;
+    }
+    posts.forEach(p => {
+      const card = document.createElement('a');
+      card.href = `posts/${p.slug}.html`;
+      card.className = 'post-card';
+      card.dataset.tags = p.tags.join('|');
+      card.innerHTML = `
+        <div class="post-cat">${p.category}</div>
+        <h3>${p.title}</h3>
+        <p>${p.excerpt}</p>
+        <div class="post-meta">
+          <span>${formatDate(p.date)}</span>
+          <span class="read">${p.readTime} →</span>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  render();
+
+  filterRow.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('filter-tag')) return;
+    [...filterRow.children].forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    const filter = e.target.dataset.filter;
+    [...grid.children].forEach(card => {
+      if (!card.dataset.tags) return; // skip no-results element
+      const show = filter === 'all' || card.dataset.tags.split('|').includes(filter);
+      card.classList.toggle('hidden', !show);
+    });
+  });
+</script>
+
+</body>
+</html>

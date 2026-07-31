@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volumetric Efficiency in IC Engines — Nishant Tyagi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="../index.html" class="nav-logo">NISHANT<span>.</span>TYAGI</a>
+    <div class="nav-links">
+      <a href="../index.html">All Notes</a>
+      <a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="article-header">
+    <a href="../index.html" class="back-link">← All notes</a>
+    <div class="post-cat">Combustion &amp; Performance</div>
+    <h1>Volumetric Efficiency in IC Engines: What It Actually Tells You</h1>
+    <div class="article-meta">
+      <span>15 Jul 2026</span>
+      <span>7 min read</span>
+    </div>
+    <div class="tag-cloud">
+      <span class="tag">Combustion</span>
+      <span class="tag">Calibration</span>
+      <span class="tag">Performance</span>
+    </div>
+  </header>
+
+  <article class="post-body">
+
+    <p>
+      Volumetric efficiency (η<sub>v</sub>) is one of the first numbers I look at when I open a new
+      calibration sweep. It's a simple ratio on paper, but it quietly summarizes how well the engine's
+      breathing — intake, valve timing, exhaust scavenging — is working at a given operating point.
+      Get it wrong and every downstream number (torque, BSFC, emissions) is harder to interpret correctly.
+    </p>
+
+    <h2>What it is</h2>
+    <p>
+      Volumetric efficiency compares the actual mass of air (or air-fuel mixture) drawn into the cylinder
+      during an intake stroke to the theoretical mass that would fill the cylinder's swept volume at
+      ambient density. It is not a measure of thermal or mechanical efficiency — it's purely about how
+      effectively the engine fills itself.
+    </p>
+
+    <div class="formula-box">
+      η<sub>v</sub> = (m<sub>actual</sub> / (ρ<sub>ambient</sub> × V<sub>displacement</sub>)) × 100%
+    </div>
+
+    <div class="callout">
+      <strong>Field note:</strong> On naturally aspirated engines I've worked with, η<sub>v</sub> typically
+      peaks somewhere in the mid-RPM range where intake runner length and valve overlap are best matched
+      to the gas dynamics — not at redline, which is a common misconception until you actually plot it.
+    </div>
+
+    <h2>Why it matters during calibration</h2>
+    <p>
+      Every naturally-aspirated or boosted engine has a volumetric efficiency curve across RPM and load.
+      During calibration, this curve directly sets the baseline for your air mass estimation model — which
+      in turn drives fuel injection quantity, ignition timing decisions, and torque estimation. If your
+      η<sub>v</sub> table is off, everything built on top of it (AFR targeting, knock margin, emissions
+      compliance) inherits that error.
+    </p>
+    <p>
+      In practice, I build this table from steady-state dyno sweeps: hold RPM constant, step through load
+      points, and back-calculate η<sub>v</sub> from measured air mass flow against the theoretical swept
+      volume at that speed and ambient condition. It's tedious but it's the foundation everything else
+      sits on.
+    </p>
+
+    <h2>What moves the number</h2>
+    <table>
+      <thead>
+        <tr><th>Factor</th><th>Typical effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Intake runner length/diameter</td><td>Shifts the RPM at which resonance tuning peaks η<sub>v</sub></td></tr>
+        <tr><td>Valve overlap</td><td>Improves cylinder scavenging at high RPM, can hurt idle stability</td></tr>
+        <tr><td>Intake air temperature</td><td>Higher IAT lowers air density, reducing effective η<sub>v</sub></td></tr>
+        <tr><td>Exhaust backpressure</td><td>Higher backpressure impedes scavenging, lowering η<sub>v</sub></td></tr>
+        <tr><td>Cam timing (VVT)</td><td>Allows η<sub>v</sub> peak to be shifted dynamically across the RPM range</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Takeaways</h2>
+    <ul>
+      <li>η<sub>v</sub> is a breathing metric, not an efficiency metric in the thermodynamic sense — don't conflate the two.</li>
+      <li>It underpins your air-mass estimation, which underpins fueling and ignition — errors here propagate everywhere downstream.</li>
+      <li>Build the table from real steady-state sweeps rather than assuming a smooth theoretical curve; real intake/exhaust dynamics create local peaks and dips that matter for calibration accuracy.</li>
+    </ul>
+
+  </article>
+
+  <div class="article-footer">
+    <a href="../index.html" class="back-link">← All notes</a>
+    <span>Nishant Tyagi</span>
+  </div>
+</div>
+
+</body>
+</html>
