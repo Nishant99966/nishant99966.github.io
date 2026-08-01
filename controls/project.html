@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project — Nishant Tyagi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="nav-logo">NISHANT<span>.</span>TYAGI</a>
+    <div class="nav-links">
+      <a href="index.html#projects">All Projects</a>
+      <a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div id="articleContainer">
+    <div class="no-results">Loading…</div>
+  </div>
+</div>
+
+<script src="../assets/content-engine.js"></script>
+<script>
+  renderContentArticle('articleContainer', 'content', true, 'index.html#projects', 'All projects');
+</script>
+
+</body>
+</html>
