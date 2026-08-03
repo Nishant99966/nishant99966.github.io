@@ -620,10 +620,54 @@ article.post-body figure{
 }
 /* ---- Wider reading column for note/article pages ---- */
 article.post-body{
-  max-width: 2500px;
 }
 /* Let wide diagrams and tables use the full column width */
 article.post-body figure,
+article.post-body table{
+  max-width: 100%;
+}
+/* ============================================================
+   NOTE / ARTICLE LAYOUT FIX
+   Paste at the very bottom of style.css (overrides earlier rules).
+   ============================================================ */
+
+/* 1. Let the page container itself be wider on note/article pages.
+      The .wrap max-width was capping everything. We widen it only
+      where an article body is present. */
+.wrap:has(article.post-body){
+  max-width: 1100px;
+}
+
+/* 2. Text column: comfortable reading width. Keep this narrower
+      than the container so long paragraphs stay readable. */
+article.post-body{
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 3. Figures may break OUT of the text column to use more width,
+      but are capped so small diagrams don't blow up. */
+article.post-body figure{
+  width: 100%;
+  max-width: 1000px;      /* diagrams never exceed this */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 4. Individual diagram cap: small/simple flowcharts stay a sensible
+      size instead of stretching text huge. Adjust 620px up or down
+      to taste. */
+article.post-body figure img{
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 620px;      /* hard ceiling on diagram height */
+  width: auto;
+  height: auto;
+}
+
+/* 5. Tables can use the fuller width too. */
 article.post-body table{
   max-width: 100%;
 }
