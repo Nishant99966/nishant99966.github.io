@@ -306,7 +306,9 @@
 .back-link:hover{color:var(--copper);}
 
 article.post-body{
-  max-width:740px;
+  max-width:820px;
+  margin-left:auto;
+  margin-right:auto;
   font-size:16px;
   line-height:1.7;
   color:#212C3A;
@@ -334,10 +336,6 @@ article.post-body .callout{
 }
 article.post-body .callout strong{color:var(--copper);}
 
-article.post-body figure{margin:28px 0;}
-article.post-body img{
-  width:100%;border-radius:8px;border:1px solid var(--line);display:block;
-}
 article.post-body figcaption{
   font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
   text-align:center;margin-top:10px;
@@ -442,10 +440,8 @@ article.post-body pre code{background:none;padding:0;}
 }
 
 /* ============================
-   PROJECT CARDS (expandable)
+   PROJECT CARDS (expandable — legacy, kept for compatibility)
    ============================ */
-
-.project-grid{display:flex;flex-direction:column;gap:16px;}
 
 .project-card{
   border:1px solid var(--line);
@@ -516,16 +512,6 @@ article.post-body pre code{background:none;padding:0;}
   font-size:14.5px;
 }
 .pd-result strong{color:var(--copper);}
-
-.pd-links{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
-.pd-links a{
-  font-family:'JetBrains Mono',monospace;font-size:12.5px;
-  padding:8px 16px;border:1px solid var(--line);border-radius:20px;
-  transition:border-color .15s, background .15s;
-}
-.pd-links a:hover{border-color:var(--copper);background:var(--paper-2);}
-.pd-links a.primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
-.pd-links a.primary:hover{background:var(--copper);border-color:var(--copper);}
 
 .pd-image{margin:20px 0;}
 .pd-image img{width:100%;border-radius:8px;border:1px solid var(--line);display:block;}
@@ -608,66 +594,30 @@ article.post-body pre code{background:none;padding:0;}
 .pd-links a:hover{border-color:var(--copper);background:var(--paper-2);}
 .pd-links a.primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 .pd-links a.primary:hover{background:var(--copper);border-color:var(--copper);}
-/* ---- Embedded SVG figures in notes: scale to width, auto height ---- */
-article.post-body figure img,
-article.post-body img[src^="data:image/svg"]{
-  height: auto;
-  max-width: 100%;
-  display: block;
-}
-article.post-body figure{
-  margin: 28px 0;
-}
-/* ---- Wider reading column for note/article pages ---- */
-article.post-body{
-}
-/* Let wide diagrams and tables use the full column width */
-article.post-body figure,
-article.post-body table{
-  max-width: 100%;
-}
+
 /* ============================================================
-   NOTE / ARTICLE LAYOUT FIX
-   Paste at the very bottom of style.css (overrides earlier rules).
+   NOTE / ARTICLE FIGURES & DIAGRAMS  (single source of truth)
    ============================================================ */
 
-/* 1. Let the page container itself be wider on note/article pages.
-      The .wrap max-width was capping everything. We widen it only
-      where an article body is present. */
-.wrap:has(article.post-body){
-  max-width: 1100px;
-}
-
-/* 2. Text column: comfortable reading width. Keep this narrower
-      than the container so long paragraphs stay readable. */
-article.post-body{
-  max-width: 820px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 3. Figures may break OUT of the text column to use more width,
-      but are capped so small diagrams don't blow up. */
+/* Figures sit centered, sized by WIDTH (not height) so tall
+   flowcharts stay readable and never get squished. Raise the
+   figure max-width to make diagrams bigger, lower it to shrink. */
 article.post-body figure{
-  width: 100%;
-  max-width: 1000px;      /* diagrams never exceed this */
-  margin-left: auto;
-  margin-right: auto;
+  width:100%;
+  max-width:720px;          /* <-- single knob for diagram size */
+  margin:28px auto;
+}
+article.post-body figure img,
+article.post-body img[src^="data:image/svg"]{
+  display:block;
+  width:100%;               /* fill the figure width */
+  height:auto;              /* height follows naturally */
+  max-width:100%;
+  border-radius:8px;
+  border:1px solid var(--line);
 }
 
-/* 4. Individual diagram cap: small/simple flowcharts stay a sensible
-      size instead of stretching text huge. Adjust 620px up or down
-      to taste. */
-article.post-body figure img{
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  max-height: 620px;      /* hard ceiling on diagram height */
-  width: auto;
-  height: auto;
-}
-
-/* 5. Tables can use the fuller width too. */
+/* Tables use the full column width */
 article.post-body table{
-  max-width: 100%;
+  max-width:100%;
 }
