@@ -14,8 +14,6 @@ Modern spark-ignition engine control begins with **torque**, not throttle angle.
 
 The primary fuel used here is **compressed natural gas (CNG)**. Gasoline is treated as a separate conversion case later in the article so that the main explanation remains clear and technically consistent.
 
-The control architecture and several analytical relationships in this article are grounded in *Introduction to Modeling and Control of Internal Combustion Engine Systems* by Lino Guzzella and Christopher H. Onder. The diagrams used here are **redrawn and adapted**, not copied. The practical INCA workflow and test-bed guidance are presented in an OEM-style calibration format for publication.
-
 > **Scope of this article:** four-stroke, torque-based, stoichiometric spark-ignition engines, with CNG as the primary fuel and port fuel injection used for the main examples. The same logic also applies to gasoline engines, while direct injection, lean burn and pre-chamber systems require additional fuel- and combustion-specific models.
 
 ## 1. Why an engine ECU starts with torque
