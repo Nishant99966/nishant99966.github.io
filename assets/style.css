@@ -608,3 +608,13 @@ article.post-body pre code{background:none;padding:0;}
 .pd-links a:hover{border-color:var(--copper);background:var(--paper-2);}
 .pd-links a.primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 .pd-links a.primary:hover{background:var(--copper);border-color:var(--copper);}
+/* ---- Embedded SVG figures in notes: scale to width, auto height ---- */
+article.post-body figure img,
+article.post-body img[src^="data:image/svg"]{
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+article.post-body figure{
+  margin: 28px 0;
+}
