@@ -620,7 +620,7 @@ article.post-body figure{
 }
 /* ---- Wider reading column for note/article pages ---- */
 article.post-body{
-  max-width: 1500px;
+  max-width: 2500px;
 }
 /* Let wide diagrams and tables use the full column width */
 article.post-body figure,
