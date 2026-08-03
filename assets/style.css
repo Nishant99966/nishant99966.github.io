@@ -604,7 +604,7 @@ article.post-body pre code{background:none;padding:0;}
    figure max-width to make diagrams bigger, lower it to shrink. */
 article.post-body figure{
   width:100%;
-  max-width:720px;          /* <-- single knob for diagram size */
+  max-width:560px;          /* <-- single knob for diagram size */
   margin:28px auto;
 }
 article.post-body figure img,
