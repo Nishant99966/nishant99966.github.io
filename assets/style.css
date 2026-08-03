@@ -618,3 +618,12 @@ article.post-body img[src^="data:image/svg"]{
 article.post-body figure{
   margin: 28px 0;
 }
+/* ---- Wider reading column for note/article pages ---- */
+article.post-body{
+  max-width: 900px;
+}
+/* Let wide diagrams and tables use the full column width */
+article.post-body figure,
+article.post-body table{
+  max-width: 100%;
+}
