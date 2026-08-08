@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Engine Losses: From IMEP to Brake Torque</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Engine Losses: From IMEP to Brake Torque</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-an-engine-can-produce-strong-cylinder-pressure-but-modest-crankshaft-torque" id="toc-why-an-engine-can-produce-strong-cylinder-pressure-but-modest-crankshaft-torque">1.
+Why an engine can produce strong cylinder pressure but modest crankshaft
+torque</a></li>
+<li><a href="#start-with-indicated-work" id="toc-start-with-indicated-work">2. Start with indicated work</a></li>
+<li><a href="#mean-effective-pressure-makes-engines-comparable" id="toc-mean-effective-pressure-makes-engines-comparable">3. Mean
+effective pressure makes engines comparable</a></li>
+<li><a href="#gross-imep-versus-net-imep" id="toc-gross-imep-versus-net-imep">4. Gross IMEP versus net IMEP</a>
+<ul>
+<li><a href="#gross-indicated-work" id="toc-gross-indicated-work">Gross
+indicated work</a></li>
+<li><a href="#net-indicated-work" id="toc-net-indicated-work">Net
+indicated work</a></li>
+</ul></li>
+<li><a href="#pumping-work" id="toc-pumping-work">5. Pumping
+work</a></li>
+<li><a href="#turbocharging-changes-pumping-work" id="toc-turbocharging-changes-pumping-work">6. Turbocharging changes
+pumping work</a></li>
+<li><a href="#mechanical-friction" id="toc-mechanical-friction">7.
+Mechanical friction</a></li>
+<li><a href="#accessory-torque" id="toc-accessory-torque">8. Accessory
+torque</a></li>
+<li><a href="#friction-mean-effective-pressure" id="toc-friction-mean-effective-pressure">9. Friction mean effective
+pressure</a></li>
+<li><a href="#the-useful-torque-relationship" id="toc-the-useful-torque-relationship">10. The useful torque
+relationship</a></li>
+<li><a href="#why-the-loss-model-matters-to-torque-structure" id="toc-why-the-loss-model-matters-to-torque-structure">11. Why the loss
+model matters to torque structure</a></li>
+<li><a href="#why-low-load-torque-estimation-is-difficult" id="toc-why-low-load-torque-estimation-is-difficult">12. Why low-load
+torque estimation is difficult</a></li>
+<li><a href="#temperature-effects" id="toc-temperature-effects">13.
+Temperature effects</a></li>
+<li><a href="#gas-exchange-vvt-and-pumping" id="toc-gas-exchange-vvt-and-pumping">14. Gas exchange, VVT and
+pumping</a></li>
+<li><a href="#a-useful-energy-picture" id="toc-a-useful-energy-picture">15. A useful energy picture</a></li>
+<li><a href="#interactive-torque-loss-example" id="toc-interactive-torque-loss-example">16. Interactive torque-loss
+example</a></li>
+<li><a href="#can-pumping-torque-ever-be-positive" id="toc-can-pumping-torque-ever-be-positive">17. Can pumping torque ever
+be positive?</a></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#mechanical-loss-characterization" id="toc-mechanical-loss-characterization">1. Mechanical-loss
+characterization</a></li>
+<li><a href="#build-the-speedtemperature-dependence" id="toc-build-the-speedtemperature-dependence">2. Build the
+speed/temperature dependence</a></li>
+<li><a href="#pumping-loss-characterization" id="toc-pumping-loss-characterization">3. Pumping-loss
+characterization</a></li>
+<li><a href="#trade-off-model-detail-versus-robustness" id="toc-trade-off-model-detail-versus-robustness">4. Trade-off — model
+detail versus robustness</a></li>
+<li><a href="#trade-off-where-accuracy-matters-most" id="toc-trade-off-where-accuracy-matters-most">5. Trade-off — where
+accuracy matters most</a></li>
+<li><a href="#validation" id="toc-validation">6. Validation</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">18. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">19. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Engine Losses: From IMEP to Brake Torque
+</h1>
+<p>
+<em>Friction, pumping work, accessories, gross/net indicated work and
+why loss modeling is essential to performance and torque control</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="why-an-engine-can-produce-strong-cylinder-pressure-but-modest-crankshaft-torque">1.
+Why an engine can produce strong cylinder pressure but modest crankshaft
+torque</h1>
+<p>Combustion creates indicated work inside the cylinder.</p>
+<p>The crankshaft does not receive all of it.</p>
+<p>Some work is consumed by:</p>
+<ul>
+<li>piston/ring friction;</li>
+<li>bearings and valvetrain;</li>
+<li>oil and coolant pumps;</li>
+<li>gas exchange;</li>
+<li>exhaust backpressure;</li>
+<li>accessories.</li>
+</ul>
+<p>This article explains the bridge from <strong>cylinder work to brake
+torque</strong>.</p>
+<h1 id="start-with-indicated-work">2. Start with indicated work</h1>
+<p>Cylinder pressure integrated over cylinder volume gives indicated
+work:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mi>i</mi></msub><mo>=</mo><mo>∮</mo><mi>p</mi><mspace width="0.167em"></mspace><mi>d</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">
+W_i=\oint p\,dV
+</annotation></semantics></math></p>
+<p>For a four-stroke engine, mean indicated torque is related to cycle
+work by:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mi>i</mi></msub><mo>=</mo><mn>4</mn><mi>π</mi><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">
+W_i=4\pi T_i
+</annotation></semantics></math></p>
+<h1 id="mean-effective-pressure-makes-engines-comparable">3. Mean
+effective pressure makes engines comparable</h1>
+<p>Indicated mean effective pressure is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>=</mo><mfrac><msub><mi>W</mi><mi>i</mi></msub><msub><mi>V</mi><mi>d</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
+IMEP=\frac{W_i}{V_d}
+</annotation></semantics></math></p>
+<p>and for a four-stroke engine:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>=</mo><mfrac><mrow><mn>4</mn><mi>π</mi><msub><mi>T</mi><mi>i</mi></msub></mrow><msub><mi>V</mi><mi>d</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
+IMEP=\frac{4\pi T_i}{V_d}
+</annotation></semantics></math></p>
+<p>Brake mean effective pressure is similarly:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>=</mo><mfrac><mrow><mn>4</mn><mi>π</mi><msub><mi>T</mi><mi>b</mi></msub></mrow><msub><mi>V</mi><mi>d</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
+BMEP=\frac{4\pi T_b}{V_d}
+</annotation></semantics></math></p>
+<p>These quantities let engineers compare engines of different
+displacement.</p>
+<h1 id="gross-imep-versus-net-imep">4. Gross IMEP versus net IMEP</h1>
+<p>The terminology must be handled carefully.</p>
+<h3 id="gross-indicated-work">Gross indicated work</h3>
+<p>Usually focuses on the closed high-pressure part of the cycle around
+compression and expansion.</p>
+<h3 id="net-indicated-work">Net indicated work</h3>
+<p>Includes the gas-exchange loop as well.</p>
+<p>Therefore pumping work may already be included in net IMEP depending
+on the measurement definition.</p>
+<p>This is why an engineer must never blindly write:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>=</mo><mi>I</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>−</mo><mi>P</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>−</mo><mi>F</mi><mi>M</mi><mi>E</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">
+BMEP=IMEP-PMEP-FMEP
+</annotation></semantics></math></p>
+<p>without first defining which IMEP is being used and what sign
+convention applies.</p>
+<h1 id="pumping-work">5. Pumping work</h1>
+<p>At low load in a throttled SI engine:</p>
+<pre class="text"><code>Throttle restriction
+      ↓
+intake manifold pressure below ambient
+      ↓
+piston must pull against vacuum
+      ↓
+negative gas-exchange work</code></pre>
+<p>This is one reason SI-engine efficiency improves as load rises and
+the throttle opens.</p>
+<h1 id="turbocharging-changes-pumping-work">6. Turbocharging changes
+pumping work</h1>
+<p>A turbo engine adds turbine backpressure.</p>
+<p>The gas-exchange loop depends on both:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><annotation encoding="application/x-tex">
+p_{intake}
+</annotation></semantics></math></p>
+<p>and:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">
+p_{exhaust}
+</annotation></semantics></math></p>
+<p>High boost can improve intake pressure while high turbine
+backpressure increases exhaust-stroke work.</p>
+<p>A well-matched turbo system attempts to achieve the required
+fresh-air charge without excessive exhaust pressure.</p>
+<h1 id="mechanical-friction">7. Mechanical friction</h1>
+<p>Mechanical friction comes from:</p>
+<ul>
+<li>piston rings and skirt;</li>
+<li>crankshaft bearings;</li>
+<li>camshaft and valvetrain;</li>
+<li>seals;</li>
+<li>oil pump drive;</li>
+<li>timing drive.</li>
+</ul>
+<p>It changes strongly with:</p>
+<ul>
+<li>engine speed;</li>
+<li>oil temperature/viscosity;</li>
+<li>load and cylinder pressure;</li>
+<li>component design.</li>
+</ul>
+<p>At cold start, viscous friction can be much larger than when fully
+warm.</p>
+<h1 id="accessory-torque">8. Accessory torque</h1>
+<p>Accessories create real crankshaft load.</p>
+<p>Examples:</p>
+<ul>
+<li>alternator;</li>
+<li>A/C compressor;</li>
+<li>coolant pump;</li>
+<li>oil pump;</li>
+<li>vacuum pump.</li>
+</ul>
+<p>At high engine torque, a 5 Nm accessory load may seem small.</p>
+<p>At idle, 5 Nm can be a major fraction of available torque.</p>
+<h1 id="friction-mean-effective-pressure">9. Friction mean effective
+pressure</h1>
+<p>FMEP is often used to normalize mechanical loss:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo>=</mo><mfrac><mrow><mn>4</mn><mi>π</mi><msub><mi>T</mi><mrow><mi>f</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub></mrow><msub><mi>V</mi><mi>d</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
+FMEP
+=
+\frac{4\pi T_{friction}}{V_d}
+</annotation></semantics></math></p>
+<p>A similar mean-effective-pressure representation can be used for
+pumping work.</p>
+<h1 id="the-useful-torque-relationship">10. The useful torque
+relationship</h1>
+<p>For a simplified torque model:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>n</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{brake}
+=
+T_{internal}
+-
+T_{loss}
+</annotation></semantics></math></p>
+<p>with:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>f</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>+</mo><msub><mi>T</mi><mrow><mi>p</mi><mi>u</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow></msub><mo>+</mo><msub><mi>T</mi><mrow><mi>a</mi><mi>u</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{loss}
+=
+T_{friction}
++
+T_{pumping}
++
+T_{aux}
+</annotation></semantics></math></p>
+<p>Suppose:</p>
+<pre class="text"><code>Internal torque       160 Nm
+Friction               12 Nm
+Pumping                 8 Nm
+Accessories             5 Nm</code></pre>
+<p>Then:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>=</mo><mn>160</mn><mo>−</mo><mn>12</mn><mo>−</mo><mn>8</mn><mo>−</mo><mn>5</mn><mo>=</mo><mn>135</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T_{brake}=160-12-8-5=135\ \mathrm{Nm}
+</annotation></semantics></math></p>
+<h1 id="why-the-loss-model-matters-to-torque-structure">11. Why the loss
+model matters to torque structure</h1>
+<p>If the driver requests 135 Nm brake torque, the cylinders must
+produce 160 Nm in the example above.</p>
+<p>If the ECU mistakenly estimates only 15 Nm of losses instead of 25
+Nm:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>n</mi><mi>a</mi><mi>l</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mn>150</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T_{internal,req}=150\ \mathrm{Nm}
+</annotation></semantics></math></p>
+<p>The engine will under-deliver brake torque.</p>
+<p>So a torque model can have perfect air and spark maps yet still be
+wrong because the loss model is wrong.</p>
+<h1 id="why-low-load-torque-estimation-is-difficult">12. Why low-load
+torque estimation is difficult</h1>
+<p>At high load:</p>
+<pre class="text"><code>200 Nm internal
+20 Nm losses</code></pre>
+<p>A 2 Nm loss error is only about 1% of internal torque.</p>
+<p>At idle:</p>
+<pre class="text"><code>20 Nm internal
+15 Nm losses</code></pre>
+<p>A 2 Nm loss error is 10% of internal torque.</p>
+<p>This is why friction and accessory modeling become especially
+important at low load and idle.</p>
+<h1 id="temperature-effects">13. Temperature effects</h1>
+<p>Cold oil increases viscous drag.</p>
+<p>Cold coolant changes piston/ring clearances and mechanical
+temperature.</p>
+<p>Warm-up therefore changes:</p>
+<ul>
+<li>loss torque;</li>
+<li>idle-air requirement;</li>
+<li>fuel consumption;</li>
+<li>brake-torque estimate.</li>
+</ul>
+<h1 id="gas-exchange-vvt-and-pumping">14. Gas exchange, VVT and
+pumping</h1>
+<p>VVT can reduce pumping loss by changing effective charge control.</p>
+<p>Miller/Atkinson-like timing can reduce the need for deep throttling
+at part load.</p>
+<p>But aggressive overlap or high exhaust backpressure can create
+additional gas-exchange loss.</p>
+<p>So PMEP is coupled to the VVT and turbo articles.</p>
+<h1 id="a-useful-energy-picture">15. A useful energy picture</h1>
+<pre class="text"><code>Fuel chemical energy
+       ↓
+combustion / heat transfer
+       ↓
+gross indicated work
+       ↓
+gas-exchange work
+       ↓
+net indicated work
+       ↓
+mechanical friction + accessories
+       ↓
+brake work</code></pre>
+<p>This is the physical meaning behind the torque structure’s loss
+term.</p>
+<h1 id="interactive-torque-loss-example">16. Interactive torque-loss
+example</h1>
+<div class="interactive-card">
+<h3>
+From internal torque to brake torque
+</h3>
+<label>Internal torque [Nm]
+<input id="ls-int" type="range" min="20" max="250" value="160" oninput="updateLoss()"></label>
+<label>Friction [Nm]
+<input id="ls-fr" type="range" min="3" max="30" value="12" oninput="updateLoss()"></label>
+<label>Pumping [Nm]
+<input id="ls-pm" type="range" min="-10" max="35" value="8" oninput="updateLoss()"></label>
+<label>Accessories [Nm]
+<input id="ls-aux" type="range" min="0" max="20" value="5" oninput="updateLoss()"></label>
+<div class="kpis">
+<div class="kpi">
+<strong id="ls-out">–</strong>Brake torque
+</div>
+<div class="kpi">
+<strong id="ls-eff">–</strong>Mechanical delivery
+</div>
+</div>
+<p id="ls-msg">
+</p>
+</div>
+<h1 id="can-pumping-torque-ever-be-positive">17. Can pumping torque ever
+be positive?</h1>
+<p>Yes, depending on the pressure relationship and sign convention.</p>
+<p>A boosted engine can sometimes develop a positive gas-exchange loop
+over part of its operating range.</p>
+<p>That is another reason a project must document its PMEP sign
+convention rather than assuming pumping torque is always a positive loss
+number.</p>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>The loss model must be calibrated because the torque structure needs
+to know how much cylinder torque is consumed before reaching the
+crankshaft.</p>
+<p>The objective is to build a robust relationship such as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>,</mo><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi><mo>,</mo><msub><mi>T</mi><mrow><mi>o</mi><mi>i</mi><mi>l</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>c</mi><mi>o</mi><mi>o</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>,</mo><mi>a</mi><mi>c</mi><mi>c</mi><mi>e</mi><mi>s</mi><mi>s</mi><mi>o</mi><mi>r</mi><mi>i</mi><mi>e</mi><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+T_{loss}=f(n,load,T_{oil},T_{coolant},p_{intake},p_{exhaust},accessories)
+</annotation></semantics></math></p>
+<h2 id="mechanical-loss-characterization">1. Mechanical-loss
+characterization</h2>
+<p>Depending on the available facility, use:</p>
+<ul>
+<li>motoring tests;</li>
+<li>cylinder-pressure indicated work versus dyno brake work;</li>
+<li>coast-down or dedicated friction methods.</li>
+</ul>
+<p>For a fired test with a consistent torque boundary:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{loss}=T_{indicated}-T_{brake}
+</annotation></semantics></math></p>
+<h2 id="build-the-speedtemperature-dependence">2. Build the
+speed/temperature dependence</h2>
+<p>Measure loss torque across:</p>
+<ul>
+<li>engine speed;</li>
+<li>oil temperature;</li>
+<li>coolant temperature;</li>
+<li>representative load levels;</li>
+<li>accessory states.</li>
+</ul>
+<p>Cold oil usually increases viscous loss considerably, so a warm-only
+model will be wrong during cold operation.</p>
+<h2 id="pumping-loss-characterization">3. Pumping-loss
+characterization</h2>
+<p>Use cylinder pressure or intake/exhaust pressure information to
+quantify gas-exchange work while sweeping:</p>
+<ul>
+<li>throttle;</li>
+<li>VVT;</li>
+<li>boost/backpressure;</li>
+<li>EGR.</li>
+</ul>
+<p>This separates PMEP behavior from mechanical friction.</p>
+<h2 id="trade-off-model-detail-versus-robustness">4. Trade-off — model
+detail versus robustness</h2>
+<p>A very detailed model can fit one test perfectly but become fragile
+outside the measured grid.</p>
+<p>A very simple model may interpolate well but be inaccurate at idle or
+during warm-up.</p>
+<p>The engineer therefore balances:</p>
+<pre class="text"><code>model complexity
+versus
+repeatability + interpolation stability</code></pre>
+<h2 id="trade-off-where-accuracy-matters-most">5. Trade-off — where
+accuracy matters most</h2>
+<p>At high load, a 2 Nm loss error may be small relative to total
+torque.</p>
+<p>At idle, the same 2 Nm error can dominate the torque balance.</p>
+<p>Therefore more model resolution is often justified at:</p>
+<ul>
+<li>low load;</li>
+<li>cold start;</li>
+<li>accessory transitions.</li>
+</ul>
+<h2 id="validation">6. Validation</h2>
+<p>Validate the loss model at:</p>
+<ul>
+<li>warm and cold conditions;</li>
+<li>A/C on/off;</li>
+<li>alternator loading;</li>
+<li>different VVT positions;</li>
+<li>different turbo backpressure;</li>
+<li>off-grid speed/load points.</li>
+</ul>
+<p>The final model must remain consistent with the exact
+gross/net/internal torque boundary used by the rest of the ECU.</p>
+<h1 id="common-mistakes">18. Common mistakes</h1>
+<ul>
+<li>Mixing gross IMEP and net IMEP.</li>
+<li>Subtracting pumping loss twice.</li>
+<li>Assuming friction depends only on rpm.</li>
+<li>Ignoring coolant/oil temperature.</li>
+<li>Ignoring alternator or A/C torque at idle.</li>
+<li>Treating turbo backpressure as unrelated to crankshaft
+efficiency.</li>
+<li>Using one fixed loss torque everywhere.</li>
+</ul>
+<h1 id="key-lessons">19. Key lessons</h1>
+<ol type="1">
+<li>Indicated torque is created by cylinder pressure; brake torque is
+what reaches the crankshaft.</li>
+<li>IMEP and BMEP normalize work by displacement.</li>
+<li>Gross and net IMEP must be clearly distinguished.</li>
+<li>Pumping work is part of gas exchange and strongly depends on
+throttle, VVT and turbo backpressure.</li>
+<li>Mechanical friction depends heavily on speed and temperature.</li>
+<li>Accessory loads matter most at low load.</li>
+<li>Loss-model error directly becomes torque-model error.</li>
+<li>The torque structure must use the exact loss definition implemented
+in the ECU.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The supplied engine-control reference discusses pumping work, friction
+and the effect of intake/exhaust pressure on gas-exchange losses; the
+supplied engine-fundamentals reference defines IMEP/BMEP and mechanical
+efficiency concepts.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateLoss(){
+ const ti=+document.getElementById('ls-int').value, fr=+document.getElementById('ls-fr').value, pm=+document.getElementById('ls-pm').value, aux=+document.getElementById('ls-aux').value;
+ const tb=ti-fr-pm-aux, eff=100*tb/ti;
+ document.getElementById('ls-out').textContent=tb.toFixed(1)+' Nm';
+ document.getElementById('ls-eff').textContent=eff.toFixed(1)+'%';
+ document.getElementById('ls-msg').innerHTML=`The loss term is <strong>${(fr+pm+aux).toFixed(1)} Nm</strong>. Notice how a positive pumping contribution (negative value on this slider) can increase brake torque under the chosen sign convention.`;
+}
+document.addEventListener('DOMContentLoaded',updateLoss);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>

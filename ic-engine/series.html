@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Powertrain Performance Series — Nishant Tyagi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .series-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:8px 0 40px;}
+  .series-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--white);padding:22px;transition:transform .15s,border-color .15s;}
+  .series-card:hover{transform:translateY(-2px);border-color:var(--copper);}
+  .series-card .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:0.06em;margin-bottom:10px;}
+  .series-card h3{font-size:16px;font-weight:600;margin-bottom:8px;line-height:1.3;}
+  .series-card p{font-size:13px;color:var(--muted);flex-grow:1;margin-bottom:14px;line-height:1.5;}
+  .series-card .enter{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);}
+  @media(max-width:680px){.series-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="../index.html" class="nav-logo">NISHANT<span>.</span>TYAGI</a>
+    <div class="nav-links">
+      <a href="index.html">All Notes</a>
+      <a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="padding:72px 0 24px;">
+  <div class="wrap">
+    <div class="eyebrow">Powertrain Performance Series — CNG-first SI Engines</div>
+    <h1 style="font-size:clamp(30px,5vw,46px);">Engine Performance &amp; Calibration</h1>
+    <p class="blog-intro">
+      A thirteen-part series on spark-ignition engine performance, from torque structure through
+      boost, gas exchange, combustion stability, transients, thermal limits and full calibration
+      strategy. Theory first, engineering depth underneath, every control connected to torque.
+    </p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="series-grid">
+      <a href="01-complete-torque-structure/index.html" class="series-card">
+        <div class="num">Article 01</div>
+        <h3>Complete Engine Torque Structure</h3>
+        <p>Theory-first: pedal request to arbitration to internal/potential torque to air/fuel/spark to final crankshaft torque.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="02-turbocharger-and-boost-control/index.html" class="series-card">
+        <div class="num">Article 02</div>
+        <h3>Turbocharger and Boost Control</h3>
+        <p>Compressor maps, turbine power, wastegate control, surge/choke, turbo lag, backpressure and CNG/gasoline performance.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="03-vvt-gas-exchange-miller-atkinson/index.html" class="series-card">
+        <div class="num">Article 03</div>
+        <h3>VVT, Valve Timing and Gas Exchange</h3>
+        <p>IVO/IVC/EVO/EVC, overlap, residuals, volumetric efficiency, Miller/Atkinson cycles, NA and turbocharged cases.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="04-engine-losses-imep-bmep/index.html" class="series-card">
+        <div class="num">Article 04</div>
+        <h3>Engine Losses: IMEP to Brake Torque</h3>
+        <p>Gross/net indicated work, pumping, friction, accessories, FMEP/PMEP and the torque lost before the crankshaft.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="05-volumetric-efficiency-cylinder-filling/index.html" class="series-card">
+        <div class="num">Article 05</div>
+        <h3>Volumetric Efficiency and Cylinder Filling</h3>
+        <p>Why same MAP/boost does not mean same charge: temperature, VVT, residuals, pressure waves, backpressure, CNG displacement.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="06-fuel-and-injector-behavior/index.html" class="series-card">
+        <div class="num">Article 06</div>
+        <h3>Fuel and Injector Behavior</h3>
+        <p>CNG gas pressure/temperature, injector flow and rail dynamics; gasoline PFI wall film and GDI injection behavior.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="07-combustion-stability-cylinder-balancing/index.html" class="series-card">
+        <div class="num">Article 07</div>
+        <h3>Combustion Stability and Cylinder Balancing</h3>
+        <p>IMEP, COV_IMEP, CA50 spread, cylinder air/fuel/spark differences, knock imbalance and CNG methane consequences.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="08-transient-torque-drivability/index.html" class="series-card">
+        <div class="num">Article 08</div>
+        <h3>Transient Torque and Drivability</h3>
+        <p>Tip-in, tip-out, gear shifts, traction, fast spark, slow air, manifold filling, turbo lag and transient fueling.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="09-idle-speed-low-load-control/index.html" class="series-card">
+        <div class="num">Article 09</div>
+        <h3>Idle-Speed and Low-Load Control</h3>
+        <p>Small-margin torque control using spark reserve, air path, feedforward loads, cold friction and combustion stability.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="10-thermal-protection-derating/index.html" class="series-card">
+        <div class="num">Article 10</div>
+        <h3>Engine Thermal Protection and Derating</h3>
+        <p>How turbo, catalyst, coolant, oil, charge-air and cylinder-pressure limits become progressive torque limits.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="11-egr-dilution-control/index.html" class="series-card">
+        <div class="num">Article 11</div>
+        <h3>EGR and Dilution Control</h3>
+        <p>Internal residuals and external EGR: pumping, NOx, knock, burn duration, stability, turbo coupling and CNG behavior.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="12-torque-monitoring-plausibility/index.html" class="series-card">
+        <div class="num">Article 12</div>
+        <h3>Torque Monitoring and Plausibility</h3>
+        <p>Requested vs permitted vs estimated torque, independent plausibility paths, timing alignment and model rationality.</p>
+        <div class="enter">Read →</div>
+      </a>
+      <a href="13-complete-engine-calibration-strategy/index.html" class="series-card">
+        <div class="num">Article 13</div>
+        <h3>Complete Engine Performance Calibration Strategy</h3>
+        <p>The dependency order that connects every model and control layer into one CNG-first development program.</p>
+        <div class="enter">Read →</div>
+      </a>
+  </div>
+</div>
+
+<footer>
+  Built by Nishant Tyagi · Graz, Austria
+</footer>
+
+</body>
+</html>

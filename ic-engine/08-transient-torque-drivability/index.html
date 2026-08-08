@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Transient Torque and Drivability</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Transient Torque and Drivability</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#steady-state-calibration-is-not-what-the-driver-feels" id="toc-steady-state-calibration-is-not-what-the-driver-feels">1.
+Steady-state calibration is not what the driver feels</a></li>
+<li><a href="#the-actuator-hierarchy" id="toc-the-actuator-hierarchy">2.
+The actuator hierarchy</a></li>
+<li><a href="#tip-in-what-happens-when-the-driver-requests-more-torque" id="toc-tip-in-what-happens-when-the-driver-requests-more-torque">3.
+Tip-in: what happens when the driver requests more torque?</a></li>
+<li><a href="#why-torque-reserve-exists" id="toc-why-torque-reserve-exists">4. Why torque reserve exists</a></li>
+<li><a href="#manifold-filling-is-a-dynamic-storage-problem" id="toc-manifold-filling-is-a-dynamic-storage-problem">5. Manifold
+filling is a dynamic storage problem</a></li>
+<li><a href="#turbo-lag-adds-another-storage-shaft-speed" id="toc-turbo-lag-adds-another-storage-shaft-speed">6. Turbo lag adds
+another storage: shaft speed</a></li>
+<li><a href="#fuel-must-follow-the-real-air-not-only-the-requested-air" id="toc-fuel-must-follow-the-real-air-not-only-the-requested-air">7.
+Fuel must follow the real air, not only the requested air</a></li>
+<li><a href="#tip-out" id="toc-tip-out">8. Tip-out</a></li>
+<li><a href="#gear-shifts" id="toc-gear-shifts">9. Gear shifts</a></li>
+<li><a href="#traction-control" id="toc-traction-control">10. Traction
+control</a></li>
+<li><a href="#why-too-aggressive-spark-torque-control-has-costs" id="toc-why-too-aggressive-spark-torque-control-has-costs">11. Why
+too-aggressive spark torque control has costs</a></li>
+<li><a href="#turbocharged-tip-in-and-knock" id="toc-turbocharged-tip-in-and-knock">12. Turbocharged tip-in and
+knock</a></li>
+<li><a href="#cng-transient-issues" id="toc-cng-transient-issues">13.
+CNG transient issues</a></li>
+<li><a href="#gasoline-transient-issues" id="toc-gasoline-transient-issues">14. Gasoline transient
+issues</a></li>
+<li><a href="#a-simple-response-shaping-example" id="toc-a-simple-response-shaping-example">15. A simple response-shaping
+example</a></li>
+<li><a href="#torque-rate-limits" id="toc-torque-rate-limits">16.
+Torque-rate limits</a></li>
+<li><a href="#interactive-transient-example" id="toc-interactive-transient-example">17. Interactive transient
+example</a></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#define-repeatable-transient-events" id="toc-define-repeatable-transient-events">1. Define repeatable
+transient events</a></li>
+<li><a href="#record-the-complete-timing-chain" id="toc-record-the-complete-timing-chain">2. Record the complete timing
+chain</a></li>
+<li><a href="#calibrate-the-fast-spark-path" id="toc-calibrate-the-fast-spark-path">3. Calibrate the fast spark
+path</a></li>
+<li><a href="#calibrate-the-sustainable-air-path" id="toc-calibrate-the-sustainable-air-path">4. Calibrate the sustainable
+air path</a></li>
+<li><a href="#calibrate-transient-fueling" id="toc-calibrate-transient-fueling">5. Calibrate transient
+fueling</a></li>
+<li><a href="#trade-off-response-versus-overshoot" id="toc-trade-off-response-versus-overshoot">6. Trade-off — response
+versus overshoot</a></li>
+<li><a href="#trade-off-turbo-response-versus-surgeoverspeed-margin" id="toc-trade-off-turbo-response-versus-surgeoverspeed-margin">7.
+Trade-off — turbo response versus surge/overspeed margin</a></li>
+<li><a href="#trade-off-spark-reserve-versus-efficiency" id="toc-trade-off-spark-reserve-versus-efficiency">8. Trade-off — spark
+reserve versus efficiency</a></li>
+<li><a href="#trade-off-torque-rise-versus-driveline-comfort" id="toc-trade-off-torque-rise-versus-driveline-comfort">9. Trade-off —
+torque rise versus driveline comfort</a></li>
+<li><a href="#how-the-final-balance-is-achieved" id="toc-how-the-final-balance-is-achieved">10. How the final balance is
+achieved</a></li>
+<li><a href="#validation-across-conditions" id="toc-validation-across-conditions">11. Validation across
+conditions</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">18. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">19. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Transient Torque and Drivability
+</h1>
+<p>
+<em>What happens during pedal tip-in, tip-out, gear shifts and traction
+intervention — fast spark, slow air, manifold filling, turbo lag and
+fuel dynamics</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="steady-state-calibration-is-not-what-the-driver-feels">1.
+Steady-state calibration is not what the driver feels</h1>
+<p>A dynamometer point can be perfectly calibrated at:</p>
+<pre class="text"><code>2500 rpm
+400 mg/event
+lambda 1.00
+stable temperatures</code></pre>
+<p>But a driver experiences:</p>
+<pre class="text"><code>20% pedal → 80% pedal</code></pre>
+<p>within a fraction of a second.</p>
+<p>Transient torque control is the art of coordinating actuators that
+respond at different speeds.</p>
+<h1 id="the-actuator-hierarchy">2. The actuator hierarchy</h1>
+<p>A useful mental model is:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Actuator/path</th>
+<th>Typical relative speed</th>
+<th>Main role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spark</td>
+<td>Very fast event-to-event</td>
+<td>Fast torque shaping</td>
+</tr>
+<tr class="even">
+<td>Fuel</td>
+<td>Fast, but mixture dynamics matter</td>
+<td>Maintain lambda/energy</td>
+</tr>
+<tr class="odd">
+<td>Throttle</td>
+<td>Fast-to-medium</td>
+<td>Air-path control</td>
+</tr>
+<tr class="even">
+<td>VVT</td>
+<td>Medium</td>
+<td>Filling/residual optimization</td>
+</tr>
+<tr class="odd">
+<td>Turbocharger</td>
+<td>Slower</td>
+<td>Sustainable boosted charge</td>
+</tr>
+<tr class="even">
+<td>Thermal state</td>
+<td>Very slow</td>
+<td>Changes available limits</td>
+</tr>
+</tbody>
+</table>
+<p>The exact delays depend on hardware.</p>
+<h1 id="tip-in-what-happens-when-the-driver-requests-more-torque">3.
+Tip-in: what happens when the driver requests more torque?</h1>
+<pre class="text"><code>Pedal ↑
+  ↓
+driver-wish torque ↑
+  ↓
+permitted torque ↑
+  ↓
+fast path: spark can recover reserve
+  ↓
+throttle opens
+  ↓
+exhaust flow/enthalpy rises
+  ↓
+turbo accelerates
+  ↓
+manifold pressure rises
+  ↓
+fresh-air charge rises
+  ↓
+fuel follows
+  ↓
+sustainable torque reaches target</code></pre>
+<h1 id="why-torque-reserve-exists">4. Why torque reserve exists</h1>
+<p>If the engine is operating with some deliberate spark retard, it can
+advance spark quickly before the air path has fully responded.</p>
+<p>This creates a smoother and faster initial torque response.</p>
+<p>But torque reserve costs efficiency.</p>
+<p>So reserve is normally targeted to operating regions where fast
+torque authority is useful.</p>
+<h1 id="manifold-filling-is-a-dynamic-storage-problem">5. Manifold
+filling is a dynamic storage problem</h1>
+<p>The intake manifold contains air mass.</p>
+<p>A simple mass balance is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>m</mi><mrow><mi>m</mi><mi>a</mi><mi>n</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mi>y</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\frac{dm_{man}}{dt}
+=
+\dot m_{in}
+-
+\dot m_{cyl}
+</annotation></semantics></math></p>
+<p>Opening the throttle increases
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">\dot m_{in}</annotation></semantics></math>.</p>
+<p>Cylinder consumption does not instantaneously equal that new
+inflow.</p>
+<p>Manifold pressure and mass therefore change dynamically.</p>
+<h1 id="turbo-lag-adds-another-storage-shaft-speed">6. Turbo lag adds
+another storage: shaft speed</h1>
+<p>Turbocharger rotational energy is approximately:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mrow><mi>r</mi><mi>o</mi><mi>t</mi></mrow></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>J</mi><msup><mi>ω</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+E_{rot}
+=
+\frac{1}{2}J\omega^2
+</annotation></semantics></math></p>
+<p>To increase turbo speed, turbine power must first add rotational
+energy.</p>
+<p>That is why boost does not appear instantly.</p>
+<h1 id="fuel-must-follow-the-real-air-not-only-the-requested-air">7.
+Fuel must follow the real air, not only the requested air</h1>
+<p>During a fast tip-in, requested charge may jump before actual charge
+arrives.</p>
+<p>If fuel is based only on the final target, the mixture can become
+temporarily wrong.</p>
+<p>The ECU therefore coordinates:</p>
+<ul>
+<li>predicted air;</li>
+<li>measured/estimated actual air;</li>
+<li>wall film for gasoline PFI;</li>
+<li>gas-rail dynamics for CNG;</li>
+<li>lambda feedback.</li>
+</ul>
+<h1 id="tip-out">8. Tip-out</h1>
+<p>A sudden torque reduction is usually easier because:</p>
+<ul>
+<li>spark can retard quickly;</li>
+<li>throttle can close;</li>
+<li>fuel can be reduced.</li>
+</ul>
+<p>But a turbocharger still contains rotational energy.</p>
+<p>A fast throttle closure can move the compressor toward surge, so
+bypass/recirculation control may be required.</p>
+<h1 id="gear-shifts">9. Gear shifts</h1>
+<p>During an upshift, the transmission may request a rapid torque
+reduction.</p>
+<p>A typical sequence is:</p>
+<pre class="text"><code>Transmission requests torque cut
+        ↓
+fast spark retard / fuel intervention
+        ↓
+air path begins reducing charge
+        ↓
+shift completes
+        ↓
+torque restored in controlled ramp</code></pre>
+<p>The exact strategy depends on transmission architecture.</p>
+<h1 id="traction-control">10. Traction control</h1>
+<p>When wheel slip occurs, the vehicle may need torque reduction faster
+than the turbo/air system can respond.</p>
+<p>Spark is valuable because it can reduce torque within combustion
+events.</p>
+<p>For larger or sustained reductions, the air path follows.</p>
+<h1 id="why-too-aggressive-spark-torque-control-has-costs">11. Why
+too-aggressive spark torque control has costs</h1>
+<p>Large retard can:</p>
+<ul>
+<li>increase exhaust temperature;</li>
+<li>reduce efficiency;</li>
+<li>increase turbine/catalyst thermal load;</li>
+<li>worsen combustion stability.</li>
+</ul>
+<p>So the fast path must transition to a more efficient sustainable
+air-path solution.</p>
+<h1 id="turbocharged-tip-in-and-knock">12. Turbocharged tip-in and
+knock</h1>
+<p>As boost rises:</p>
+<ul>
+<li>cylinder pressure rises;</li>
+<li>charge temperature can rise;</li>
+<li>knock margin shrinks.</li>
+</ul>
+<p>So transient boost may require:</p>
+<ul>
+<li>temporary spark correction;</li>
+<li>charge-temperature correction;</li>
+<li>wastegate shaping;</li>
+<li>fuel/lambda protection;</li>
+<li>torque-rate limiting.</li>
+</ul>
+<p>The fastest possible boost rise is not always the best drivability
+strategy.</p>
+<h1 id="cng-transient-issues">13. CNG transient issues</h1>
+<p>CNG adds:</p>
+<ul>
+<li>gas pressure/regulator response;</li>
+<li>gas temperature;</li>
+<li>injector flow under changing pressure ratio;</li>
+<li>gaseous-fuel air displacement.</li>
+</ul>
+<p>Transient torque can therefore be limited by both the air system and
+gas-delivery system.</p>
+<h1 id="gasoline-transient-issues">14. Gasoline transient issues</h1>
+<p>Gasoline PFI adds wall-film dynamics.</p>
+<p>GDI adds:</p>
+<ul>
+<li>rail-pressure response;</li>
+<li>injection timing;</li>
+<li>multiple injection strategies;</li>
+<li>charge cooling.</li>
+</ul>
+<p>So the transient fuel model must be fuel-system specific.</p>
+<h1 id="a-simple-response-shaping-example">15. A simple response-shaping
+example</h1>
+<p>Suppose the driver asks for:</p>
+<pre class="text"><code>100 Nm → 160 Nm</code></pre>
+<p>At the current air charge, spark reserve can immediately provide 15
+Nm.</p>
+<p>Then:</p>
+<pre class="text"><code>100 → 115 Nm   fast spark response
+115 → 160 Nm   slower air/boost response</code></pre>
+<p>This often feels smoother than waiting for the full 60 Nm to arrive
+only from boost.</p>
+<h1 id="torque-rate-limits">16. Torque-rate limits</h1>
+<p>Sometimes the engine could physically deliver torque faster than the
+vehicle wants.</p>
+<p>A torque-gradient limit can deliberately smooth:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>d</mi><mi>T</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><annotation encoding="application/x-tex">
+\frac{dT}{dt}
+</annotation></semantics></math></p>
+<p>for:</p>
+<ul>
+<li>driveline comfort;</li>
+<li>traction;</li>
+<li>transmission protection;</li>
+<li>NVH.</li>
+</ul>
+<p>So a “slow” response is not always a hardware limitation; it can be
+intentional.</p>
+<h1 id="interactive-transient-example">17. Interactive transient
+example</h1>
+<div class="interactive-card">
+<h3>
+Fast spark + slow air-path response
+</h3>
+<label>Initial torque [Nm]
+<input id="tr-init" type="range" min="40" max="150" value="100" oninput="updateTR()"></label>
+<label>Requested torque [Nm]
+<input id="tr-req" type="range" min="80" max="220" value="160" oninput="updateTR()"></label>
+<label>Available spark reserve [Nm]
+<input id="tr-res" type="range" min="0" max="40" value="15" oninput="updateTR()"></label>
+<label>Air-path response time [s]
+<input id="tr-tau" type="range" min="0.2" max="2.0" step="0.1" value="0.8" oninput="updateTR()"></label>
+<p id="tr-msg">
+</p>
+<div id="tr-bars">
+
+</div>
+</div>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>Transient torque calibration is an optimization problem because the
+fastest possible torque response is not always the best vehicle
+response.</p>
+<p>The engineer must balance:</p>
+<ul>
+<li>response speed;</li>
+<li>torque overshoot;</li>
+<li>driveline comfort;</li>
+<li>surge margin;</li>
+<li>lambda stability;</li>
+<li>knock;</li>
+<li>exhaust temperature.</li>
+</ul>
+<h2 id="define-repeatable-transient-events">1. Define repeatable
+transient events</h2>
+<p>Use standard maneuvers such as:</p>
+<ul>
+<li>20% → 80% pedal tip-in;</li>
+<li>80% → 20% tip-out;</li>
+<li>low-rpm full-load tip-in;</li>
+<li>gearshift torque reduction;</li>
+<li>traction-control torque cut;</li>
+<li>repeated accelerations.</li>
+</ul>
+<h2 id="record-the-complete-timing-chain">2. Record the complete timing
+chain</h2>
+<p>Measure:</p>
+<ul>
+<li>pedal request;</li>
+<li>requested/permitted torque;</li>
+<li>final spark;</li>
+<li>throttle;</li>
+<li>wastegate;</li>
+<li>boost;</li>
+<li>fresh-air charge;</li>
+<li>fuel;</li>
+<li>lambda;</li>
+<li>turbo speed;</li>
+<li>estimated actual torque;</li>
+<li>dyno/vehicle acceleration.</li>
+</ul>
+<p>The first question is always:</p>
+<blockquote>
+<p><strong>Which part of the chain is late?</strong></p>
+</blockquote>
+<h2 id="calibrate-the-fast-spark-path">3. Calibrate the fast spark
+path</h2>
+<p>Determine how much torque can be added or removed quickly through
+spark while respecting:</p>
+<ul>
+<li>knock;</li>
+<li>EGT;</li>
+<li>combustion stability.</li>
+</ul>
+<p>This defines usable torque reserve.</p>
+<h2 id="calibrate-the-sustainable-air-path">4. Calibrate the sustainable
+air path</h2>
+<p>Then tune:</p>
+<ul>
+<li>throttle feedforward;</li>
+<li>boost/wastegate feedforward;</li>
+<li>manifold filling response;</li>
+<li>turbo spool.</li>
+</ul>
+<p>The handover from spark to air should be smooth, with no torque step
+when the air path catches up.</p>
+<h2 id="calibrate-transient-fueling">5. Calibrate transient fueling</h2>
+<p>Tune fuel compensation so actual lambda follows the intended path as
+air changes.</p>
+<p>CNG requires rail/regulator compensation.</p>
+<p>Gasoline PFI requires wall-film compensation.</p>
+<p>GDI requires rail-pressure and injection-timing coordination.</p>
+<h2 id="trade-off-response-versus-overshoot">6. Trade-off — response
+versus overshoot</h2>
+<p>Aggressive feedforward makes torque arrive quickly but can overshoot
+the request.</p>
+<p>The target is the shortest rise time that stays inside the permitted
+overshoot window.</p>
+<h2 id="trade-off-turbo-response-versus-surgeoverspeed-margin">7.
+Trade-off — turbo response versus surge/overspeed margin</h2>
+<p>More aggressive wastegate closing improves spool but reduces
+compressor/turbo margin.</p>
+<p>The final transient strategy must remain safe during hot, altitude
+and production-variation conditions.</p>
+<h2 id="trade-off-spark-reserve-versus-efficiency">8. Trade-off — spark
+reserve versus efficiency</h2>
+<p>More reserve improves immediate response but costs steady-state
+efficiency and increases exhaust temperature.</p>
+<p>Carry only the reserve that the drivability objective actually
+needs.</p>
+<h2 id="trade-off-torque-rise-versus-driveline-comfort">9. Trade-off —
+torque rise versus driveline comfort</h2>
+<p>A very fast torque rise may create jerk, wheel slip or transmission
+stress.</p>
+<p>So the calibration engineer may deliberately limit:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>d</mi><mi>T</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><annotation encoding="application/x-tex">
+\frac{dT}{dt}
+</annotation></semantics></math></p>
+<p>although the engine could physically respond faster.</p>
+<h2 id="how-the-final-balance-is-achieved">10. How the final balance is
+achieved</h2>
+<p>Define acceptable limits for:</p>
+<ul>
+<li>torque rise time;</li>
+<li>overshoot;</li>
+<li>lambda deviation;</li>
+<li>knock;</li>
+<li>EGT;</li>
+<li>driveline jerk.</li>
+</ul>
+<p>The selected calibration is the fastest response that stays inside
+all of them.</p>
+<h2 id="validation-across-conditions">11. Validation across
+conditions</h2>
+<p>Repeat the same maneuvers at:</p>
+<ul>
+<li>cold/hot engine;</li>
+<li>altitude;</li>
+<li>high intake temperature;</li>
+<li>different gears/inertia;</li>
+<li>CNG gas-quality variation;</li>
+<li>gasoline fuel variation.</li>
+</ul>
+<p>The transient map is finished only when its timing still works after
+the physical delays change.</p>
+<h1 id="common-mistakes">18. Common mistakes</h1>
+<ul>
+<li>Tuning only steady-state maps.</li>
+<li>Expecting boost to respond like spark.</li>
+<li>Fueling from desired air without respecting actual air
+dynamics.</li>
+<li>Holding excessive torque reserve everywhere.</li>
+<li>Ignoring turbo surge during tip-out.</li>
+<li>Making torque response faster than the driveline can use.</li>
+<li>Treating CNG and gasoline transient fueling as the same
+problem.</li>
+</ul>
+<h1 id="key-lessons">19. Key lessons</h1>
+<ol type="1">
+<li>Transient torque control coordinates actuators with different
+response times.</li>
+<li>Spark is fast; sustainable air/boost response is slower.</li>
+<li>Manifold mass and turbo speed are dynamic storage states.</li>
+<li>Fuel must track actual cylinder air and fuel-system dynamics.</li>
+<li>Tip-out can create compressor surge risk.</li>
+<li>Transmission and traction requests can dominate driver torque
+temporarily.</li>
+<li>Torque-rate limiting can be intentional for drivability and
+protection.</li>
+<li>Good transient performance is a coordinated system response, not
+simply “fast boost.”</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The previous ignition article explains the fast-spark/slow-air
+interaction and torque reserve; the supplied engine-control reference
+treats manifolds and turbo speed as dynamic storage states.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateTR(){
+ const init=+document.getElementById('tr-init').value, req=+document.getElementById('tr-req').value, res=+document.getElementById('tr-res').value, tau=+document.getElementById('tr-tau').value;
+ const fast=Math.min(req,init+res);
+ document.getElementById('tr-msg').innerHTML=`Spark can move torque quickly from <strong>${init} to ${fast} Nm</strong>. The remaining <strong>${Math.max(0,req-fast)} Nm</strong> must mainly come from the slower air path.`;
+ let h='';
+ [0,0.25,0.5,1,1.5,2].forEach(t=>{
+   let y=fast+(req-fast)*(1-Math.exp(-t/tau));
+   y=Math.min(req,y);
+   h+=`<div style="display:grid;grid-template-columns:48px 1fr 62px;gap:8px;align-items:center;margin:5px 0"><span>${t.toFixed(2)}s</span><div style="background:#edf2f6;height:12px;border-radius:8px;overflow:hidden"><div style="height:100%;background:#9ab6ca;width:${Math.max(0,100*y/220)}%"></div></div><span>${y.toFixed(0)} Nm</span></div>`;
+ });
+ document.getElementById('tr-bars').innerHTML=h;
+}
+document.addEventListener('DOMContentLoaded',updateTR);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>
