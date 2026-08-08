@@ -1,4 +1,0 @@
-# One note filename per line (no .md extension). Order doesn't matter — sorted by date automatically.
-volumetric-efficiency-fundamentals
-cng-air-charge-torque-calibration
-Blog_1_CNG_Air_Charge_and_Torque_Calibration_v6
