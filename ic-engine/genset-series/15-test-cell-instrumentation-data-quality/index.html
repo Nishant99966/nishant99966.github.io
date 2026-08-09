@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Test-Cell Instrumentation, Uncertainty and Data Quality</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="ISO 8528-6 test context, electrical/gas/cylinder-pressure
+measurements, a worked uncertainty budget and traceable evidence" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 15 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Test-Cell Instrumentation, Uncertainty and Data Quality
+</h1>
+<p>
+<em>ISO 8528-6 test context, electrical/gas/cylinder-pressure
+measurements, a worked uncertainty budget and traceable evidence</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#a-calibration-result-is-only-as-good-as-the-measurement-chain" id="toc-a-calibration-result-is-only-as-good-as-the-measurement-chain">1.
+A calibration result is only as good as the measurement chain</a></li>
+<li><a href="#define-the-measurement-boundary" id="toc-define-the-measurement-boundary">2. Define the measurement
+boundary</a></li>
+<li><a href="#electrical-power-measurement" id="toc-electrical-power-measurement">3. Electrical power
+measurement</a></li>
+<li><a href="#fuel-flow-and-lhv-uncertainty" id="toc-fuel-flow-and-lhv-uncertainty">4. Fuel-flow and LHV
+uncertainty</a></li>
+<li><a href="#simple-uncertainty-propagation" id="toc-simple-uncertainty-propagation">5. Simple uncertainty
+propagation</a></li>
+<li><a href="#cylinder-pressure-measurement" id="toc-cylinder-pressure-measurement">6. Cylinder-pressure
+measurement</a></li>
+<li><a href="#air-flow-measurement" id="toc-air-flow-measurement">7.
+Air-flow measurement</a></li>
+<li><a href="#turbo-pressure-and-temperature" id="toc-turbo-pressure-and-temperature">8. Turbo pressure and
+temperature</a></li>
+<li><a href="#emissions-analyzer-synchronization" id="toc-emissions-analyzer-synchronization">9. Emissions analyzer
+synchronization</a></li>
+<li><a href="#wetdry-and-reference-basis-control" id="toc-wetdry-and-reference-basis-control">10. Wet/dry and
+reference-basis control</a></li>
+<li><a href="#repeat-reference-points" id="toc-repeat-reference-points">11. Repeat reference points</a></li>
+<li><a href="#data-validity-rules" id="toc-data-validity-rules">12.
+Data-validity rules</a></li>
+<li><a href="#confidence-intervals-and-repeatability" id="toc-confidence-intervals-and-repeatability">13. Confidence intervals
+and repeatability</a></li>
+<li><a href="#example-is-0.2-percentage-point-efficiency-gain-real" id="toc-example-is-0.2-percentage-point-efficiency-gain-real">14.
+Example — is 0.2 percentage point efficiency gain real?</a></li>
+<li><a href="#sensor-failure-versus-real-engine-change" id="toc-sensor-failure-versus-real-engine-change">15. Sensor failure
+versus real engine change</a></li>
+<li><a href="#data-traceability" id="toc-data-traceability">16. Data
+traceability</a></li>
+<li><a href="#standards-connection" id="toc-standards-connection">17.
+Standards connection</a></li>
+<li><a href="#worked-uncertainty-budget" id="toc-worked-uncertainty-budget">18. Worked uncertainty
+budget</a></li>
+<li><a href="#measurement-system-analysis" id="toc-measurement-system-analysis">19. Measurement-system
+analysis</a></li>
+<li><a href="#metrology-foundation-standard-and-expanded-uncertainty" id="toc-metrology-foundation-standard-and-expanded-uncertainty">20.
+Metrology foundation: standard and expanded uncertainty</a></li>
+<li><a href="#correlation-example" id="toc-correlation-example">21.
+Correlation example</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">22. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">23. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="a-calibration-result-is-only-as-good-as-the-measurement-chain">1. A
+calibration result is only as good as the measurement chain</h1>
+<p>A modern engine test cell can produce thousands of channels.</p>
+<p>That does not guarantee correct information.</p>
+<p>Before optimizing a 0.2% efficiency change, ask:</p>
+<blockquote>
+<p><strong>Is the change larger than the uncertainty and repeatability
+of the measurement?</strong></p>
+</blockquote>
+<h1 id="define-the-measurement-boundary">2. Define the measurement
+boundary</h1>
+<p>For every KPI write down:</p>
+<ul>
+<li>sensor;</li>
+<li>physical location;</li>
+<li>units;</li>
+<li>sampling rate;</li>
+<li>filtering;</li>
+<li>delay;</li>
+<li>calibration date;</li>
+<li>expected uncertainty.</li>
+</ul>
+<p>This is especially important for:</p>
+<ul>
+<li>electrical power;</li>
+<li>gas flow;</li>
+<li>air flow;</li>
+<li>cylinder pressure;</li>
+<li>emissions;</li>
+<li>turbo pressure/temperature.</li>
+</ul>
+<h1 id="electrical-power-measurement">3. Electrical power
+measurement</h1>
+<p>Electrical power depends on voltage, current and phase
+relationship.</p>
+<p>For three-phase systems, the measurement system must correctly
+capture:</p>
+<ul>
+<li>phase voltages;</li>
+<li>currents;</li>
+<li>power factor;</li>
+<li>harmonics where relevant.</li>
+</ul>
+<p>The dyno/test report should state whether power is:</p>
+<ul>
+<li>generator gross terminal power;</li>
+<li>net exported power;</li>
+<li>another defined boundary.</li>
+</ul>
+<h1 id="fuel-flow-and-lhv-uncertainty">4. Fuel-flow and LHV
+uncertainty</h1>
+<p>Electrical efficiency is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>e</mi><mi>l</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi></mrow></msub><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub><mi>L</mi><mi>H</mi><mi>V</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_{el}
+=
+\frac{P_{el}}
+{\dot m_fLHV}
+</annotation></semantics></math></p>
+<p>Therefore uncertainty comes from all three terms.</p>
+<p>A fuel-flow meter can be excellent while the final efficiency remains
+uncertain because gas composition/LHV is poorly characterized.</p>
+<h1 id="simple-uncertainty-propagation">5. Simple uncertainty
+propagation</h1>
+<p>For independent small relative uncertainties:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><msub><mi>u</mi><mi>η</mi></msub><mi>η</mi></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><mn>2</mn></msup><mo>≈</mo><msup><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><msub><mi>u</mi><mi>P</mi></msub><mi>P</mi></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><msub><mi>u</mi><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub></msub><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><msub><mi>u</mi><mrow><mi>L</mi><mi>H</mi><mi>V</mi></mrow></msub><mrow><mi>L</mi><mi>H</mi><mi>V</mi></mrow></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+\left(
+\frac{u_\eta}{\eta}
+\right)^2
+\approx
+\left(
+\frac{u_P}{P}
+\right)^2
++
+\left(
+\frac{u_{\dot m_f}}{\dot m_f}
+\right)^2
++
+\left(
+\frac{u_{LHV}}{LHV}
+\right)^2
+</annotation></semantics></math></p>
+<p>This gives the engineer an immediate check on whether a claimed
+improvement is meaningful.</p>
+<h1 id="cylinder-pressure-measurement">6. Cylinder-pressure
+measurement</h1>
+<p>Critical checks:</p>
+<ul>
+<li>sensor sensitivity;</li>
+<li>thermal drift;</li>
+<li>TDC offset;</li>
+<li>crank-angle encoder resolution;</li>
+<li>pressure pegging;</li>
+<li>cycle count;</li>
+<li>pegging/reference method.</li>
+</ul>
+<p>A TDC error can shift:</p>
+<ul>
+<li>CA50;</li>
+<li>indicated work;</li>
+<li>Pmax location.</li>
+</ul>
+<h1 id="air-flow-measurement">7. Air-flow measurement</h1>
+<p>Air-flow measurement can be affected by:</p>
+<ul>
+<li>installation profile;</li>
+<li>pulsation;</li>
+<li>temperature/pressure correction;</li>
+<li>wet gas/condensation;</li>
+<li>sensor range.</li>
+</ul>
+<p>Compare air flow with independent plausibility such as:</p>
+<ul>
+<li>compressor flow;</li>
+<li>lambda + fuel balance;</li>
+<li>cylinder-charge model.</li>
+</ul>
+<h1 id="turbo-pressure-and-temperature">8. Turbo pressure and
+temperature</h1>
+<p>Pressure tapping should represent the intended static pressure rather
+than a local dynamic artifact.</p>
+<p>Temperature sensors have:</p>
+<ul>
+<li>thermal inertia;</li>
+<li>radiation error;</li>
+<li>conduction error.</li>
+</ul>
+<p>A turbine-inlet thermocouple can respond far slower than a combustion
+event.</p>
+<h1 id="emissions-analyzer-synchronization">9. Emissions analyzer
+synchronization</h1>
+<p>A typical analyzer path includes:</p>
+<pre class="text"><code>Cylinder event
+   ↓
+exhaust transport
+   ↓
+sample probe
+   ↓
+heated line
+   ↓
+analyzer cell
+   ↓
+filter / data logger</code></pre>
+<p>Total delay can be seconds.</p>
+<p>Time-align emissions before associating a transient spike with one
+engine event.</p>
+<h1 id="wetdry-and-reference-basis-control">10. Wet/dry and
+reference-basis control</h1>
+<p>Record:</p>
+<ul>
+<li>wet or dry;</li>
+<li>reference O2 if used;</li>
+<li>standard-volume condition;</li>
+<li>sample pressure;</li>
+<li>sample temperature.</li>
+</ul>
+<p>Do not compare two ppm values reported on different bases.</p>
+<h1 id="repeat-reference-points">11. Repeat reference points</h1>
+<p>A good sweep includes repeated reference points.</p>
+<p>Example:</p>
+<pre class="text"><code>Reference
+Sweep point 1
+Sweep point 2
+Sweep point 3
+Reference again</code></pre>
+<p>If the second reference has moved significantly, the test may
+contain:</p>
+<ul>
+<li>thermal drift;</li>
+<li>gas-quality drift;</li>
+<li>sensor drift.</li>
+</ul>
+<h1 id="data-validity-rules">12. Data-validity rules</h1>
+<p>Before testing, define automatic or manual rejection conditions such
+as:</p>
+<ul>
+<li>unstable load;</li>
+<li>excessive lambda variation;</li>
+<li>coolant temperature outside band;</li>
+<li>gas pressure outside band;</li>
+<li>analyzer not settled;</li>
+<li>cylinder pressure invalid;</li>
+<li>knock protection active unexpectedly.</li>
+</ul>
+<p>This prevents “bad points” from entering a map simply because the
+data file exists.</p>
+<h1 id="confidence-intervals-and-repeatability">13. Confidence intervals
+and repeatability</h1>
+<p>For repeated points, calculate:</p>
+<ul>
+<li>mean;</li>
+<li>standard deviation;</li>
+<li>confidence interval where useful.</li>
+</ul>
+<p>A calibration engineer should distinguish:</p>
+<blockquote>
+<p><strong>difference in averages</strong></p>
+</blockquote>
+<p>from:</p>
+<blockquote>
+<p><strong>statistically/physically meaningful improvement</strong>.</p>
+</blockquote>
+<h1 id="example-is-0.2-percentage-point-efficiency-gain-real">14.
+Example — is 0.2 percentage point efficiency gain real?</h1>
+<p>Suppose:</p>
+<pre class="text"><code>Baseline ηel = 45.0%
+Candidate ηel = 45.2%</code></pre>
+<p>The apparent gain is:</p>
+<pre class="text"><code>+0.2 percentage point</code></pre>
+<p>If combined uncertainty is approximately:</p>
+<pre class="text"><code>±0.3 percentage point</code></pre>
+<p>the test does not yet prove the candidate is better.</p>
+<p>Repeat testing or improved measurement is required.</p>
+<h1 id="sensor-failure-versus-real-engine-change">15. Sensor failure
+versus real engine change</h1>
+<p>If one cylinder’s CA50 suddenly moves while:</p>
+<ul>
+<li>IMEP unchanged;</li>
+<li>EGT unchanged;</li>
+<li>lambda unchanged;</li>
+</ul>
+<p>check the pressure measurement before recalibrating that
+cylinder.</p>
+<p>A senior calibration engineer protects the calibration from sensor
+faults.</p>
+<h1 id="data-traceability">16. Data traceability</h1>
+<p>Every release dataset should be traceable to:</p>
+<ul>
+<li>software/calibration version;</li>
+<li>engine hardware version;</li>
+<li>generator version;</li>
+<li>fuel composition;</li>
+<li>ambient condition;</li>
+<li>instrumentation configuration;</li>
+<li>test-cell ID;</li>
+<li>date/time.</li>
+</ul>
+<p>Without traceability, an apparently excellent map may be impossible
+to reproduce.</p>
+<h1 id="standards-connection">17. Standards connection</h1>
+<p>ISO 8528-6:2023 provides complete generating-set test-method
+context.</p>
+<p>For engine power/reference conditions, ISO 15550 and ISO 3046-1 are
+relevant.</p>
+<p>For large rotating-machine loss/efficiency work where direct
+full-load testing is impractical, IEC 60034-2-2:2024 provides specific
+separate-loss methods.</p>
+<h1 id="worked-uncertainty-budget">18. Worked uncertainty budget</h1>
+<p>Suppose:</p>
+<pre class="text"><code>Electrical power relative uncertainty  = 0.25%
+Fuel-flow relative uncertainty         = 0.30%
+LHV relative uncertainty               = 0.35%</code></pre>
+<p>Then:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>r</mi><mi>e</mi><mi>l</mi><mo>,</mo><mi>η</mi></mrow></msub><mo>≈</mo><msqrt><mrow><msup><mn>0.25</mn><mn>2</mn></msup><mo>+</mo><msup><mn>0.30</mn><mn>2</mn></msup><mo>+</mo><msup><mn>0.35</mn><mn>2</mn></msup></mrow></msqrt><mo>=</mo><mn>0.52</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">
+u_{rel,\eta}
+\approx
+\sqrt{0.25^2+0.30^2+0.35^2}
+=
+0.52\%
+</annotation></semantics></math></p>
+<p>If electrical efficiency is 45%:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>η</mi></msub><mo>≈</mo><mn>0.0052</mn><mo>×</mo><mn>45</mn><mo>=</mo><mn>0.23</mn><mspace width="0.222em"></mspace><mtext mathvariant="normal">percentage point</mtext></mrow><annotation encoding="application/x-tex">
+u_\eta
+\approx
+0.0052\times45
+=
+0.23\ \text{percentage point}
+</annotation></semantics></math></p>
+<p>So a measured improvement of only +0.10 percentage point is not yet
+convincing.</p>
+<h1 id="measurement-system-analysis">19. Measurement-system
+analysis</h1>
+<p>For critical channels, consider:</p>
+<ul>
+<li>repeatability;</li>
+<li>reproducibility;</li>
+<li>drift;</li>
+<li>calibration interval;</li>
+<li>channel synchronization.</li>
+</ul>
+<h1 id="metrology-foundation-standard-and-expanded-uncertainty">20.
+Metrology foundation: standard and expanded uncertainty</h1>
+<p>The simplified RSS example in this article assumes small,
+approximately linearized and <strong>uncorrelated</strong> input
+contributions.</p>
+<p>For a measurement model:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>x</mi><mi>n</mi></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+y=f(x_1,x_2,\ldots,x_n)
+</annotation></semantics></math></p>
+<p>the combined standard uncertainty is generally obtained from
+sensitivity coefficients and the covariance matrix:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>u</mi><mi>c</mi><mn>2</mn></msubsup><mrow><mo form="prefix" stretchy="true">(</mo><mi>y</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><mrow><mi>∂</mi><mi>f</mi></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><mn>2</mn></msup><msup><mi>u</mi><mn>2</mn></msup><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo form="postfix" stretchy="true">)</mo></mrow><mo>+</mo><mn>2</mn><munder><mo>∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></munder><mfrac><mrow><mi>∂</mi><mi>f</mi></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac><mfrac><mrow><mi>∂</mi><mi>f</mi></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></mfrac><mspace width="0.167em"></mspace><mi>u</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>j</mi></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+u_c^2(y)
+=
+\sum_i
+\left(
+\frac{\partial f}{\partial x_i}
+\right)^2u^2(x_i)
++
+2\sum_{i&lt;j}
+\frac{\partial f}{\partial x_i}
+\frac{\partial f}{\partial x_j}
+\,u(x_i,x_j)
+</annotation></semantics></math></p>
+<p>If the inputs are uncorrelated, the covariance terms vanish and the
+familiar root-sum-square form is recovered.</p>
+<p>The <strong>combined standard uncertainty</strong> is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>c</mi></msub><annotation encoding="application/x-tex">
+u_c
+</annotation></semantics></math></p>
+<p>while an <strong>expanded uncertainty</strong> is typically reported
+as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><mi>U</mi><mo>=</mo><mi>k</mi><mspace width="0.167em"></mspace><msub><mi>u</mi><mi>c</mi></msub></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+U=k\,u_c
+}
+</annotation></semantics></math></p>
+<p>where the coverage factor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+is selected for the required coverage statement and uncertainty
+model.</p>
+<p>The JCGM Guide to the Expression of Uncertainty in Measurement is the
+metrology foundation for this treatment. A 2026 amendment specifically
+addresses nonlinearity in measurement models, which matters when a
+simple first-order linearized propagation is not adequate.</p>
+<h1 id="correlation-example">21. Correlation example</h1>
+<p>Fuel composition can influence both:</p>
+<ul>
+<li>reported LHV;</li>
+<li>calculated stoichiometric AFR.</li>
+</ul>
+<p>Those quantities may therefore share common upstream analytical
+uncertainty and should not automatically be treated as statistically
+independent in a detailed uncertainty budget.</p>
+<h1 id="common-mistakes">22. Common mistakes</h1>
+<ul>
+<li>Reporting more decimal places than the measurement supports.</li>
+<li>Accepting a “better” map based on a change smaller than
+uncertainty.</li>
+<li>Forgetting LHV uncertainty in electrical-efficiency
+calculations.</li>
+<li>Using unsynchronized emissions data during transients.</li>
+<li>Releasing data without hardware/software/fuel traceability.</li>
+</ul>
+<h1 id="key-lessons">23. Key lessons</h1>
+<ol type="1">
+<li>Test-cell uncertainty determines the smallest trustworthy
+calibration improvement.</li>
+<li>Complete-genset tests and component tests have different standards
+and boundaries.</li>
+<li>LHV uncertainty can dominate small electrical-efficiency
+claims.</li>
+<li>Repeat reference points and validity rules protect the map from
+drift.</li>
+<li>Traceable evidence is part of calibration quality.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+NIST/SEMATECH e-Handbook of Statistical Methods — supporting reference
+for repeatability, experimental design and data-quality reasoning.
+</li>
+<li>
+JCGM 100:2008/Amd.1:2026 — Amendment 1: Nonlinearity in measurement
+models.
+</li>
+<li>
+JCGM 100:2008 — Evaluation of measurement data: Guide to the expression
+of uncertainty in measurement (GUM).
+</li>
+<li>
+ISO 8528-6:2023 — Test methods for complete generating sets.
+</li>
+<li>
+ISO 15550:2016 — Internal-combustion engine power measurement and
+reference conditions; current in 2026.
+</li>
+<li>
+ISO 3046-1:2002 — Additional engine performance/declaration
+requirements; current in 2026 but under revision.
+</li>
+<li>
+IEC 60034-2-2:2024 — Specific methods for determining separate losses of
+large rotating machines.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../14-lean-burn-aftertreatment-calibration/">← Lean-Burn Gas Engine Aftertreatment Calibration</a><span class="article-count">15 / 23</span><a href="../16-load-acceptance-rejection-frequency-voltage/">Load Acceptance, Load Rejection, Frequency and Voltage Response →</a></div></body>
+</html>

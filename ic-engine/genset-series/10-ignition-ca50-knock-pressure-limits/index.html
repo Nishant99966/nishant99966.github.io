@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Ignition, CA50, Knock, Peak Pressure and Pressure-Rise Limits</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="How ignition is optimized across load using electrical efficiency,
+combustion phasing, cylinder pressure, knock and measurement-quality
+checks" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 10 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Ignition, CA50, Knock, Peak Pressure and Pressure-Rise Limits
+</h1>
+<p>
+<em>How ignition is optimized across load using electrical efficiency,
+combustion phasing, cylinder pressure, knock and measurement-quality
+checks</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#ignition-remains-one-of-the-most-powerful-efficiency-controls" id="toc-ignition-remains-one-of-the-most-powerful-efficiency-controls">1.
+Ignition remains one of the most powerful efficiency controls</a></li>
+<li><a href="#calibration-objective" id="toc-calibration-objective">2.
+Calibration objective</a></li>
+<li><a href="#test-procedure" id="toc-test-procedure">3. Test
+procedure</a></li>
+<li><a href="#electrical-efficiency-view" id="toc-electrical-efficiency-view">4. Electrical-efficiency
+view</a></li>
+<li><a href="#ca50-and-mbt" id="toc-ca50-and-mbt">5. CA50 and
+MBT</a></li>
+<li><a href="#trade-off-efficiency-versus-knock" id="toc-trade-off-efficiency-versus-knock">6. Trade-off — efficiency
+versus knock</a></li>
+<li><a href="#trade-off-cylinder-pressure-versus-exhaust-temperature" id="toc-trade-off-cylinder-pressure-versus-exhaust-temperature">7.
+Trade-off — cylinder pressure versus exhaust temperature</a></li>
+<li><a href="#lean-mixture-interaction" id="toc-lean-mixture-interaction">8. Lean mixture interaction</a></li>
+<li><a href="#calibration-across-load" id="toc-calibration-across-load">9. Calibration across load</a></li>
+<li><a href="#cylinder-balancing" id="toc-cylinder-balancing">10.
+Cylinder balancing</a></li>
+<li><a href="#validation" id="toc-validation">11. Validation</a></li>
+<li><a href="#large-engine-pressure-constraints-pmax-and-pressure-rise-rate" id="toc-large-engine-pressure-constraints-pmax-and-pressure-rise-rate">12.
+Large-engine pressure constraints: Pmax and pressure-rise rate</a></li>
+<li><a href="#calibration-procedure-with-multiple-limits" id="toc-calibration-procedure-with-multiple-limits">13. Calibration
+procedure with multiple limits</a></li>
+<li><a href="#cylinder-statistics" id="toc-cylinder-statistics">14.
+Cylinder statistics</a></li>
+<li><a href="#cylinder-pressure-measurement-quality-before-calibrating-pmax-and-ca50" id="toc-cylinder-pressure-measurement-quality-before-calibrating-pmax-and-ca50">15.
+Cylinder-pressure measurement quality before calibrating Pmax and
+CA50</a></li>
+<li><a href="#uncertainty-margin-around-mechanical-limits" id="toc-uncertainty-margin-around-mechanical-limits">16. Uncertainty
+margin around mechanical limits</a></li>
+<li><a href="#worked-sweep-logic" id="toc-worked-sweep-logic">17. Worked
+sweep logic</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">18.
+Engineering figure</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">19. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="ignition-remains-one-of-the-most-powerful-efficiency-controls">1.
+Ignition remains one of the most powerful efficiency controls</h1>
+<p>Around nominal rated speed, load changes cylinder pressure and burn rate.</p>
+<p>Ignition timing must therefore still vary with load even though rpm
+remains 1500.</p>
+<h1 id="calibration-objective">2. Calibration objective</h1>
+<p>At each load point determine:</p>
+<ul>
+<li>MBT or best-efficiency ignition;</li>
+<li>CA50 target;</li>
+<li>knock margin;</li>
+<li>peak-cylinder-pressure limit;</li>
+<li>pressure-rise-rate limit;</li>
+<li>EGT/emissions response.</li>
+</ul>
+<h1 id="test-procedure">3. Test procedure</h1>
+<p>At one load point:</p>
+<ol type="1">
+<li>stabilize at the nominal rated-frequency operating point;</li>
+<li>hold lambda;</li>
+<li>hold air/turbo/VVT state;</li>
+<li>start from safe retarded spark;</li>
+<li>advance in small steps;</li>
+<li>record electrical power and combustion;</li>
+<li>stop at MBT plateau, knock or mechanical limit.</li>
+</ol>
+<h1 id="electrical-efficiency-view">4. Electrical-efficiency view</h1>
+<p>Because generator speed is fixed, small torque changes become
+directly visible as electrical-power changes.</p>
+<p>If fuel flow is held nearly constant:</p>
+<pre class="text"><code>spark approaches optimum
+   ↓
+cylinder work ↑
+   ↓
+shaft torque ↑
+   ↓
+electrical output ↑</code></pre>
+<h1 id="ca50-and-mbt">5. CA50 and MBT</h1>
+<p>CA50 describes combustion phasing.</p>
+<p>MBT describes torque optimum.</p>
+<p>They are related but not identical.</p>
+<p>The calibration should use measured torque/electrical power as the
+optimization target while using CA50 as the combustion-state
+explanation.</p>
+<h1 id="trade-off-efficiency-versus-knock">6. Trade-off — efficiency
+versus knock</h1>
+<p>Advancing spark usually improves torque until the best-torque
+region.</p>
+<p>But knock margin shrinks.</p>
+<p>The production point may therefore be knock-limited before MBT.</p>
+<h1 id="trade-off-cylinder-pressure-versus-exhaust-temperature">7.
+Trade-off — cylinder pressure versus exhaust temperature</h1>
+<p>More advanced combustion can increase peak cylinder pressure.</p>
+<p>Retard reduces pressure but increases exhaust enthalpy.</p>
+<p>The selected point must protect both:</p>
+<ul>
+<li>cylinder/mechanical system;</li>
+<li>turbine/exhaust system.</li>
+</ul>
+<h1 id="lean-mixture-interaction">8. Lean mixture interaction</h1>
+<p>Leaner mixture slows combustion and can require more advance.</p>
+<p>So lambda and spark must be optimized together rather than
+independently.</p>
+<h1 id="calibration-across-load">9. Calibration across load</h1>
+<p>Typical pattern:</p>
+<ul>
+<li>low load: stability and CH4/THC may dominate;</li>
+<li>medium load: efficiency often dominates;</li>
+<li>high load: knock, peak pressure and turbine temperature
+dominate.</li>
+</ul>
+<h1 id="cylinder-balancing">10. Cylinder balancing</h1>
+<p>Large gas engines should also inspect cylinder-specific:</p>
+<ul>
+<li>CA50;</li>
+<li>knock;</li>
+<li>IMEP;</li>
+<li>peak pressure.</li>
+</ul>
+<p>One hot/knock-sensitive cylinder can limit the entire engine.</p>
+<h1 id="validation">11. Validation</h1>
+<p>Validate:</p>
+<ul>
+<li>gas quality;</li>
+<li>hot intake air;</li>
+<li>full-load thermal soak;</li>
+<li>load transients;</li>
+<li>cylinder-to-cylinder spread.</li>
+</ul>
+<h1 id="large-engine-pressure-constraints-pmax-and-pressure-rise-rate">12.
+Large-engine pressure constraints: Pmax and pressure-rise rate</h1>
+<p>A large stationary gas engine may be limited by normal-combustion
+mechanical loading before classical knock becomes the only concern.</p>
+<p>Two important development quantities are:</p>
+<ul>
+<li>peak cylinder pressure,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">P_{max}</annotation></semantics></math>;</li>
+<li>maximum pressure-rise rate, often expressed in bar/°CA or an
+equivalent project metric.</li>
+</ul>
+<p>Advancing ignition can:</p>
+<pre class="text"><code>CA50 earlier
+   ↓
+efficiency / torque improve
+   ↓
+Pmax can rise
+   ↓
+pressure-rise severity can rise</code></pre>
+<p>So the optimum is not simply:</p>
+<blockquote>
+<p>“advance until knock.”</p>
+</blockquote>
+<p>It may be:</p>
+<pre class="text"><code>MBT
+or
+knock limit
+or
+Pmax limit
+or
+pressure-rise limit</code></pre>
+<p>whichever occurs first.</p>
+<h1 id="calibration-procedure-with-multiple-limits">13. Calibration
+procedure with multiple limits</h1>
+<p>At each load:</p>
+<ol type="1">
+<li>stabilize lambda and air charge;</li>
+<li>begin from safe retarded ignition;</li>
+<li>advance in small increments;</li>
+<li>calculate electrical efficiency;</li>
+<li>track CA50;</li>
+<li>track knock;</li>
+<li>track Pmax and pressure-rise metric;</li>
+<li>track turbine/exhaust temperature.</li>
+</ol>
+<p>The final release spark should preserve margin to
+<strong>all</strong> active limits.</p>
+<h1 id="cylinder-statistics">14. Cylinder statistics</h1>
+<p>Do not evaluate only the average cylinder.</p>
+<p>Track:</p>
+<ul>
+<li>maximum cylinder Pmax;</li>
+<li>maximum cylinder knock;</li>
+<li>cylinder CA50 spread;</li>
+<li>cylinder IMEP spread.</li>
+</ul>
+<p>One cylinder can become the limiting cylinder for the complete
+engine.</p>
+<p>This is especially important in large-bore engines where thermal and
+mixture distribution vary across the bank.</p>
+<h1 id="cylinder-pressure-measurement-quality-before-calibrating-pmax-and-ca50">15.
+Cylinder-pressure measurement quality before calibrating Pmax and
+CA50</h1>
+<p>Cylinder-pressure based calibration depends strongly on measurement
+quality.</p>
+<p>Important checks include:</p>
+<ul>
+<li>crank-angle encoder resolution;</li>
+<li>TDC phasing;</li>
+<li>pressure-sensor thermal drift;</li>
+<li>pressure pegging/reference;</li>
+<li>cycle selection;</li>
+<li>filtering.</li>
+</ul>
+<p>A small TDC offset can shift calculated CA50 and distort indicated
+work.</p>
+<p>Therefore a spark map should never be moved by several crank-angle
+degrees solely because one unverified pressure channel reports a shifted
+CA50.</p>
+<h1 id="uncertainty-margin-around-mechanical-limits">16. Uncertainty
+margin around mechanical limits</h1>
+<p>If the approved Pmax limit is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo>,</mo><mi>l</mi><mi>i</mi><mi>m</mi><mi>i</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">
+P_{max,limit}
+</annotation></semantics></math></p>
+<p>the release calibration should not intentionally sit exactly on that
+number.</p>
+<p>Margin should account for:</p>
+<ul>
+<li>sensor uncertainty;</li>
+<li>cylinder-to-cylinder spread;</li>
+<li>transient overshoot;</li>
+<li>production variation;</li>
+<li>gas-quality variation.</li>
+</ul>
+<h1 id="worked-sweep-logic">17. Worked sweep logic</h1>
+<p>At one stabilized load, imagine the following qualitative
+sequence:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Spark change</th>
+<th style="text-align: right;">Electrical efficiency</th>
+<th style="text-align: right;">Pmax</th>
+<th>Knock</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Retarded reference</td>
+<td style="text-align: right;">lower</td>
+<td style="text-align: right;">lower</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td>+2° advance</td>
+<td style="text-align: right;">improves</td>
+<td style="text-align: right;">rises</td>
+<td>none</td>
+</tr>
+<tr class="odd">
+<td>+4° advance</td>
+<td style="text-align: right;">near plateau</td>
+<td style="text-align: right;">rises further</td>
+<td>occasional</td>
+</tr>
+<tr class="even">
+<td>+6° advance</td>
+<td style="text-align: right;">little further gain</td>
+<td style="text-align: right;">high</td>
+<td>unacceptable</td>
+</tr>
+</tbody>
+</table>
+<p>The final point may be the +2° or +4° condition depending on the
+approved Pmax, knock, MPRR and thermal margins.</p>
+<h1 id="engineering-figure">18. Ignition-sweep trade-off visualization</h1>
+<figure class="figure-card">
+<svg aria-label="Ignition sweep tradeoff" role="img" viewbox="0 0 820 440">
+<rect fill="white" height="440" width="820"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="365" y2="365"></line>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="365" y2="60"></line>
+<text fill="#17324a" font-size="17" x="555" y="410">More ignition
+advance →</text>
+<path d="M135 320 C280 220,430 155,545 150 C620 150,675 175,720 220" fill="none" stroke="#17324a" stroke-width="3"></path>
+<text fill="#17324a" font-size="14" x="515" y="133">electrical
+efficiency / torque</text>
+<path d="M135 340 C350 335,500 300,720 105" fill="none" stroke="#5d87ad" stroke-width="3"></path>
+<text fill="#5d87ad" font-size="14" x="660" y="92">Pmax / MPRR</text>
+<path d="M135 350 C470 350,600 320,720 130" fill="none" stroke="#61717f" stroke-dasharray="6 5" stroke-width="3"></path>
+<text fill="#61717f" font-size="14" x="660" y="153">knock risk</text>
+<line stroke="#9bb5c9" stroke-dasharray="8 7" x1="545" x2="545" y1="80" y2="365"></line>
+<text fill="#61717f" font-size="13" x="487" y="75">MBT region</text>
+</svg>
+<figcaption>
+Illustrative ignition sweep. The release spark is bounded by the first
+relevant limit—MBT plateau, knock, Pmax, pressure-rise rate, exhaust
+temperature or another approved constraint.
+</figcaption>
+</figure>
+<h1 id="common-mistakes">19. Common mistakes</h1>
+<ul>
+<li>Calling CA50 itself “MBT.”</li>
+<li>Advancing until audible knock.</li>
+<li>Using only average-cylinder Pmax.</li>
+<li>Moving calibration before validating TDC phasing.</li>
+<li>Ignoring exhaust-temperature increase from large retard.</li>
+</ul>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>The release spark is bounded by the first relevant performance or
+durability limit.</li>
+<li>CA50 explains combustion phasing but does not replace
+torque/electrical efficiency measurement.</li>
+<li>Pmax and pressure-rise limits can be active before knock.</li>
+<li>Cylinder statistics matter because one cylinder can limit the whole
+engine.</li>
+<li>Pressure measurement quality must be validated before calibrating
+against it.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+ISO 8528-2:2018 — Engines; principal characteristics and speed-governing
+terminology for generating-set applications.
+</li>
+<li>
+ISO 15550:2016 — Internal-combustion engine power measurement and
+reference conditions; current in 2026.
+</li>
+<li>
+W. W. Pulkrabek, Engineering Fundamentals of the Internal Combustion
+Engine.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../09-lean-burn-closed-loop-mixture-control/">← Lean-Burn Lambda, Efficiency and Closed-Loop Mixture Control</a><span class="article-count">10 / 23</span><a href="../11-prechamber-combustion-cylinder-balancing/">Prechamber Combustion, Lean-Limit Extension and Cylinder Balancing →</a></div></body>
+</html>
