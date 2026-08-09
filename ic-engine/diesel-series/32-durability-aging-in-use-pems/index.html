@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Durability, Aging, In-Use Compliance and PEMS</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 32 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#certification-is-not-the-end-of-the-emissions-problem" id="toc-certification-is-not-the-end-of-the-emissions-problem">1.
+Certification is not the end of the emissions problem</a></li>
+<li><a href="#useful-life" id="toc-useful-life">2. Useful life</a></li>
+<li><a href="#deterioration-factors" id="toc-deterioration-factors">3.
+Deterioration factors</a></li>
+<li><a href="#in-use-conformity" id="toc-in-use-conformity">4. In-use
+conformity</a></li>
+<li><a href="#pems" id="toc-pems">5. PEMS</a></li>
+<li><a href="#obdobm-over-life" id="toc-obdobm-over-life">6. OBD/OBM
+over life</a></li>
+<li><a href="#anti-tampering" id="toc-anti-tampering">7.
+Anti-tampering</a></li>
+<li><a href="#maintenance-impact" id="toc-maintenance-impact">8.
+Maintenance impact</a></li>
+<li><a href="#regulatory-currentness" id="toc-regulatory-currentness">9.
+2026 regulatory currentness</a></li>
+<li><a href="#dated-durability-requirements" id="toc-dated-durability-requirements">10. Dated durability
+requirements</a></li>
+<li><a href="#aging-changes-the-optimum-not-only-the-margin" id="toc-aging-changes-the-optimum-not-only-the-margin">11. Aging changes
+the optimum, not only the margin</a>
+<ul>
+<li><a href="#injector-aging" id="toc-injector-aging">Injector
+aging</a></li>
+<li><a href="#egr-cooler-fouling" id="toc-egr-cooler-fouling">EGR cooler
+fouling</a></li>
+<li><a href="#dpf-ash" id="toc-dpf-ash">DPF ash</a></li>
+<li><a href="#scr-aging" id="toc-scr-aging">SCR aging</a></li>
+</ul></li>
+<li><a href="#aging-checkpoints" id="toc-aging-checkpoints">12. Aging
+checkpoints</a></li>
+<li><a href="#pems-engineering-review" id="toc-pems-engineering-review">13. PEMS engineering review</a></li>
+<li><a href="#field-data-feedback" id="toc-field-data-feedback">14.
+Field-data feedback</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">15. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">16. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Durability, Aging, In-Use Compliance and PEMS
+</h1>
+<p>
+<em>How calibration and diagnostics survive injector, turbo, DPF,
+catalyst and sensor deterioration in real operation</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="certification-is-not-the-end-of-the-emissions-problem">1.
+Certification is not the end of the emissions problem</h1>
+<p>A heavy-duty engine must maintain performance and emissions control
+over substantial real-world use.</p>
+<p>Important aging mechanisms include:</p>
+<ul>
+<li>injector wear and deposits;</li>
+<li>turbo fouling;</li>
+<li>EGR cooler fouling;</li>
+<li>DPF ash accumulation;</li>
+<li>catalyst thermal aging;</li>
+<li>catalyst poisoning;</li>
+<li>NOx sensor drift;</li>
+<li>crankcase/oil consumption deterioration.</li>
+</ul>
+<h1 id="useful-life">2. Useful life</h1>
+<p>Regulatory useful-life definitions are market-specific.</p>
+<p>Euro 7 explicitly introduces long heavy-duty main and additional
+lifetime requirements, including up to hundreds of thousands of
+kilometres depending on vehicle category.</p>
+<p>The calibration therefore needs aging margin from the beginning.</p>
+<h1 id="deterioration-factors">3. Deterioration factors</h1>
+<p>A fresh catalyst result is not enough.</p>
+<p>Development can use:</p>
+<ul>
+<li>aged hardware;</li>
+<li>accelerated aging;</li>
+<li>deterioration factors;</li>
+<li>worst-case production samples.</li>
+</ul>
+<h1 id="in-use-conformity">4. In-use conformity</h1>
+<p>The real vehicle experiences:</p>
+<ul>
+<li>payload variation;</li>
+<li>route variation;</li>
+<li>climate;</li>
+<li>altitude;</li>
+<li>maintenance variation.</li>
+</ul>
+<p>In-use and real-driving requirements are designed to challenge that
+reality.</p>
+<h1 id="pems">5. PEMS</h1>
+<p>Portable emissions measurement systems can measure vehicle emissions
+outside the laboratory.</p>
+<p>PEMS introduces additional concerns:</p>
+<ul>
+<li>exhaust-flow measurement;</li>
+<li>GPS and altitude;</li>
+<li>analyzer zero/span;</li>
+<li>time alignment;</li>
+<li>vibration;</li>
+<li>ambient conditions.</li>
+</ul>
+<h1 id="obdobm-over-life">6. OBD/OBM over life</h1>
+<p>Diagnostics must detect deterioration before emissions become
+excessive while avoiding false failures on normal aged hardware.</p>
+<p>Thresholds should therefore be validated across:</p>
+<ul>
+<li>new;</li>
+<li>aged;</li>
+<li>environmental corners.</li>
+</ul>
+<h1 id="anti-tampering">7. Anti-tampering</h1>
+<p>Heavy-duty emissions controls can be targeted by unauthorized
+modifications.</p>
+<p>Protection of:</p>
+<ul>
+<li>software;</li>
+<li>torque limits;</li>
+<li>SCR;</li>
+<li>DPF;</li>
+<li>EGR;</li>
+</ul>
+<p>is part of real-world emissions durability.</p>
+<h1 id="maintenance-impact">8. Maintenance impact</h1>
+<p>A calibration should distinguish normal service actions from adaptive
+compensation.</p>
+<p>Examples:</p>
+<pre class="text"><code>DPF ash cleaning
+injector replacement
+NOx sensor replacement
+EGR cooler cleaning</code></pre>
+<p>After major component replacement, relevant learned values and
+validation checks may need reset or re-established.</p>
+<h1 id="regulatory-currentness">9. 2026 regulatory currentness</h1>
+<p>Euro 7 is in force, but heavy-duty application dates begin later in
+the decade.</p>
+<p>The U.S. MY2027 criteria-pollutant framework is active, while EPA has
+proposed 2026 amendments to selected compliance provisions.</p>
+<p>California also maintains a separate heavy-duty low-NOx
+framework.</p>
+<p>Therefore release programs need a formal regulatory-currentness
+gate.</p>
+<h1 id="dated-durability-requirements">10. Dated durability
+requirements</h1>
+<p>Exact Euro 7 lifetime distances/years and other time-sensitive
+regulatory values are maintained in the separate <a href="../regulatory-2026/"><strong>2026 Regulatory
+Appendix</strong></a>.</p>
+<p>The durable engineering lesson remains:</p>
+<blockquote>
+<p>calibration, aftertreatment and diagnostics must be validated on aged
+hardware and cannot be optimized only for a fresh engine and fresh
+catalyst.</p>
+</blockquote>
+<h1 id="aging-changes-the-optimum-not-only-the-margin">11. Aging changes
+the optimum, not only the margin</h1>
+<p>Examples:</p>
+<h3 id="injector-aging">Injector aging</h3>
+<p>Can change quantity and spray, shifting both torque accuracy and
+soot.</p>
+<h3 id="egr-cooler-fouling">EGR cooler fouling</h3>
+<p>Can raise EGR temperature and reduce flow, shifting NOx and air-path
+control.</p>
+<h3 id="dpf-ash">DPF ash</h3>
+<p>Raises backpressure and changes regeneration/storage behavior.</p>
+<h3 id="scr-aging">SCR aging</h3>
+<p>Reduces conversion/storage, changing the acceptable engine-out NOx
+strategy.</p>
+<p>Therefore aged-system calibration is not simply “fresh map plus
+safety factor.”</p>
+<h1 id="aging-checkpoints">12. Aging checkpoints</h1>
+<p>At defined aging states, repeat a reduced but meaningful matrix:</p>
+<ul>
+<li>point B high torque;</li>
+<li>point C cruise;</li>
+<li>low-load thermal state;</li>
+<li>certification-critical transient;</li>
+<li>regeneration;</li>
+<li>diagnostic monitor.</li>
+</ul>
+<h1 id="pems-engineering-review">13. PEMS engineering review</h1>
+<p>Before comparing road emissions, align:</p>
+<ul>
+<li>vehicle mass;</li>
+<li>route/grade;</li>
+<li>ambient temperature/pressure;</li>
+<li>traffic;</li>
+<li>DPF regeneration state.</li>
+</ul>
+<p>If these differ materially, explain the difference instead of
+treating every change as calibration deterioration.</p>
+<h1 id="field-data-feedback">14. Field-data feedback</h1>
+<p>Use fleet data to identify where laboratory duty assumptions were
+wrong.</p>
+<p>Examples:</p>
+<ul>
+<li>more low-load time than expected;</li>
+<li>frequent high-altitude operation;</li>
+<li>unexpected regeneration frequency.</li>
+</ul>
+<p>Feed that information back into the next calibration release and
+validation matrix.</p>
+<h1 id="common-mistakes">15. Common mistakes</h1>
+<ul>
+<li>Calibrating only fresh hardware.</li>
+<li>Treating useful life as a certification paperwork issue.</li>
+<li>Ignoring sensor aging in diagnostic thresholds.</li>
+<li>Using PEMS data without synchronization and flow validation.</li>
+<li>Assuming one national rule applies everywhere.</li>
+</ul>
+<h1 id="key-lessons">16. Key lessons</h1>
+<ol type="1">
+<li>Heavy-duty emissions calibration must survive aging and in-use
+variability.</li>
+<li>Catalyst, DPF, injector and sensor deterioration belong in release
+validation.</li>
+<li>PEMS connects laboratory calibration to real-world operation.</li>
+<li>Diagnostics and anti-tamper are part of emissions durability.</li>
+<li>Regulatory status must be rechecked throughout a multi-year
+development program.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://eur-lex.europa.eu/eli/reg/2024/1257/oj/eng">Regulation
+(EU) 2024/1257 (Euro 7)</a> — current legal source; exact dated limits
+and application milestones are maintained in the series Regulatory
+Appendix.
+</li>
+<li>
+<a href="https://unece.org/transport/vehicle-regulations-wp29/standards/addenda-1958-agreement-regulations-41-60">UNECE
+UN Regulation No. 49</a> — heavy-duty engine pollutant-emissions
+framework; 07 series is the current established series while further
+2026 supplements/revisions are under development.
+</li>
+<li>
+<a href="https://www.epa.gov/regulations-emissions-vehicles-and-engines/final-rule-and-related-materials-control-air-pollution">U.S.
+EPA MY2027 heavy-duty engine and vehicle criteria-pollutant rule</a> —
+more stringent heavy-duty standards beginning MY2027.
+</li>
+<li>
+<a href="https://www.epa.gov/regulations-emissions-vehicles-and-engines/proposed-rule-amendments-and-nonconformance-penalties">U.S.
+EPA July 2026 proposed amendments for MY2027+ heavy-duty highway
+engines</a> — current proposal affecting selected
+compliance/test/useful-life provisions; not final at publication time.
+</li>
+<li>
+<a href="https://ww2.arb.ca.gov/our-work/programs/heavy-duty-low-nox/heavy-duty-omnibus-regulation-fact-sheet">California
+Heavy-Duty Omnibus / Low-NOx program fact sheet</a> —
+California-specific heavy-duty NOx, durability and in-use requirements.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../31-doe-map-building-validation/">← Design of Experiments, Map Building and Off-Grid Validation</a><span class="article-count">32 / 33</span><a href="../33-complete-calibration-release-root-cause/">Complete Heavy-Duty Diesel Calibration, Release and Root-Cause Strategy →</a></div></body>
+</html>

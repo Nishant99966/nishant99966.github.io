@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Parasitic Losses, Smart Pumps, Air Compressor and Auxiliary Calibration</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 20 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#not-all-fuel-loss-is-combustion-inefficiency" id="toc-not-all-fuel-loss-is-combustion-inefficiency">1. Not all fuel
+loss is combustion inefficiency</a></li>
+<li><a href="#coolant-and-oil-pumps" id="toc-coolant-and-oil-pumps">2.
+Coolant and oil pumps</a></li>
+<li><a href="#air-compressor" id="toc-air-compressor">3. Air
+compressor</a></li>
+<li><a href="#cooling-fan" id="toc-cooling-fan">4. Cooling fan</a></li>
+<li><a href="#alternator-and-electrical-loads" id="toc-alternator-and-electrical-loads">5. Alternator and electrical
+loads</a></li>
+<li><a href="#hd13-e-example" id="toc-hd13-e-example">6. HD13-E
+example</a></li>
+<li><a href="#calibration-execution" id="toc-calibration-execution">7.
+Calibration execution</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#validation" id="toc-validation">Validation</a></li>
+</ul></li>
+<li><a href="#senior-calibration-deep-dive-auxiliary-optimization-as-a-supervisory-problem" id="toc-senior-calibration-deep-dive-auxiliary-optimization-as-a-supervisory-problem">8.
+Senior calibration deep dive — auxiliary optimization as a supervisory
+problem</a>
+<ul>
+<li><a href="#fan-calibration" id="toc-fan-calibration">Fan
+calibration</a></li>
+<li><a href="#measurement" id="toc-measurement">Measurement</a></li>
+</ul></li>
+<li><a href="#air-system-energy-management-example" id="toc-air-system-energy-management-example">9. Air-system energy
+management example</a></li>
+<li><a href="#coolant-pump-strategy" id="toc-coolant-pump-strategy">10.
+Coolant-pump strategy</a></li>
+<li><a href="#alternator-scheduling" id="toc-alternator-scheduling">11.
+Alternator scheduling</a></li>
+<li><a href="#whole-system-verification" id="toc-whole-system-verification">12. Whole-system
+verification</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">13. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">14. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Parasitic Losses, Smart Pumps, Air Compressor and Auxiliary Calibration
+</h1>
+<p>
+<em>How pumps, fan, compressed-air generation and electrical loads
+consume engine power and how demand control recovers efficiency</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> OEM-neutral heavy-duty diesel calibration for
+truck, bus and comparable vehicle applications. Worked numerical values
+are illustrative unless tied to a cited public regulation or product
+source.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="not-all-fuel-loss-is-combustion-inefficiency">1. Not all fuel
+loss is combustion inefficiency</h1>
+<p>Useful brake power is reduced by friction, pumping and auxiliary
+demand.</p>
+<figure class="figure-card">
+<svg aria-label="Engine auxiliary losses" role="img" viewbox="0 0 820 500">
+<rect fill="white" height="500" width="820"></rect><g fill="#17324a" font-family="Arial" font-size="14" text-anchor="middle"><rect fill="#eef4f8" height="60" rx="9" stroke="#5d87ad" width="250" x="285" y="25"></rect><text x="410" y="60">Indicated
+engine
+power</text><rect fill="#eef4f8" height="60" rx="9" stroke="#5d87ad" width="250" x="285" y="420"></rect><text x="410" y="455">Useful
+brake
+power</text><rect fill="#f8fafc" height="60" rx="9" stroke="#9bb5c9" width="145" x="35" y="160"></rect><text x="108" y="195">Friction</text><rect fill="#f8fafc" height="60" rx="9" stroke="#9bb5c9" width="145" x="205" y="160"></rect><text x="278" y="195">Pumping</text><rect fill="#f8fafc" height="60" rx="9" stroke="#9bb5c9" width="145" x="375" y="160"></rect><text x="448" y="195">Coolant
+/ oil
+pumps</text><rect fill="#f8fafc" height="60" rx="9" stroke="#9bb5c9" width="145" x="545" y="160"></rect><text x="618" y="188">Air
+compressor
+/</text><text x="618" y="207">alternator</text><rect fill="#f8fafc" height="60" rx="9" stroke="#9bb5c9" width="240" x="290" y="285"></rect><text x="410" y="312">Fan
+/ HVAC /</text><text x="410" y="332">other auxiliaries</text></g>
+</svg>
+<figcaption>
+Useful brake power is reduced by friction, pumping and several
+engine/vehicle auxiliaries. Demand-controlled systems can recover
+efficiency if their thermal and functional constraints are respected.
+</figcaption>
+</figure>
+<p>A useful bookkeeping equation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>b</mi></msub><mo>=</mo><msub><mi>P</mi><mi>i</mi></msub><mo>−</mo><msub><mi>P</mi><mrow><mi>f</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>P</mi><mrow><mi>p</mi><mi>u</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow></msub><mo>−</mo><msub><mi>P</mi><mrow><mi>a</mi><mi>u</mi><mi>x</mi><mo>,</mo><mi>m</mi><mi>e</mi><mi>c</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+P_b=P_i-P_{friction}-P_{pumping}-P_{aux,mech}
+</annotation></semantics></math></p>
+<h1 id="coolant-and-oil-pumps">2. Coolant and oil pumps</h1>
+<p>Demand-controlled pump strategies can reduce parasitic work when full
+flow or pressure is not required.</p>
+<p>Calibration must preserve coolant, bearing and piston thermal
+limits.</p>
+<h1 id="air-compressor">3. Air compressor</h1>
+<p>Heavy trucks use compressed air for braking and other systems.</p>
+<p>A clutched or demand-controlled compressor can reduce torque load
+when pressure is sufficient.</p>
+<p>The engine torque model should know when the compressor is
+engaged.</p>
+<h1 id="cooling-fan">4. Cooling fan</h1>
+<p>For similar operating conditions, fan power approximately
+follows:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>f</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>∝</mo><msubsup><mi>N</mi><mrow><mi>f</mi><mi>a</mi><mi>n</mi></mrow><mn>3</mn></msubsup></mrow><annotation encoding="application/x-tex">
+P_{fan}\propto N_{fan}^3
+</annotation></semantics></math></p>
+<p>Small speed reductions can save meaningful power, but hotter coolant
+or charge air can reduce torque and emissions margin.</p>
+<h1 id="alternator-and-electrical-loads">5. Alternator and electrical
+loads</h1>
+<p>Mechanical power required for electrical generation is
+approximately:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>e</mi><mi>c</mi><mi>h</mi><mo>,</mo><mi>a</mi><mi>l</mi><mi>t</mi></mrow></msub><mo>≈</mo><mfrac><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi></mrow></msub><msub><mi>η</mi><mrow><mi>a</mi><mi>l</mi><mi>t</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+P_{mech,alt}\approx\frac{P_{elec}}{\eta_{alt}}
+</annotation></semantics></math></p>
+<p>Electrical aftertreatment heating must therefore be counted in the
+vehicle energy balance.</p>
+<h1 id="hd13-e-example">6. HD13-E example</h1>
+<p>At a 220-kW cruise condition, suppose listed auxiliary loads total 9
+kW.</p>
+<p>A 2-kW auxiliary saving is nearly 1% of brake power and can be
+comparable with a difficult combustion optimization.</p>
+<h1 id="calibration-execution">7. Calibration execution</h1>
+<h2 id="objective">Objective</h2>
+<p>Minimize parasitic power while maintaining thermal, lubrication,
+pneumatic and electrical requirements.</p>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>coolant-pump command;</li>
+<li>oil-pressure target;</li>
+<li>fan target;</li>
+<li>compressor clutch/enable;</li>
+<li>alternator/load management.</li>
+</ul>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>fuel flow / brake torque
+fan speed and power
+coolant pump command
+oil pressure
+air-system pressure
+compressor state
+alternator current/voltage
+coolant / oil / charge-air temperature</code></pre>
+<h2 id="validation">Validation</h2>
+<p>Hot ambient, hill climb, low-speed high torque, long idle, repeated
+air-brake demand, high electrical load and aftertreatment-heater
+operation.</p>
+<h1 id="senior-calibration-deep-dive-auxiliary-optimization-as-a-supervisory-problem">8.
+Senior calibration deep dive — auxiliary optimization as a supervisory
+problem</h1>
+<p>Auxiliaries often have stored-state variables:</p>
+<pre class="text"><code>coolant temperature
+air-tank pressure
+battery state of charge
+oil temperature</code></pre>
+<p>This allows temporary postponement of power demand.</p>
+<p>Example:</p>
+<ul>
+<li>delay air-compressor loading during a gear shift or hard
+acceleration if pressure reserve is adequate;</li>
+<li>run the compressor later in a more efficient engine region.</li>
+</ul>
+<p>This is an energy-management problem, not only an ON/OFF
+threshold.</p>
+<h2 id="fan-calibration">Fan calibration</h2>
+<p>Use a fan target based on predicted thermal demand rather than only
+current coolant temperature.</p>
+<p>Aggressive fan action can:</p>
+<ul>
+<li>increase fuel use;</li>
+<li>cool the charge excessively;</li>
+<li>create noise.</li>
+</ul>
+<p>Too-late fan action can force a larger engine torque derate.</p>
+<h2 id="measurement">Measurement</h2>
+<p>Where direct auxiliary torque is unavailable, infer the effect
+through controlled A/B tests at identical engine/thermal state and
+verify that the fuel-flow change exceeds test uncertainty.</p>
+<h1 id="air-system-energy-management-example">9. Air-system energy
+management example</h1>
+<p>Suppose the pneumatic reservoir is near its upper pressure target
+before a long grade.</p>
+<p>The controller can choose to disengage the air compressor during the
+high-fuel-demand climb and refill later during:</p>
+<ul>
+<li>lower road load;</li>
+<li>overrun;</li>
+<li>engine-brake operation.</li>
+</ul>
+<p>The possible fuel benefit must be balanced against minimum safe
+pneumatic pressure.</p>
+<h1 id="coolant-pump-strategy">10. Coolant-pump strategy</h1>
+<p>At low load, reduced coolant flow can:</p>
+<ul>
+<li>reduce pump work;</li>
+<li>accelerate warm-up.</li>
+</ul>
+<p>At high load, insufficient flow can create local head/liner
+temperature problems even if bulk coolant temperature looks
+acceptable.</p>
+<p>Calibration should therefore respect component-temperature models,
+not only coolant outlet temperature.</p>
+<h1 id="alternator-scheduling">11. Alternator scheduling</h1>
+<p>Where the electrical architecture permits limited energy buffering,
+alternator load can sometimes be shifted away from high-demand
+acceleration.</p>
+<p>The engine torque model must still include the actual alternator
+mechanical load at every moment.</p>
+<h1 id="whole-system-verification">12. Whole-system verification</h1>
+<p>For every auxiliary optimization report:</p>
+<pre class="text"><code>fuel saved
+temperature/pressure impact
+torque-model impact
+noise impact
+failure fallback</code></pre>
+<p>A component-level efficiency claim without these checks is
+incomplete.</p>
+<h1 id="common-mistakes">13. Common mistakes</h1>
+<ul>
+<li>Hiding auxiliary loads inside a generic friction map.</li>
+<li>Running maximum fan or pump speed everywhere.</li>
+<li>Ignoring air-compressor engagement in torque estimation.</li>
+<li>Claiming an engine BSFC gain that is offset by higher fan/electrical
+demand.</li>
+<li>Optimizing auxiliaries independently.</li>
+</ul>
+<h1 id="key-lessons">14. Key lessons</h1>
+<ol type="1">
+<li>Auxiliaries can consume several percent of useful power.</li>
+<li>Demand-controlled pumps, fans and compressors can recover
+efficiency.</li>
+<li>Auxiliary state belongs in torque and fuel-consumption
+interpretation.</li>
+<li>Lowest component power is not always lowest vehicle fuel use.</li>
+<li>Modern heavy-duty efficiency packages optimize combustion and
+auxiliaries together.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — combustion, gas exchange and engine performance fundamentals.
+</li>
+<li>
+<a href="https://www.daf.com/en/news-and-media/news-articles/global/2024/new-generation-daf-trucks-powering-customer-success">DAF
+Trucks, 2024 public powertrain update</a> — example combining Miller
+valve timing, updated turbo/EGR, dual-drive coolant pump, clutched air
+compressor, new injectors and downspeeding.
+</li>
+</ol>
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../19-thermal-cooling-ambient-derating/">← Cooling, Thermal State, Ambient and Torque Derating</a><span class="article-count">20 / 33</span><a href="../21-emissions-measurement-certification-cycles/">Heavy-Duty Emissions Measurement and Certification Cycles →</a></div></body>
+</html>

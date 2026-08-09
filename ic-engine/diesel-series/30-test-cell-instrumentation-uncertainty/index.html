@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Test-Cell Instrumentation, Measurement Uncertainty and Data Quality</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 30 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#small-calibration-gains-require-trustworthy-measurements" id="toc-small-calibration-gains-require-trustworthy-measurements">1.
+Small calibration gains require trustworthy measurements</a></li>
+<li><a href="#critical-measurement-channels" id="toc-critical-measurement-channels">2. Critical measurement
+channels</a></li>
+<li><a href="#brake-power" id="toc-brake-power">3. Brake power</a></li>
+<li><a href="#fuel-efficiency" id="toc-fuel-efficiency">4. Fuel
+efficiency</a></li>
+<li><a href="#gum-framework" id="toc-gum-framework">5. GUM
+framework</a></li>
+<li><a href="#cylinder-pressure-quality" id="toc-cylinder-pressure-quality">6. Cylinder-pressure quality</a></li>
+<li><a href="#injector-timing-measurement" id="toc-injector-timing-measurement">7. Injector timing
+measurement</a></li>
+<li><a href="#emissions-synchronization" id="toc-emissions-synchronization">8. Emissions synchronization</a></li>
+<li><a href="#pm-and-pn-measurement" id="toc-pm-and-pn-measurement">9.
+PM and PN measurement</a></li>
+<li><a href="#repeat-reference-points" id="toc-repeat-reference-points">10. Repeat reference points</a></li>
+<li><a href="#worked-uncertainty-example" id="toc-worked-uncertainty-example">11. Worked uncertainty
+example</a></li>
+<li><a href="#correlated-inputs" id="toc-correlated-inputs">12.
+Correlated inputs</a></li>
+<li><a href="#measurement-system-analysis" id="toc-measurement-system-analysis">13. Measurement-system
+analysis</a></li>
+<li><a href="#data-traceability" id="toc-data-traceability">14. Data
+traceability</a></li>
+<li><a href="#common-stabilization-and-acceptance-protocol" id="toc-common-stabilization-and-acceptance-protocol">15. Common
+stabilization and acceptance protocol</a></li>
+<li><a href="#calibration-record-template" id="toc-calibration-record-template">16. Calibration-record
+template</a></li>
+<li><a href="#torque-cell-verification" id="toc-torque-cell-verification">17. Torque-cell verification</a></li>
+<li><a href="#fuel-flow-system-dynamics" id="toc-fuel-flow-system-dynamics">18. Fuel-flow system
+dynamics</a></li>
+<li><a href="#cylinder-pressure-repeatability" id="toc-cylinder-pressure-repeatability">19. Cylinder-pressure
+repeatability</a></li>
+<li><a href="#automated-validity-flag" id="toc-automated-validity-flag">20. Automated validity flag</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">21. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">22. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Test-Cell Instrumentation, Measurement Uncertainty and Data Quality
+</h1>
+<p>
+<em>How to trust fuel-efficiency, combustion and emissions differences
+before changing a heavy-duty calibration map</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="small-calibration-gains-require-trustworthy-measurements">1.
+Small calibration gains require trustworthy measurements</h1>
+<p>A heavy-duty engine test cell can report tiny BSFC or NOx
+differences.</p>
+<p>Before moving a production map, ask whether the difference is larger
+than:</p>
+<ul>
+<li>measurement uncertainty;</li>
+<li>repeatability;</li>
+<li>thermal drift.</li>
+</ul>
+<h1 id="critical-measurement-channels">2. Critical measurement
+channels</h1>
+<p>Document sensor, location, units, sampling rate, filter and
+uncertainty for:</p>
+<ul>
+<li>torque;</li>
+<li>speed;</li>
+<li>fuel mass flow;</li>
+<li>air flow;</li>
+<li>cylinder pressure;</li>
+<li>rail or injection pressure;</li>
+<li>intake/exhaust pressure;</li>
+<li>turbo speed;</li>
+<li>temperatures;</li>
+<li>emissions;</li>
+<li>PM/PN;</li>
+<li>DEF flow.</li>
+</ul>
+<h1 id="brake-power">3. Brake power</h1>
+<p>Dynamometer brake power is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>b</mi></msub><mo>=</mo><msub><mi>T</mi><mi>b</mi></msub><mi>ω</mi></mrow><annotation encoding="application/x-tex">
+P_b=T_b\omega
+</annotation></semantics></math></p>
+<p>Torque-cell zero and calibration matter directly.</p>
+<h1 id="fuel-efficiency">4. Fuel efficiency</h1>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>b</mi></msub><mo>=</mo><mfrac><msub><mi>P</mi><mi>b</mi></msub><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub><mi>L</mi><mi>H</mi><mi>V</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_b
+=
+\frac{P_b}
+{\dot m_fLHV}
+</annotation></semantics></math></p>
+<p>Uncertainty therefore contains contributions from torque/power, fuel
+flow and LHV.</p>
+<h1 id="gum-framework">5. GUM framework</h1>
+<p>For:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>x</mi><mi>n</mi></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+y=f(x_1,x_2,\ldots,x_n)
+</annotation></semantics></math></p>
+<p>combined standard uncertainty is conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>u</mi><mi>c</mi><mn>2</mn></msubsup><mrow><mo form="prefix" stretchy="true">(</mo><mi>y</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><mrow><mi>∂</mi><mi>f</mi></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><mn>2</mn></msup><msup><mi>u</mi><mn>2</mn></msup><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo form="postfix" stretchy="true">)</mo></mrow><mo>+</mo><mn>2</mn><munder><mo>∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></munder><mfrac><mrow><mi>∂</mi><mi>f</mi></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac><mfrac><mrow><mi>∂</mi><mi>f</mi></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></mfrac><mi>u</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>j</mi></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+u_c^2(y)
+=
+\sum_i
+\left(
+\frac{\partial f}{\partial x_i}
+\right)^2u^2(x_i)
++
+2\sum_{i&lt;j}
+\frac{\partial f}{\partial x_i}
+\frac{\partial f}{\partial x_j}
+u(x_i,x_j)
+</annotation></semantics></math></p>
+<p>Expanded uncertainty is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mi>k</mi><mspace width="0.167em"></mspace><msub><mi>u</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">
+U=k\,u_c
+</annotation></semantics></math></p>
+<p>The 2026 GUM amendment specifically addresses nonlinearity in
+measurement models.</p>
+<h1 id="cylinder-pressure-quality">6. Cylinder-pressure quality</h1>
+<p>Validate:</p>
+<ul>
+<li>TDC phasing;</li>
+<li>pressure pegging;</li>
+<li>encoder resolution;</li>
+<li>thermal drift;</li>
+<li>cycle count.</li>
+</ul>
+<p>These affect CA50, IMEP, Pmax and MPRR.</p>
+<h1 id="injector-timing-measurement">7. Injector timing measurement</h1>
+<p>Where possible, distinguish:</p>
+<pre class="text"><code>ECU command
+from
+injector current
+from
+needle / rate of injection
+from
+SOC</code></pre>
+<p>This prevents a hydraulic delay change from being misdiagnosed as
+combustion chemistry.</p>
+<h1 id="emissions-synchronization">8. Emissions synchronization</h1>
+<p>Fast transient analysis needs a common time base.</p>
+<p>A NOx sensor or laboratory analyzer can be delayed relative to:</p>
+<ul>
+<li>injection command;</li>
+<li>exhaust-valve event;</li>
+<li>tailpipe flow.</li>
+</ul>
+<p>Time alignment is essential.</p>
+<h1 id="pm-and-pn-measurement">9. PM and PN measurement</h1>
+<p>Document:</p>
+<ul>
+<li>dilution;</li>
+<li>sample temperature;</li>
+<li>filter conditioning;</li>
+<li>particle-counter cut-off;</li>
+<li>line losses.</li>
+</ul>
+<p>Smoke meters can be used for fast development but are not a
+replacement for formal PM or PN measurement.</p>
+<h1 id="repeat-reference-points">10. Repeat reference points</h1>
+<p>A useful sweep pattern is:</p>
+<pre class="text"><code>reference
+candidate A
+candidate B
+candidate C
+reference again</code></pre>
+<p>If the second reference shifted, investigate before trusting the
+sweep.</p>
+<h1 id="worked-uncertainty-example">11. Worked uncertainty example</h1>
+<p>Suppose relative standard uncertainties are:</p>
+<pre class="text"><code>brake power = 0.20%
+fuel flow   = 0.25%
+LHV         = 0.30%</code></pre>
+<p>If treated as uncorrelated:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>r</mi><mi>e</mi><mi>l</mi><mo>,</mo><mi>η</mi></mrow></msub><mo>≈</mo><msqrt><mrow><msup><mn>0.20</mn><mn>2</mn></msup><mo>+</mo><msup><mn>0.25</mn><mn>2</mn></msup><mo>+</mo><msup><mn>0.30</mn><mn>2</mn></msup></mrow></msqrt><mo>≈</mo><mn>0.44</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">
+u_{rel,\eta}
+\approx
+\sqrt{0.20^2+0.25^2+0.30^2}
+\approx0.44\%
+</annotation></semantics></math></p>
+<p>At 46% brake thermal efficiency, that corresponds to about:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.20</mn><mspace width="0.222em"></mspace><mtext mathvariant="normal">percentage point</mtext></mrow><annotation encoding="application/x-tex">
+0.20\ \text{percentage point}
+</annotation></semantics></math></p>
+<p>A reported +0.05 percentage-point gain is therefore not yet strong
+evidence.</p>
+<h1 id="correlated-inputs">12. Correlated inputs</h1>
+<p>Fuel composition can influence both:</p>
+<ul>
+<li>LHV;</li>
+<li>density;</li>
+<li>cetane estimate.</li>
+</ul>
+<p>A detailed uncertainty budget should not automatically treat all
+fuel-property inputs as independent.</p>
+<h1 id="measurement-system-analysis">13. Measurement-system
+analysis</h1>
+<p>For high-value channels, characterize:</p>
+<ul>
+<li>repeatability;</li>
+<li>reproducibility;</li>
+<li>zero drift;</li>
+<li>span drift;</li>
+<li>calibration interval.</li>
+</ul>
+<h1 id="data-traceability">14. Data traceability</h1>
+<p>Store with each result:</p>
+<pre class="text"><code>engine hardware
+injector/nozzle
+turbo
+software
+calibration
+fuel batch
+aftertreatment age/soot state
+instrument calibration
+test date</code></pre>
+<p>A result without configuration is not release evidence.</p>
+<h1 id="common-stabilization-and-acceptance-protocol">15. Common
+stabilization and acceptance protocol</h1>
+<p>Before a steady-state point is accepted, define project limits
+for:</p>
+<ul>
+<li>speed variation;</li>
+<li>torque variation;</li>
+<li>coolant/oil drift;</li>
+<li>intake temperature;</li>
+<li>fuel temperature;</li>
+<li>aftertreatment state;</li>
+<li>analyzer settling.</li>
+</ul>
+<p>The limits themselves are project/instrument dependent; the important
+point is that they are written before the sweep.</p>
+<h1 id="calibration-record-template">16. Calibration-record
+template</h1>
+<p>Every accepted point should carry:</p>
+<pre class="text"><code>hardware configuration
+software/calibration version
+fuel batch / analysis
+ambient state
+thermal state
+active limiter state
+instrument status
+operator / test ID</code></pre>
+<p>This turns a result into traceable release evidence.</p>
+<h1 id="torque-cell-verification">17. Torque-cell verification</h1>
+<p>Before an efficiency campaign:</p>
+<ul>
+<li>zero the torque system;</li>
+<li>check span/calibration;</li>
+<li>verify alignment and parasitic drag assumptions.</li>
+</ul>
+<p>A torque bias directly corrupts both:</p>
+<ul>
+<li>brake power;</li>
+<li>BSFC/BTE.</li>
+</ul>
+<h1 id="fuel-flow-system-dynamics">18. Fuel-flow system dynamics</h1>
+<p>A gravimetric or coriolis-based fuel-flow system can have filtering
+and delay.</p>
+<p>For transient fuel analysis, characterize:</p>
+<ul>
+<li>delay;</li>
+<li>filter;</li>
+<li>return-fuel handling;</li>
+<li>temperature conditioning.</li>
+</ul>
+<h1 id="cylinder-pressure-repeatability">19. Cylinder-pressure
+repeatability</h1>
+<p>At each point store enough cycles to estimate both mean and
+variability.</p>
+<p>A candidate with slightly better mean IMEP but much larger cycle
+dispersion can be a worse calibration.</p>
+<h1 id="automated-validity-flag">20. Automated validity flag</h1>
+<p>Create a calculated <code>point_valid</code> signal that requires all
+required conditions:</p>
+<pre class="text"><code>speed stable
+torque stable
+thermal stable
+no unintended limiter
+no regeneration
+all required sensors valid</code></pre>
+<p>This reduces subjective data selection later.</p>
+<h1 id="common-mistakes">21. Common mistakes</h1>
+<ul>
+<li>Reporting more decimal places than the instruments support.</li>
+<li>Moving a map for a fuel-economy gain smaller than uncertainty.</li>
+<li>Ignoring LHV uncertainty.</li>
+<li>Using unsynchronized analyzer signals.</li>
+<li>Treating a fast smoke meter as formal PM measurement.</li>
+</ul>
+<h1 id="key-lessons">22. Key lessons</h1>
+<ol type="1">
+<li>Measurement uncertainty defines the smallest believable
+optimization.</li>
+<li>Cylinder-pressure analysis requires excellent crank-angle
+phasing.</li>
+<li>Injection command, hydraulic injection and combustion timing are
+separate measurements.</li>
+<li>Transient emissions need time synchronization.</li>
+<li>Repeat references protect against drift.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://www.bipm.org/en/committees/jc/jcgm/publications">JCGM
+100:2008 and Amd.1:2026</a> — measurement-uncertainty framework and 2026
+nonlinearity amendment.
+</li>
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+<a href="https://www.itl.nist.gov/div898/handbook/pri/section3/pri3.htm">NIST/SEMATECH
+e-Handbook of Statistical Methods</a> — experimental design, blocking,
+response surfaces and validation.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../29-transient-driveability-altitude/">← Transient Driveability, Tip-In/Tip-Out, Shifts, Grade and Altitude</a><span class="article-count">30 / 33</span><a href="../31-doe-map-building-validation/">Design of Experiments, Map Building and Off-Grid Validation →</a></div></body>
+</html>

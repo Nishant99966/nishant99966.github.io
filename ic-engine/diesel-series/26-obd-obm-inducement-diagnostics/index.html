@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>OBD, On-Board Monitoring, Inducements and Emissions Diagnostics</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 26 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#diagnostics-are-part-of-emissions-control" id="toc-diagnostics-are-part-of-emissions-control">1. Diagnostics are
+part of emissions control</a></li>
+<li><a href="#rationality-versus-electrical-diagnostics" id="toc-rationality-versus-electrical-diagnostics">2. Rationality versus
+electrical diagnostics</a></li>
+<li><a href="#dpf-diagnostics" id="toc-dpf-diagnostics">3. DPF
+diagnostics</a></li>
+<li><a href="#scr-diagnostics" id="toc-scr-diagnostics">4. SCR
+diagnostics</a></li>
+<li><a href="#inducement" id="toc-inducement">5. Inducement</a></li>
+<li><a href="#on-board-monitoring" id="toc-on-board-monitoring">6.
+On-board monitoring</a></li>
+<li><a href="#anti-tampering-and-security" id="toc-anti-tampering-and-security">7. Anti-tampering and
+security</a></li>
+<li><a href="#diagnostic-calibration-workflow" id="toc-diagnostic-calibration-workflow">8. Diagnostic calibration
+workflow</a></li>
+<li><a href="#monitor-design-threshold-versus-noise" id="toc-monitor-design-threshold-versus-noise">9. Monitor design:
+threshold versus noise</a></li>
+<li><a href="#example-dpf-pressure-sensor-plausibility" id="toc-example-dpf-pressure-sensor-plausibility">10. Example: DPF
+pressure sensor plausibility</a></li>
+<li><a href="#example-scr-conversion-monitor" id="toc-example-scr-conversion-monitor">11. Example: SCR conversion
+monitor</a></li>
+<li><a href="#healing" id="toc-healing">12. Healing</a></li>
+<li><a href="#first-out-diagnostics" id="toc-first-out-diagnostics">13.
+First-out diagnostics</a></li>
+<li><a href="#monitor-calibration-execution" id="toc-monitor-calibration-execution">14. Monitor calibration
+execution</a></li>
+<li><a href="#production-variation-challenge" id="toc-production-variation-challenge">15. Production-variation
+challenge</a></li>
+<li><a href="#interaction-with-calibration-changes" id="toc-interaction-with-calibration-changes">16. Interaction with
+calibration changes</a></li>
+<li><a href="#diagnostic-calibration-statistics" id="toc-diagnostic-calibration-statistics">17. Diagnostic calibration
+statistics</a></li>
+<li><a href="#debounce" id="toc-debounce">18. Debounce</a></li>
+<li><a href="#monitor-enable-conditions" id="toc-monitor-enable-conditions">19. Monitor enable
+conditions</a></li>
+<li><a href="#serviceability" id="toc-serviceability">20.
+Serviceability</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">21. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">22. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+OBD, On-Board Monitoring, Inducements and Emissions Diagnostics
+</h1>
+<p>
+<em>How air, fuel, DPF, SCR and sensor faults are detected without
+excessive false failures or hidden emissions deterioration</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="diagnostics-are-part-of-emissions-control">1. Diagnostics are
+part of emissions control</h1>
+<p>A modern heavy-duty emissions system needs to know not only what it
+commands, but whether the hardware is actually working.</p>
+<p>Diagnostic domains can include:</p>
+<ul>
+<li>air path;</li>
+<li>EGR;</li>
+<li>fuel injection;</li>
+<li>NOx sensors;</li>
+<li>DPF pressure;</li>
+<li>catalyst efficiency;</li>
+<li>DEF quality and dosing;</li>
+<li>temperature sensors;</li>
+<li>particulate sensors where fitted.</li>
+</ul>
+<h1 id="rationality-versus-electrical-diagnostics">2. Rationality versus
+electrical diagnostics</h1>
+<p>Electrical diagnostic example:</p>
+<pre class="text"><code>sensor open circuit</code></pre>
+<p>Rationality diagnostic example:</p>
+<pre class="text"><code>sensor signal is electrically valid
+but physically inconsistent with other signals</code></pre>
+<p>Both are needed.</p>
+<h1 id="dpf-diagnostics">3. DPF diagnostics</h1>
+<p>Possible monitored behaviors include:</p>
+<ul>
+<li>pressure-drop plausibility;</li>
+<li>soot-load model consistency;</li>
+<li>regeneration effectiveness;</li>
+<li>temperature response.</li>
+</ul>
+<h1 id="scr-diagnostics">4. SCR diagnostics</h1>
+<p>Possible monitored behaviors include:</p>
+<ul>
+<li>DEF level and quality;</li>
+<li>dosing-system function;</li>
+<li>upstream/downstream NOx response;</li>
+<li>catalyst conversion plausibility.</li>
+</ul>
+<h1 id="inducement">5. Inducement</h1>
+<p>Some regulatory systems require driver warnings or torque/speed
+inducements when the reagent or emissions-control system is not properly
+functioning.</p>
+<p>The exact thresholds and timing are legal and market-specific.</p>
+<p>In 2026, U.S. EPA published updated guidance and proposed amendments
+around SCR-equipped heavy-duty engine inducement/compliance provisions,
+illustrating why release teams must track current rules.</p>
+<h1 id="on-board-monitoring">6. On-board monitoring</h1>
+<p>Euro 7 expands attention beyond traditional fault-code OBD toward
+on-board monitoring and in-use performance.</p>
+<p>The regulation explicitly includes OBD and OBM requirements for
+heavy-duty vehicle/engine families.</p>
+<h1 id="anti-tampering-and-security">7. Anti-tampering and security</h1>
+<p>Calibration and diagnostics must resist unauthorized defeat of:</p>
+<ul>
+<li>EGR;</li>
+<li>DPF regeneration;</li>
+<li>SCR dosing;</li>
+<li>torque limits;</li>
+<li>emissions sensors.</li>
+</ul>
+<p>Cybersecurity and anti-tampering requirements can therefore affect
+ECU calibration access and service tools.</p>
+<h1 id="diagnostic-calibration-workflow">8. Diagnostic calibration
+workflow</h1>
+<p>For each monitor:</p>
+<ol type="1">
+<li>define physical failure;</li>
+<li>define signal signature;</li>
+<li>set detection threshold;</li>
+<li>validate false-pass and false-fail risk;</li>
+<li>validate environmental and aging sensitivity;</li>
+<li>define warning or inducement behavior;</li>
+<li>verify repair recognition and healing.</li>
+</ol>
+<h1 id="monitor-design-threshold-versus-noise">9. Monitor design:
+threshold versus noise</h1>
+<p>For each diagnostic monitor, compare the fault effect with normal
+variation.</p>
+<p>A good threshold separates:</p>
+<pre class="text"><code>worst good hardware
+from
+best bad hardware</code></pre>
+<p>with sufficient margin for measurement noise and aging.</p>
+<h1 id="example-dpf-pressure-sensor-plausibility">10. Example: DPF
+pressure sensor plausibility</h1>
+<p>Use:</p>
+<ul>
+<li>pressure;</li>
+<li>exhaust flow;</li>
+<li>temperature;</li>
+<li>engine operating point.</li>
+</ul>
+<p>If the sensor reports a large fixed pressure with near-zero exhaust
+flow, the signal may be implausible.</p>
+<h1 id="example-scr-conversion-monitor">11. Example: SCR conversion
+monitor</h1>
+<p>Compare upstream and downstream NOx while controlling for:</p>
+<ul>
+<li>catalyst temperature;</li>
+<li>dosing state;</li>
+<li>exhaust flow;</li>
+<li>sensor delay.</li>
+</ul>
+<p>Do not fail the catalyst during a state where high conversion is
+physically impossible.</p>
+<h1 id="healing">12. Healing</h1>
+<p>After repair, define:</p>
+<ul>
+<li>conditions needed to re-run monitor;</li>
+<li>number of successful passes;</li>
+<li>when warnings or torque restrictions clear.</li>
+</ul>
+<p>Poor healing logic can create unnecessary customer downtime.</p>
+<h1 id="first-out-diagnostics">13. First-out diagnostics</h1>
+<p>A rail-pressure fault can lead to low torque, then vehicle-speed
+loss.</p>
+<p>Preserve the first cause so service tools do not only report the
+downstream symptom.</p>
+<h1 id="monitor-calibration-execution">14. Monitor calibration
+execution</h1>
+<p>For each monitor create a test sheet containing:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Required definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>target fault</td>
+<td>physical failure being detected</td>
+</tr>
+<tr class="even">
+<td>enable conditions</td>
+<td>speed/load/temp/state</td>
+</tr>
+<tr class="odd">
+<td>measured features</td>
+<td>sensor/model signals</td>
+</tr>
+<tr class="even">
+<td>threshold</td>
+<td>pass/fail boundary</td>
+</tr>
+<tr class="odd">
+<td>debounce</td>
+<td>time / event count</td>
+</tr>
+<tr class="even">
+<td>fallback</td>
+<td>substitution / derate / warning</td>
+</tr>
+<tr class="odd">
+<td>healing</td>
+<td>conditions to clear</td>
+</tr>
+<tr class="even">
+<td>aging check</td>
+<td>fresh and aged hardware</td>
+</tr>
+</tbody>
+</table>
+<h1 id="production-variation-challenge">15. Production-variation
+challenge</h1>
+<p>Test both:</p>
+<pre class="text"><code>worst good hardware
+and
+best bad hardware</code></pre>
+<p>The monitor needs separation between these populations with margin
+for noise and environmental variation.</p>
+<h1 id="interaction-with-calibration-changes">16. Interaction with
+calibration changes</h1>
+<p>Any change to:</p>
+<ul>
+<li>EGR;</li>
+<li>rail pressure;</li>
+<li>aftertreatment thermal management;</li>
+<li>torque arbitration;</li>
+</ul>
+<p>can shift diagnostic features even if the diagnostic threshold itself
+is unchanged.</p>
+<p>Re-run change-impact analysis after major performance calibration
+updates.</p>
+<h1 id="diagnostic-calibration-statistics">17. Diagnostic calibration
+statistics</h1>
+<p>A monitor needs enough separation between good and bad
+populations.</p>
+<p>For a diagnostic feature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>:</p>
+<pre class="text"><code>good hardware distribution
+bad hardware distribution</code></pre>
+<p>should be characterized across temperature, aging and production
+variation.</p>
+<p>The threshold should not be chosen from one nominal good and one
+nominal failed component.</p>
+<h1 id="debounce">18. Debounce</h1>
+<p>Transient noise can create a temporary fault signature.</p>
+<p>Use:</p>
+<ul>
+<li>time debounce;</li>
+<li>event counting;</li>
+<li>filtered feature;</li>
+</ul>
+<p>only when it does not delay detection beyond the regulatory/safety
+requirement.</p>
+<h1 id="monitor-enable-conditions">19. Monitor enable conditions</h1>
+<p>A catalyst-efficiency monitor may require:</p>
+<ul>
+<li>minimum catalyst temperature;</li>
+<li>stable dosing;</li>
+<li>sufficient exhaust flow.</li>
+</ul>
+<p>Running the monitor outside those conditions produces false failures
+or false passes.</p>
+<h1 id="serviceability">20. Serviceability</h1>
+<p>A diagnostic code should help a technician isolate the fault.</p>
+<p>Where possible, distinguish:</p>
+<ul>
+<li>sensor failure;</li>
+<li>actuator failure;</li>
+<li>catalyst deterioration;</li>
+<li>fluid/reagent problem.</li>
+</ul>
+<p>Good calibration includes useful service information, not only lamp
+activation.</p>
+<h1 id="common-mistakes">21. Common mistakes</h1>
+<ul>
+<li>Treating OBD as something added after performance calibration.</li>
+<li>Using one sensor to diagnose its own failure.</li>
+<li>Setting thresholds on new hardware only.</li>
+<li>Hard-coding inducement behavior without checking current market
+rules.</li>
+<li>Ignoring anti-tamper and software-security interfaces.</li>
+</ul>
+<h1 id="key-lessons">22. Key lessons</h1>
+<ol type="1">
+<li>Diagnostics validate whether the emissions-control system behaves as
+intended in use.</li>
+<li>Rationality checks need physical redundancy or model
+consistency.</li>
+<li>OBD, OBM and inducement requirements are market-specific and
+evolving.</li>
+<li>Aging and environmental variation belong in monitor validation.</li>
+<li>Emissions calibration and diagnostics must be developed
+together.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://eur-lex.europa.eu/eli/reg/2024/1257/oj/eng">Regulation
+(EU) 2024/1257 (Euro 7)</a> — current legal source; exact dated limits
+and application milestones are maintained in the series Regulatory
+Appendix.
+</li>
+<li>
+<a href="https://unece.org/transport/vehicle-regulations-wp29/standards/addenda-1958-agreement-regulations-41-60">UNECE
+UN Regulation No. 49</a> — heavy-duty engine pollutant-emissions
+framework; 07 series is the current established series while further
+2026 supplements/revisions are under development.
+</li>
+<li>
+<a href="https://www.epa.gov/regulations-emissions-vehicles-and-engines/proposed-rule-amendments-and-nonconformance-penalties">U.S.
+EPA July 2026 proposed amendments for MY2027+ heavy-duty highway
+engines</a> — current proposal affecting selected
+compliance/test/useful-life provisions; not final at publication time.
+</li>
+<li>
+<a href="https://ww2.arb.ca.gov/our-work/programs/heavy-duty-low-nox/heavy-duty-omnibus-regulation-fact-sheet">California
+Heavy-Duty Omnibus / Low-NOx program fact sheet</a> —
+California-specific heavy-duty NOx, durability and in-use requirements.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../25-cold-start-low-load-thermal-management/">← Cold Start, Low Load, Idle and Aftertreatment Warm-Up</a><span class="article-count">26 / 33</span><a href="../27-transmission-vehicle-integration/">Transmission, Vehicle and Predictive Torque Integration →</a></div></body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Cylinder Balancing, Injector Compensation and Misfire Diagnosis</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 16 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#cylinder-balancing-is-not-only-an-idle-smoothness-task" id="toc-cylinder-balancing-is-not-only-an-idle-smoothness-task">1.
+Cylinder balancing is not only an idle-smoothness task</a></li>
+<li><a href="#sources-of-imbalance" id="toc-sources-of-imbalance">2.
+Sources of imbalance</a></li>
+<li><a href="#balance-signals" id="toc-balance-signals">3. Balance
+signals</a></li>
+<li><a href="#quantity-trim" id="toc-quantity-trim">4. Quantity
+trim</a></li>
+<li><a href="#timing-trim" id="toc-timing-trim">5. Timing trim</a></li>
+<li><a href="#injector-replacement" id="toc-injector-replacement">6.
+Injector replacement</a></li>
+<li><a href="#cylinder-cutout-diagnostic" id="toc-cylinder-cutout-diagnostic">7. Cylinder-cutout
+diagnostic</a></li>
+<li><a href="#torsional-connection" id="toc-torsional-connection">8.
+Torsional connection</a></li>
+<li><a href="#aging" id="toc-aging">9. Aging</a></li>
+<li><a href="#cylinder-balance-calibration-procedure" id="toc-cylinder-balance-calibration-procedure">10. Cylinder-balance
+calibration procedure</a></li>
+<li><a href="#example-diagnostic-pattern" id="toc-example-diagnostic-pattern">11. Example diagnostic
+pattern</a></li>
+<li><a href="#balance-authority" id="toc-balance-authority">12. Balance
+authority</a></li>
+<li><a href="#transient-balance" id="toc-transient-balance">13.
+Transient balance</a></li>
+<li><a href="#calibration-execution-standard" id="toc-calibration-execution-standard">14. Calibration execution
+standard</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#preconditions" id="toc-preconditions">Preconditions</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#selection-rule" id="toc-selection-rule">Selection
+rule</a></li>
+<li><a href="#robustness" id="toc-robustness">Robustness</a></li>
+</ul></li>
+<li><a href="#statistical-cylinder-balance-limits" id="toc-statistical-cylinder-balance-limits">15. Statistical
+cylinder-balance limits</a></li>
+<li><a href="#balance-at-multiple-operating-points" id="toc-balance-at-multiple-operating-points">16. Balance at multiple
+operating points</a></li>
+<li><a href="#adaptation-learning" id="toc-adaptation-learning">17.
+Adaptation learning</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">18. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">19. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Cylinder Balancing, Injector Compensation and Misfire Diagnosis
+</h1>
+<p>
+<em>How to use IMEP, CA50, EGT and speed contribution to correct real
+imbalance without hiding failing hardware</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="cylinder-balancing-is-not-only-an-idle-smoothness-task">1.
+Cylinder balancing is not only an idle-smoothness task</h1>
+<p>Cylinder imbalance can create:</p>
+<ul>
+<li>torque ripple;</li>
+<li>EGT spread;</li>
+<li>Pmax spread;</li>
+<li>aftertreatment temperature maldistribution;</li>
+<li>torsional excitation;</li>
+<li>poor fuel economy.</li>
+</ul>
+<h1 id="sources-of-imbalance">2. Sources of imbalance</h1>
+<p>Possible causes include:</p>
+<ul>
+<li>injector flow variation;</li>
+<li>hydraulic timing variation;</li>
+<li>compression variation;</li>
+<li>valve-lash or valve-condition differences;</li>
+<li>air-distribution variation;</li>
+<li>EGR-distribution variation;</li>
+<li>sensor error.</li>
+</ul>
+<h1 id="balance-signals">3. Balance signals</h1>
+<p>Useful indicators include:</p>
+<ul>
+<li>cylinder IMEP;</li>
+<li>CA50;</li>
+<li>EGT;</li>
+<li>crank-speed contribution;</li>
+<li>injector correction;</li>
+<li>Pmax.</li>
+</ul>
+<p>No single signal proves the cause.</p>
+<h1 id="quantity-trim">4. Quantity trim</h1>
+<p>A cylinder fuel trim can correct a real quantity imbalance.</p>
+<p>But the authority should be limited.</p>
+<p>Large trim demand should create a diagnostic or maintenance action
+rather than silently hiding hardware degradation.</p>
+<h1 id="timing-trim">5. Timing trim</h1>
+<p>If one cylinder is consistently late in CA50 with similar IMEP and
+injector quantity, timing or compression should be investigated before
+applying a large fuel correction.</p>
+<h1 id="injector-replacement">6. Injector replacement</h1>
+<p>After injector replacement, follow approved coding or adaptation
+procedures where applicable.</p>
+<p>Then verify:</p>
+<ul>
+<li>IMEP balance;</li>
+<li>CA50;</li>
+<li>Pmax;</li>
+<li>EGT;</li>
+<li>smoke and NOx.</li>
+</ul>
+<h1 id="cylinder-cutout-diagnostic">7. Cylinder-cutout diagnostic</h1>
+<p>At suitable low-risk conditions, a controlled cylinder cutout can
+help estimate individual cylinder contribution.</p>
+<p>This is a diagnostic tool, not a normal operating strategy.</p>
+<h1 id="torsional-connection">8. Torsional connection</h1>
+<p>Uneven cylinder torque excites the crankshaft and driveline.</p>
+<p>A calibration that equalizes average EGT but worsens cylinder torque
+balance can be mechanically worse.</p>
+<h1 id="aging">9. Aging</h1>
+<p>Injector deposits and wear can change:</p>
+<ul>
+<li>delivered quantity;</li>
+<li>spray pattern;</li>
+<li>leakage;</li>
+<li>timing.</li>
+</ul>
+<p>Adaptation should distinguish normal aging from a failing
+component.</p>
+<h1 id="cylinder-balance-calibration-procedure">10. Cylinder-balance
+calibration procedure</h1>
+<p>At a stabilized point:</p>
+<ol type="1">
+<li>record 100–200 or more consecutive pressure cycles where
+practical;</li>
+<li>calculate cylinder IMEP and CA50;</li>
+<li>calculate mean and standard deviation;</li>
+<li>compare EGT and injector correction;</li>
+<li>identify whether the problem is quantity, timing or hardware.</li>
+</ol>
+<h1 id="example-diagnostic-pattern">11. Example diagnostic pattern</h1>
+<p>Suppose cylinder 4 shows:</p>
+<pre class="text"><code>IMEP 3% low
+CA50 similar to average
+EGT low</code></pre>
+<p>That pattern is more consistent with low delivered fuel than with
+late combustion.</p>
+<p>If instead:</p>
+<pre class="text"><code>IMEP near average
+CA50 late
+EGT high</code></pre>
+<p>timing, ignition delay or compression deserves more attention.</p>
+<h1 id="balance-authority">12. Balance authority</h1>
+<p>Cylinder trim limits should prevent the ECU from masking:</p>
+<ul>
+<li>severe injector leakage;</li>
+<li>low compression;</li>
+<li>valve damage.</li>
+</ul>
+<p>A growing long-term trim can be used as a maintenance indicator.</p>
+<h1 id="transient-balance">13. Transient balance</h1>
+<p>A cylinder can be balanced at hot steady state and still behave
+poorly during:</p>
+<ul>
+<li>cold start;</li>
+<li>low rail pressure;</li>
+<li>rapid tip-in.</li>
+</ul>
+<p>Validate representative transient states as well.</p>
+<h1 id="calibration-execution-standard">14. Calibration execution
+standard</h1>
+<h2 id="objective">Objective</h2>
+<p>Reduce cylinder-to-cylinder torque and combustion variation without
+using trims to hide hardware faults.</p>
+<h2 id="preconditions">Preconditions</h2>
+<ul>
+<li>cylinder-pressure channels phased and pegged;</li>
+<li>injector codes/adaptations correct;</li>
+<li>valve lash and compression condition acceptable.</li>
+</ul>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>cylinder quantity trim;</li>
+<li>cylinder timing trim where supported;</li>
+<li>balance-adaptation learning rate;</li>
+<li>trim authority and diagnostic threshold.</li>
+</ul>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>IMEP each cylinder
+CA50 each cylinder
+Pmax each cylinder
+EGT each cylinder
+crank-speed contribution
+injector correction
+fuel rail/injection pressure</code></pre>
+<h2 id="selection-rule">Selection rule</h2>
+<p>Use the smallest correction that removes a demonstrated
+imbalance.</p>
+<p>If required trim grows beyond the approved authority, create a
+diagnostic/maintenance action.</p>
+<h2 id="robustness">Robustness</h2>
+<p>Repeat at hot idle, low load, point B high torque, cold start and
+representative injector variation.</p>
+<h1 id="statistical-cylinder-balance-limits">15. Statistical
+cylinder-balance limits</h1>
+<p>Do not decide from one cycle.</p>
+<p>For each cylinder calculate:</p>
+<ul>
+<li>mean IMEP;</li>
+<li>IMEP coefficient of variation;</li>
+<li>mean CA50;</li>
+<li>CA50 spread;</li>
+<li>Pmax distribution.</li>
+</ul>
+<p>A cylinder that is 2% low in mean IMEP but highly stable may require
+a different diagnosis from one with normal mean IMEP and high cycle
+variability.</p>
+<h1 id="balance-at-multiple-operating-points">16. Balance at multiple
+operating points</h1>
+<p>An injector can show:</p>
+<ul>
+<li>good balance at idle;</li>
+<li>poor balance at high pressure/high load;</li>
+<li>different behavior when hot.</li>
+</ul>
+<p>Use at least low-load, cruise and high-torque balance points.</p>
+<h1 id="adaptation-learning">17. Adaptation learning</h1>
+<p>If automatic balance learning is used, define:</p>
+<ul>
+<li>enable conditions;</li>
+<li>learning rate;</li>
+<li>maximum learned correction;</li>
+<li>reset/relearn procedure after injector replacement.</li>
+</ul>
+<p>Learning should be slow enough not to chase combustion noise but fast
+enough to capture genuine long-term drift.</p>
+<h1 id="common-mistakes">18. Common mistakes</h1>
+<ul>
+<li>Balancing only EGT.</li>
+<li>Applying large quantity trims without root cause.</li>
+<li>Ignoring compression and valve condition.</li>
+<li>Copying old injector correction values onto replacement
+injectors.</li>
+<li>Treating cylinder balance as only an idle issue.</li>
+</ul>
+<h1 id="key-lessons">19. Key lessons</h1>
+<ol type="1">
+<li>Cylinder balancing affects performance, emissions, smoothness and
+durability.</li>
+<li>IMEP and CA50 are stronger development signals than EGT alone.</li>
+<li>Large trims should trigger diagnosis.</li>
+<li>Injector replacement can invalidate old balance calibration.</li>
+<li>Cylinder imbalance can excite the full driveline torsional
+system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../15-egr-nox-soot-tradeoff/">← EGR Calibration and the NOx–Soot Trade-Off</a><span class="article-count">16 / 33</span><a href="../17-engine-braking-negative-torque/">Engine Braking, Compression Release and Negative-Torque Calibration →</a></div></body>
+</html>

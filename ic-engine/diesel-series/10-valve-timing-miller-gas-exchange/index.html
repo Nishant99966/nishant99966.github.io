@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Valve Timing, Miller Cycle and Gas-Exchange Calibration</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 10 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#valve-timing-is-part-of-diesel-performance-calibration" id="toc-valve-timing-is-part-of-diesel-performance-calibration">1. Valve
+timing is part of diesel performance calibration</a></li>
+<li><a href="#early-intake-valve-closing-and-miller-operation" id="toc-early-intake-valve-closing-and-miller-operation">2. Early intake
+valve closing and Miller operation</a></li>
+<li><a href="#turbo-and-egr-must-be-re-matched" id="toc-turbo-and-egr-must-be-re-matched">3. Turbo and EGR must be
+re-matched</a></li>
+<li><a href="#effective-compression" id="toc-effective-compression">4.
+Effective compression</a></li>
+<li><a href="#exhaust-valve-opening" id="toc-exhaust-valve-opening">5.
+Exhaust valve opening</a></li>
+<li><a href="#fixed-versus-variable-timing" id="toc-fixed-versus-variable-timing">6. Fixed versus variable
+timing</a></li>
+<li><a href="#hd13-e-point-c" id="toc-hd13-e-point-c">7. HD13-E point
+C</a></li>
+<li><a href="#calibration-execution" id="toc-calibration-execution">8.
+Calibration execution</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#map-coordinates" id="toc-map-coordinates">Map
+coordinates</a></li>
+<li><a href="#fixed-variables-during-comparison" id="toc-fixed-variables-during-comparison">Fixed variables during
+comparison</a></li>
+<li><a href="#sweep-variables" id="toc-sweep-variables">Sweep
+variables</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#validation" id="toc-validation">Validation</a></li>
+</ul></li>
+<li><a href="#senior-calibration-deep-dive-trapped-mass-and-residuals" id="toc-senior-calibration-deep-dive-trapped-mass-and-residuals">9.
+Senior calibration deep dive — trapped mass and residuals</a>
+<ul>
+<li><a href="#miller-versus-compression-temperature" id="toc-miller-versus-compression-temperature">Miller versus compression
+temperature</a></li>
+<li><a href="#evo-optimization" id="toc-evo-optimization">EVO
+optimization</a></li>
+<li><a href="#hardware-freeze-implication" id="toc-hardware-freeze-implication">Hardware freeze
+implication</a></li>
+</ul></li>
+<li><a href="#gas-exchange-work-from-the-pressure-trace" id="toc-gas-exchange-work-from-the-pressure-trace">10. Gas-exchange work
+from the pressure trace</a></li>
+<li><a href="#intake-valve-closing-sensitivity" id="toc-intake-valve-closing-sensitivity">11. Intake-valve-closing
+sensitivity</a></li>
+<li><a href="#calibration-with-fixed-hardware-timing" id="toc-calibration-with-fixed-hardware-timing">12. Calibration with
+fixed hardware timing</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">13. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">14. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Valve Timing, Miller Cycle and Gas-Exchange Calibration
+</h1>
+<p>
+<em>How IVC, EVO, trapped charge, effective compression, pumping work,
+turbo matching and EGR interact</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> OEM-neutral heavy-duty diesel calibration for
+truck, bus and comparable vehicle applications. Worked numerical values
+are illustrative unless tied to a cited public regulation or product
+source.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="valve-timing-is-part-of-diesel-performance-calibration">1. Valve
+timing is part of diesel performance calibration</h1>
+<p>Valve events determine trapped charge, residual gas, effective
+compression, expansion utilization, pumping work and turbine energy.</p>
+<figure class="figure-card">
+<svg aria-label="Valve timing and Miller concept" role="img" viewbox="0 0 820 500">
+<rect fill="white" height="500" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="80" x2="760" y1="400" y2="400"></line><text font-size="17" x="625" y="440">Crank
+angle
+→</text><path d="M110 390 C150 390,180 350,205 250 C235 135,300 100,365 210 C410 295,450 370,500 390" fill="none" stroke="#17324a" stroke-width="3"></path><path d="M310 390 C350 390,390 330,430 230 C480 110,555 110,610 240 C650 330,680 380,720 390" fill="none" stroke="#5d87ad" stroke-width="3"></path><text font-size="14" x="210" y="92">intake
+valve lift</text><text font-size="14" x="500" y="92">exhaust valve
+lift</text><line stroke="#9bb5c9" stroke-dasharray="7 6" x1="325" x2="325" y1="85" y2="400"></line><text font-size="13" x="255" y="78">reference
+IVC</text><line stroke="#c0a56a" stroke-dasharray="7 6" x1="285" x2="285" y1="85" y2="400"></line><text font-size="13" x="205" y="120">earlier
+IVC / Miller</text>
+</svg>
+<figcaption>
+Qualitative early-intake-valve-closing concept. The engineering task is
+to balance effective compression, trapped air, pumping, turbo work and
+emissions.
+</figcaption>
+</figure>
+<p>Important events are IVO, IVC, EVO and EVC.</p>
+<h1 id="early-intake-valve-closing-and-miller-operation">2. Early intake
+valve closing and Miller operation</h1>
+<p>Early IVC closes the intake valve before the piston completes the
+intake stroke.</p>
+<p>The trapped charge can expand before compression begins.</p>
+<p>Potential effects include lower effective compression temperature and
+more Pmax/NOx margin, but also less trapped charge.</p>
+<h1 id="turbo-and-egr-must-be-re-matched">3. Turbo and EGR must be
+re-matched</h1>
+<p>If earlier IVC reduces cylinder filling, boost may need to rise.</p>
+<p>That can change VGT position, compressor point, turbine pressure
+ratio, exhaust pressure and EGR authority.</p>
+<p>Valve timing, turbo, EGR and injection should therefore be treated as
+one gas-exchange calibration.</p>
+<h1 id="effective-compression">4. Effective compression</h1>
+<p>The geometric compression ratio is fixed by hardware, but the
+effective compression process changes because the trapped mass is
+defined by valve closing.</p>
+<h1 id="exhaust-valve-opening">5. Exhaust valve opening</h1>
+<p>Earlier EVO gives up some expansion work but increases
+blowdown/exhaust energy available to the turbine.</p>
+<p>Later EVO can recover more expansion work but reduce turbine
+drive.</p>
+<h1 id="fixed-versus-variable-timing">6. Fixed versus variable
+timing</h1>
+<p>Some engines use fixed optimized cam timing; others may have variable
+mechanisms.</p>
+<p>Do not assume a software-controlled VVT actuator exists.</p>
+<h1 id="hd13-e-point-c">7. HD13-E point C</h1>
+<p>At 1200 rpm cruise, suppose earlier IVC reduces trapped mass by 5% at
+the same manifold pressure.</p>
+<p>The air system can recover mass by increasing boost, but that can
+raise pumping/turbo cost.</p>
+<p>Compare at the same brake torque:</p>
+<ul>
+<li>BSFC;</li>
+<li>PMEP;</li>
+<li>NOx;</li>
+<li>Pmax;</li>
+<li>turbo efficiency;</li>
+<li>EGR authority.</li>
+</ul>
+<h1 id="calibration-execution">8. Calibration execution</h1>
+<h2 id="objective">Objective</h2>
+<p>Minimize system fuel use while maintaining charge, emissions,
+pressure and turbo margins.</p>
+<h2 id="map-coordinates">Map coordinates</h2>
+<pre class="text"><code>engine speed × BMEP</code></pre>
+<h2 id="fixed-variables-during-comparison">Fixed variables during
+comparison</h2>
+<p>Same fuel, brake torque and thermal state.</p>
+<h2 id="sweep-variables">Sweep variables</h2>
+<p>Where hardware permits: valve timing; otherwise boost/VGT, EGR and
+SOI around the fixed timing.</p>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>air mass
+manifold / exhaust pressure
+EGR or intake O2
+turbo speed
+compressor efficiency
+CA50
+Pmax / MPRR
+BSFC
+NOx / smoke</code></pre>
+<h2 id="validation">Validation</h2>
+<p>Low-speed full torque, cruise, rated power, altitude, hot charge air
+and tip-in.</p>
+<h1 id="senior-calibration-deep-dive-trapped-mass-and-residuals">9.
+Senior calibration deep dive — trapped mass and residuals</h1>
+<p>A useful gas-exchange analysis separates:</p>
+<ul>
+<li>fresh trapped air;</li>
+<li>retained residual gas;</li>
+<li>recirculated EGR.</li>
+</ul>
+<p>Cylinder charge is therefore more than manifold pressure.</p>
+<p>Where cylinder-pressure and air-flow measurements support it,
+estimate trapped mass and residual fraction through a gas-exchange
+model.</p>
+<h2 id="miller-versus-compression-temperature">Miller versus compression
+temperature</h2>
+<p>Earlier IVC can lower effective compression temperature.</p>
+<p>That can lengthen ignition delay unless other conditions
+compensate.</p>
+<p>Therefore changing valve timing can require a new:</p>
+<ul>
+<li>pilot strategy;</li>
+<li>main SOI;</li>
+<li>EGR target.</li>
+</ul>
+<h2 id="evo-optimization">EVO optimization</h2>
+<p>At high power, compare EVO candidates by splitting the
+consequence:</p>
+<pre class="text"><code>earlier EVO
+→ expansion work down
+→ exhaust enthalpy up
+→ turbine drive up
+
+later EVO
+→ expansion work up
+→ exhaust enthalpy down</code></pre>
+<p>The correct point minimizes total fuel for the required torque while
+preserving turbo and thermal margins.</p>
+<h2 id="hardware-freeze-implication">Hardware freeze implication</h2>
+<p>If cam timing is fixed before final calibration, record it as a
+configuration-controlled hardware input.</p>
+<p>A later cam-profile change should automatically trigger revalidation
+of air, EGR, turbo, combustion and aftertreatment maps.</p>
+<h1 id="gas-exchange-work-from-the-pressure-trace">10. Gas-exchange work
+from the pressure trace</h1>
+<p>The low-pressure part of the cylinder pressure-volume loop reveals
+pumping work.</p>
+<p>A valve-timing change should therefore be evaluated with both:</p>
+<ul>
+<li>high-pressure indicated work;</li>
+<li>low-pressure gas-exchange loop.</li>
+</ul>
+<p>A candidate that improves combustion efficiency but increases pumping
+loss can deliver little or no brake-efficiency gain.</p>
+<h1 id="intake-valve-closing-sensitivity">11. Intake-valve-closing
+sensitivity</h1>
+<p>When IVC is moved earlier:</p>
+<pre class="text"><code>trapped mass may fall
+effective compression temperature may fall
+boost demand may rise</code></pre>
+<p>When IVC is moved later, some charge can be pushed back toward the
+intake during early compression depending on the architecture.</p>
+<p>Both EIVC and LIVC can create Miller-type behavior, but they have
+different gas-dynamic consequences.</p>
+<h1 id="calibration-with-fixed-hardware-timing">12. Calibration with
+fixed hardware timing</h1>
+<p>If cam timing is fixed, use the article as a
+<strong>hardware-selection and calibration-validation</strong>
+workflow:</p>
+<ol type="1">
+<li>compare candidate cam profiles on development hardware;</li>
+<li>select the hardware timing;</li>
+<li>freeze configuration;</li>
+<li>optimize boost/EGR/injection around it;</li>
+<li>validate the complete speed-load map.</li>
+</ol>
+<p>This avoids giving the false impression that every production ECU can
+sweep valve timing in software.</p>
+<h1 id="common-mistakes">13. Common mistakes</h1>
+<ul>
+<li>Treating Miller timing as an isolated combustion feature.</li>
+<li>Recovering lost air with boost without counting pumping cost.</li>
+<li>Assuming every engine has variable valve timing.</li>
+<li>Comparing at different brake torque.</li>
+<li>Validating only the cruise point.</li>
+</ul>
+<h1 id="key-lessons">14. Key lessons</h1>
+<ol type="1">
+<li>Valve timing defines the gas-exchange boundary.</li>
+<li>Miller operation changes effective compression and trapped charge
+together.</li>
+<li>Turbo, EGR and injection must be re-optimized around valve
+timing.</li>
+<li>EVO trades expansion work against turbine energy.</li>
+<li>The optimum is a whole-engine result.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — combustion, gas exchange and engine performance fundamentals.
+</li>
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based control,
+air-path control and model-based diesel control.
+</li>
+<li>
+<a href="https://www.daf.com/en/news-and-media/news-articles/global/2024/new-generation-daf-trucks-powering-customer-success">DAF
+Trucks, 2024 public powertrain update</a> — example combining Miller
+valve timing, updated turbo/EGR, dual-drive coolant pump, clutched air
+compressor, new injectors and downspeeding.
+</li>
+</ol>
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../09-turbo-matching-two-stage-turbo-compound/">← Turbocharger Matching, VGT and Multi-Stage Charging</a><span class="article-count">10 / 33</span><a href="../11-diesel-combustion-fundamentals/">Diesel Combustion Fundamentals →</a></div></body>
+</html>

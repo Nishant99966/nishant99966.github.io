@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Actuator Characterization, Feedforward, Feedback and Observer Calibration</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 7 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#a-map-is-not-enough-if-the-actuator-is-not-understood" id="toc-a-map-is-not-enough-if-the-actuator-is-not-understood">1. A map
+is not enough if the actuator is not understood</a></li>
+<li><a href="#actuator-characterization" id="toc-actuator-characterization">2. Actuator characterization</a></li>
+<li><a href="#vgt-and-egr-physical-models" id="toc-vgt-and-egr-physical-models">3. VGT and EGR physical
+models</a></li>
+<li><a href="#rail-pressure-control" id="toc-rail-pressure-control">4.
+Rail-pressure control</a></li>
+<li><a href="#feedforward-first" id="toc-feedforward-first">5.
+Feedforward first</a></li>
+<li><a href="#feedback-and-anti-windup" id="toc-feedback-and-anti-windup">6. Feedback and anti-windup</a></li>
+<li><a href="#cross-coupling" id="toc-cross-coupling">7.
+Cross-coupling</a></li>
+<li><a href="#observers" id="toc-observers">8. Observers</a></li>
+<li><a href="#hd13-e-point-b" id="toc-hd13-e-point-b">9. HD13-E point
+B</a></li>
+<li><a href="#calibration-execution" id="toc-calibration-execution">10.
+Calibration execution</a>
+<ul>
+<li><a href="#preconditions" id="toc-preconditions">Preconditions</a></li>
+<li><a href="#characterization-sweep" id="toc-characterization-sweep">Characterization sweep</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#validation" id="toc-validation">Validation</a></li>
+</ul></li>
+<li><a href="#senior-calibration-deep-dive-controller-performance-metrics" id="toc-senior-calibration-deep-dive-controller-performance-metrics">11.
+Senior calibration deep dive — controller performance metrics</a>
+<ul>
+<li><a href="#gain-scheduling" id="toc-gain-scheduling">Gain
+scheduling</a></li>
+<li><a href="#decoupling-experiment" id="toc-decoupling-experiment">Decoupling experiment</a></li>
+<li><a href="#sensor-bias-challenge" id="toc-sensor-bias-challenge">Sensor-bias challenge</a></li>
+</ul></li>
+<li><a href="#control-loop-test-design" id="toc-control-loop-test-design">12. Control-loop test design</a>
+<ul>
+<li><a href="#small-step" id="toc-small-step">Small step</a></li>
+<li><a href="#large-step" id="toc-large-step">Large step</a></li>
+<li><a href="#ramp" id="toc-ramp">Ramp</a></li>
+<li><a href="#disturbance-step" id="toc-disturbance-step">Disturbance
+step</a></li>
+</ul></li>
+<li><a href="#feedforward-map-building" id="toc-feedforward-map-building">13. Feedforward-map building</a></li>
+<li><a href="#controller-interaction-with-torque-limiters" id="toc-controller-interaction-with-torque-limiters">14. Controller
+interaction with torque limiters</a></li>
+<li><a href="#failure-fallback" id="toc-failure-fallback">15. Failure
+fallback</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">16. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">17. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Actuator Characterization, Feedforward, Feedback and Observer
+Calibration
+</h1>
+<p>
+<em>How VGT, EGR, throttles and fuel-pressure actuators become robust
+closed-loop engine control</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> OEM-neutral heavy-duty diesel calibration for
+truck, bus and comparable vehicle applications. Worked numerical values
+are illustrative unless tied to a cited public regulation or product
+source.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="a-map-is-not-enough-if-the-actuator-is-not-understood">1. A map
+is not enough if the actuator is not understood</h1>
+<p>Before calibrating boost, EGR or rail pressure, characterize how the
+actuator and plant respond.</p>
+<figure class="figure-card">
+<svg aria-label="Actuator characterization and closed loop calibration" role="img" viewbox="0 0 820 540">
+<rect fill="white" height="540" width="820"></rect><g fill="#17324a" font-family="Arial" font-size="14" text-anchor="middle"><rect fill="#eef4f8" height="58" rx="9" stroke="#5d87ad" width="270" x="275" y="25"></rect><text x="410" y="58">Physical
+target</text><rect fill="#eef4f8" height="58" rx="9" stroke="#5d87ad" width="270" x="275" y="115"></rect><text x="410" y="148">Feedforward
+command</text><rect fill="#eef4f8" height="58" rx="9" stroke="#5d87ad" width="270" x="275" y="205"></rect><text x="410" y="238">Actuator
++
+plant</text><rect fill="#eef4f8" height="58" rx="9" stroke="#5d87ad" width="270" x="275" y="295"></rect><text x="410" y="328">Measured
+/ estimated
+state</text><rect fill="#f8fafc" height="58" rx="9" stroke="#9bb5c9" width="170" x="35" y="205"></rect><text x="120" y="238">Limits
+/
+plausibility</text><rect fill="#f8fafc" height="58" rx="9" stroke="#9bb5c9" width="170" x="615" y="205"></rect><text x="700" y="238">Observer
+/
+adaptation</text><rect fill="#eef4f8" height="58" rx="9" stroke="#5d87ad" width="270" x="275" y="415"></rect><text x="410" y="448">Feedback
+correction</text></g><g stroke="#17324a" stroke-width="3"><line x1="410" x2="410" y1="83" y2="115"></line><line x1="410" x2="410" y1="173" y2="205"></line><line x1="410" x2="410" y1="263" y2="295"></line><line x1="410" x2="410" y1="353" y2="415"></line></g>
+</svg>
+<figcaption>
+Characterize the actuator first, build feedforward from physical state,
+then add feedback and observer correction with explicit saturation and
+plausibility handling.
+</figcaption>
+</figure>
+<h1 id="actuator-characterization">2. Actuator characterization</h1>
+<p>For each actuator measure:</p>
+<ul>
+<li>usable command range;</li>
+<li>physical end stops;</li>
+<li>hysteresis;</li>
+<li>dead band;</li>
+<li>rate limit;</li>
+<li>temperature sensitivity;</li>
+<li>response time;</li>
+<li>failure position.</li>
+</ul>
+<p>Relevant actuators include VGT, EGR valve, intake/exhaust throttle,
+rail-pressure metering/pump control and thermal-management valves.</p>
+<h1 id="vgt-and-egr-physical-models">3. VGT and EGR physical models</h1>
+<p>A useful VGT abstraction is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi><mo>,</mo><mi>V</mi><mi>G</mi><mi>T</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>m</mi><mi>a</mi><mi>n</mi><mi>d</mi><mo>,</mo><mi>p</mi><mo>,</mo><mi>T</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+A_{eff,VGT}=f(command,p,T)
+</annotation></semantics></math></p>
+<p>For EGR:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>E</mi><mi>G</mi><mi>R</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>A</mi><mrow><mi>E</mi><mi>G</mi><mi>R</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi></mrow></msub><mo>,</mo><mi>T</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\dot m_{EGR}=f(A_{EGR},p_{exh},p_{int},T)
+</annotation></semantics></math></p>
+<p>This is why actuator position is not the same as physical flow.</p>
+<h1 id="rail-pressure-control">4. Rail-pressure control</h1>
+<p>A simplified structure is:</p>
+<pre class="text"><code>rail target
+    ↓
+pump/feedforward
+    +
+pressure feedback
+    ↓
+rail volume
+    ↓
+injector outflow disturbance</code></pre>
+<p>A sudden fueling increase can create rail-pressure droop even with a
+correct target.</p>
+<h1 id="feedforward-first">5. Feedforward first</h1>
+<p>Feedforward should predict most of the repeatable actuator
+command.</p>
+<p>Feedback should mainly correct modelling error, aging and
+disturbance.</p>
+<h1 id="feedback-and-anti-windup">6. Feedback and anti-windup</h1>
+<p>For a PI concept:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>f</mi><mi>b</mi></mrow></msub><mo>=</mo><msub><mi>K</mi><mi>p</mi></msub><mi>e</mi><mo>+</mo><msub><mi>K</mi><mi>i</mi></msub><mo>∫</mo><mi>e</mi><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+u_{fb}=K_p e+K_i\int e\,dt
+</annotation></semantics></math></p>
+<p>Controller calibration must include saturation and anti-windup.</p>
+<h1 id="cross-coupling">7. Cross-coupling</h1>
+<p>VGT changes boost, exhaust pressure and EGR-driving pressure.</p>
+<p>EGR changes fresh-air flow and compressor operation.</p>
+<p>Independent loops can therefore fight one another.</p>
+<h1 id="observers">8. Observers</h1>
+<p>Virtual sensors can estimate EGR rate, cylinder air charge, exhaust
+thermal state or catalyst storage.</p>
+<p>Observers need steady, transient, bias and aging validation.</p>
+<h1 id="hd13-e-point-b">9. HD13-E point B</h1>
+<p>At 1000 rpm high torque, the air system needs high fresh-air mass
+while turbine energy is limited.</p>
+<p>VGT closure can improve boost but increases exhaust pressure and
+pumping work.</p>
+<p>The calibration goal is the minimum pumping penalty that still
+achieves fresh-air and EGR targets with turbo-speed margin.</p>
+<h1 id="calibration-execution">10. Calibration execution</h1>
+<h2 id="preconditions">Preconditions</h2>
+<p>Actuator hardware healthy, sensors calibrated, end stops known and
+protection active.</p>
+<h2 id="characterization-sweep">Characterization sweep</h2>
+<p>Run command up/down sweeps at several pressure and temperature
+states.</p>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>actuator flow/position model;</li>
+<li>feedforward maps;</li>
+<li>feedback gains;</li>
+<li>rate limits;</li>
+<li>anti-windup;</li>
+<li>observer correction;</li>
+<li>plausibility thresholds.</li>
+</ul>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>target
+measured/estimated state
+feedforward
+feedback correction
+final command
+actual actuator position
+saturation flag
+pressures / flows</code></pre>
+<h2 id="validation">Validation</h2>
+<p>Step response, ramps, tip-in/tip-out, hot/cold, altitude, aged
+actuator, sensor bias and failure fallback.</p>
+<h1 id="senior-calibration-deep-dive-controller-performance-metrics">11.
+Senior calibration deep dive — controller performance metrics</h1>
+<p>A controller should be judged with quantitative metrics, not only a
+visually smooth trace.</p>
+<p>Useful measures include:</p>
+<ul>
+<li>rise time;</li>
+<li>settling time;</li>
+<li>overshoot;</li>
+<li>steady-state error;</li>
+<li>integrated absolute error;</li>
+<li>actuator saturation time.</li>
+</ul>
+<p>For error:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>=</mo><msub><mi>y</mi><mrow><mi>t</mi><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mi>t</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>−</mo><mi>y</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+e(t)=y_{target}(t)-y(t)
+</annotation></semantics></math></p>
+<p>one metric is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>A</mi><mi>E</mi><mo>=</mo><mo>∫</mo><mrow><mo form="prefix" stretchy="true">|</mo><mi>e</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo form="postfix" stretchy="true">|</mo></mrow><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+IAE=\int |e(t)|dt
+</annotation></semantics></math></p>
+<h2 id="gain-scheduling">Gain scheduling</h2>
+<p>The plant changes across the engine map.</p>
+<p>For example, the same VGT movement can have very different effect
+at:</p>
+<ul>
+<li>900 rpm low exhaust flow;</li>
+<li>1600 rpm high exhaust flow.</li>
+</ul>
+<p>Therefore controller gains or feedforward maps may require scheduling
+versus:</p>
+<pre class="text"><code>engine speed
+load / exhaust flow
+pressure ratio
+temperature</code></pre>
+<h2 id="decoupling-experiment">Decoupling experiment</h2>
+<p>To quantify VGT–EGR coupling:</p>
+<ol type="1">
+<li>hold EGR-valve command fixed;</li>
+<li>step VGT;</li>
+<li>record boost, exhaust pressure and EGR flow;</li>
+<li>repeat with VGT fixed and step EGR valve.</li>
+</ol>
+<p>The resulting cross-responses show whether separate SISO loops are
+adequate or need supervisory decoupling.</p>
+<h2 id="sensor-bias-challenge">Sensor-bias challenge</h2>
+<p>Add controlled or simulated bias to:</p>
+<ul>
+<li>manifold pressure;</li>
+<li>air mass;</li>
+<li>NOx/O2 estimate;</li>
+<li>rail pressure.</li>
+</ul>
+<p>Verify that adaptation improves small errors but does not drive the
+controller toward an unsafe actuator state.</p>
+<h1 id="control-loop-test-design">12. Control-loop test design</h1>
+<p>Use several input shapes because each reveals different
+weaknesses.</p>
+<h3 id="small-step">Small step</h3>
+<p>Shows local gain, delay and settling.</p>
+<h3 id="large-step">Large step</h3>
+<p>Shows saturation, rate limits and nonlinear behavior.</p>
+<h3 id="ramp">Ramp</h3>
+<p>Shows tracking and hysteresis.</p>
+<h3 id="disturbance-step">Disturbance step</h3>
+<p>For rail pressure, change injected quantity while holding pressure
+target constant.</p>
+<h1 id="feedforward-map-building">13. Feedforward-map building</h1>
+<p>For each stabilized operating point, determine the actuator command
+needed to hold the target with minimal feedback correction.</p>
+<p>Store that command as the base feedforward.</p>
+<p>Then check interpolation at intermediate points.</p>
+<p>A good feedforward map should produce a small initial control error
+after a normal operating-point transition.</p>
+<h1 id="controller-interaction-with-torque-limiters">14. Controller
+interaction with torque limiters</h1>
+<p>If rail pressure cannot follow target, the fuel/torque coordinator
+may need to reduce permitted quantity.</p>
+<p>If air control saturates, smoke-limited torque may need to fall.</p>
+<p>This is safer than increasing controller gains until the actuator
+oscillates.</p>
+<h1 id="failure-fallback">15. Failure fallback</h1>
+<p>For every actuator define a safe fallback:</p>
+<pre class="text"><code>sensor failure
+actuator stuck
+command/position mismatch
+observer invalid</code></pre>
+<p>The fallback may be substitution, derate or shutdown depending on
+risk.</p>
+<h1 id="common-mistakes">16. Common mistakes</h1>
+<ul>
+<li>Tuning gains before characterizing the actuator.</li>
+<li>Using valve position as a direct flow measurement.</li>
+<li>Allowing integrator wind-up.</li>
+<li>Calibrating VGT and EGR as independent systems.</li>
+<li>Trusting an observer without bias validation.</li>
+</ul>
+<h1 id="key-lessons">17. Key lessons</h1>
+<ol type="1">
+<li>Characterize actuators before closed-loop calibration.</li>
+<li>Feedforward carries predictable demand.</li>
+<li>Feedback corrects disturbance and modelling error.</li>
+<li>Saturation and cross-coupling must be designed explicitly.</li>
+<li>Observers are calibration functions that require validation.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based control,
+air-path control and model-based diesel control.
+</li>
+<li>
+<a href="https://www.bosch-mobility.com/en/solutions/powertrain/diesel/modular-common-rail-system-ohw/">Bosch
+Mobility modular common-rail system</a> — current high-pressure diesel
+injection architecture reference.
+</li>
+</ol>
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../06-fuel-quality-hvo-biodiesel/">← Diesel Fuel Quality, Cetane, Density, LHV, HVO and Biodiesel</a><span class="article-count">7 / 33</span><a href="../08-air-charge-vgt-egr/">Air Charge, VGT, Intake Throttle, EGR and Fresh-Oxygen Control →</a></div></body>
+</html>
