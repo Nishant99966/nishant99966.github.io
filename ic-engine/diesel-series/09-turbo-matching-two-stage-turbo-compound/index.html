@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Turbocharger Matching, VGT and Multi-Stage Charging</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 9 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#turbo-matching-is-a-speed-load-problem" id="toc-turbo-matching-is-a-speed-load-problem">1. Turbo matching is a
+speed-load problem</a></li>
+<li><a href="#compressor-pressure-ratio" id="toc-compressor-pressure-ratio">2. Compressor pressure ratio</a></li>
+<li><a href="#compressor-efficiency" id="toc-compressor-efficiency">3.
+Compressor efficiency</a></li>
+<li><a href="#turbine-power" id="toc-turbine-power">4. Turbine
+power</a></li>
+<li><a href="#surge-and-choke" id="toc-surge-and-choke">5. Surge and
+choke</a></li>
+<li><a href="#two-stage-charging" id="toc-two-stage-charging">6.
+Two-stage charging</a></li>
+<li><a href="#advanced-architecture-deep-dive-turbo-compounding" id="toc-advanced-architecture-deep-dive-turbo-compounding">7. Advanced
+architecture deep dive — turbo compounding</a></li>
+<li><a href="#matching-procedure" id="toc-matching-procedure">8.
+Matching procedure</a></li>
+<li><a href="#low-speed-high-torque-challenge" id="toc-low-speed-high-torque-challenge">9. Low-speed high-torque
+challenge</a></li>
+<li><a href="#corrected-turbo-speed" id="toc-corrected-turbo-speed">10.
+Corrected turbo speed</a></li>
+<li><a href="#turbo-shaft-dynamics" id="toc-turbo-shaft-dynamics">11.
+Turbo shaft dynamics</a></li>
+<li><a href="#worked-pressure-ratio-example" id="toc-worked-pressure-ratio-example">12. Worked pressure-ratio
+example</a></li>
+<li><a href="#turbo-compound-system-efficiency" id="toc-turbo-compound-system-efficiency">13. Turbo-compound system
+efficiency</a></li>
+<li><a href="#hd13-e-turbo-calibration-matrix" id="toc-hd13-e-turbo-calibration-matrix">14. HD13-E turbo calibration
+matrix</a></li>
+<li><a href="#calibration-execution-standard" id="toc-calibration-execution-standard">15. Calibration execution
+standard</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#selection-rule" id="toc-selection-rule">Selection
+rule</a></li>
+<li><a href="#robustness" id="toc-robustness">Robustness</a></li>
+</ul></li>
+<li><a href="#senior-calibration-deep-dive-surge-margin-and-transient-reserve" id="toc-senior-calibration-deep-dive-surge-margin-and-transient-reserve">16.
+Senior calibration deep dive — surge margin and transient reserve</a>
+<ul>
+<li><a href="#turbo-thermal-inertia" id="toc-turbo-thermal-inertia">Turbo thermal inertia</a></li>
+<li><a href="#vgt-efficiency-trade" id="toc-vgt-efficiency-trade">VGT
+efficiency trade</a></li>
+<li><a href="#advanced-architecture-note" id="toc-advanced-architecture-note">Advanced architecture note</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">17. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">18. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Turbocharger Matching, VGT and Multi-Stage Charging
+</h1>
+<p>
+<em>Compressor and turbine maps, VGT, surge/choke, multi-stage charging
+and transient turbo dynamics across the heavy-duty engine map</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="turbo-matching-is-a-speed-load-problem">1. Turbo matching is a
+speed-load problem</h1>
+<p>A heavy-duty road engine crosses the turbo maps in two dimensions
+because both speed and load vary continuously.</p>
+<figure class="figure-card">
+<svg aria-label="Compressor map with engine operating lines" role="img" viewbox="0 0 820 460">
+<rect fill="white" height="460" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="390" y2="390"></line><line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="390" y2="55"></line>
+<text font-size="17" x="590" y="430">Corrected mass flow
+→</text><text font-size="17" transform="rotate(-90 25,95)" x="25" y="95">Pressure
+ratio ↑</text>
+<path d="M150 350 C130 280,135 210,175 120" fill="none" stroke="#17324a" stroke-width="3"></path><text font-size="14" x="112" y="110">surge</text>
+<path d="M185 330 C280 250,420 220,650 250" fill="none" stroke="#9bb5c9" stroke-width="2"></path><path d="M205 350 C315 270,480 250,705 300" fill="none" stroke="#9bb5c9" stroke-width="2"></path>
+<ellipse cx="430" cy="255" fill="none" rx="165" ry="88" stroke="#c7d7e4" stroke-width="2"></ellipse><ellipse cx="430" cy="255" fill="none" rx="110" ry="55" stroke="#c7d7e4" stroke-width="2"></ellipse>
+<path d="M205 330 C300 305,430 270,610 245" fill="none" stroke="#17324a" stroke-width="3"></path><text font-size="13" x="500" y="225">one
+engine-speed line</text>
+<path d="M180 350 C285 330,415 315,650 315" fill="none" stroke="#5d87ad" stroke-width="3"></path><text font-size="13" x="485" y="340">lower-speed
+line</text>
+</svg>
+<figcaption>
+Heavy-duty engines cross the compressor map with both speed and load.
+VGT, EGR, gear shifts, altitude and transients all move the operating
+point.
+</figcaption>
+</figure>
+<p>At each engine speed, increasing load usually moves toward higher air
+flow, pressure ratio and turbine power.</p>
+<h1 id="compressor-pressure-ratio">2. Compressor pressure ratio</h1>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>c</mi></msub><mo>=</mo><mfrac><msub><mi>p</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>a</mi><mi>b</mi><mi>s</mi></mrow></msub><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mo>,</mo><mi>a</mi><mi>b</mi><mi>s</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+\Pi_c=
+\frac{p_{out,abs}}{p_{in,abs}}
+</annotation></semantics></math></p>
+<p>A common corrected-flow form is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mi>o</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><mover><mi>m</mi><mo accent="true">̇</mo></mover><mfrac><msqrt><mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></msqrt><mrow><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>p</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\dot m_{corr}
+=
+\dot m
+\frac{\sqrt{T_{in}/T_{ref}}}
+{p_{in}/p_{ref}}
+</annotation></semantics></math></p>
+<p>Use the supplier’s exact convention.</p>
+<h1 id="compressor-efficiency">3. Compressor efficiency</h1>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>c</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><mrow><msub><mi>T</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_c=
+\frac{T_{out,s}-T_{in}}
+{T_{out}-T_{in}}
+</annotation></semantics></math></p>
+<p>Poor efficiency raises compressor-out temperature and cooling
+demand.</p>
+<h1 id="turbine-power">4. Turbine power</h1>
+<p>A simplified enthalpy interpretation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>≈</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><msub><mi>c</mi><mi>p</mi></msub><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+P_t
+\approx
+\dot m_{exh}c_p
+(T_{t,in}-T_{t,out})
+</annotation></semantics></math></p>
+<p>At quasi-steady turbo speed:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>≈</mo><msub><mi>P</mi><mi>c</mi></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>e</mi><mi>c</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+P_t\approx P_c+P_{mech}
+</annotation></semantics></math></p>
+<h1 id="surge-and-choke">5. Surge and choke</h1>
+<p>High pressure ratio at low compressor flow can approach surge.</p>
+<p>High flow can approach choke or an inefficient high-flow region.</p>
+<p>Relevant events include aggressive low-speed VGT closure, rapid
+throttle or EGR changes and load rejection.</p>
+<h1 id="two-stage-charging">6. Two-stage charging</h1>
+<p>For two stages:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>Π</mi><mn>1</mn></msub><msub><mi>Π</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">
+\Pi_{total}
+=
+\Pi_1\Pi_2
+</annotation></semantics></math></p>
+<p>The best pressure-ratio split depends on compressor efficiency,
+intercooling, turbo speed, turbine backpressure and transient
+response.</p>
+<p>Equal pressure ratio is not automatically optimal.</p>
+<h1 id="advanced-architecture-deep-dive-turbo-compounding">7. Advanced
+architecture deep dive — turbo compounding</h1>
+<p>A turbo-compound system uses an additional exhaust-energy recovery
+device to convert exhaust energy into crankshaft or driveline work.</p>
+<p>Current heavy-duty production examples exist.</p>
+<p>Potential benefit:</p>
+<pre class="text"><code>exhaust energy recovered
+      ↓
+crankshaft work increases
+      ↓
+BSFC can improve</code></pre>
+<p>Added exhaust restriction and system complexity must still be
+included.</p>
+<h1 id="matching-procedure">8. Matching procedure</h1>
+<p>Across the engine map:</p>
+<ol type="1">
+<li>calculate compressor corrected flow and speed;</li>
+<li>mark surge and choke margin;</li>
+<li>calculate turbine pressure ratio;</li>
+<li>log exhaust-manifold pressure;</li>
+<li>log turbo speed;</li>
+<li>calculate CAC outlet temperature;</li>
+<li>correlate with BSFC, EGR and smoke.</li>
+</ol>
+<h1 id="low-speed-high-torque-challenge">9. Low-speed high-torque
+challenge</h1>
+<p>At low engine speed, exhaust flow is lower while demanded torque can
+be high.</p>
+<p>This is often where VGT authority and smoke limiting are most
+important.</p>
+<h1 id="corrected-turbo-speed">10. Corrected turbo speed</h1>
+<p>A common conceptual corrected-speed form is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mrow><mi>c</mi><mi>o</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><mi>N</mi><msqrt><mfrac><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mfrac></msqrt></mrow><annotation encoding="application/x-tex">
+N_{corr}
+=
+N
+\sqrt{\frac{T_{ref}}{T_{in}}}
+</annotation></semantics></math></p>
+<p>Use the supplier’s actual convention.</p>
+<p>Corrected speed is important when comparing compressor operation at
+hot versus cold inlet conditions.</p>
+<h1 id="turbo-shaft-dynamics">11. Turbo shaft dynamics</h1>
+<p>During a transient:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>−</mo><msub><mi>P</mi><mi>c</mi></msub><mo>−</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>e</mi><mi>c</mi><mi>h</mi></mrow></msub><mo>=</mo><msub><mi>J</mi><mi>t</mi></msub><msub><mi>ω</mi><mi>t</mi></msub><mfrac><mrow><mi>d</mi><msub><mi>ω</mi><mi>t</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+P_t-P_c-P_{mech}
+=
+J_t\omega_t\frac{d\omega_t}{dt}
+</annotation></semantics></math></p>
+<p>This explains turbo lag physically: turbine power must first
+accelerate rotating inertia before the compressor reaches the new steady
+state.</p>
+<h1 id="worked-pressure-ratio-example">12. Worked pressure-ratio
+example</h1>
+<p>If compressor inlet pressure is 0.95 bar absolute and outlet pressure
+is 2.5 bar absolute:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>c</mi></msub><mo>=</mo><mfrac><mn>2.5</mn><mn>0.95</mn></mfrac><mo>≈</mo><mn>2.63</mn></mrow><annotation encoding="application/x-tex">
+\Pi_c
+=
+\frac{2.5}{0.95}
+\approx2.63
+</annotation></semantics></math></p>
+<p>At altitude, lower inlet pressure can increase required pressure
+ratio even if the manifold target is unchanged.</p>
+<h1 id="turbo-compound-system-efficiency">13. Turbo-compound system
+efficiency</h1>
+<p>A turbo-compound device can recover exhaust work, but evaluate:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msub><mi>P</mi><mrow><mi>c</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>k</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>c</mi><mi>o</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub><mo>−</mo><mi>Δ</mi><msub><mi>P</mi><mrow><mi>p</mi><mi>u</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\Delta P_{crank,recovered}
+-
+\Delta P_{pumping}
+</annotation></semantics></math></p>
+<p>not recovered power alone.</p>
+<p>The net result depends on exhaust restriction and engine operating
+point.</p>
+<h1 id="hd13-e-turbo-calibration-matrix">14. HD13-E turbo calibration
+matrix</h1>
+<p>Use the recurring engine points to force different turbo physics:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Point</th>
+<th>Main challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>B — 1000 rpm high torque</td>
+<td>response / surge / smoke</td>
+</tr>
+<tr class="even">
+<td>C — 1200 rpm cruise</td>
+<td>compressor/turbine efficiency</td>
+</tr>
+<tr class="odd">
+<td>D — 1600 rpm high power</td>
+<td>choke / turbo speed / turbine temperature</td>
+</tr>
+<tr class="even">
+<td>E — engine brake</td>
+<td>surge / overspeed during flow collapse</td>
+</tr>
+</tbody>
+</table>
+<h1 id="calibration-execution-standard">15. Calibration execution
+standard</h1>
+<h2 id="objective">Objective</h2>
+<p>Place the compressor and turbine in efficient, stable regions while
+meeting air, EGR and transient-response targets.</p>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>VGT feedforward;</li>
+<li>boost/fresh-air target;</li>
+<li>turbo-speed limit;</li>
+<li>multi-stage bypass or stage-split target where fitted.</li>
+</ul>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>compressor inlet/outlet absolute pressure
+compressor inlet/outlet temperature
+fresh-air mass
+turbo speed
+exhaust manifold pressure
+turbine outlet pressure
+VGT / bypass position
+BSFC
+smoke / NOx</code></pre>
+<h2 id="selection-rule">Selection rule</h2>
+<p>Reject any candidate that approaches surge, choke, speed or
+temperature boundaries even if BSFC is attractive.</p>
+<h2 id="robustness">Robustness</h2>
+<p>Repeat with altitude, hot compressor inlet, exhaust restriction and
+tip-in/load-rejection transients.</p>
+<h1 id="senior-calibration-deep-dive-surge-margin-and-transient-reserve">16.
+Senior calibration deep dive — surge margin and transient reserve</h1>
+<p>A steady compressor point should not sit exactly on the acceptable
+surge boundary.</p>
+<p>Define a project-specific margin using the compressor-map convention
+available from the supplier.</p>
+<p>Then check that margin during:</p>
+<ul>
+<li>tip-out;</li>
+<li>gear shift;</li>
+<li>engine-brake entry;</li>
+<li>rapid EGR/VGT movement.</li>
+</ul>
+<h2 id="turbo-thermal-inertia">Turbo thermal inertia</h2>
+<p>Turbo metal temperature changes more slowly than exhaust-gas
+temperature.</p>
+<p>A short exhaust-temperature spike may be acceptable while a sustained
+lower temperature produces greater metal soak.</p>
+<p>This is why turbo protection should distinguish:</p>
+<pre class="text"><code>instantaneous gas limit
+from
+modelled component thermal state</code></pre>
+<h2 id="vgt-efficiency-trade">VGT efficiency trade</h2>
+<p>At HD13-E point C, a small VGT closure may improve compressor
+operation but increase exhaust pressure.</p>
+<p>Calculate the net result through:</p>
+<ul>
+<li>compressor efficiency;</li>
+<li>PMEP;</li>
+<li>BSFC;</li>
+<li>EGR authority.</li>
+</ul>
+<p>Do not select a VGT position from boost error alone.</p>
+<h2 id="advanced-architecture-note">Advanced architecture note</h2>
+<p>Turbo compounding remains an advanced architecture, not the default
+assumption for the series.</p>
+<p>Where present, evaluate recovered shaft power against the extra
+exhaust backpressure and added driveline/control complexity.</p>
+<h1 id="common-mistakes">17. Common mistakes</h1>
+<ul>
+<li>Matching only at rated power.</li>
+<li>Using gauge pressure in pressure-ratio calculations.</li>
+<li>Ignoring turbine backpressure.</li>
+<li>Assuming equal stage pressure ratios are optimal.</li>
+<li>Adding exhaust-energy recovery without checking pumping
+penalties.</li>
+</ul>
+<h1 id="key-lessons">18. Key lessons</h1>
+<ol type="1">
+<li>Heavy-duty turbo matching must cover the complete speed-load
+envelope.</li>
+<li>Compressor and turbine maps are equally important.</li>
+<li>VGT and multi-stage systems trade response against pumping and turbo
+limits.</li>
+<li>Turbo compounding is an advanced efficiency technology with real
+production examples.</li>
+<li>Low-speed high-torque operation is a critical turbo and smoke
+validation region.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+<a href="https://www.volvotrucks.us/trucks/powertrain/d13tc/">Volvo
+D13TC official page</a> — current heavy-duty example of turbo-compound
+exhaust-energy recovery and low-rpm powertrain integration.
+</li>
+<li>
+<a href="https://www.macktrucks.com/powertrain/engines/mp8-he">Mack
+MP8HE official page</a> — current heavy-duty example of exhaust-energy
+recovery/turbo-compound technology.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../08-air-charge-vgt-egr/">← Air Charge, VGT, Intake Throttle, EGR and Fresh-Oxygen Control</a><span class="article-count">9 / 33</span><a href="../10-valve-timing-miller-gas-exchange/">Valve Timing, Miller Cycle and Gas-Exchange Calibration →</a></div></body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>DPF Soot Loading, Ash and Regeneration Calibration</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 23 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#dpf-state-cannot-be-inferred-from-one-pressure-value" id="toc-dpf-state-cannot-be-inferred-from-one-pressure-value">1. DPF
+state cannot be inferred from one pressure value</a></li>
+<li><a href="#soot-versus-ash" id="toc-soot-versus-ash">2. Soot versus
+ash</a></li>
+<li><a href="#soot-model" id="toc-soot-model">3. Soot model</a></li>
+<li><a href="#passive-regeneration" id="toc-passive-regeneration">4.
+Passive regeneration</a></li>
+<li><a href="#active-regeneration" id="toc-active-regeneration">5.
+Active regeneration</a></li>
+<li><a href="#regeneration-state-machine" id="toc-regeneration-state-machine">6. Regeneration state
+machine</a></li>
+<li><a href="#thermal-rate-control" id="toc-thermal-rate-control">7.
+Thermal-rate control</a></li>
+<li><a href="#oil-dilution" id="toc-oil-dilution">8. Oil
+dilution</a></li>
+<li><a href="#ash-service-state" id="toc-ash-service-state">9. Ash
+service state</a></li>
+<li><a href="#calibration-procedure" id="toc-calibration-procedure">10.
+Calibration procedure</a></li>
+<li><a href="#model-reconciliation-with-differential-pressure" id="toc-model-reconciliation-with-differential-pressure">11. Model
+reconciliation with differential pressure</a></li>
+<li><a href="#regeneration-completion" id="toc-regeneration-completion">12. Regeneration completion</a></li>
+<li><a href="#regeneration-frequency-as-a-health-metric" id="toc-regeneration-frequency-as-a-health-metric">13. Regeneration
+frequency as a health metric</a></li>
+<li><a href="#thermal-runaway-prevention" id="toc-thermal-runaway-prevention">14. Thermal runaway
+prevention</a></li>
+<li><a href="#ash-is-a-maintenance-state-not-a-regeneration-state" id="toc-ash-is-a-maintenance-state-not-a-regeneration-state">15. Ash is
+a maintenance state, not a regeneration state</a></li>
+<li><a href="#calibration-objects-and-signals" id="toc-calibration-objects-and-signals">16. Calibration objects and
+signals</a></li>
+<li><a href="#production-and-aging-robustness" id="toc-production-and-aging-robustness">17. Production and aging
+robustness</a></li>
+<li><a href="#soot-production-map-quality" id="toc-soot-production-map-quality">18. Soot-production map
+quality</a></li>
+<li><a href="#regeneration-fuel-accounting" id="toc-regeneration-fuel-accounting">19. Regeneration fuel
+accounting</a></li>
+<li><a href="#filter-damage-diagnostics" id="toc-filter-damage-diagnostics">20. Filter damage
+diagnostics</a></li>
+<li><a href="#post-service-validation" id="toc-post-service-validation">21. Post-service validation</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">22. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">23. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+DPF Soot Loading, Ash and Regeneration Calibration
+</h1>
+<p>
+<em>Pressure-drop models, soot mass balance, passive/active
+regeneration, oil dilution and lifetime filter state</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="dpf-state-cannot-be-inferred-from-one-pressure-value">1. DPF
+state cannot be inferred from one pressure value</h1>
+<p>A conceptual DPF pressure-drop model is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msub><mi>p</mi><mrow><mi>D</mi><mi>P</mi><mi>F</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><mo>,</mo><mi>s</mi><mi>o</mi><mi>o</mi><mi>t</mi><mo>,</mo><mi>a</mi><mi>s</mi><mi>h</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\Delta p_{DPF}
+=
+f(\dot m_{exh},T_{exh},soot,ash)
+</annotation></semantics></math></p>
+<p>The same soot mass can produce different pressure drop at different
+exhaust flows and temperatures.</p>
+<h1 id="soot-versus-ash">2. Soot versus ash</h1>
+<p>Soot is combustible carbonaceous material.</p>
+<p>Ash is non-combustible residue, often influenced by lubricant
+additives and wear-related material.</p>
+<p>Normal regeneration removes soot but not ash.</p>
+<h1 id="soot-model">3. Soot model</h1>
+<p>A useful soot state balance is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>m</mi><mrow><mi>s</mi><mi>o</mi><mi>o</mi><mi>t</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>s</mi><mi>o</mi><mi>o</mi><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>s</mi><mi>o</mi><mi>o</mi><mi>t</mi><mo>,</mo><mi>o</mi><mi>x</mi><mi>i</mi><mi>d</mi><mi>i</mi><mi>z</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\frac{dm_{soot}}{dt}
+=
+\dot m_{soot,in}
+-
+\dot m_{soot,oxidized}
+</annotation></semantics></math></p>
+<p>Engine-out soot formation drives the first term.</p>
+<p>Passive and active oxidation drive the second.</p>
+<h1 id="passive-regeneration">4. Passive regeneration</h1>
+<p>Passive soot oxidation can occur when exhaust temperature and
+chemistry are favorable.</p>
+<p>Simplified reactions include:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>+</mo><msub><mi>O</mi><mn>2</mn></msub><mo>→</mo><mi>C</mi><msub><mi>O</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">
+C+O_2\rightarrow CO_2
+</annotation></semantics></math></p>
+<p>and NO2-assisted oxidation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>+</mo><mn>2</mn><mi>N</mi><msub><mi>O</mi><mn>2</mn></msub><mo>→</mo><mi>C</mi><msub><mi>O</mi><mn>2</mn></msub><mo>+</mo><mn>2</mn><mi>N</mi><mi>O</mi></mrow><annotation encoding="application/x-tex">
+C+2NO_2\rightarrow CO_2+2NO
+</annotation></semantics></math></p>
+<h1 id="active-regeneration">5. Active regeneration</h1>
+<p>When passive oxidation is insufficient, the system may intentionally
+raise DPF temperature.</p>
+<p>Possible actuators include:</p>
+<ul>
+<li>post injection;</li>
+<li>exhaust fuel dosing;</li>
+<li>VGT or exhaust throttling;</li>
+<li>intake throttling;</li>
+<li>electrically assisted heating on selected architectures.</li>
+</ul>
+<h1 id="regeneration-state-machine">6. Regeneration state machine</h1>
+<p>A robust strategy can use states such as:</p>
+<pre class="text"><code>normal filtration
+   ↓
+regeneration requested
+   ↓
+temperature build
+   ↓
+controlled soot oxidation
+   ↓
+completion verification</code></pre>
+<h1 id="thermal-rate-control">7. Thermal-rate control</h1>
+<p>The risk is not only maximum temperature.</p>
+<p>Large soot mass plus strong oxygen availability can create a rapid
+exotherm.</p>
+<p>The controller may need to manage:</p>
+<ul>
+<li>inlet temperature;</li>
+<li>oxygen;</li>
+<li>soot mass;</li>
+<li>regeneration ramp rate.</li>
+</ul>
+<h1 id="oil-dilution">8. Oil dilution</h1>
+<p>Late or post injection can increase the risk of fuel reaching the
+cylinder wall and entering the oil on some architectures.</p>
+<p>Monitor:</p>
+<ul>
+<li>oil level;</li>
+<li>viscosity;</li>
+<li>fuel dilution;</li>
+<li>regeneration frequency.</li>
+</ul>
+<h1 id="ash-service-state">9. Ash service state</h1>
+<p>A filter with low modeled soot but persistently high corrected
+pressure drop may need ash cleaning or replacement.</p>
+<p>Do not keep increasing regeneration frequency.</p>
+<h1 id="calibration-procedure">10. Calibration procedure</h1>
+<ol type="1">
+<li>characterize clean-filter pressure drop;</li>
+<li>build soot loading under controlled operation;</li>
+<li>fit flow-temperature pressure-drop model;</li>
+<li>validate passive oxidation;</li>
+<li>calibrate active-regeneration entry and exit;</li>
+<li>validate high-soot exotherm;</li>
+<li>validate aged and ash-loaded states.</li>
+</ol>
+<h1 id="model-reconciliation-with-differential-pressure">11. Model
+reconciliation with differential pressure</h1>
+<p>A robust soot estimator can combine:</p>
+<pre class="text"><code>modelled soot production/oxidation
++
+DPF differential-pressure evidence</code></pre>
+<p>If model and pressure disagree, do not blindly force one state to the
+other.</p>
+<p>Possible causes include:</p>
+<ul>
+<li>pressure-sensor bias;</li>
+<li>ash;</li>
+<li>cracked filter;</li>
+<li>flow-model error.</li>
+</ul>
+<h1 id="regeneration-completion">12. Regeneration completion</h1>
+<p>Completion can be confirmed using several indicators:</p>
+<ul>
+<li>modeled soot mass;</li>
+<li>corrected differential pressure;</li>
+<li>temperature history;</li>
+<li>oxidation integral.</li>
+</ul>
+<p>A timer alone cannot distinguish a successful regeneration from a
+failed one.</p>
+<h1 id="regeneration-frequency-as-a-health-metric">13. Regeneration
+frequency as a health metric</h1>
+<p>At matched duty:</p>
+<pre class="text"><code>regeneration interval ↓</code></pre>
+<p>can indicate:</p>
+<ul>
+<li>more engine-out soot;</li>
+<li>lower passive oxidation;</li>
+<li>DOC aging;</li>
+<li>ash/pressure-model error.</li>
+</ul>
+<p>Trend it as a diagnostic quantity.</p>
+<h1 id="thermal-runaway-prevention">14. Thermal runaway prevention</h1>
+<p>High soot mass creates greater exotherm potential.</p>
+<p>Before aggressive regeneration, the system should know whether soot
+is inside the validated safe-entry window.</p>
+<h1 id="ash-is-a-maintenance-state-not-a-regeneration-state">15. Ash is
+a maintenance state, not a regeneration state</h1>
+<p>Ash cannot be removed by normal DPF regeneration.</p>
+<p>As ash accumulates, it can:</p>
+<ul>
+<li>reduce effective filter volume;</li>
+<li>raise corrected pressure drop;</li>
+<li>change soot-storage capacity.</li>
+</ul>
+<p>The service model should therefore track soot and ash as separate
+state variables.</p>
+<h1 id="calibration-objects-and-signals">16. Calibration objects and
+signals</h1>
+<p>Typical calibration objects include:</p>
+<pre class="text"><code>engine-out soot model
+passive oxidation model
+DPF pressure-drop model
+active-regeneration entry threshold
+temperature target
+regeneration ramp
+completion criterion
+ash/service correction</code></pre>
+<p>Signals should include:</p>
+<pre class="text"><code>exhaust flow
+DPF inlet/outlet temperature
+DPF differential pressure
+modelled soot
+ash/service state
+post-injection / thermal actuator
+DOC state
+fuel dilution / oil state where monitored</code></pre>
+<h1 id="production-and-aging-robustness">17. Production and aging
+robustness</h1>
+<p>Validate:</p>
+<ul>
+<li>clean filter;</li>
+<li>high soot;</li>
+<li>aged/ash-loaded filter;</li>
+<li>differential-pressure sensor bias;</li>
+<li>DOC aging;</li>
+<li>low/high ambient.</li>
+</ul>
+<p>A regeneration map should not rely on one clean development
+filter.</p>
+<h1 id="soot-production-map-quality">18. Soot-production map
+quality</h1>
+<p>The DPF model is only as good as the engine-out soot estimate.</p>
+<p>Build soot production as a function of:</p>
+<ul>
+<li>speed;</li>
+<li>fuel quantity;</li>
+<li>air/O2;</li>
+<li>EGR;</li>
+<li>injection timing/pressure;</li>
+<li>transient state.</li>
+</ul>
+<p>High transient soot can be underrepresented by a steady-state
+map.</p>
+<h1 id="regeneration-fuel-accounting">19. Regeneration fuel
+accounting</h1>
+<p>Track the fuel used specifically for active regeneration.</p>
+<p>A low engine-out soot calibration can reduce:</p>
+<ul>
+<li>regeneration frequency;</li>
+<li>regeneration fuel;</li>
+<li>oil-dilution exposure.</li>
+</ul>
+<p>This can justify a small steady-state BSFC penalty if the
+mission-level fuel result improves.</p>
+<h1 id="filter-damage-diagnostics">20. Filter damage diagnostics</h1>
+<p>Unexpectedly <strong>low</strong> differential pressure at a known
+exhaust flow can also be suspicious.</p>
+<p>Possible causes include:</p>
+<ul>
+<li>cracked filter;</li>
+<li>pressure-line/sensor problem.</li>
+</ul>
+<p>The diagnostic model should detect both excessive and implausibly low
+restriction.</p>
+<h1 id="post-service-validation">21. Post-service validation</h1>
+<p>After DPF cleaning/replacement:</p>
+<ul>
+<li>verify pressure baseline;</li>
+<li>reset only the approved ash/soot learned states;</li>
+<li>confirm regeneration and sensor plausibility.</li>
+</ul>
+<p>Do not erase unrelated adaptations without a defined service
+procedure.</p>
+<h1 id="common-mistakes">22. Common mistakes</h1>
+<ul>
+<li>Equating raw DPF differential pressure with soot mass.</li>
+<li>Treating ash as regenerable.</li>
+<li>Using post injection without oil-dilution validation.</li>
+<li>Ending regeneration by timer only.</li>
+<li>Validating only a fresh, clean filter.</li>
+</ul>
+<h1 id="key-lessons">23. Key lessons</h1>
+<ol type="1">
+<li>DPF calibration needs separate flow, temperature, soot and ash
+states.</li>
+<li>Soot loading is a mass balance between engine-out production and
+oxidation.</li>
+<li>Active regeneration is a controlled thermal event.</li>
+<li>Oil-dilution and catalyst-temperature penalties must be
+included.</li>
+<li>Ash belongs to lifetime service modeling, not soot
+regeneration.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+<a href="https://www.cummins.com/en-eu/components/aftertreatment/twin-module-aftertreatment-system/product-overview">Cummins
+EPA27 Twin Module Aftertreatment official page</a> — current commercial
+example of electrically assisted aftertreatment thermal management.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../22-doc-dpf-scr-asc-system/">← DOC, DPF, SCR and ASC as One Emissions-Control System</a><span class="article-count">23 / 33</span><a href="../24-scr-def-low-nox-thermal-management/">SCR, DEF Dosing and Low-NOx Thermal Management →</a></div></body>
+</html>

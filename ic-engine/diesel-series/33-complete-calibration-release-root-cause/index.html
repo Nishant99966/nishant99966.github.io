@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Complete Heavy-Duty Diesel Calibration, Release and Root-Cause Strategy</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 33 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#a-complete-heavy-duty-calibration-program-follows-dependencies" id="toc-a-complete-heavy-duty-calibration-program-follows-dependencies">1.
+A complete heavy-duty calibration program follows dependencies</a></li>
+<li><a href="#release-gates" id="toc-release-gates">2. Release gates</a>
+<ul>
+<li><a href="#measurement-gate" id="toc-measurement-gate">Measurement
+gate</a></li>
+<li><a href="#combustion-gate" id="toc-combustion-gate">Combustion
+gate</a></li>
+<li><a href="#air-system-gate" id="toc-air-system-gate">Air-system
+gate</a></li>
+<li><a href="#aftertreatment-gate" id="toc-aftertreatment-gate">Aftertreatment gate</a></li>
+<li><a href="#vehicle-gate" id="toc-vehicle-gate">Vehicle gate</a></li>
+</ul></li>
+<li><a href="#configuration-control" id="toc-configuration-control">3.
+Configuration control</a></li>
+<li><a href="#change-impact-example" id="toc-change-impact-example">4.
+Change-impact example</a></li>
+<li><a href="#field-root-cause-workflow" id="toc-field-root-cause-workflow">5. Field root-cause workflow</a></li>
+<li><a href="#case-1-poor-low-speed-acceleration-and-black-smoke" id="toc-case-1-poor-low-speed-acceleration-and-black-smoke">6. Case 1 —
+poor low-speed acceleration and black smoke</a></li>
+<li><a href="#case-2-high-fuel-consumption-after-service" id="toc-case-2-high-fuel-consumption-after-service">7. Case 2 — high
+fuel consumption after service</a></li>
+<li><a href="#case-3-frequent-dpf-regeneration" id="toc-case-3-frequent-dpf-regeneration">8. Case 3 — frequent DPF
+regeneration</a></li>
+<li><a href="#case-4-high-nox-only-in-real-driving" id="toc-case-4-high-nox-only-in-real-driving">9. Case 4 — high NOx only
+in real driving</a></li>
+<li><a href="#standards-and-regulatory-map" id="toc-standards-and-regulatory-map">10. Standards and regulatory
+map</a></li>
+<li><a href="#release-evidence-pack" id="toc-release-evidence-pack">11.
+Release evidence pack</a></li>
+<li><a href="#robustness-challenge-matrix" id="toc-robustness-challenge-matrix">12. Robustness challenge
+matrix</a></li>
+<li><a href="#field-case-torque-complaint-after-software-update" id="toc-field-case-torque-complaint-after-software-update">13. Field
+case — torque complaint after software update</a></li>
+<li><a href="#field-case-increased-def-consumption" id="toc-field-case-increased-def-consumption">14. Field case — increased
+DEF consumption</a></li>
+<li><a href="#field-case-fuel-economy-worsened-with-no-engine-fault" id="toc-field-case-fuel-economy-worsened-with-no-engine-fault">15. Field
+case — fuel economy worsened with no engine fault</a></li>
+<li><a href="#committee-edition-release-gate" id="toc-committee-edition-release-gate">16. Committee-edition release
+gate</a></li>
+<li><a href="#seniorlead-sign-off-matrix" id="toc-seniorlead-sign-off-matrix">17. Senior/Lead sign-off
+matrix</a></li>
+<li><a href="#senior-calibration-deep-dive-calibration-ownership" id="toc-senior-calibration-deep-dive-calibration-ownership">18. Senior
+calibration deep dive — calibration ownership</a></li>
+<li><a href="#change-impact-categories" id="toc-change-impact-categories">19. Change-impact categories</a></li>
+<li><a href="#release-maturity-levels" id="toc-release-maturity-levels">20. Release maturity levels</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">21. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">22. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Complete Heavy-Duty Diesel Calibration, Release and Root-Cause Strategy
+</h1>
+<p>
+<em>The full development order from architecture and measurement
+readiness through combustion, aftertreatment, vehicle integration, aging
+and field diagnosis</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="a-complete-heavy-duty-calibration-program-follows-dependencies">1. A
+complete heavy-duty calibration program follows dependencies</h1>
+<p>Do not begin by filling every map.</p>
+<p>A more defensible order is:</p>
+<pre class="text"><code>1. Product / vehicle architecture
+2. Measurement readiness
+3. Torque structure and engine losses
+4. Fuel-system characterization
+5. Air / VGT / turbo characterization
+6. Combustion baseline
+7. Main injection timing and pressure
+8. Pilot / post injection
+9. Pmax / MPRR / cylinder balance
+10. Smoke / fresh-O₂ limits
+11. EGR / NOx–soot optimization
+12. DOC / DPF / SCR calibration
+13. Cold / low-load thermal management
+14. OBD / OBM / diagnostics
+15. Transmission / vehicle integration
+16. Transient driveability
+17. Ambient / altitude / fuel corners
+18. DoE / robust optimization
+19. Aging / in-use validation
+20. Release / field verification</code></pre>
+<h1 id="release-gates">2. Release gates</h1>
+<h2 id="measurement-gate">Measurement gate</h2>
+<ul>
+<li>torque and fuel flow validated;</li>
+<li>LHV known;</li>
+<li>cylinder-pressure TDC validated;</li>
+<li>emissions synchronization checked;</li>
+<li>injector timing characterization understood.</li>
+</ul>
+<h2 id="combustion-gate">Combustion gate</h2>
+<ul>
+<li>torque map;</li>
+<li>CA50;</li>
+<li>Pmax;</li>
+<li>MPRR;</li>
+<li>smoke;</li>
+<li>NOx;</li>
+<li>fuel efficiency.</li>
+</ul>
+<h2 id="air-system-gate">Air-system gate</h2>
+<ul>
+<li>compressor and turbine maps;</li>
+<li>VGT and EGR control;</li>
+<li>surge and turbo-speed margin;</li>
+<li>altitude.</li>
+</ul>
+<h2 id="aftertreatment-gate">Aftertreatment gate</h2>
+<ul>
+<li>DOC light-off;</li>
+<li>DPF soot/ash model;</li>
+<li>regeneration;</li>
+<li>SCR dosing;</li>
+<li>NH3 slip;</li>
+<li>aging.</li>
+</ul>
+<h2 id="vehicle-gate">Vehicle gate</h2>
+<ul>
+<li>shifts;</li>
+<li>cruise;</li>
+<li>traction-control torque cuts;</li>
+<li>grade;</li>
+<li>engine brake;</li>
+<li>loaded and unloaded vehicle.</li>
+</ul>
+<h1 id="configuration-control">3. Configuration control</h1>
+<p>Every calibration release should identify:</p>
+<ul>
+<li>engine hardware;</li>
+<li>piston and injector/nozzle;</li>
+<li>turbo/VGT;</li>
+<li>EGR hardware;</li>
+<li>aftertreatment;</li>
+<li>sensors;</li>
+<li>transmission;</li>
+<li>axle ratio or vehicle integration;</li>
+<li>software;</li>
+<li>calibration;</li>
+<li>approved fuels.</li>
+</ul>
+<h1 id="change-impact-example">4. Change-impact example</h1>
+<p>A new injector nozzle can change:</p>
+<pre class="text"><code>spray
+ ↓
+mixing
+ ↓
+soot / NOx / CA50 / Pmax
+ ↓
+aftertreatment loading
+ ↓
+torque model</code></pre>
+<p>The Lead engineer decides what evidence must be repeated.</p>
+<h1 id="field-root-cause-workflow">5. Field root-cause workflow</h1>
+<pre class="text"><code>Define symptom
+   ↓
+Validate measurement
+   ↓
+Identify active controller / limiter
+   ↓
+Separate vehicle vs engine vs hardware vs calibration
+   ↓
+Run targeted test
+   ↓
+Correct root cause
+   ↓
+Revalidate affected evidence</code></pre>
+<h1 id="case-1-poor-low-speed-acceleration-and-black-smoke">6. Case 1 —
+poor low-speed acceleration and black smoke</h1>
+<p>Check:</p>
+<ul>
+<li>requested torque;</li>
+<li>active smoke limiter;</li>
+<li>boost/VGT response;</li>
+<li>EGR;</li>
+<li>intake restriction;</li>
+<li>injector delivery.</li>
+</ul>
+<p>Do not immediately increase fuel.</p>
+<h1 id="case-2-high-fuel-consumption-after-service">7. Case 2 — high
+fuel consumption after service</h1>
+<p>Check:</p>
+<ul>
+<li>vehicle mass and route;</li>
+<li>gear strategy;</li>
+<li>injector coding;</li>
+<li>EGR;</li>
+<li>DPF backpressure;</li>
+<li>oil and coolant temperature.</li>
+</ul>
+<h1 id="case-3-frequent-dpf-regeneration">8. Case 3 — frequent DPF
+regeneration</h1>
+<p>Check:</p>
+<ul>
+<li>engine-out soot;</li>
+<li>duty cycle;</li>
+<li>DOC activity;</li>
+<li>pressure sensor;</li>
+<li>ash state;</li>
+<li>regeneration completion logic.</li>
+</ul>
+<h1 id="case-4-high-nox-only-in-real-driving">9. Case 4 — high NOx only
+in real driving</h1>
+<p>Check:</p>
+<ul>
+<li>EGR tracking;</li>
+<li>catalyst temperature;</li>
+<li>SCR storage;</li>
+<li>DEF dosing;</li>
+<li>NOx sensors;</li>
+<li>route and low-load operation.</li>
+</ul>
+<h1 id="standards-and-regulatory-map">10. Standards and regulatory
+map</h1>
+<p>For on-road heavy-duty emissions work, important current references
+include:</p>
+<ul>
+<li>Regulation (EU) 2024/1257 Euro 7;</li>
+<li>UN Regulation No. 49;</li>
+<li>UN GTR No. 4 WHDC;</li>
+<li>U.S. EPA MY2027 heavy-duty criteria-pollutant standards;</li>
+<li>current 2026 EPA amendments/proposals;</li>
+<li>California heavy-duty low-NOx requirements.</li>
+</ul>
+<p>Product-specific legal sign-off must use the actual market and
+program documentation.</p>
+<h1 id="release-evidence-pack">11. Release evidence pack</h1>
+<p>A Lead engineer should be able to hand a reviewer:</p>
+<ul>
+<li>calibration and software manifest;</li>
+<li>hardware configuration;</li>
+<li>measurement-readiness report;</li>
+<li>steady-state map evidence;</li>
+<li>transient/vehicle evidence;</li>
+<li>emissions-cycle results;</li>
+<li>aftertreatment/OBD evidence;</li>
+<li>thermal/altitude/fuel corners;</li>
+<li>aged-system evidence;</li>
+<li>open deviations and accepted risks.</li>
+</ul>
+<h1 id="robustness-challenge-matrix">12. Robustness challenge
+matrix</h1>
+<p>Before release, deliberately test degraded but allowed
+conditions:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Calibration</th>
+<th>Challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>smoke limit</td>
+<td>altitude / dirty air filter</td>
+</tr>
+<tr class="even">
+<td>injection</td>
+<td>hot fuel / low rail margin</td>
+</tr>
+<tr class="odd">
+<td>EGR</td>
+<td>cooler degradation / sensor bias</td>
+</tr>
+<tr class="even">
+<td>turbo</td>
+<td>hot inlet / backpressure</td>
+</tr>
+<tr class="odd">
+<td>SCR</td>
+<td>low temperature / aged catalyst</td>
+</tr>
+<tr class="even">
+<td>DPF</td>
+<td>high soot / ash</td>
+</tr>
+<tr class="odd">
+<td>torque control</td>
+<td>shift / traction / grade</td>
+</tr>
+</tbody>
+</table>
+<h1 id="field-case-torque-complaint-after-software-update">13. Field
+case — torque complaint after software update</h1>
+<p>Do not start with the pedal map.</p>
+<p>Compare:</p>
+<ul>
+<li>torque arbitration;</li>
+<li>active limiters;</li>
+<li>transmission request;</li>
+<li>air/smoke state;</li>
+<li>rail pressure;</li>
+<li>version/configuration differences.</li>
+</ul>
+<h1 id="field-case-increased-def-consumption">14. Field case — increased
+DEF consumption</h1>
+<p>Check:</p>
+<ul>
+<li>upstream NOx;</li>
+<li>catalyst temperature;</li>
+<li>NOx sensor bias;</li>
+<li>dosing calibration;</li>
+<li>exhaust leak;</li>
+<li>aged conversion.</li>
+</ul>
+<p>More DEF can be a symptom of higher engine-out NOx or poor catalyst
+conversion, not simply a dosing-map issue.</p>
+<h1 id="field-case-fuel-economy-worsened-with-no-engine-fault">15. Field
+case — fuel economy worsened with no engine fault</h1>
+<p>Check the complete powertrain:</p>
+<ul>
+<li>gear selection;</li>
+<li>route;</li>
+<li>tires/road load;</li>
+<li>DPF backpressure;</li>
+<li>engine brake/coast strategy;</li>
+<li>coolant/oil temperature;</li>
+<li>injector balance.</li>
+</ul>
+<p>Lead-level diagnosis starts at system boundaries rather than assuming
+the ECU is wrong.</p>
+<h1 id="committee-edition-release-gate">16. Committee-edition release
+gate</h1>
+<p>The final release review should explicitly answer:</p>
+<pre class="text"><code>What did we optimize?
+What did we hold constant?
+What did we sweep?
+What measurements prove the result?
+What is the active constraint?
+How much margin remains?
+How was interpolation checked?
+How was transient behavior checked?
+How was production variation checked?
+How was aging checked?
+Which vehicle missions benefit?</code></pre>
+<p>If those questions cannot be answered for a major map, the
+calibration is not yet release-quality.</p>
+<h1 id="seniorlead-sign-off-matrix">17. Senior/Lead sign-off matrix</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Domain</th>
+<th>Evidence expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>torque</td>
+<td>dyno + vehicle + torque-model accuracy</td>
+</tr>
+<tr class="even">
+<td>fuel/injection</td>
+<td>hydraulic characterization + pressure dynamics</td>
+</tr>
+<tr class="odd">
+<td>air/EGR</td>
+<td>actuator + steady + transient validation</td>
+</tr>
+<tr class="even">
+<td>gas exchange</td>
+<td>valve timing / turbo / PMEP interaction</td>
+</tr>
+<tr class="odd">
+<td>combustion</td>
+<td>CA50/Pmax/MPRR/BSFC/emissions</td>
+</tr>
+<tr class="even">
+<td>aftertreatment</td>
+<td>fresh + aged + low-temp + regeneration</td>
+</tr>
+<tr class="odd">
+<td>vehicle</td>
+<td>shift/grade/mass/engine-brake</td>
+</tr>
+<tr class="even">
+<td>CO2</td>
+<td>mission-weighted fuel-map/VECTO evaluation</td>
+</tr>
+<tr class="odd">
+<td>robustness</td>
+<td>ambient/fuel/production variation</td>
+</tr>
+<tr class="even">
+<td>diagnostics</td>
+<td>fault detection + healing + inducement</td>
+</tr>
+</tbody>
+</table>
+<h1 id="senior-calibration-deep-dive-calibration-ownership">18. Senior
+calibration deep dive — calibration ownership</h1>
+<p>Lead-level ownership includes more than technical optimization.</p>
+<p>For every release decision document:</p>
+<ul>
+<li>who owns the requirement;</li>
+<li>who owns the calibration object;</li>
+<li>who owns the test evidence;</li>
+<li>unresolved deviations;</li>
+<li>accepted risk;</li>
+<li>revalidation trigger.</li>
+</ul>
+<h1 id="change-impact-categories">19. Change-impact categories</h1>
+<p>Classify a change as affecting one or more domains:</p>
+<pre class="text"><code>combustion hardware
+fuel system
+air system
+aftertreatment
+vehicle/driveline
+software/control
+sensor/instrumentation
+regulatory basis</code></pre>
+<p>Then define the minimum repeated evidence.</p>
+<h1 id="release-maturity-levels">20. Release maturity levels</h1>
+<p>A useful internal maturity ladder is:</p>
+<pre class="text"><code>concept proven
+→ local map calibrated
+→ complete map filled
+→ off-grid validated
+→ transient validated
+→ vehicle validated
+→ robustness validated
+→ aged/in-use validated
+→ release signed</code></pre>
+<p>A high-quality blog should teach readers to recognize these stages
+rather than calling the first successful test point “calibrated.”</p>
+<h1 id="common-mistakes">21. Common mistakes</h1>
+<ul>
+<li>Releasing calibration without configuration traceability.</li>
+<li>Treating one certification-cycle pass as complete validation.</li>
+<li>Changing hardware without impact assessment.</li>
+<li>Calibrating around a field hardware fault.</li>
+<li>Using a standards snapshot that was never rechecked during a long
+program.</li>
+</ul>
+<h1 id="key-lessons">22. Key lessons</h1>
+<ol type="1">
+<li>Heavy-duty diesel calibration is a gated system-development
+process.</li>
+<li>Vehicle integration, aftertreatment and diagnostics are as important
+as the base combustion maps.</li>
+<li>Configuration control determines whether previous test evidence is
+still valid.</li>
+<li>Field diagnosis should correct root cause rather than hide faults
+with calibration.</li>
+<li>Lead-level calibration means proving the complete
+engine-powertrain-emissions system across the approved operating
+envelope.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+<li>
+<a href="https://eur-lex.europa.eu/eli/reg/2024/1257/oj/eng">Regulation
+(EU) 2024/1257 (Euro 7)</a> — current legal source; exact dated limits
+and application milestones are maintained in the series Regulatory
+Appendix.
+</li>
+<li>
+<a href="https://unece.org/transport/vehicle-regulations-wp29/standards/addenda-1958-agreement-regulations-41-60">UNECE
+UN Regulation No. 49</a> — heavy-duty engine pollutant-emissions
+framework; 07 series is the current established series while further
+2026 supplements/revisions are under development.
+</li>
+<li>
+<a href="https://unece.org/transport/standards/transport/vehicle-regulations-wp29/global-technical-regulations-gtrs">UN
+GTR No. 4 (WHDC)</a> — worldwide harmonized heavy-duty certification
+procedure basis, including WHTC/WHSC concepts.
+</li>
+<li>
+<a href="https://www.epa.gov/regulations-emissions-vehicles-and-engines/final-rule-and-related-materials-control-air-pollution">U.S.
+EPA MY2027 heavy-duty engine and vehicle criteria-pollutant rule</a> —
+more stringent heavy-duty standards beginning MY2027.
+</li>
+<li>
+<a href="https://www.epa.gov/regulations-emissions-vehicles-and-engines/proposed-rule-amendments-and-nonconformance-penalties">U.S.
+EPA July 2026 proposed amendments for MY2027+ heavy-duty highway
+engines</a> — current proposal affecting selected
+compliance/test/useful-life provisions; not final at publication time.
+</li>
+<li>
+<a href="https://ww2.arb.ca.gov/our-work/programs/heavy-duty-low-nox/heavy-duty-omnibus-regulation-fact-sheet">California
+Heavy-Duty Omnibus / Low-NOx program fact sheet</a> —
+California-specific heavy-duty NOx, durability and in-use requirements.
+</li>
+<li>
+<a href="https://www.bipm.org/en/committees/jc/jcgm/publications">JCGM
+100:2008 and Amd.1:2026</a> — measurement-uncertainty framework and 2026
+nonlinearity amendment.
+</li>
+<li>
+<a href="https://www.itl.nist.gov/div898/handbook/pri/section3/pri3.htm">NIST/SEMATECH
+e-Handbook of Statistical Methods</a> — experimental design, blocking,
+response surfaces and validation.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../32-durability-aging-in-use-pems/">← Durability, Aging, In-Use Compliance and PEMS</a><span class="article-count">33 / 33</span><a href="../series.html">Series overview →</a></div></body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>The Complete Heavy-Duty Diesel Engine as a Powertrain System</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 1 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#heavy-duty-diesel-calibration-starts-with-a-moving-operating-point" id="toc-heavy-duty-diesel-calibration-starts-with-a-moving-operating-point">1.
+Heavy-duty diesel calibration starts with a moving operating
+point</a></li>
+<li><a href="#the-complete-system-boundary" id="toc-the-complete-system-boundary">2. The complete system
+boundary</a></li>
+<li><a href="#why-vehicle-duty-matters" id="toc-why-vehicle-duty-matters">3. Why vehicle duty matters</a>
+<ul>
+<li><a href="#long-haul-tractor" id="toc-long-haul-tractor">Long-haul
+tractor</a></li>
+<li><a href="#urban-bus-or-refuse-truck" id="toc-urban-bus-or-refuse-truck">Urban bus or refuse truck</a></li>
+<li><a href="#construction-and-off-highway" id="toc-construction-and-off-highway">Construction and
+off-highway</a></li>
+</ul></li>
+<li><a href="#speed-torque-and-power" id="toc-speed-torque-and-power">4.
+Speed, torque and power</a></li>
+<li><a href="#typical-modern-engine-subsystems" id="toc-typical-modern-engine-subsystems">5. Typical modern engine
+subsystems</a></li>
+<li><a href="#calibration-boundaries" id="toc-calibration-boundaries">6.
+Calibration boundaries</a></li>
+<li><a href="#engine-efficiency" id="toc-engine-efficiency">7. Engine
+efficiency</a></li>
+<li><a href="#the-calibration-engineers-central-question" id="toc-the-calibration-engineers-central-question">8. The calibration
+engineer’s central question</a></li>
+<li><a href="#on-road-versus-off-highway-scope" id="toc-on-road-versus-off-highway-scope">9. On-road versus off-highway
+scope</a></li>
+<li><a href="#continuous-teaching-engine-used-through-the-committee-edition" id="toc-continuous-teaching-engine-used-through-the-committee-edition">10.
+Continuous teaching engine used through the committee edition</a></li>
+<li><a href="#how-the-articles-depend-on-one-another" id="toc-how-the-articles-depend-on-one-another">11. How the articles
+depend on one another</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">12. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">13. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+The Complete Heavy-Duty Diesel Engine as a Powertrain System
+</h1>
+<p>
+<em>Why the calibration problem begins with the vehicle duty cycle—not a
+fixed engine speed</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="heavy-duty-diesel-calibration-starts-with-a-moving-operating-point">1.
+Heavy-duty diesel calibration starts with a moving operating point</h1>
+<p>A road or off-highway heavy-duty engine does not live at one rated
+speed.</p>
+<p>It moves continuously through engine speed and torque according
+to:</p>
+<ul>
+<li>accelerator or driver demand;</li>
+<li>road grade;</li>
+<li>vehicle mass;</li>
+<li>transmission ratio;</li>
+<li>vehicle speed;</li>
+<li>cruise-control strategy;</li>
+<li>PTO or hydraulic loads;</li>
+<li>retarding demand;</li>
+<li>emissions and thermal-management state.</li>
+</ul>
+<figure class="figure-card">
+<svg aria-label="Heavy-duty diesel speed-load map" role="img" viewbox="0 0 820 470">
+<rect fill="white" height="470" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="390" y2="390"></line><line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="390" y2="55"></line>
+<text font-size="17" x="600" y="430">Engine speed
+→</text><text font-size="17" transform="rotate(-90 25,105)" x="25" y="105">BMEP
+/ load ↑</text>
+<path d="M120 320 C170 235,250 155,360 110 C500 75,625 95,710 165" fill="none" stroke="#17324a" stroke-width="4"></path>
+<text font-size="14" x="510" y="78">full-load torque boundary</text>
+<ellipse cx="390" cy="245" fill="none" rx="125" ry="75" stroke="#5d87ad" stroke-width="3"></ellipse><text font-size="14" x="335" y="245">high-efficiency
+island</text>
+<path d="M150 345 C270 315,420 285,650 250" fill="none" stroke="#9bb5c9" stroke-width="2"></path><text font-size="13" x="550" y="245">typical
+road-load line</text>
+<circle cx="250" cy="310" fill="#17324a" r="7"></circle><circle cx="390" cy="255" fill="#17324a" r="7"></circle><circle cx="580" cy="205" fill="#17324a" r="7"></circle>
+<text font-size="13" x="195" y="340">urban / low
+load</text><text font-size="13" x="335" y="285">cruise</text><text font-size="13" x="555" y="235">grade</text>
+</svg>
+<figcaption>
+A heavy-duty road engine lives on a two-dimensional speed–load map.
+Vehicle mass, road grade, gear selection and driver demand move the
+operating point continuously.
+</figcaption>
+</figure>
+<p>The moving operating point is the foundation of heavy-duty
+vehicle-engine calibration.</p>
+<h1 id="the-complete-system-boundary">2. The complete system
+boundary</h1>
+<p>A modern heavy-duty diesel powertrain can include:</p>
+<pre class="text"><code>Driver / autonomous / cruise request
+        ↓
+Vehicle torque coordination
+        ↓
+Transmission / clutch / axle
+        ↓
+Diesel engine
+        ↓
+Air system + EGR
+Fuel injection
+Combustion
+        ↓
+DOC / DPF / SCR / ASC
+        ↓
+Tailpipe</code></pre>
+<p>The engine is only one subsystem in the vehicle torque and emissions
+system.</p>
+<h1 id="why-vehicle-duty-matters">3. Why vehicle duty matters</h1>
+<p>Two engines with identical rated power can experience radically
+different use.</p>
+<h3 id="long-haul-tractor">Long-haul tractor</h3>
+<p>Often spends large time near moderate engine speed, high torque,
+steady cruise and long grades.</p>
+<h3 id="urban-bus-or-refuse-truck">Urban bus or refuse truck</h3>
+<p>Can experience frequent idle, acceleration, low-load operation,
+repeated transients and aftertreatment temperature challenges.</p>
+<h3 id="construction-and-off-highway">Construction and off-highway</h3>
+<p>Can experience sustained high load, aggressive transients, high dust,
+altitude and hydraulic or PTO demand.</p>
+<p>The calibration objective must therefore reflect the real duty
+histogram.</p>
+<h1 id="speed-torque-and-power">4. Speed, torque and power</h1>
+<p>Mechanical power is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mi>T</mi><mi>ω</mi></mrow><annotation encoding="application/x-tex">
+P=T\omega
+</annotation></semantics></math></p>
+<p>with:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi><mi>n</mi></mrow><mn>60</mn></mfrac></mrow><annotation encoding="application/x-tex">
+\omega=\frac{2\pi n}{60}
+</annotation></semantics></math></p>
+<p>At different speeds, the same power requires different torque.</p>
+<p>Example: for 300 kW at 1200 rpm,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mfrac><mn>300000</mn><mrow><mn>2</mn><mi>π</mi><mrow><mo form="prefix" stretchy="true">(</mo><mn>1200</mn><mi>/</mi><mn>60</mn><mo form="postfix" stretchy="true">)</mo></mrow></mrow></mfrac><mo>≈</mo><mn>2387</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T=
+\frac{300000}{2\pi(1200/60)}
+\approx2387\ \mathrm{Nm}
+</annotation></semantics></math></p>
+<p>At 1800 rpm:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≈</mo><mn>1592</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T\approx1592\ \mathrm{Nm}
+</annotation></semantics></math></p>
+<p>This is why a heavy-duty torque map and a power map are not
+interchangeable.</p>
+<h1 id="typical-modern-engine-subsystems">5. Typical modern engine
+subsystems</h1>
+<p>A current heavy-duty diesel can use some combination of:</p>
+<ul>
+<li>high-pressure common rail;</li>
+<li>electronically controlled unit injection on some architectures;</li>
+<li>fixed, wastegated or variable-geometry turbocharging;</li>
+<li>one or multiple turbo stages;</li>
+<li>turbo compounding on selected products;</li>
+<li>cooled EGR or SCR-dominant low-EGR architecture;</li>
+<li>intake throttle or exhaust throttle for air, EGR and thermal
+control;</li>
+<li>compression-release engine brake;</li>
+<li>DOC;</li>
+<li>DPF;</li>
+<li>one or multiple SCR catalyst stages;</li>
+<li>ammonia-slip catalyst;</li>
+<li>electrically assisted aftertreatment heating on advanced
+products.</li>
+</ul>
+<p>No single hardware list is universal.</p>
+<h1 id="calibration-boundaries">6. Calibration boundaries</h1>
+<p>Every performance statement should define:</p>
+<ul>
+<li>brake power versus wheel power;</li>
+<li>engine-out versus tailpipe emissions;</li>
+<li>fuel LHV versus volumetric consumption;</li>
+<li>fresh versus aged aftertreatment;</li>
+<li>hot stabilized versus cold or transient state;</li>
+<li>engine-only versus vehicle fuel economy.</li>
+</ul>
+<h1 id="engine-efficiency">7. Engine efficiency</h1>
+<p>Brake thermal efficiency is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>b</mi></msub><mo>=</mo><mfrac><msub><mi>P</mi><mi>b</mi></msub><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub><mi>L</mi><mi>H</mi><mi>V</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_b=
+\frac{P_b}{\dot m_fLHV}
+</annotation></semantics></math></p>
+<p>Brake-specific fuel consumption is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>S</mi><mi>F</mi><mi>C</mi><mo>=</mo><mfrac><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub><msub><mi>P</mi><mi>b</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
+BSFC=
+\frac{\dot m_f}{P_b}
+</annotation></semantics></math></p>
+<p>These metrics are useful, but vehicle fuel economy also depends on
+gear selection, axle ratio, road load, predictive cruise, idle time and
+engine-brake use.</p>
+<h1 id="the-calibration-engineers-central-question">8. The calibration
+engineer’s central question</h1>
+<p>At every speed-load point:</p>
+<blockquote>
+<p><strong>Can the demanded torque be produced with acceptable fuel
+consumption, NOx, soot/PM, cylinder pressure, pressure-rise rate and
+exhaust temperature while the fuel system, air path, aftertreatment,
+driveline and durability limits remain inside their approved
+boundaries?</strong></p>
+</blockquote>
+<h1 id="on-road-versus-off-highway-scope">9. On-road versus off-highway
+scope</h1>
+<p>The combustion, fuel, turbo, EGR and durability physics in this
+series apply broadly.</p>
+<p>The regulatory chapters use heavy-duty <strong>on-road</strong>
+examples such as Euro 7, UN Regulation No. 49 and U.S. heavy-duty
+highway rules.</p>
+<p>Off-highway engines require their own applicable regulatory framework
+and duty cycles.</p>
+<h1 id="continuous-teaching-engine-used-through-the-committee-edition">10.
+Continuous teaching engine used through the committee edition</h1>
+<p>To make the 33 articles feel like one calibration program rather than
+isolated topics, the series now follows a fictional OEM-neutral engine
+called <strong>HD13-E</strong>.</p>
+<pre class="text"><code>Configuration:       13-L inline-six heavy-duty diesel
+Rated power:         390 kW @ 1600 rpm
+Peak torque:         2600 Nm @ 950–1200 rpm
+Air system:          VGT + cooled EGR
+Fuel system:         high-pressure direct injection
+Aftertreatment:      DOC + DPF + SCR + ASC
+Transmission:        automated heavy-duty gearbox</code></pre>
+<p>The values are illustrative. They are deliberately plausible rather
+than copied from one manufacturer.</p>
+<p>Five recurring operating points are used:</p>
+<table>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Operating point</th>
+<th>Engineering meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>700 rpm, low load</td>
+<td>idle / urban / catalyst-cooling risk</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>1000 rpm, high torque</td>
+<td>downsped grade / lugging boundary</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>1200 rpm, medium-high load</td>
+<td>long-haul cruise efficiency</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>1600 rpm, high power</td>
+<td>rated-power / thermal region</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>1800 rpm, negative torque</td>
+<td>engine-brake region</td>
+</tr>
+</tbody>
+</table>
+<p>When a later article says “HD13-E point C,” it refers to this
+table.</p>
+<h1 id="how-the-articles-depend-on-one-another">11. How the articles
+depend on one another</h1>
+<p>The intended technical sequence is:</p>
+<pre class="text"><code>torque request and engine losses
+        ↓
+fuel-system characterization
+        ↓
+actuator/air-path characterization
+        ↓
+turbo + valve timing / gas exchange
+        ↓
+combustion and injection
+        ↓
+smoke + EGR + cylinder balance
+        ↓
+thermal / auxiliary boundaries
+        ↓
+aftertreatment + diagnostics
+        ↓
+transmission / vehicle / VECTO
+        ↓
+transients + DoE + durability
+        ↓
+release</code></pre>
+<p>A reader can enter at any article, but this dependency order should
+be followed for a new calibration program.</p>
+<h1 id="common-mistakes">12. Common mistakes</h1>
+<ul>
+<li>Treating rated power as the main calibration operating point.</li>
+<li>Ignoring transmission and road load when judging engine
+efficiency.</li>
+<li>Assuming all heavy-duty diesels use the same EGR, turbo or
+aftertreatment architecture.</li>
+<li>Comparing BSFC points at different thermal states.</li>
+<li>Treating engine-out emissions as tailpipe emissions.</li>
+</ul>
+<h1 id="key-lessons">13. Key lessons</h1>
+<ol type="1">
+<li>Heavy-duty diesel calibration is a speed-load-transient
+problem.</li>
+<li>Vehicle duty cycle determines which parts of the map matter
+most.</li>
+<li>The engine, transmission, vehicle and aftertreatment form one
+control system.</li>
+<li>Efficiency and emissions boundaries must be defined before comparing
+calibrations.</li>
+<li>Product-specific hardware changes the calibration architecture, but
+the underlying physics remain transferable.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+<li>
+<a href="https://www.cummins.com/en-na/engines/on-highway/heavy-duty-truck/2027-x15">Cummins
+2027 X15 official product page</a> — current commercial example of an
+integrated heavy-duty diesel engine/aftertreatment platform including
+EGR, 48-V aftertreatment heating and DOC-DPF-SCR architecture.
+</li>
+<li>
+<a href="https://www.scania.com/at/de/home/products/trucks/g-series/g-series-specifications.html">Scania
+current heavy-duty truck engine specifications</a> — current commercial
+examples of low-speed 13-L diesel/HVO engines, Twin SCR and
+compression-release engine braking.
+</li>
+<li>
+<a href="https://www.volvotrucks.us/trucks/powertrain/d13tc/">Volvo
+D13TC official page</a> — current heavy-duty example of turbo-compound
+exhaust-energy recovery and low-rpm powertrain integration.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><span></span><span class="article-count">1 / 33</span><a href="../02-torque-based-ecu-architecture/">Torque-Based ECU Architecture and Driver Demand →</a></div></body>
+</html>

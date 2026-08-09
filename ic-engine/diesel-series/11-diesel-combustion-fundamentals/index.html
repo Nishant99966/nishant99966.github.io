@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Diesel Combustion Fundamentals</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 11 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#compression-ignition-is-a-sequence-not-an-instantaneous-event" id="toc-compression-ignition-is-a-sequence-not-an-instantaneous-event">1.
+Compression ignition is a sequence, not an instantaneous event</a></li>
+<li><a href="#soi-and-soc-are-different" id="toc-soi-and-soc-are-different">2. SOI and SOC are different</a></li>
+<li><a href="#premixed-burn" id="toc-premixed-burn">3. Premixed
+burn</a></li>
+<li><a href="#mixing-controlled-burn" id="toc-mixing-controlled-burn">4.
+Mixing-controlled burn</a></li>
+<li><a href="#local-mixture-versus-global-lambda" id="toc-local-mixture-versus-global-lambda">5. Local mixture versus
+global lambda</a></li>
+<li><a href="#apparent-heat-release" id="toc-apparent-heat-release">6.
+Apparent heat release</a></li>
+<li><a href="#combustion-phasing-metrics" id="toc-combustion-phasing-metrics">7. Combustion phasing
+metrics</a></li>
+<li><a href="#soot-formation-and-oxidation" id="toc-soot-formation-and-oxidation">8. Soot formation and
+oxidation</a></li>
+<li><a href="#hardware-boundaries" id="toc-hardware-boundaries">9.
+Hardware boundaries</a></li>
+<li><a href="#cylinder-resolved-development" id="toc-cylinder-resolved-development">10. Cylinder-resolved
+development</a></li>
+<li><a href="#time-versus-crank-angle" id="toc-time-versus-crank-angle">11. Time versus crank angle</a></li>
+<li><a href="#ignition-delay-decomposition" id="toc-ignition-delay-decomposition">12. Ignition-delay
+decomposition</a></li>
+<li><a href="#apparent-heat-release-interpretation" id="toc-apparent-heat-release-interpretation">13. Apparent heat-release
+interpretation</a></li>
+<li><a href="#combustion-hardware-change-impact" id="toc-combustion-hardware-change-impact">14. Combustion-hardware
+change impact</a></li>
+<li><a href="#hd13-e-heat-release-comparison" id="toc-hd13-e-heat-release-comparison">15. HD13-E heat-release
+comparison</a></li>
+<li><a href="#calibration-execution-standard" id="toc-calibration-execution-standard">16. Calibration execution
+standard</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">17. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">18. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Diesel Combustion Fundamentals
+</h1>
+<p>
+<em>Ignition delay, premixed heat release, mixing-controlled combustion,
+local mixture and apparent heat release</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="compression-ignition-is-a-sequence-not-an-instantaneous-event">1.
+Compression ignition is a sequence, not an instantaneous event</h1>
+<p>Fuel is injected into hot compressed air.</p>
+<p>The sequence is:</p>
+<pre class="text"><code>injection
+ ↓
+atomization
+ ↓
+evaporation
+ ↓
+air entrainment
+ ↓
+chemical ignition delay
+ ↓
+autoignition
+ ↓
+premixed heat release
+ ↓
+mixing-controlled burn
+ ↓
+late burn / oxidation</code></pre>
+<figure class="figure-card">
+<svg aria-label="Diesel heat release phases" role="img" viewbox="0 0 820 460">
+<rect fill="white" height="460" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="385" y2="385"></line><line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="385" y2="60"></line>
+<text font-size="17" x="620" y="425">Crank angle
+→</text><text font-size="17" transform="rotate(-90 26,130)" x="26" y="130">Heat-release
+rate</text>
+<line stroke="#9bb5c9" stroke-dasharray="7 6" x1="255" x2="255" y1="70" y2="385"></line><text font-size="13" x="220" y="62">SOI</text>
+<line stroke="#9bb5c9" stroke-dasharray="7 6" x1="320" x2="320" y1="70" y2="385"></line><text font-size="13" x="285" y="62">SOC</text>
+<path d="M100 365 C230 365,285 360,325 245 C350 160,385 130,420 190 C455 235,480 255,515 245 C570 220,630 250,710 330" fill="none" stroke="#17324a" stroke-width="3"></path>
+<text font-size="13" x="270" y="110">ignition
+delay</text><text font-size="13" x="345" y="125">premixed</text><text font-size="13" x="480" y="205">mixing-controlled</text><text font-size="13" x="625" y="300">late
+burn</text>
+</svg>
+<figcaption>
+Qualitative diesel heat release. Injection command, ignition delay,
+premixed fraction and mixing-controlled burn determine pressure rise,
+efficiency, NOx and soot.
+</figcaption>
+</figure>
+<h1 id="soi-and-soc-are-different">2. SOI and SOC are different</h1>
+<p>Start of injection, SOI, is a fuel-system event.</p>
+<p>Start of combustion, SOC, is a combustion event.</p>
+<p>Ignition delay is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>d</mi><mi>e</mi><mi>l</mi><mi>a</mi><mi>y</mi></mrow></msub><mo>=</mo><mi>S</mi><mi>O</mi><mi>C</mi><mo>−</mo><mi>S</mi><mi>O</mi><mi>I</mi></mrow><annotation encoding="application/x-tex">
+\theta_{delay}=SOC-SOI
+</annotation></semantics></math></p>
+<p>The delay changes with:</p>
+<ul>
+<li>charge temperature;</li>
+<li>pressure;</li>
+<li>fuel cetane;</li>
+<li>EGR;</li>
+<li>injection pressure;</li>
+<li>residual gas;</li>
+<li>compression condition.</li>
+</ul>
+<h1 id="premixed-burn">3. Premixed burn</h1>
+<p>Fuel injected before SOC can partially evaporate and mix.</p>
+<p>When ignition begins, this prepared mixture can burn rapidly.</p>
+<p>A larger premixed fraction can raise:</p>
+<ul>
+<li>MPRR;</li>
+<li>combustion noise;</li>
+<li>NOx.</li>
+</ul>
+<h1 id="mixing-controlled-burn">4. Mixing-controlled burn</h1>
+<p>After the early premixed phase, much of diesel combustion is
+controlled by spray mixing and oxygen entrainment.</p>
+<p>This phase is highly sensitive to:</p>
+<ul>
+<li>nozzle geometry;</li>
+<li>injection pressure;</li>
+<li>local oxygen concentration;</li>
+<li>swirl;</li>
+<li>piston-bowl geometry.</li>
+</ul>
+<h1 id="local-mixture-versus-global-lambda">5. Local mixture versus
+global lambda</h1>
+<p>The whole cylinder can be globally lean while the center of a spray
+is locally fuel rich.</p>
+<p>Therefore:</p>
+<blockquote>
+<p><strong>global lambda alone cannot predict soot.</strong></p>
+</blockquote>
+<p>Soot formation depends on the local fuel-air-temperature history.</p>
+<h1 id="apparent-heat-release">6. Apparent heat release</h1>
+<p>A simplified single-zone relation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>Q</mi><mrow><mi>n</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>θ</mi></mrow></mfrac><mo>=</mo><mfrac><mi>γ</mi><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mi>p</mi><mfrac><mrow><mi>d</mi><mi>V</mi></mrow><mrow><mi>d</mi><mi>θ</mi></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mi>V</mi><mfrac><mrow><mi>d</mi><mi>p</mi></mrow><mrow><mi>d</mi><mi>θ</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\frac{dQ_{net}}{d\theta}
+=
+\frac{\gamma}{\gamma-1}
+p\frac{dV}{d\theta}
++
+\frac{1}{\gamma-1}
+V\frac{dp}{d\theta}
+</annotation></semantics></math></p>
+<p>Real analysis may additionally account for heat transfer, crevice
+flow, variable specific heats and blow-by.</p>
+<h1 id="combustion-phasing-metrics">7. Combustion phasing metrics</h1>
+<p>Useful markers include:</p>
+<ul>
+<li>CA10;</li>
+<li>CA50;</li>
+<li>CA90.</li>
+</ul>
+<p>Combustion duration can be expressed as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msub><mi>θ</mi><mrow><mn>10</mn><mo>−</mo><mn>90</mn></mrow></msub><mo>=</mo><mi>C</mi><mi>A</mi><mn>90</mn><mo>−</mo><mi>C</mi><mi>A</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">
+\Delta\theta_{10-90}
+=
+CA90-CA10
+</annotation></semantics></math></p>
+<p>Long late burn often worsens BSFC and raises exhaust temperature.</p>
+<h1 id="soot-formation-and-oxidation">8. Soot formation and
+oxidation</h1>
+<p>Engine-out soot is conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>o</mi><mi>o</mi><msub><mi>t</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>s</mi><mi>o</mi><mi>o</mi><msub><mi>t</mi><mrow><mi>f</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>e</mi><mi>d</mi></mrow></msub><mo>−</mo><mi>s</mi><mi>o</mi><mi>o</mi><msub><mi>t</mi><mrow><mi>o</mi><mi>x</mi><mi>i</mi><mi>d</mi><mi>i</mi><mi>z</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+soot_{out}
+=
+soot_{formed}
+-
+soot_{oxidized}
+</annotation></semantics></math></p>
+<p>Improved mixing can reduce soot formation.</p>
+<p>Adequate oxygen, temperature and residence time can improve soot
+oxidation later in the cycle.</p>
+<h1 id="hardware-boundaries">9. Hardware boundaries</h1>
+<p>Piston bowl, swirl, compression ratio, nozzle-hole diameter, spray
+angle and injector protrusion are hardware variables.</p>
+<p>A software calibration cannot fully compensate for the wrong
+combustion-system hardware.</p>
+<h1 id="cylinder-resolved-development">10. Cylinder-resolved
+development</h1>
+<p>At each point log:</p>
+<pre class="text"><code>SOI
+SOC
+ignition delay
+CA10 / CA50 / CA90
+Pmax
+MPRR
+IMEP
+NOx
+smoke / PM
+EGT</code></pre>
+<p>The relationships between these signals matter more than any one
+signal.</p>
+<h1 id="time-versus-crank-angle">11. Time versus crank angle</h1>
+<p>One crank-angle degree represents less physical time at higher engine
+speed.</p>
+<p>At 1200 rpm, one revolution takes:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>60</mn><mn>1200</mn></mfrac><mo>=</mo><mn>0.05</mn><mspace width="0.222em"></mspace><mi>s</mi></mrow><annotation encoding="application/x-tex">
+\frac{60}{1200}=0.05\ s
+</annotation></semantics></math></p>
+<p>so one crank degree takes about:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>0.05</mn><mn>360</mn></mfrac><mo>≈</mo><mn>139</mn><mspace width="0.222em"></mspace><mi>μ</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">
+\frac{0.05}{360}
+\approx139\ \mu s
+</annotation></semantics></math></p>
+<p>At 1800 rpm, it is about 92.6 µs.</p>
+<p>Therefore injection and chemistry that occupy the same physical time
+span consume more crank-angle degrees at lower speed and fewer at higher
+speed.</p>
+<p>This is one reason injection strategy must vary with engine
+speed.</p>
+<h1 id="ignition-delay-decomposition">12. Ignition-delay
+decomposition</h1>
+<p>Ignition delay contains both physical and chemical processes:</p>
+<pre class="text"><code>atomization / evaporation / mixing
++
+chemical pre-reactions</code></pre>
+<p>Injection pressure strongly affects the first group; cetane and
+temperature strongly affect the second.</p>
+<h1 id="apparent-heat-release-interpretation">13. Apparent heat-release
+interpretation</h1>
+<p>Use heat-release curves to ask:</p>
+<ul>
+<li>Did the candidate move SOC?</li>
+<li>Did it change the premixed spike?</li>
+<li>Did it shorten the mixing-controlled tail?</li>
+<li>Did it move more energy into late expansion or exhaust?</li>
+</ul>
+<p>This is more diagnostic than comparing Pmax alone.</p>
+<h1 id="combustion-hardware-change-impact">14. Combustion-hardware
+change impact</h1>
+<p>After changing a nozzle or piston bowl, repeat:</p>
+<ul>
+<li>SOI-to-SOC relationship;</li>
+<li>heat release;</li>
+<li>smoke;</li>
+<li>NOx;</li>
+<li>Pmax/MPRR;</li>
+<li>full-load torque.</li>
+</ul>
+<p>Do not assume a software offset can restore the previous combustion
+system.</p>
+<h1 id="hd13-e-heat-release-comparison">15. HD13-E heat-release
+comparison</h1>
+<p>Compare points B and D at the same fuel family.</p>
+<p>At point B, the lower speed gives more physical time per crank-angle
+degree and turbo air can be limited.</p>
+<p>At point D, the higher speed gives less physical time for injection
+and mixing, while total fuel flow and thermal load are high.</p>
+<p>The calibration should therefore expect different:</p>
+<ul>
+<li>ignition delay in crank-angle degrees;</li>
+<li>injection duration;</li>
+<li>premixed fraction;</li>
+<li>late burn.</li>
+</ul>
+<h1 id="calibration-execution-standard">16. Calibration execution
+standard</h1>
+<p>For every combustion study, record the complete chain:</p>
+<pre class="text"><code>electrical injection command
+→ actual/hydraulic injection if measurable
+→ SOC
+→ CA10
+→ CA50
+→ CA90
+→ Pmax / MPRR
+→ IMEP
+→ emissions</code></pre>
+<p>This prevents a shift in injector hydraulics from being
+misinterpreted as a change in chemistry.</p>
+<h1 id="common-mistakes">17. Common mistakes</h1>
+<ul>
+<li>Treating SOI and SOC as the same event.</li>
+<li>Describing the whole diesel burn as a simple diffusion flame.</li>
+<li>Using global lambda as the only soot predictor.</li>
+<li>Ignoring ignition-delay changes after a fuel-quality change.</li>
+<li>Calibrating around a combustion hardware mismatch.</li>
+</ul>
+<h1 id="key-lessons">18. Key lessons</h1>
+<ol type="1">
+<li>Diesel combustion is created by injection, ignition chemistry and
+turbulent air-fuel mixing.</li>
+<li>Ignition delay controls how much fuel participates in rapid early
+heat release.</li>
+<li>Local mixture determines soot behavior even when the overall
+cylinder is lean.</li>
+<li>CA10, CA50 and CA90 reveal combustion evolution.</li>
+<li>Combustion hardware and calibration must be treated as one
+system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em> — indicated/brake work, gas exchange and turbocharging
+fundamentals.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../10-valve-timing-miller-gas-exchange/">← Valve Timing, Miller Cycle and Gas-Exchange Calibration</a><span class="article-count">11 / 33</span><a href="../12-injection-calibration-soi-pressure-pilot-post/">Injection Calibration: Quantity, Pressure, SOI, Pilot, Main, Post and Dwell →</a></div></body>
+</html>

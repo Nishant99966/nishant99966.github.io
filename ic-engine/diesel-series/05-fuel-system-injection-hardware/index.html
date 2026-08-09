@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Fuel System and Injection Hardware</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 5 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#the-ecu-command-is-not-the-fuel-spray" id="toc-the-ecu-command-is-not-the-fuel-spray">1. The ECU command is not
+the fuel spray</a></li>
+<li><a href="#common-rail" id="toc-common-rail">2. Common rail</a></li>
+<li><a href="#unit-injection-and-other-architectures" id="toc-unit-injection-and-other-architectures">3. Unit-injection and
+other architectures</a></li>
+<li><a href="#commanded-versus-delivered-quantity" id="toc-commanded-versus-delivered-quantity">4. Commanded versus
+delivered quantity</a></li>
+<li><a href="#electrical-command-versus-hydraulic-soi" id="toc-electrical-command-versus-hydraulic-soi">5. Electrical command
+versus hydraulic SOI</a></li>
+<li><a href="#injection-rate-shape" id="toc-injection-rate-shape">6.
+Injection rate shape</a></li>
+<li><a href="#high-pressure-pump-work" id="toc-high-pressure-pump-work">7. High-pressure pump work</a></li>
+<li><a href="#injector-characterization" id="toc-injector-characterization">8. Injector characterization</a></li>
+<li><a href="#fuel-system-protection" id="toc-fuel-system-protection">9.
+Fuel-system protection</a></li>
+<li><a href="#nozzle-flow-intuition" id="toc-nozzle-flow-intuition">10.
+Nozzle-flow intuition</a></li>
+<li><a href="#minimum-controllable-quantity" id="toc-minimum-controllable-quantity">11. Minimum controllable
+quantity</a></li>
+<li><a href="#rail-pressure-control-interaction" id="toc-rail-pressure-control-interaction">12. Rail-pressure control
+interaction</a></li>
+<li><a href="#production-variation" id="toc-production-variation">13.
+Production variation</a></li>
+<li><a href="#rail-pressure-control-loop-calibration" id="toc-rail-pressure-control-loop-calibration">14. Rail-pressure
+control-loop calibration</a>
+<ul>
+<li><a href="#static-characterization" id="toc-static-characterization">Static characterization</a></li>
+<li><a href="#dynamic-characterization" id="toc-dynamic-characterization">Dynamic characterization</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#robustness" id="toc-robustness">Robustness</a></li>
+</ul></li>
+<li><a href="#fuel-system-capability-map" id="toc-fuel-system-capability-map">15. Fuel-system capability
+map</a></li>
+<li><a href="#injector-electrical-and-hydraulic-aging" id="toc-injector-electrical-and-hydraulic-aging">16. Injector electrical
+and hydraulic aging</a></li>
+<li><a href="#quantity-linearization" id="toc-quantity-linearization">17. Quantity linearization</a></li>
+<li><a href="#high-load-duration-check" id="toc-high-load-duration-check">18. High-load duration check</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">19. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Fuel System and Injection Hardware
+</h1>
+<p>
+<em>Common rail, unit-injection alternatives, hydraulic delay, injector
+characterization and the physical limits behind the ECU command</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="the-ecu-command-is-not-the-fuel-spray">1. The ECU command is not
+the fuel spray</h1>
+<p>The physical fuel path is:</p>
+<pre class="text"><code>tank / supply
+   ↓
+filtration / water separation
+   ↓
+low-pressure pump
+   ↓
+high-pressure generation
+   ↓
+rail or unit pump
+   ↓
+injector control valve / needle
+   ↓
+nozzle holes
+   ↓
+spray</code></pre>
+<p>A calibration engineer must understand the hydraulic system behind
+the software variable.</p>
+<h1 id="common-rail">2. Common rail</h1>
+<p>In common rail, pressure generation is substantially decoupled from
+the timing of one cylinder’s injection event.</p>
+<p>Benefits include independent control of pressure, timing and multiple
+injection events.</p>
+<h1 id="unit-injection-and-other-architectures">3. Unit-injection and
+other architectures</h1>
+<p>Common rail is important but not universal.</p>
+<p>Large heavy-duty and off-highway engines can use electronically
+controlled unit injection or unit pumps.</p>
+<p>Use architecture-neutral concepts such as injection pressure, actual
+injected mass, hydraulic SOI and rate shape.</p>
+<h1 id="commanded-versus-delivered-quantity">4. Commanded versus
+delivered quantity</h1>
+<p>Conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mrow><mi>i</mi><mi>n</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>E</mi><mi>T</mi><mo>,</mo><msub><mi>p</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>,</mo><msub><mi>ρ</mi><mi>f</mi></msub><mo>,</mo><mi>i</mi><mi>n</mi><mi>j</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mo>,</mo><mi>v</mi><mi>o</mi><mi>l</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+m_{inj}
+=
+f(ET,p_{fuel},T_{fuel},\rho_f,injector,voltage)
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">ET</annotation></semantics></math>
+is energizing time.</p>
+<p>The fuel model must compensate for injector non-linearity, pressure,
+temperature, production variation and leakage.</p>
+<h1 id="electrical-command-versus-hydraulic-soi">5. Electrical command
+versus hydraulic SOI</h1>
+<pre class="text"><code>start of energizing
+      ↓
+electromagnetic / hydraulic delay
+      ↓
+needle motion
+      ↓
+actual start of injection</code></pre>
+<p>Fuel pressure, voltage, viscosity and injector condition can change
+the delay.</p>
+<h1 id="injection-rate-shape">6. Injection rate shape</h1>
+<p>The same total fuel mass can have different rate shapes.</p>
+<p>A fast early rate can raise premixed heat release and MPRR.</p>
+<p>A long late tail can raise soot, EGT and fuel consumption.</p>
+<h1 id="high-pressure-pump-work">7. High-pressure pump work</h1>
+<p>Higher injection pressure can improve atomization and mixing but
+costs pumping work and increases hardware loading.</p>
+<p>The efficiency optimum is therefore not always maximum pressure.</p>
+<h1 id="injector-characterization">8. Injector characterization</h1>
+<p>Useful development data include:</p>
+<ul>
+<li>quantity versus energizing time and pressure;</li>
+<li>hydraulic delay;</li>
+<li>rate of injection;</li>
+<li>minimum controllable quantity;</li>
+<li>event-to-event interaction;</li>
+<li>leak-off;</li>
+<li>temperature sensitivity.</li>
+</ul>
+<h1 id="fuel-system-protection">9. Fuel-system protection</h1>
+<p>Monitor low supply pressure, rail or injection-pressure tracking,
+fuel temperature, water detection where fitted and pump or injector
+fault states.</p>
+<h1 id="nozzle-flow-intuition">10. Nozzle-flow intuition</h1>
+<p>A simplified liquid-orifice relation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub><mo>≈</mo><msub><mi>C</mi><mi>d</mi></msub><mi>A</mi><msqrt><mrow><mn>2</mn><msub><mi>ρ</mi><mi>f</mi></msub><mi>Δ</mi><mi>p</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">
+\dot m_f
+\approx
+C_d A
+\sqrt{2\rho_f\Delta p}
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>d</mi></msub><annotation encoding="application/x-tex">C_d</annotation></semantics></math>
+is discharge coefficient,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+is effective flow area,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ρ</mi><mi>f</mi></msub><annotation encoding="application/x-tex">\rho_f</annotation></semantics></math>
+is fuel density and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">\Delta p</annotation></semantics></math>
+is the pressure difference across the nozzle.</p>
+<p>This equation is only an intuition. Real injector flow includes:</p>
+<ul>
+<li>needle motion;</li>
+<li>cavitation;</li>
+<li>compressibility;</li>
+<li>sac/nozzle dynamics;</li>
+<li>transient pressure waves.</li>
+</ul>
+<p>Still, it explains why delivered rate changes with both pressure and
+fuel density.</p>
+<h1 id="minimum-controllable-quantity">11. Minimum controllable
+quantity</h1>
+<p>Pilot injection can become unreliable near the injector’s minimum
+controllable quantity.</p>
+<p>Symptoms include:</p>
+<ul>
+<li>large shot-to-shot variation;</li>
+<li>inconsistent hydraulic delay;</li>
+<li>merged pilot/main events;</li>
+<li>unstable cylinder balance.</li>
+</ul>
+<p>The pilot map should therefore have a hardware-valid lower boundary
+rather than extrapolating toward zero.</p>
+<h1 id="rail-pressure-control-interaction">12. Rail-pressure control
+interaction</h1>
+<p>During a large fueling transient, rail pressure can fall because
+injector outflow momentarily exceeds pump supply.</p>
+<p>Log:</p>
+<pre class="text"><code>rail target
+rail actual
+pump command
+pressure-control valve
+total injection demand</code></pre>
+<p>before blaming the torque model.</p>
+<h1 id="production-variation">13. Production variation</h1>
+<p>Characterize more than one injector.</p>
+<p>At minimum, understand:</p>
+<ul>
+<li>nominal;</li>
+<li>high-flow;</li>
+<li>low-flow;</li>
+<li>aged or representative deterioration.</li>
+</ul>
+<p>A calibration based on one golden injector can fail production
+robustness.</p>
+<h1 id="rail-pressure-control-loop-calibration">14. Rail-pressure
+control-loop calibration</h1>
+<p>For common-rail hardware, pressure control deserves its own
+calibration procedure.</p>
+<p>A simplified rail mass balance is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>m</mi><mrow><mi>r</mi><mi>a</mi><mi>i</mi><mi>l</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>p</mi><mi>u</mi><mi>m</mi><mi>p</mi></mrow></msub><mo>−</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mi>n</mi><mi>j</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>s</mi></mrow></msub><mo>−</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>l</mi><mi>e</mi><mi>a</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\frac{dm_{rail}}{dt}
+=
+\dot m_{pump}
+-
+\dot m_{injectors}
+-
+\dot m_{leak}
+</annotation></semantics></math></p>
+<p>The calibration must therefore handle injection demand as a
+disturbance.</p>
+<h2 id="static-characterization">Static characterization</h2>
+<p>At representative speeds and fuel temperatures, determine:</p>
+<ul>
+<li>pump command versus delivered flow;</li>
+<li>pressure-control valve authority;</li>
+<li>leakage sensitivity;</li>
+<li>maximum sustainable pressure at high injection demand.</li>
+</ul>
+<h2 id="dynamic-characterization">Dynamic characterization</h2>
+<p>Apply controlled injection-demand steps and record:</p>
+<pre class="text"><code>rail target
+rail actual
+pump / metering command
+pressure-control valve
+total injected quantity
+fuel temperature
+battery / supply voltage</code></pre>
+<p>Measure:</p>
+<ul>
+<li>pressure dip;</li>
+<li>overshoot;</li>
+<li>settling time;</li>
+<li>oscillation.</li>
+</ul>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>rail-pressure target map;</li>
+<li>pump feedforward;</li>
+<li>pressure-controller gains;</li>
+<li>rate limits;</li>
+<li>hot-fuel correction;</li>
+<li>failure fallback.</li>
+</ul>
+<h2 id="robustness">Robustness</h2>
+<p>Repeat with:</p>
+<ul>
+<li>hot fuel;</li>
+<li>low supply pressure;</li>
+<li>high-flow injector sample;</li>
+<li>aged representative pump/injector where available.</li>
+</ul>
+<p>A rail controller that works only with a nominal cold fuel system is
+not production-ready.</p>
+<h1 id="fuel-system-capability-map">15. Fuel-system capability map</h1>
+<p>Build a capability surface rather than a single maximum-pressure
+number.</p>
+<p>A useful boundary is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>j</mi><mo>,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>n</mi><mi>e</mi></msub><mo>,</mo><msub><mi>m</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi><mo>,</mo><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>s</mi><mi>u</mi><mi>p</mi><mi>p</mi><mi>l</mi><mi>y</mi></mrow></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+p_{inj,max}
+=
+f(
+n_e,
+m_{fuel,total},
+T_{fuel},
+p_{supply}
+)
+</annotation></semantics></math></p>
+<p>At high speed and high total injection demand, pump flow—not nominal
+pressure rating—can become the limiting factor.</p>
+<h1 id="injector-electrical-and-hydraulic-aging">16. Injector electrical
+and hydraulic aging</h1>
+<p>Aging can change:</p>
+<ul>
+<li>coil/actuator response;</li>
+<li>control-valve leakage;</li>
+<li>needle friction;</li>
+<li>nozzle deposits;</li>
+<li>leak-off.</li>
+</ul>
+<p>This can move both quantity and hydraulic SOI.</p>
+<p>Monitor long-term adaptation separately from a hard fault
+threshold.</p>
+<h1 id="quantity-linearization">17. Quantity linearization</h1>
+<p>Near very small pilot quantities, the relationship:</p>
+<pre class="text"><code>energizing time → delivered mass</code></pre>
+<p>can be strongly nonlinear.</p>
+<p>Use measured injector data to build the linearization and do not
+extrapolate the main-injection slope into the pilot region.</p>
+<h1 id="high-load-duration-check">18. High-load duration check</h1>
+<p>At point D, verify that total injection duration and end of injection
+leave enough time for useful combustion before expansion and exhaust
+blowdown.</p>
+<p>A fuel-system calibration can meet demanded mass yet still be poor if
+too much of that mass arrives late.</p>
+<h1 id="common-mistakes">19. Common mistakes</h1>
+<ul>
+<li>Treating commanded mg/stroke as perfectly delivered fuel mass.</li>
+<li>Assuming electrical SOI equals hydraulic SOI.</li>
+<li>Using maximum injection pressure across the map.</li>
+<li>Ignoring injector event interaction at short dwell.</li>
+<li>Assuming all modern heavy-duty diesels are common rail.</li>
+</ul>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>Injection calibration must be grounded in hydraulic hardware
+behavior.</li>
+<li>Common rail gives flexibility but does not eliminate injector
+nonlinearity or delay.</li>
+<li>Rate shape matters in addition to total fuel mass.</li>
+<li>Injection pressure trades spray quality against pump work and
+durability.</li>
+<li>Hardware characterization belongs upstream of combustion map
+optimization.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://www.bosch-mobility.com/en/solutions/powertrain/diesel/modular-common-rail-system-ohw/">Bosch
+modular common-rail system for large/off-highway diesel engines</a> —
+current high-pressure injection architecture reference.
+</li>
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../04-speed-load-map-bmep-bsfc-losses/">← Speed–Load Maps, BMEP, BSFC, IMEP and Engine Losses</a><span class="article-count">5 / 33</span><a href="../06-fuel-quality-hvo-biodiesel/">Diesel Fuel Quality, Cetane, Density, LHV, HVO and Biodiesel →</a></div></body>
+</html>

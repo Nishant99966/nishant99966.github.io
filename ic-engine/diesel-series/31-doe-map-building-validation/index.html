@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Design of Experiments, Map Building and Off-Grid Validation</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 31 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#one-factor-sweeps-teach-physics-doe-captures-interactions" id="toc-one-factor-sweeps-teach-physics-doe-captures-interactions">1.
+One-factor sweeps teach physics; DoE captures interactions</a></li>
+<li><a href="#screening" id="toc-screening">2. Screening</a></li>
+<li><a href="#response-surface" id="toc-response-surface">3. Response
+surface</a></li>
+<li><a href="#replication" id="toc-replication">4. Replication</a></li>
+<li><a href="#blocking" id="toc-blocking">5. Blocking</a></li>
+<li><a href="#restricted-randomization" id="toc-restricted-randomization">6. Restricted randomization</a></li>
+<li><a href="#robust-optimization" id="toc-robust-optimization">7.
+Robust optimization</a></li>
+<li><a href="#map-fitting" id="toc-map-fitting">8. Map fitting</a></li>
+<li><a href="#off-grid-validation" id="toc-off-grid-validation">9.
+Off-grid validation</a></li>
+<li><a href="#example-four-factor-study" id="toc-example-four-factor-study">10. Example four-factor
+study</a></li>
+<li><a href="#factor-coding" id="toc-factor-coding">11. Factor
+coding</a></li>
+<li><a href="#residual-inspection" id="toc-residual-inspection">12.
+Residual inspection</a></li>
+<li><a href="#confirmation-rule" id="toc-confirmation-rule">13.
+Confirmation rule</a></li>
+<li><a href="#from-doe-optimum-to-production-map" id="toc-from-doe-optimum-to-production-map">14. From DoE optimum to
+production map</a></li>
+<li><a href="#production-variation-confirmation" id="toc-production-variation-confirmation">15. Production-variation
+confirmation</a></li>
+<li><a href="#safe-design-space-definition" id="toc-safe-design-space-definition">16. Safe design-space
+definition</a></li>
+<li><a href="#sequential-experimentation" id="toc-sequential-experimentation">17. Sequential
+experimentation</a></li>
+<li><a href="#model-transfer-between-neighboring-cells" id="toc-model-transfer-between-neighboring-cells">18. Model transfer
+between neighboring cells</a></li>
+<li><a href="#uncertainty-of-the-optimum" id="toc-uncertainty-of-the-optimum">19. Uncertainty of the
+optimum</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">20. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">21. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Design of Experiments, Map Building and Off-Grid Validation
+</h1>
+<p>
+<em>How to optimize interacting heavy-duty calibration variables
+efficiently and select robust production targets</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="one-factor-sweeps-teach-physics-doe-captures-interactions">1.
+One-factor sweeps teach physics; DoE captures interactions</h1>
+<p>A heavy-duty diesel response can be written conceptually as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>S</mi><mi>O</mi><mi>I</mi><mo>,</mo><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>j</mi></mrow></msub><mo>,</mo><mi>E</mi><mi>G</mi><mi>R</mi><mo>,</mo><mi>V</mi><mi>G</mi><mi>T</mi><mo>,</mo><mi>p</mi><mi>i</mi><mi>l</mi><mi>o</mi><mi>t</mi><mo>,</mo><mi>T</mi><mo>,</mo><msub><mi>n</mi><mi>e</mi></msub><mo>,</mo><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi><mo>,</mo><mi>…</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+y=
+f(SOI,p_{inj},EGR,VGT,pilot,T,n_e,load,\ldots)
+</annotation></semantics></math></p>
+<p>Important interactions include:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>O</mi><mi>I</mi><mo>×</mo><mi>E</mi><mi>G</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">
+SOI\times EGR
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>j</mi></mrow></msub><mo>×</mo><mi>s</mi><mi>o</mi><mi>o</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+p_{inj}\times soot
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>G</mi><mi>T</mi><mo>×</mo><mi>E</mi><mi>G</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">
+VGT\times EGR
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>i</mi><mi>l</mi><mi>o</mi><mi>t</mi><mo>×</mo><mi>m</mi><mi>a</mi><mi>i</mi><mi>n</mi><mspace width="0.222em"></mspace><mi>t</mi><mi>i</mi><mi>m</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">
+pilot\times main\ timing
+</annotation></semantics></math></p>
+<figure class="figure-card">
+<svg aria-label="Pareto optimization" role="img" viewbox="0 0 820 430">
+<rect fill="white" height="430" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="350" y2="350"></line><line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="350" y2="55"></line>
+<text font-size="17" x="560" y="397">Emissions / constraint burden
+→</text><text font-size="17" transform="rotate(-90 24,120)" x="24" y="120">Efficiency
+↑</text>
+<g fill="#c7d7e4"><circle cx="175" cy="290" r="7"></circle><circle cx="240" cy="245" r="7"></circle><circle cx="310" cy="210" r="7"></circle><circle cx="380" cy="183" r="7"></circle><circle cx="455" cy="165" r="7"></circle><circle cx="540" cy="155" r="7"></circle><circle cx="625" cy="172" r="7"></circle></g>
+<path d="M175 290 C280 220,405 170,540 155" fill="none" stroke="#17324a" stroke-width="3"></path>
+<circle cx="430" cy="170" fill="#5d87ad" r="9"></circle><text font-size="14" x="445" y="168">robust
+selected point</text>
+</svg>
+<figcaption>
+Multi-objective calibration chooses a robust point inside a feasible
+region, not merely the absolute minimum-BSFC point on one fresh engine.
+</figcaption>
+</figure>
+<h1 id="screening">2. Screening</h1>
+<p>When many factors exist, use a screening design to identify which
+variables materially affect the responses.</p>
+<p>Possible responses:</p>
+<ul>
+<li>BSFC;</li>
+<li>NOx;</li>
+<li>PM or smoke;</li>
+<li>Pmax;</li>
+<li>MPRR;</li>
+<li>EGT;</li>
+<li>SCR inlet temperature.</li>
+</ul>
+<h1 id="response-surface">3. Response surface</h1>
+<p>A local response model can include:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>12</mn></msub><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>11</mn></msub><msubsup><mi>x</mi><mn>1</mn><mn>2</mn></msubsup><mo>+</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">
+y
+=
+\beta_0+\beta_1x_1+\beta_2x_2+\beta_{12}x_1x_2+\beta_{11}x_1^2+\ldots
+</annotation></semantics></math></p>
+<p>This is a statistical approximation, not a substitute for engine
+physics.</p>
+<h1 id="replication">4. Replication</h1>
+<p>Repeat selected points to estimate noise.</p>
+<p>Without replication, the model can treat measurement variation as a
+calibration effect.</p>
+<h1 id="blocking">5. Blocking</h1>
+<p>Use blocks for nuisance variables such as:</p>
+<ul>
+<li>test day;</li>
+<li>fuel batch;</li>
+<li>aftertreatment soot state;</li>
+<li>ambient condition.</li>
+</ul>
+<h1 id="restricted-randomization">6. Restricted randomization</h1>
+<p>Some factors are hard to change.</p>
+<p>For example:</p>
+<pre class="text"><code>whole-plot factor:
+coolant / ambient / fuel state
+
+sub-plot factors:
+SOI / rail pressure / pilot / EGR</code></pre>
+<p>The statistical model should reflect that structure.</p>
+<h1 id="robust-optimization">7. Robust optimization</h1>
+<p>A mathematically best point can be too close to:</p>
+<ul>
+<li>smoke boundary;</li>
+<li>Pmax;</li>
+<li>turbo speed;</li>
+<li>NOx limit.</li>
+</ul>
+<p>A slightly worse nominal BSFC point with stronger robustness margin
+can be the better production target.</p>
+<h1 id="map-fitting">8. Map fitting</h1>
+<p>After collecting DoE data:</p>
+<ol type="1">
+<li>fit local response;</li>
+<li>inspect residuals;</li>
+<li>check lack-of-fit;</li>
+<li>confirm physical interaction signs;</li>
+<li>select candidate optimum;</li>
+<li>run independent confirmation point;</li>
+<li>repeat if needed.</li>
+</ol>
+<h1 id="off-grid-validation">9. Off-grid validation</h1>
+<p>Do not validate only at the original design points.</p>
+<p>Choose intermediate combinations and compare measured responses with
+model prediction.</p>
+<h1 id="example-four-factor-study">10. Example four-factor study</h1>
+<p>At one speed-load point:</p>
+<pre class="text"><code>A = main SOI
+B = injection pressure
+C = EGR
+D = VGT / boost target</code></pre>
+<p>Responses:</p>
+<pre class="text"><code>BSFC
+NOx
+smoke
+Pmax
+MPRR
+SCR inlet temperature</code></pre>
+<p>A screening design can identify whether interactions such as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>×</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">A\times C</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>×</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">C\times D</annotation></semantics></math>
+dominate.</p>
+<h1 id="factor-coding">11. Factor coding</h1>
+<p>A normalized factor can be:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><msub><mi>X</mi><mrow><mi>c</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi></mrow></msub></mrow><mrow><mi>Δ</mi><msub><mi>X</mi><mi>i</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+x_i
+=
+\frac{X_i-X_{center}}{\Delta X_i}
+</annotation></semantics></math></p>
+<p>This helps numerical conditioning and coefficient comparison.</p>
+<h1 id="residual-inspection">12. Residual inspection</h1>
+<p>Check:</p>
+<ul>
+<li>residual versus prediction;</li>
+<li>residual versus run order;</li>
+<li>outliers;</li>
+<li>block effects;</li>
+<li>lack of fit.</li>
+</ul>
+<p>A high R² can coexist with thermal drift or model bias.</p>
+<h1 id="confirmation-rule">13. Confirmation rule</h1>
+<p>The selected optimum should be run again as an independent test
+point.</p>
+<p>Preferably repeat it and a reference point.</p>
+<p>Release only after prediction and confirmation agree within the
+intended model/test uncertainty.</p>
+<h1 id="from-doe-optimum-to-production-map">14. From DoE optimum to
+production map</h1>
+<p>After the local optimum is confirmed:</p>
+<ol type="1">
+<li>repeat it;</li>
+<li>compare with a reference;</li>
+<li>place it into the surrounding speed-load surface;</li>
+<li>smooth only if the physical trend remains correct;</li>
+<li>inspect gradients;</li>
+<li>run off-grid points;</li>
+<li>run the relevant transient.</li>
+</ol>
+<p>A statistically optimal cell that creates a sharp map gradient can
+produce poor vehicle behavior.</p>
+<h1 id="production-variation-confirmation">15. Production-variation
+confirmation</h1>
+<p>At the selected robust point, challenge one or more influential
+variations:</p>
+<ul>
+<li>injector flow;</li>
+<li>turbo efficiency;</li>
+<li>EGR flow;</li>
+<li>fuel quality;</li>
+<li>temperature.</li>
+</ul>
+<p>This verifies that the selected Pareto point actually has the
+intended margin.</p>
+<h1 id="safe-design-space-definition">16. Safe design-space
+definition</h1>
+<p>Before generating a DoE, define hard boundaries from:</p>
+<ul>
+<li>Pmax;</li>
+<li>MPRR;</li>
+<li>turbo speed;</li>
+<li>exhaust temperature;</li>
+<li>smoke;</li>
+<li>rail-pressure capability.</li>
+</ul>
+<p>Do not let the statistical design request unsafe combinations.</p>
+<h1 id="sequential-experimentation">17. Sequential experimentation</h1>
+<p>A practical strategy is:</p>
+<pre class="text"><code>physics sweep
+→ screening DoE
+→ response surface
+→ robust confirmation</code></pre>
+<p>This is often more efficient than beginning with a large high-order
+DoE before understanding the engine.</p>
+<h1 id="model-transfer-between-neighboring-cells">18. Model transfer
+between neighboring cells</h1>
+<p>A response surface from 1200 rpm should not automatically be reused
+at 1600 rpm.</p>
+<p>Instead compare coefficient trends and decide whether:</p>
+<ul>
+<li>separate local models;</li>
+<li>a speed dimension;</li>
+<li>a reduced physics-based model;</li>
+</ul>
+<p>is appropriate.</p>
+<h1 id="uncertainty-of-the-optimum">19. Uncertainty of the optimum</h1>
+<p>Report not only the predicted optimum but also the expected
+prediction uncertainty.</p>
+<p>If several points have statistically indistinguishable BSFC, select
+among them using robustness, emissions and map-smoothness margin.</p>
+<h1 id="common-mistakes">20. Common mistakes</h1>
+<ul>
+<li>Treating R-squared as proof of physical correctness.</li>
+<li>Omitting replication.</li>
+<li>Fully randomizing hard-to-change thermal states.</li>
+<li>Accepting a model optimum without confirmation.</li>
+<li>Extrapolating outside the tested safe domain.</li>
+</ul>
+<h1 id="key-lessons">21. Key lessons</h1>
+<ol type="1">
+<li>DoE is most valuable when calibration variables interact.</li>
+<li>Replication and blocking separate engine response from test
+noise.</li>
+<li>Restricted randomization is often necessary on heavy engines.</li>
+<li>Robust production targets can be better than nominal extrema.</li>
+<li>Every optimum needs independent confirmation and off-grid
+validation.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://www.itl.nist.gov/div898/handbook/pri/section3/pri3.htm">NIST/SEMATECH
+e-Handbook of Statistical Methods</a> — experimental design, blocking,
+response surfaces and validation.
+</li>
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../30-test-cell-instrumentation-uncertainty/">← Test-Cell Instrumentation, Measurement Uncertainty and Data Quality</a><span class="article-count">31 / 33</span><a href="../32-durability-aging-in-use-pems/">Durability, Aging, In-Use Compliance and PEMS →</a></div></body>
+</html>

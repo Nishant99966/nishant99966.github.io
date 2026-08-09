@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Engine Fuel Maps, VECTO and Heavy-Duty Vehicle CO₂ Optimization</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 28 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#engine-fuel-efficiency-becomes-vehicle-co2-through-a-mission" id="toc-engine-fuel-efficiency-becomes-vehicle-co2-through-a-mission">1.
+Engine fuel efficiency becomes vehicle CO2 through a mission</a></li>
+<li><a href="#vecto-concept" id="toc-vecto-concept">2. VECTO
+concept</a></li>
+<li><a href="#engine-inputs" id="toc-engine-inputs">3. Engine
+inputs</a></li>
+<li><a href="#mission-weighting" id="toc-mission-weighting">4. Mission
+weighting</a></li>
+<li><a href="#hd13-e-example" id="toc-hd13-e-example">5. HD13-E
+example</a></li>
+<li><a href="#downspeeding-and-torque-shaping" id="toc-downspeeding-and-torque-shaping">6. Downspeeding and torque
+shaping</a></li>
+<li><a href="#auxiliaries" id="toc-auxiliaries">7. Auxiliaries</a></li>
+<li><a href="#current-eu-co2-context" id="toc-current-eu-co2-context">8.
+Current EU CO2 context</a></li>
+<li><a href="#calibration-execution" id="toc-calibration-execution">9.
+Calibration execution</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#preconditions" id="toc-preconditions">Preconditions</a></li>
+<li><a href="#mission-weighted-map" id="toc-mission-weighted-map">Mission-weighted map</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#validation" id="toc-validation">Validation</a></li>
+</ul></li>
+<li><a href="#engine-map-measurement-quality-for-vehicle-simulation" id="toc-engine-map-measurement-quality-for-vehicle-simulation">10.
+Engine-map measurement quality for vehicle simulation</a></li>
+<li><a href="#mission-contribution-map" id="toc-mission-contribution-map">11. Mission contribution map</a></li>
+<li><a href="#technology-interaction-example" id="toc-technology-interaction-example">12. Technology interaction
+example</a></li>
+<li><a href="#simulation-to-road-correlation" id="toc-simulation-to-road-correlation">13. Simulation-to-road
+correlation</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">14. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">15. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Engine Fuel Maps, VECTO and Heavy-Duty Vehicle CO₂ Optimization
+</h1>
+<p>
+<em>How BSFC maps, full-load torque, driveline, auxiliaries, vehicle
+resistance and mission profiles combine into vehicle fuel consumption
+and CO₂</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> OEM-neutral heavy-duty diesel calibration for
+truck, bus and comparable vehicle applications. Worked numerical values
+are illustrative unless tied to a cited public regulation or product
+source.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="engine-fuel-efficiency-becomes-vehicle-co2-through-a-mission">1.
+Engine fuel efficiency becomes vehicle CO2 through a mission</h1>
+<p>A 0.5% BSFC gain at one engine point does not automatically produce a
+0.5% vehicle fuel-consumption gain.</p>
+<figure class="figure-card">
+<svg aria-label="Engine fuel map to vehicle CO2" role="img" viewbox="0 0 820 500">
+<rect fill="white" height="500" width="820"></rect><g fill="#17324a" font-family="Arial" font-size="14" text-anchor="middle"><rect fill="#eef4f8" height="72" rx="9" stroke="#5d87ad" width="135" x="30" y="175"></rect><text x="98" y="205">Engine
+fuel /</text><text x="98" y="226">full-load
+maps</text><rect fill="#eef4f8" height="72" rx="9" stroke="#5d87ad" width="125" x="200" y="175"></rect><text x="263" y="205">Gearbox
+/</text><text x="263" y="226">driveline
+losses</text><rect fill="#eef4f8" height="72" rx="9" stroke="#5d87ad" width="125" x="360" y="175"></rect><text x="423" y="205">Mass
+/
+rolling</text><text x="423" y="226">resistance</text><rect fill="#eef4f8" height="72" rx="9" stroke="#5d87ad" width="125" x="520" y="175"></rect><text x="583" y="205">Aerodynamics
+/</text><text x="583" y="226">auxiliaries</text><rect fill="#eef4f8" height="72" rx="9" stroke="#5d87ad" width="105" x="680" y="175"></rect><text x="733" y="205">Mission</text><text x="733" y="226">profile</text><text x="410" y="80">Vehicle
+simulation combines component data into CO2 / fuel
+consumption</text></g>
+</svg>
+<figcaption>
+Vehicle CO2/fuel consumption depends on how engine maps interact with
+gearbox losses, auxiliaries, vehicle resistance and mission profile. A
+map-cell gain matters only in proportion to how the vehicle uses that
+region.
+</figcaption>
+</figure>
+<h1 id="vecto-concept">2. VECTO concept</h1>
+<p>The European Commission’s VECTO framework uses engine performance
+plus vehicle/component inputs including gearbox losses, auxiliary power,
+mass/inertia, rolling resistance, aerodynamics and mission profiles.</p>
+<h1 id="engine-inputs">3. Engine inputs</h1>
+<p>High-quality engine inputs include the applicable fuel-consumption
+map, full-load curve and other engine data required by the current
+method.</p>
+<p>The legal data format and test procedure must follow the applicable
+current VECTO/type-approval regulation.</p>
+<h1 id="mission-weighting">4. Mission weighting</h1>
+<p>Conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi><mo>,</mo><mi>m</mi><mi>i</mi><mi>s</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>=</mo><mo>∫</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>f</mi></msub><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>n</mi><mi>e</mi></msub><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>,</mo><msub><mi>T</mi><mi>e</mi></msub><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo form="postfix" stretchy="true">)</mo></mrow><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+m_{fuel,mission}
+=
+\int
+\dot m_f(n_e(t),T_e(t))\,dt
+</annotation></semantics></math></p>
+<p>The map cells that contribute most mission fuel deserve the most
+optimization effort.</p>
+<h1 id="hd13-e-example">5. HD13-E example</h1>
+<p>Suppose a change gives:</p>
+<pre class="text"><code>Point B:  -0.2% BSFC
+Point C:  -0.7% BSFC
+Point D:  +0.1% BSFC</code></pre>
+<p>A long-haul mission that spends substantial work around point C can
+benefit more than a vocational mission that rarely operates there.</p>
+<h1 id="downspeeding-and-torque-shaping">6. Downspeeding and torque
+shaping</h1>
+<p>A stronger low-speed torque curve can allow earlier upshift or taller
+axle ratio.</p>
+<p>Vehicle benefit can then come from lower engine speed and friction,
+not only lower BSFC at one cell.</p>
+<h1 id="auxiliaries">7. Auxiliaries</h1>
+<p>Smart coolant pumps, fan control and clutched compressors matter
+because auxiliary power is part of the vehicle energy balance.</p>
+<h1 id="current-eu-co2-context">8. Current EU CO2 context</h1>
+<p>The current EU heavy-duty CO2 framework sets progressively stricter
+manufacturer fleet targets across future reporting periods.</p>
+<p>For the calibration engineer, the durable lesson is:</p>
+<blockquote>
+<p>engine map quality, driveline integration and vehicle simulation are
+formal product-development inputs.</p>
+</blockquote>
+<h1 id="calibration-execution">9. Calibration execution</h1>
+<h2 id="objective">Objective</h2>
+<p>Optimize vehicle mission fuel/CO2, not isolated minimum BSFC.</p>
+<h2 id="preconditions">Preconditions</h2>
+<p>Fuel map and full-load curve validated with known uncertainty;
+representative transmission and vehicle data available; current VECTO
+method identified.</p>
+<h2 id="mission-weighted-map">Mission-weighted map</h2>
+<p>Create:</p>
+<pre class="text"><code>speed × torque cell
+→ time fraction
+→ work fraction
+→ fuel contribution</code></pre>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>injection;</li>
+<li>air/EGR;</li>
+<li>low-speed torque;</li>
+<li>gear-dependent torque;</li>
+<li>auxiliaries;</li>
+<li>thermal strategy.</li>
+</ul>
+<h2 id="validation">Validation</h2>
+<p>Repeat dyno points, run vehicle simulation, verify representative
+route, vehicle mass and alternative mission profiles.</p>
+<h1 id="engine-map-measurement-quality-for-vehicle-simulation">10.
+Engine-map measurement quality for vehicle simulation</h1>
+<p>A simulation tool can only be as accurate as the engine map
+provided.</p>
+<p>For map-generation testing control:</p>
+<ul>
+<li>coolant and oil temperature;</li>
+<li>fuel temperature;</li>
+<li>intake condition;</li>
+<li>auxiliary state;</li>
+<li>aftertreatment/regen state;</li>
+<li>measurement drift.</li>
+</ul>
+<p>A 0.5% biased fuel map can distort the apparent benefit of vehicle
+technologies.</p>
+<h1 id="mission-contribution-map">11. Mission contribution map</h1>
+<p>For a simulated mission, create a second map showing:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>u</mi><mi>e</mi><msub><mi>l</mi><mrow><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>f</mi><mo>,</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub><mo>×</mo><mi>t</mi><mi>i</mi><mi>m</mi><msub><mi>e</mi><mrow><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+Fuel_{cell}
+=
+\dot m_{f,cell}
+\times
+time_{cell}
+</annotation></semantics></math></p>
+<p>This highlights cells that dominate total fuel use.</p>
+<p>A cell with mediocre BSFC may deserve little development effort if
+the vehicle almost never operates there.</p>
+<h1 id="technology-interaction-example">12. Technology interaction
+example</h1>
+<p>Suppose:</p>
+<pre class="text"><code>Miller / air-path change improves point C
+smart air compressor reduces auxiliary load
+taller axle ratio moves more operation into point C</code></pre>
+<p>The combined vehicle benefit can be larger than the sum estimated
+from isolated engine points because the operating distribution also
+changes.</p>
+<h1 id="simulation-to-road-correlation">13. Simulation-to-road
+correlation</h1>
+<p>After simulation:</p>
+<ol type="1">
+<li>select representative route;</li>
+<li>reproduce mass and tire/vehicle configuration;</li>
+<li>compare speed/gear/engine-operating distribution;</li>
+<li>compare fuel consumption;</li>
+<li>investigate systematic mismatch.</li>
+</ol>
+<p>The goal is not to tune the engine map to force simulation agreement;
+it is to validate the complete input/model chain.</p>
+<h1 id="common-mistakes">14. Common mistakes</h1>
+<ul>
+<li>Optimizing the absolute BSFC minimum without mission weighting.</li>
+<li>Comparing VECTO results with different vehicle inputs.</li>
+<li>Ignoring auxiliary power.</li>
+<li>Treating transmission strategy as unrelated to engine-map
+optimization.</li>
+<li>Using an outdated simulation/regulatory version.</li>
+</ul>
+<h1 id="key-lessons">15. Key lessons</h1>
+<ol type="1">
+<li>Vehicle CO2 is a system result.</li>
+<li>Mission weighting determines which engine-map gains matter.</li>
+<li>Downspeeding can create benefits beyond a BSFC-cell change.</li>
+<li>Auxiliaries and gearbox losses belong in the same energy
+balance.</li>
+<li>VECTO-quality thinking turns engine calibration into vehicle-level
+optimization.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://climate.ec.europa.eu/eu-action/transport-decarbonisation/road-transport/vehicle-energy-consumption-calculation-tool-vecto_en">European
+Commission VECTO</a> — official description of heavy-duty
+CO2/fuel-consumption simulation using engine performance, gearbox
+losses, auxiliaries, vehicle resistance and mission profiles.
+</li>
+<li>
+<a href="https://eur-lex.europa.eu/eli/reg/2017/2400/2026-01-01/eng">Commission
+Regulation (EU) 2017/2400, consolidated 1 January 2026</a> — current
+legal framework for determination of heavy-duty vehicle CO2 emissions
+and fuel consumption using the simulation tool.
+</li>
+<li>
+<a href="https://eur-lex.europa.eu/eli/reg/2019/1242/2024-07-01/eng">Regulation
+(EU) 2019/1242 as amended</a> — current heavy-duty vehicle CO2
+fleet-performance framework; the EUR-Lex page links to the current 2026
+consolidation.
+</li>
+<li>
+<a href="https://www.daf.com/en/news-and-media/news-articles/global/2024/new-generation-daf-trucks-powering-customer-success">DAF
+Trucks, 2024 public powertrain update</a> — example combining Miller
+valve timing, updated turbo/EGR, dual-drive coolant pump, clutched air
+compressor, new injectors and downspeeding.
+</li>
+</ol>
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../27-transmission-vehicle-integration/">← Transmission, Vehicle and Predictive Torque Integration</a><span class="article-count">28 / 33</span><a href="../29-transient-driveability-altitude/">Transient Driveability, Tip-In/Tip-Out, Shifts, Grade and Altitude →</a></div></body>
+</html>

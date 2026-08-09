@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>EGR Calibration and the NOx–Soot Trade-Off</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 15 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#the-classic-diesel-trade-off-is-realbut-movable" id="toc-the-classic-diesel-trade-off-is-realbut-movable">1. The classic
+diesel trade-off is real—but movable</a></li>
+<li><a href="#why-egr-reduces-nox" id="toc-why-egr-reduces-nox">2. Why
+EGR reduces NOx</a></li>
+<li><a href="#why-egr-can-increase-soot" id="toc-why-egr-can-increase-soot">3. Why EGR can increase soot</a></li>
+<li><a href="#egr-injection-timing-interaction" id="toc-egr-injection-timing-interaction">4. EGR × injection timing
+interaction</a></li>
+<li><a href="#egr-boost-interaction" id="toc-egr-boost-interaction">5.
+EGR × boost interaction</a></li>
+<li><a href="#egr-cooler" id="toc-egr-cooler">6. EGR cooler</a></li>
+<li><a href="#calibration-procedure" id="toc-calibration-procedure">7.
+Calibration procedure</a></li>
+<li><a href="#low-load-challenge" id="toc-low-load-challenge">8.
+Low-load challenge</a></li>
+<li><a href="#high-load-challenge" id="toc-high-load-challenge">9.
+High-load challenge</a></li>
+<li><a href="#scr-dominant-architectures" id="toc-scr-dominant-architectures">10. SCR-dominant
+architectures</a></li>
+<li><a href="#engine-out-emissions-target-allocation" id="toc-engine-out-emissions-target-allocation">11. Engine-out emissions
+target allocation</a></li>
+<li><a href="#calibration-execution-standard" id="toc-calibration-execution-standard">12. Calibration execution
+standard</a></li>
+<li><a href="#senior-calibration-deep-dive-aftertreatment-aware-optimization" id="toc-senior-calibration-deep-dive-aftertreatment-aware-optimization">13.
+Senior calibration deep dive — aftertreatment-aware optimization</a>
+<ul>
+<li><a href="#target-scheduling" id="toc-target-scheduling">Target
+scheduling</a></li>
+<li><a href="#robustness-margin" id="toc-robustness-margin">Robustness
+margin</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">14. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">15. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+EGR Calibration and the NOx–Soot Trade-Off
+</h1>
+<p>
+<em>How EGR, VGT, boost, combustion phasing and aftertreatment shift the
+feasible emissions-efficiency region</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="the-classic-diesel-trade-off-is-realbut-movable">1. The classic
+diesel trade-off is real—but movable</h1>
+<p>Reducing oxygen concentration and combustion temperature can reduce
+NOx.</p>
+<p>But excessive dilution can increase soot.</p>
+<figure class="figure-card">
+<svg aria-label="NOx soot tradeoff" role="img" viewbox="0 0 820 440">
+<rect fill="white" height="440" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="360" y2="360"></line><line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="360" y2="60"></line>
+<text font-size="17" x="540" y="405">More dilution / later burn / less
+O₂ →</text>
+<path d="M120 120 C300 155,500 230,710 320" fill="none" stroke="#17324a" stroke-width="3"></path><text font-size="14" x="135" y="105">NOx</text>
+<path d="M120 325 C410 320,560 285,635 190 C675 140,700 100,720 80" fill="none" stroke="#5d87ad" stroke-width="3"></path><text font-size="14" x="655" y="95">soot
+/ PM</text>
+<line stroke="#9bb5c9" stroke-dasharray="7 6" x1="565" x2="565" y1="80" y2="360"></line><text font-size="13" x="425" y="75">production
+target with margin</text>
+</svg>
+<figcaption>
+The classic NOx–soot trade-off is movable, not fixed. Injection
+pressure/rate shape, boost, EGR, combustion design and aftertreatment
+all shift the feasible region.
+</figcaption>
+</figure>
+<p>This is often called the NOx-soot trade-off.</p>
+<p>It is not a single immutable curve.</p>
+<p>Injection pressure, spray, timing, boost, combustion-system hardware
+and aftertreatment can move it.</p>
+<h1 id="why-egr-reduces-nox">2. Why EGR reduces NOx</h1>
+<p>EGR can:</p>
+<ul>
+<li>reduce oxygen concentration;</li>
+<li>increase charge heat capacity;</li>
+<li>reduce peak burned-gas temperature.</li>
+</ul>
+<p>This suppresses thermal NO formation.</p>
+<h1 id="why-egr-can-increase-soot">3. Why EGR can increase soot</h1>
+<p>More EGR can reduce both local oxygen availability and soot
+oxidation.</p>
+<p>If the same fuel enters less oxygen:</p>
+<pre class="text"><code>local equivalence ratio ↑
+      ↓
+soot formation tendency ↑</code></pre>
+<h1 id="egr-injection-timing-interaction">4. EGR × injection timing
+interaction</h1>
+<p>Retaining the same SOI after adding EGR can move CA50 because
+ignition delay changes.</p>
+<p>Therefore EGR sweeps should normally include combustion-phasing
+re-optimization.</p>
+<h1 id="egr-boost-interaction">5. EGR × boost interaction</h1>
+<p>EGR changes compressor and turbine flows.</p>
+<p>VGT may need to change to maintain fresh-air or pressure targets.</p>
+<p>Aggressive VGT closure can increase PMEP and reduce brake
+efficiency.</p>
+<h1 id="egr-cooler">6. EGR cooler</h1>
+<p>EGR temperature changes charge density and combustion
+temperature.</p>
+<p>A cooler performance change can therefore move NOx, soot and turbo
+operating point even if EGR valve position is unchanged.</p>
+<h1 id="calibration-procedure">7. Calibration procedure</h1>
+<p>At each important speed-load point:</p>
+<ol type="1">
+<li>establish boost and no or low-EGR reference;</li>
+<li>add EGR in controlled steps;</li>
+<li>re-optimize main timing;</li>
+<li>measure NOx;</li>
+<li>measure smoke or PM;</li>
+<li>measure BSFC;</li>
+<li>monitor Pmax, MPRR and EGT;</li>
+<li>select a point with margin from the steep soot boundary.</li>
+</ol>
+<h1 id="low-load-challenge">8. Low-load challenge</h1>
+<p>At low load, EGR can lower exhaust temperature further.</p>
+<p>That can hurt SCR and DPF temperature.</p>
+<p>The lowest engine-out NOx point may therefore be a poor
+tailpipe-emissions point.</p>
+<h1 id="high-load-challenge">9. High-load challenge</h1>
+<p>At high load, EGR may be constrained by:</p>
+<ul>
+<li>smoke;</li>
+<li>turbine temperature;</li>
+<li>compressor flow;</li>
+<li>cooling load;</li>
+<li>Pmax.</li>
+</ul>
+<h1 id="scr-dominant-architectures">10. SCR-dominant architectures</h1>
+<p>Some current heavy-duty products rely less on EGR and more strongly
+on SCR.</p>
+<p>The correct architecture is product-specific.</p>
+<p>Do not build the training assumption that “every modern diesel must
+use high EGR everywhere.”</p>
+<h1 id="engine-out-emissions-target-allocation">11. Engine-out emissions
+target allocation</h1>
+<p>The EGR target should come from the complete tailpipe system.</p>
+<p>Conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>O</mi><mi>x</mi><mo>,</mo><mi>t</mi><mi>p</mi></mrow></msub><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>O</mi><mi>x</mi><mo>,</mo><mi>E</mi><mi>O</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">(</mo><mn>1</mn><mo>−</mo><msub><mi>η</mi><mrow><mi>S</mi><mi>C</mi><mi>R</mi></mrow></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\dot m_{NOx,tp}
+=
+\dot m_{NOx,EO}
+(1-\eta_{SCR})
+</annotation></semantics></math></p>
+<p>When SCR is hot and conversion margin is high, the engine can
+sometimes tolerate a higher engine-out NOx target if that reduces soot,
+pumping loss or fuel consumption.</p>
+<p>When SCR is cold or aged, engine-out NOx may need to be lower.</p>
+<p>This is <strong>target allocation</strong>, not an excuse to ignore
+engine-out emissions.</p>
+<h1 id="calibration-execution-standard">12. Calibration execution
+standard</h1>
+<p>At each selected speed-load point:</p>
+<ol type="1">
+<li>define the tailpipe/system objective;</li>
+<li>establish no/low-EGR reference;</li>
+<li>sweep EGR;</li>
+<li>re-optimize injection phasing;</li>
+<li>measure BSFC/NOx/smoke;</li>
+<li>check SCR temperature/capability;</li>
+<li>select a point with margin from the steep soot boundary.</li>
+</ol>
+<p>Repeat with aged aftertreatment assumptions at key points.</p>
+<h1 id="senior-calibration-deep-dive-aftertreatment-aware-optimization">13.
+Senior calibration deep dive — aftertreatment-aware optimization</h1>
+<p>Consider two hot-SCR candidates at the same brake torque:</p>
+<pre class="text"><code>Candidate A:
+more EGR
+lower engine-out NOx
+higher pumping loss
+higher soot
+
+Candidate B:
+less EGR
+higher engine-out NOx
+lower soot
+better BSFC</code></pre>
+<p>If the aged SCR system still has sufficient conversion margin,
+Candidate B may deliver lower system fuel consumption and acceptable
+tailpipe emissions.</p>
+<p>During cold/low-temperature operation, that conclusion can
+reverse.</p>
+<h2 id="target-scheduling">Target scheduling</h2>
+<p>A mature EGR target can therefore depend on:</p>
+<pre class="text"><code>speed / load
+SCR temperature / capability
+DPF soot state
+thermal mode
+ambient condition</code></pre>
+<p>This is a supervisory emissions strategy, not a single fixed NOx-soot
+compromise.</p>
+<h2 id="robustness-margin">Robustness margin</h2>
+<p>Repeat the selected EGR point with:</p>
+<ul>
+<li>EGR-flow bias;</li>
+<li>cooler degradation;</li>
+<li>aged SCR conversion;</li>
+<li>injector variation.</li>
+</ul>
+<p>The production target should remain away from the steep soot
+cliff.</p>
+<h1 id="common-mistakes">14. Common mistakes</h1>
+<ul>
+<li>Tuning EGR without re-optimizing timing.</li>
+<li>Using EGR valve position as EGR fraction.</li>
+<li>Optimizing engine-out NOx while ignoring tailpipe conversion.</li>
+<li>Ignoring cooler-temperature effects.</li>
+<li>Assuming one EGR philosophy is universal across manufacturers.</li>
+</ul>
+<h1 id="key-lessons">15. Key lessons</h1>
+<ol type="1">
+<li>EGR reduces NOx mainly through dilution and lower combustion
+temperature.</li>
+<li>Soot can rise when oxygen and soot oxidation become
+insufficient.</li>
+<li>Injection timing, VGT and EGR are coupled calibration
+variables.</li>
+<li>Low-load EGR can create an aftertreatment thermal penalty.</li>
+<li>The final optimum belongs to the complete engine-aftertreatment
+system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+<li>
+<a href="https://www.scania.com/at/de/home/products/trucks/g-series/g-series-specifications.html">Scania
+current heavy-duty truck engine specifications</a> — current commercial
+examples of low-speed 13-L diesel/HVO engines, Twin SCR and
+compression-release engine braking.
+</li>
+<li>
+<a href="https://www.cummins.com/en-na/engines/on-highway/heavy-duty-truck/2027-x15">Cummins
+2027 X15 official product page</a> — current commercial example of an
+integrated heavy-duty diesel engine/aftertreatment platform including
+EGR, 48-V aftertreatment heating and DOC-DPF-SCR architecture.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../14-smoke-limiter-air-fuel-oxygen/">← Smoke Limiting, Air/Fuel Ratio and Fresh-Oxygen Margin</a><span class="article-count">15 / 33</span><a href="../16-cylinder-balancing-injector-compensation/">Cylinder Balancing, Injector Compensation and Misfire Diagnosis →</a></div></body>
+</html>

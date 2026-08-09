@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Injection Calibration: Quantity, Pressure, SOI, Pilot, Main, Post and Dwell</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 12 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#injection-calibration-shapes-combustion-even-when-total-fuel-mass-is-unchanged" id="toc-injection-calibration-shapes-combustion-even-when-total-fuel-mass-is-unchanged">1.
+Injection calibration shapes combustion even when total fuel mass is
+unchanged</a></li>
+<li><a href="#main-injection-timing" id="toc-main-injection-timing">2.
+Main injection timing</a></li>
+<li><a href="#injection-pressure" id="toc-injection-pressure">3.
+Injection pressure</a></li>
+<li><a href="#pilot-injection" id="toc-pilot-injection">4. Pilot
+injection</a></li>
+<li><a href="#main-injection" id="toc-main-injection">5. Main
+injection</a></li>
+<li><a href="#post-injection" id="toc-post-injection">6. Post
+injection</a></li>
+<li><a href="#dwell" id="toc-dwell">7. Dwell</a></li>
+<li><a href="#timing-pressure-interaction" id="toc-timing-pressure-interaction">8. Timing × pressure
+interaction</a></li>
+<li><a href="#pilot-calibration-matrix" id="toc-pilot-calibration-matrix">9. Pilot calibration matrix</a></li>
+<li><a href="#calibration-procedure" id="toc-calibration-procedure">10.
+Calibration procedure</a></li>
+<li><a href="#worked-main-soi-sweep-logic" id="toc-worked-main-soi-sweep-logic">11. Worked main-SOI sweep
+logic</a></li>
+<li><a href="#injection-pressure-sweep-logic" id="toc-injection-pressure-sweep-logic">12. Injection-pressure sweep
+logic</a></li>
+<li><a href="#multiple-injection-scheduling" id="toc-multiple-injection-scheduling">13. Multiple-injection
+scheduling</a></li>
+<li><a href="#post-injection-verification" id="toc-post-injection-verification">14. Post-injection
+verification</a></li>
+<li><a href="#hd13-e-worked-calibration-sequence-at-point-c" id="toc-hd13-e-worked-calibration-sequence-at-point-c">15. HD13-E worked
+calibration sequence at point C</a></li>
+<li><a href="#signals-to-log-calibration-objects" id="toc-signals-to-log-calibration-objects">16. Signals to log /
+calibration objects</a></li>
+<li><a href="#production-variation-validation" id="toc-production-variation-validation">17. Production-variation
+validation</a></li>
+<li><a href="#senior-calibration-deep-dive-available-injection-window" id="toc-senior-calibration-deep-dive-available-injection-window">18.
+Senior calibration deep dive — available injection window</a>
+<ul>
+<li><a href="#rate-shape-interpretation" id="toc-rate-shape-interpretation">Rate-shape interpretation</a></li>
+<li><a href="#calibration-map-continuity" id="toc-calibration-map-continuity">Calibration-map continuity</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">19. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Injection Calibration: Quantity, Pressure, SOI, Pilot, Main, Post and
+Dwell
+</h1>
+<p>
+<em>How the injection pattern controls torque efficiency, NOx, soot,
+pressure rise, noise and aftertreatment temperature</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="injection-calibration-shapes-combustion-even-when-total-fuel-mass-is-unchanged">1.
+Injection calibration shapes combustion even when total fuel mass is
+unchanged</h1>
+<p>Key calibration variables include:</p>
+<ul>
+<li>total fuel quantity;</li>
+<li>injection pressure;</li>
+<li>main SOI;</li>
+<li>pilot quantity and timing;</li>
+<li>pilot-main dwell;</li>
+<li>post injection;</li>
+<li>rate shape.</li>
+</ul>
+<figure class="figure-card">
+<svg aria-label="Pilot main and post injection" role="img" viewbox="0 0 820 430">
+<rect fill="white" height="430" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="340" y2="340"></line><text font-size="17" x="635" y="385">Crank
+angle →</text>
+<rect fill="#c7d7e4" height="70" stroke="#5d87ad" width="55" x="195" y="270"></rect><text font-size="14" x="177" y="250">pilot</text>
+<rect fill="#eef4f8" height="215" stroke="#17324a" width="180" x="330" y="125"></rect><text font-size="14" x="395" y="105">main</text>
+<rect fill="#c7d7e4" height="65" stroke="#5d87ad" width="70" x="585" y="275"></rect><text font-size="14" x="570" y="255">post</text>
+<line stroke="#61717f" stroke-width="2" x1="260" x2="325" y1="90" y2="90"></line><text font-size="13" x="270" y="75">pilot-main
+dwell</text>
+</svg>
+<figcaption>
+Generic multiple-injection pattern. Event count and rate shape are
+operating-point and hardware dependent; commanded events may merge
+hydraulically at very short dwell.
+</figcaption>
+</figure>
+<h1 id="main-injection-timing">2. Main injection timing</h1>
+<p>Advancing main SOI usually shifts combustion earlier.</p>
+<p>Possible benefits:</p>
+<ul>
+<li>earlier CA50;</li>
+<li>better efficiency.</li>
+</ul>
+<p>Possible penalties:</p>
+<ul>
+<li>higher Pmax;</li>
+<li>higher MPRR;</li>
+<li>higher NOx.</li>
+</ul>
+<p>Retarding main injection can reduce pressure and NOx but often
+raises:</p>
+<ul>
+<li>BSFC;</li>
+<li>EGT;</li>
+<li>late burn.</li>
+</ul>
+<h1 id="injection-pressure">3. Injection pressure</h1>
+<p>Higher injection pressure can:</p>
+<ul>
+<li>improve atomization;</li>
+<li>accelerate mixing;</li>
+<li>shorten duration;</li>
+<li>reduce soot in some regions.</li>
+</ul>
+<p>But it can also:</p>
+<ul>
+<li>increase pump work;</li>
+<li>increase injector stress;</li>
+<li>change NOx and MPRR.</li>
+</ul>
+<h1 id="pilot-injection">4. Pilot injection</h1>
+<p>A small pilot can shorten the effective main-event ignition delay and
+soften the main premixed burn.</p>
+<p>Potential benefits:</p>
+<ul>
+<li>lower noise;</li>
+<li>lower MPRR;</li>
+<li>better cold stability.</li>
+</ul>
+<p>Too much pilot can worsen fuel consumption or emissions.</p>
+<h1 id="main-injection">5. Main injection</h1>
+<p>The main event supplies most of the torque-producing fuel.</p>
+<p>The ECU may shape:</p>
+<ul>
+<li>timing;</li>
+<li>duration;</li>
+<li>pressure;</li>
+<li>rate.</li>
+</ul>
+<h1 id="post-injection">6. Post injection</h1>
+<p>Post injection can support:</p>
+<ul>
+<li>DOC heating;</li>
+<li>DPF regeneration;</li>
+<li>aftertreatment thermal management.</li>
+</ul>
+<p>Potential penalties include:</p>
+<ul>
+<li>fuel consumption;</li>
+<li>HC slip;</li>
+<li>oil dilution;</li>
+<li>high turbine or catalyst temperature.</li>
+</ul>
+<h1 id="dwell">7. Dwell</h1>
+<p>At very short dwell, separately commanded injection events can merge
+hydraulically.</p>
+<p>Therefore the physical rate-of-injection trace matters.</p>
+<h1 id="timing-pressure-interaction">8. Timing × pressure
+interaction</h1>
+<p>The best main timing at one injection pressure is not necessarily
+best at another.</p>
+<p>A useful local experiment is:</p>
+<pre class="text"><code>main SOI × injection pressure</code></pre>
+<p>with responses:</p>
+<ul>
+<li>BSFC;</li>
+<li>NOx;</li>
+<li>soot;</li>
+<li>CA50;</li>
+<li>Pmax;</li>
+<li>MPRR.</li>
+</ul>
+<h1 id="pilot-calibration-matrix">9. Pilot calibration matrix</h1>
+<p>At selected speed-load points vary:</p>
+<ul>
+<li>pilot mass;</li>
+<li>pilot timing;</li>
+<li>pilot-main dwell.</li>
+</ul>
+<p>The best pilot is often the smallest event that gives the required
+pressure-rise or noise benefit.</p>
+<h1 id="calibration-procedure">10. Calibration procedure</h1>
+<p>At each key speed-load point:</p>
+<ol type="1">
+<li>stabilize air, EGR and temperature;</li>
+<li>sweep main SOI;</li>
+<li>identify the efficiency-phasing region;</li>
+<li>sweep pressure around that region;</li>
+<li>add pilot only if needed;</li>
+<li>add post only for a defined thermal objective;</li>
+<li>validate injector/cylinder corrections.</li>
+</ol>
+<h1 id="worked-main-soi-sweep-logic">11. Worked main-SOI sweep
+logic</h1>
+<p>At one speed-load point, imagine:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Main timing</th>
+<th style="text-align: right;">BSFC</th>
+<th style="text-align: right;">NOx</th>
+<th style="text-align: right;">MPRR</th>
+<th style="text-align: right;">Smoke</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>retarded reference</td>
+<td style="text-align: right;">high</td>
+<td style="text-align: right;">low</td>
+<td style="text-align: right;">low</td>
+<td style="text-align: right;">medium</td>
+</tr>
+<tr class="even">
+<td>+2° earlier</td>
+<td style="text-align: right;">improves</td>
+<td style="text-align: right;">rises</td>
+<td style="text-align: right;">rises slightly</td>
+<td style="text-align: right;">lower</td>
+</tr>
+<tr class="odd">
+<td>+4° earlier</td>
+<td style="text-align: right;">near best</td>
+<td style="text-align: right;">higher</td>
+<td style="text-align: right;">high</td>
+<td style="text-align: right;">lower</td>
+</tr>
+<tr class="even">
+<td>+6° earlier</td>
+<td style="text-align: right;">little further gain</td>
+<td style="text-align: right;">very high</td>
+<td style="text-align: right;">limit</td>
+<td style="text-align: right;">low</td>
+</tr>
+</tbody>
+</table>
+<p>The release point can be +2° or +4° depending on the approved
+NOx/MPRR/Pmax and aftertreatment strategy.</p>
+<h1 id="injection-pressure-sweep-logic">12. Injection-pressure sweep
+logic</h1>
+<p>At fixed timing:</p>
+<pre class="text"><code>pressure ↑
+→ injection duration can fall
+→ spray breakup / entrainment can improve
+→ soot may fall
+
+but
+
+pump work / leakage / hardware stress can rise</code></pre>
+<p>The pressure target should be selected from the net system
+response.</p>
+<h1 id="multiple-injection-scheduling">13. Multiple-injection
+scheduling</h1>
+<p>A robust scheduling strategy should also define:</p>
+<ul>
+<li>minimum dwell;</li>
+<li>minimum pilot quantity;</li>
+<li>maximum total injection duration;</li>
+<li>event suppression regions.</li>
+</ul>
+<p>Near high speed/high load, available crank-angle window can become
+tight, so an injection event that is useful at low speed may need to
+disappear.</p>
+<h1 id="post-injection-verification">14. Post-injection
+verification</h1>
+<p>For every post-injection calibration, document the required
+benefit:</p>
+<pre class="text"><code>target catalyst temperature rise
+or
+target DPF regeneration state</code></pre>
+<p>and measure the fuel/HC/oil penalty explicitly.</p>
+<h1 id="hd13-e-worked-calibration-sequence-at-point-c">15. HD13-E worked
+calibration sequence at point C</h1>
+<p>At 1200 rpm cruise:</p>
+<ol type="1">
+<li>fix air/EGR state;</li>
+<li>establish reference injection pressure;</li>
+<li>sweep main SOI;</li>
+<li>identify the BSFC/CA50 region;</li>
+<li>reject Pmax/MPRR/NOx-limited points;</li>
+<li>sweep injection pressure around the surviving region;</li>
+<li>introduce pilot only where it gives a measurable noise/MPRR
+benefit;</li>
+<li>validate the final point with a repeated reference.</li>
+</ol>
+<h1 id="signals-to-log-calibration-objects">16. Signals to log /
+calibration objects</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Calibration objects</th>
+<th>Signals</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>main SOI</td>
+<td>hydraulic SOI if available</td>
+</tr>
+<tr class="even">
+<td>rail/injection pressure</td>
+<td>rail actual / pressure error</td>
+</tr>
+<tr class="odd">
+<td>pilot quantity</td>
+<td>CA10 / MPRR</td>
+</tr>
+<tr class="even">
+<td>pilot dwell</td>
+<td>rate-of-injection / heat release</td>
+</tr>
+<tr class="odd">
+<td>post quantity/timing</td>
+<td>DOC/DPF inlet temperature</td>
+</tr>
+<tr class="even">
+<td>injector correction</td>
+<td>IMEP / CA50 / EGT spread</td>
+</tr>
+</tbody>
+</table>
+<h1 id="production-variation-validation">17. Production-variation
+validation</h1>
+<p>Repeat critical low-speed/high-load and cold/low-load points with
+representative:</p>
+<ul>
+<li>high-flow injector;</li>
+<li>low-flow injector;</li>
+<li>hot fuel;</li>
+<li>low cetane corner.</li>
+</ul>
+<p>The production map should not be tuned around one golden
+injector.</p>
+<h1 id="senior-calibration-deep-dive-available-injection-window">18.
+Senior calibration deep dive — available injection window</h1>
+<p>At high speed, the available crank-angle/time window becomes
+short.</p>
+<p>For a four-stroke engine at 1800 rpm:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>1</mn><mo>∘</mo></msup><mi>C</mi><mi>A</mi><mo>≈</mo><mn>92.6</mn><mspace width="0.222em"></mspace><mi>μ</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">
+1^\circ CA \approx 92.6\ \mu s
+</annotation></semantics></math></p>
+<p>A long main event plus pilot and post injections can consume a large
+part of the useful combustion window.</p>
+<p>Therefore event scheduling should include:</p>
+<ul>
+<li>maximum energizing duration;</li>
+<li>minimum dwell;</li>
+<li>event suppression logic;</li>
+<li>end-of-injection timing.</li>
+</ul>
+<h2 id="rate-shape-interpretation">Rate-shape interpretation</h2>
+<p>Two candidate injectors can deliver equal total mass but different
+early/late rate.</p>
+<p>Use:</p>
+<pre class="text"><code>rate of injection
+→ heat release
+→ CA10 / MPRR
+→ CA50
+→ CA90 / soot / EGT</code></pre>
+<p>to understand why combustion changed.</p>
+<h2 id="calibration-map-continuity">Calibration-map continuity</h2>
+<p>After local optimization, inspect neighboring speed/load cells.</p>
+<p>A sudden pilot quantity or SOI jump can create an audible or torque
+discontinuity during a slow acceleration.</p>
+<p>Map smoothing is acceptable only if the smoothed cells remain inside
+the measured mechanical/emissions constraints.</p>
+<h1 id="common-mistakes">19. Common mistakes</h1>
+<ul>
+<li>Maximizing injection pressure everywhere.</li>
+<li>Treating commanded timing as actual hydraulic SOI.</li>
+<li>Changing pilot without rechecking main combustion phasing.</li>
+<li>Using post injection as free exhaust heat.</li>
+<li>Optimizing timing and pressure independently when they
+interact.</li>
+</ul>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>Total fuel mass sets torque potential; the injection pattern sets
+how efficiently and cleanly that fuel burns.</li>
+<li>SOI and pressure interact strongly.</li>
+<li>Pilot shapes early combustion; post injection often serves thermal
+management.</li>
+<li>Dwell must be validated physically, not only in the command
+table.</li>
+<li>Injection calibration is inherently multi-objective.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+<a href="https://www.bosch-mobility.com/en/solutions/powertrain/diesel/modular-common-rail-system-ohw/">Bosch
+modular common-rail system for large/off-highway diesel engines</a> —
+current high-pressure injection architecture reference.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../11-diesel-combustion-fundamentals/">← Diesel Combustion Fundamentals</a><span class="article-count">12 / 33</span><a href="../13-combustion-phasing-pmax-mprr/">Combustion Phasing, CA50, Pmax, MPRR and Diesel Noise →</a></div></body>
+</html>

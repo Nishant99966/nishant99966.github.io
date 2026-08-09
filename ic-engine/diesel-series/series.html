@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heavy-Duty Diesel Series — Nishant Tyagi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+  .series-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:8px 0 20px;}
+  .series-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--white);padding:22px;transition:transform .15s,border-color .15s;}
+  .series-card:hover{transform:translateY(-2px);border-color:var(--copper);}
+  .series-card .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--copper);letter-spacing:0.06em;margin-bottom:10px;}
+  .series-card h3{font-size:15.5px;font-weight:600;margin-bottom:8px;line-height:1.3;}
+  .series-card p{font-size:12.5px;color:var(--muted);flex-grow:1;margin-bottom:14px;line-height:1.5;}
+  .series-card .enter{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);}
+  @media(max-width:680px){.series-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="../../index.html" class="nav-logo">NISHANT<span>.</span>TYAGI</a>
+    <div class="nav-links">
+      <a href="../index.html">All Notes</a>
+      <a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="padding:72px 0 24px;">
+  <div class="wrap">
+    <div class="eyebrow">Heavy-Duty Diesel — Performance, Emissions &amp; Calibration</div>
+    <h1 style="font-size:clamp(30px,5vw,46px);">Heavy-Duty Diesel Series</h1>
+    <p class="blog-intro">
+      A thirty-three-article series on modern heavy-duty diesel engines — from system and
+      torque-based ECU architecture through fuel systems, air charge, combustion and injection
+      calibration, aftertreatment, emissions certification, vehicle integration, validation and
+      release. Includes a calibration-workflow standard, glossary and 2026 regulatory appendix.
+    </p>
+  </div>
+</header>
+
+<div class="wrap">
+  <h2 style="max-width:none;border-top:none;padding-top:0;margin:36px 0 4px;font-size:20px;">Series Tools</h2>
+  <div class="series-grid">
+    <a href="calibration-workflow/index.html" class="series-card">
+      <div class="num">Tool</div>
+      <h3>Calibration Workflow Standard</h3>
+      <p>Condition → reference → sweep → constraint selection → map → off-grid → transient → robustness → release.</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="glossary/index.html" class="series-card">
+      <div class="num">Tool</div>
+      <h3>Glossary & Notation</h3>
+      <p>BMEP, IMEP, CA50, MPRR, VGT, DPF/SCR, VECTO and the recurring HD13-E points.</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="regulatory-2026/index.html" class="series-card">
+      <div class="num">Tool</div>
+      <h3>Heavy-Duty Regulatory Appendix</h3>
+      <p>Euro 7, WHTC/WHSC/RDE, VECTO/HDV CO₂, U.S. MY2027 status and California orientation.</p>
+      <div class="enter">Read →</div>
+    </a>
+  </div>
+  <h2 style="max-width:none;border-top:none;padding-top:0;margin:36px 0 4px;font-size:20px;">I. System, Torque, Fuel & Air Foundations</h2>
+  <div class="series-grid">
+    <a href="01-heavy-duty-diesel-system/index.html" class="series-card">
+      <div class="num">Article 01</div>
+      <h3>The Complete Heavy-Duty Diesel Engine as a Powertrain System</h3>
+      <p>Why the calibration problem begins with the vehicle duty cycle—not a fixed engine speed</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="02-torque-based-ecu-architecture/index.html" class="series-card">
+      <div class="num">Article 02</div>
+      <h3>Torque-Based ECU Architecture and Driver Demand</h3>
+      <p>How accelerator, cruise, transmission, traction, emissions and protection requests become one permitted engine torque</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="03-advanced-torque-multitorque-gear-limits/index.html" class="series-card">
+      <div class="num">Article 03</div>
+      <h3>Advanced Torque Structure: Gear-Dependent Limits, Multi-Torque, PTO and Torque Accuracy</h3>
+      <p>How the ECU coordinates engine capability with gearbox, clutch, axle, traction and vocational torque constraints</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="04-speed-load-map-bmep-bsfc-losses/index.html" class="series-card">
+      <div class="num">Article 04</div>
+      <h3>Speed–Load Maps, BMEP, BSFC, IMEP and Engine Losses</h3>
+      <p>How a heavy-duty diesel calibration map is organized and how indicated work becomes brake torque across the complete operating ...</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="05-fuel-system-injection-hardware/index.html" class="series-card">
+      <div class="num">Article 05</div>
+      <h3>Fuel System and Injection Hardware</h3>
+      <p>Common rail, unit-injection alternatives, hydraulic delay, injector characterization and the physical limits behind the ECU com...</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="06-fuel-quality-hvo-biodiesel/index.html" class="series-card">
+      <div class="num">Article 06</div>
+      <h3>Diesel Fuel Quality, Cetane, Density, LHV, HVO and Biodiesel</h3>
+      <p>How the fuel changes ignition delay, injected mass, volumetric consumption, cold operation and aftertreatment</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="07-actuator-characterization-control-loops/index.html" class="series-card">
+      <div class="num">Article 07</div>
+      <h3>Actuator Characterization, Feedforward, Feedback and Observer Calibration</h3>
+      <p>How VGT, EGR, throttles and fuel-pressure actuators become robust closed-loop engine control</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="08-air-charge-vgt-egr/index.html" class="series-card">
+      <div class="num">Article 08</div>
+      <h3>Air Charge, VGT, Intake Throttle, EGR and Fresh-Oxygen Control</h3>
+      <p>Why modern diesel air-path calibration is an oxygen, EGR, turbo and transient-control problem—not just a boost map</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="09-turbo-matching-two-stage-turbo-compound/index.html" class="series-card">
+      <div class="num">Article 09</div>
+      <h3>Turbocharger Matching, VGT and Multi-Stage Charging</h3>
+      <p>Compressor and turbine maps, VGT, surge/choke, multi-stage charging and transient turbo dynamics across the heavy-duty engine map</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="10-valve-timing-miller-gas-exchange/index.html" class="series-card">
+      <div class="num">Article 10</div>
+      <h3>Valve Timing, Miller Cycle and Gas-Exchange Calibration</h3>
+      <p>How IVC, EVO, trapped charge, effective compression, pumping work, turbo matching and EGR interact</p>
+      <div class="enter">Read →</div>
+    </a>
+  </div>
+  <h2 style="max-width:none;border-top:none;padding-top:0;margin:36px 0 4px;font-size:20px;">II. Combustion, Injection & Retarding-Torque Calibration</h2>
+  <div class="series-grid">
+    <a href="11-diesel-combustion-fundamentals/index.html" class="series-card">
+      <div class="num">Article 11</div>
+      <h3>Diesel Combustion Fundamentals</h3>
+      <p>Ignition delay, premixed heat release, mixing-controlled combustion, local mixture and apparent heat release</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="12-injection-calibration-soi-pressure-pilot-post/index.html" class="series-card">
+      <div class="num">Article 12</div>
+      <h3>Injection Calibration: Quantity, Pressure, SOI, Pilot, Main, Post and Dwell</h3>
+      <p>How the injection pattern controls torque efficiency, NOx, soot, pressure rise, noise and aftertreatment temperature</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="13-combustion-phasing-pmax-mprr/index.html" class="series-card">
+      <div class="num">Article 13</div>
+      <h3>Combustion Phasing, CA50, Pmax, MPRR and Diesel Noise</h3>
+      <p>How to locate the efficient combustion window without exceeding mechanical, emissions or harshness limits</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="14-smoke-limiter-air-fuel-oxygen/index.html" class="series-card">
+      <div class="num">Article 14</div>
+      <h3>Smoke Limiting, Air/Fuel Ratio and Fresh-Oxygen Margin</h3>
+      <p>How to calibrate steady and transient fuel authority without sacrificing low-speed torque response</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="15-egr-nox-soot-tradeoff/index.html" class="series-card">
+      <div class="num">Article 15</div>
+      <h3>EGR Calibration and the NOx–Soot Trade-Off</h3>
+      <p>How EGR, VGT, boost, combustion phasing and aftertreatment shift the feasible emissions-efficiency region</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="16-cylinder-balancing-injector-compensation/index.html" class="series-card">
+      <div class="num">Article 16</div>
+      <h3>Cylinder Balancing, Injector Compensation and Misfire Diagnosis</h3>
+      <p>How to use IMEP, CA50, EGT and speed contribution to correct real imbalance without hiding failing hardware</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="17-engine-braking-negative-torque/index.html" class="series-card">
+      <div class="num">Article 17</div>
+      <h3>Engine Braking, Compression Release and Negative-Torque Calibration</h3>
+      <p>How to calibrate retarding torque, exhaust backpressure and transmission coordination for downhill control</p>
+      <div class="enter">Read →</div>
+    </a>
+  </div>
+  <h2 style="max-width:none;border-top:none;padding-top:0;margin:36px 0 4px;font-size:20px;">III. Safety, Thermal, Emissions & Aftertreatment</h2>
+  <div class="series-grid">
+    <a href="18-heavy-duty-diesel-safety/index.html" class="series-card">
+      <div class="num">Article 18</div>
+      <h3>Heavy-Duty Diesel Engine Development Safety</h3>
+      <p>High-pressure injection, hot aftertreatment, coolant/oil, dynamometer and vehicle-test safety boundaries</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="19-thermal-cooling-ambient-derating/index.html" class="series-card">
+      <div class="num">Article 19</div>
+      <h3>Cooling, Thermal State, Ambient and Torque Derating</h3>
+      <p>How coolant, oil, charge air, fuel temperature, altitude and aftertreatment backpressure define allowable heavy-duty torque</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="20-parasitic-losses-smart-auxiliaries/index.html" class="series-card">
+      <div class="num">Article 20</div>
+      <h3>Parasitic Losses, Smart Pumps, Air Compressor and Auxiliary Calibration</h3>
+      <p>How pumps, fan, compressed-air generation and electrical loads consume engine power and how demand control recovers efficiency</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="21-emissions-measurement-certification-cycles/index.html" class="series-card">
+      <div class="num">Article 21</div>
+      <h3>Heavy-Duty Emissions Measurement and Certification Cycles</h3>
+      <p>WHTC, WHSC, real-driving emissions, U.S. heavy-duty compliance, PM/PN and 2026 regulatory currentness</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="22-doc-dpf-scr-asc-system/index.html" class="series-card">
+      <div class="num">Article 22</div>
+      <h3>DOC, DPF, SCR and ASC as One Emissions-Control System</h3>
+      <p>Catalyst chemistry, temperature windows, backpressure and engine-aftertreatment co-optimization</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="23-dpf-soot-ash-regeneration/index.html" class="series-card">
+      <div class="num">Article 23</div>
+      <h3>DPF Soot Loading, Ash and Regeneration Calibration</h3>
+      <p>Pressure-drop models, soot mass balance, passive/active regeneration, oil dilution and lifetime filter state</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="24-scr-def-low-nox-thermal-management/index.html" class="series-card">
+      <div class="num">Article 24</div>
+      <h3>SCR, DEF Dosing and Low-NOx Thermal Management</h3>
+      <p>Ammonia storage, dosing, deposits, cold/low-load operation, twin-SCR concepts and electrically assisted heating</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="25-cold-start-low-load-thermal-management/index.html" class="series-card">
+      <div class="num">Article 25</div>
+      <h3>Cold Start, Low Load, Idle and Aftertreatment Warm-Up</h3>
+      <p>How to calibrate the cold and low-load regions where modern heavy-duty tailpipe emissions are hardest to control</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="26-obd-obm-inducement-diagnostics/index.html" class="series-card">
+      <div class="num">Article 26</div>
+      <h3>OBD, On-Board Monitoring, Inducements and Emissions Diagnostics</h3>
+      <p>How air, fuel, DPF, SCR and sensor faults are detected without excessive false failures or hidden emissions deterioration</p>
+      <div class="enter">Read →</div>
+    </a>
+  </div>
+  <h2 style="max-width:none;border-top:none;padding-top:0;margin:36px 0 4px;font-size:20px;">IV. Vehicle, CO₂, Validation, Durability & Release</h2>
+  <div class="series-grid">
+    <a href="27-transmission-vehicle-integration/index.html" class="series-card">
+      <div class="num">Article 27</div>
+      <h3>Transmission, Vehicle and Predictive Torque Integration</h3>
+      <p>How automated shifting, cruise control, vehicle mass, road grade, traction control and PTO loads reshape engine calibration</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="28-vecto-engine-fuel-maps-co2/index.html" class="series-card">
+      <div class="num">Article 28</div>
+      <h3>Engine Fuel Maps, VECTO and Heavy-Duty Vehicle CO₂ Optimization</h3>
+      <p>How BSFC maps, full-load torque, driveline, auxiliaries, vehicle resistance and mission profiles combine into vehicle fuel cons...</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="29-transient-driveability-altitude/index.html" class="series-card">
+      <div class="num">Article 29</div>
+      <h3>Transient Driveability, Tip-In/Tip-Out, Shifts, Grade and Altitude</h3>
+      <p>How to calibrate the movement between speed-load points without smoke, surge, torque holes or driveline shock</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="30-test-cell-instrumentation-uncertainty/index.html" class="series-card">
+      <div class="num">Article 30</div>
+      <h3>Test-Cell Instrumentation, Measurement Uncertainty and Data Quality</h3>
+      <p>How to trust fuel-efficiency, combustion and emissions differences before changing a heavy-duty calibration map</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="31-doe-map-building-validation/index.html" class="series-card">
+      <div class="num">Article 31</div>
+      <h3>Design of Experiments, Map Building and Off-Grid Validation</h3>
+      <p>How to optimize interacting heavy-duty calibration variables efficiently and select robust production targets</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="32-durability-aging-in-use-pems/index.html" class="series-card">
+      <div class="num">Article 32</div>
+      <h3>Durability, Aging, In-Use Compliance and PEMS</h3>
+      <p>How calibration and diagnostics survive injector, turbo, DPF, catalyst and sensor deterioration in real operation</p>
+      <div class="enter">Read →</div>
+    </a>
+    <a href="33-complete-calibration-release-root-cause/index.html" class="series-card">
+      <div class="num">Article 33</div>
+      <h3>Complete Heavy-Duty Diesel Calibration, Release and Root-Cause Strategy</h3>
+      <p>The full development order from architecture and measurement readiness through combustion, aftertreatment, vehicle integration,...</p>
+      <div class="enter">Read →</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  Built by Nishant Tyagi · Graz, Austria
+</footer>
+
+</body>
+</html>

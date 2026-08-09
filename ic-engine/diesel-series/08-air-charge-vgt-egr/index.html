@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Air Charge, VGT, Intake Throttle, EGR and Fresh-Oxygen Control</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 8 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#heavy-duty-air-control-has-multiple-objectives" id="toc-heavy-duty-air-control-has-multiple-objectives">1. Heavy-duty
+air control has multiple objectives</a></li>
+<li><a href="#fresh-air-versus-total-charge" id="toc-fresh-air-versus-total-charge">2. Fresh air versus total
+charge</a></li>
+<li><a href="#variable-geometry-turbine" id="toc-variable-geometry-turbine">3. Variable-geometry turbine</a></li>
+<li><a href="#intake-throttle" id="toc-intake-throttle">4. Intake
+throttle</a></li>
+<li><a href="#egr-valve" id="toc-egr-valve">5. EGR valve</a></li>
+<li><a href="#egr-fraction" id="toc-egr-fraction">6. EGR
+fraction</a></li>
+<li><a href="#air-path-calibration-order" id="toc-air-path-calibration-order">7. Air-path calibration
+order</a></li>
+<li><a href="#transient-air-control" id="toc-transient-air-control">8.
+Transient air control</a></li>
+<li><a href="#air-system-control-hierarchy" id="toc-air-system-control-hierarchy">9. Air-system control
+hierarchy</a></li>
+<li><a href="#pressure-ratio-interaction" id="toc-pressure-ratio-interaction">10. Pressure-ratio
+interaction</a></li>
+<li><a href="#egr-cooler-effectiveness" id="toc-egr-cooler-effectiveness">11. EGR cooler effectiveness</a></li>
+<li><a href="#air-system-validation-table" id="toc-air-system-validation-table">12. Air-system validation
+table</a></li>
+<li><a href="#hd13-e-point-b-air-path-calibration-example" id="toc-hd13-e-point-b-air-path-calibration-example">13. HD13-E point B:
+air-path calibration example</a></li>
+<li><a href="#calibration-execution-standard" id="toc-calibration-execution-standard">14. Calibration execution
+standard</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#preconditions" id="toc-preconditions">Preconditions</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#fixed-variables-during-a-sweep" id="toc-fixed-variables-during-a-sweep">Fixed variables during a
+sweep</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#selection-rule" id="toc-selection-rule">Selection
+rule</a></li>
+<li><a href="#robustness" id="toc-robustness">Robustness</a></li>
+</ul></li>
+<li><a href="#senior-calibration-deep-dive-target-generation-versus-actuator-control" id="toc-senior-calibration-deep-dive-target-generation-versus-actuator-control">15.
+Senior calibration deep dive — target generation versus actuator
+control</a>
+<ul>
+<li><a href="#pumping-efficiency-decision" id="toc-pumping-efficiency-decision">Pumping-efficiency
+decision</a></li>
+<li><a href="#transient-egr-handling" id="toc-transient-egr-handling">Transient EGR handling</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">16. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">17. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Air Charge, VGT, Intake Throttle, EGR and Fresh-Oxygen Control
+</h1>
+<p>
+<em>Why modern diesel air-path calibration is an oxygen, EGR, turbo and
+transient-control problem—not just a boost map</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="heavy-duty-air-control-has-multiple-objectives">1. Heavy-duty
+air control has multiple objectives</h1>
+<p>The air path must simultaneously support demanded torque, smoke
+margin, NOx and EGR target, turbocharger efficiency, transient response
+and aftertreatment temperature.</p>
+<figure class="figure-card">
+<svg aria-label="Compressor map with engine operating lines" role="img" viewbox="0 0 820 460">
+<rect fill="white" height="460" width="820"></rect><line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="390" y2="390"></line><line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="390" y2="55"></line>
+<text font-size="17" x="590" y="430">Corrected mass flow
+→</text><text font-size="17" transform="rotate(-90 25,95)" x="25" y="95">Pressure
+ratio ↑</text>
+<path d="M150 350 C130 280,135 210,175 120" fill="none" stroke="#17324a" stroke-width="3"></path><text font-size="14" x="112" y="110">surge</text>
+<path d="M185 330 C280 250,420 220,650 250" fill="none" stroke="#9bb5c9" stroke-width="2"></path><path d="M205 350 C315 270,480 250,705 300" fill="none" stroke="#9bb5c9" stroke-width="2"></path>
+<ellipse cx="430" cy="255" fill="none" rx="165" ry="88" stroke="#c7d7e4" stroke-width="2"></ellipse><ellipse cx="430" cy="255" fill="none" rx="110" ry="55" stroke="#c7d7e4" stroke-width="2"></ellipse>
+<path d="M205 330 C300 305,430 270,610 245" fill="none" stroke="#17324a" stroke-width="3"></path><text font-size="13" x="500" y="225">one
+engine-speed line</text>
+<path d="M180 350 C285 330,415 315,650 315" fill="none" stroke="#5d87ad" stroke-width="3"></path><text font-size="13" x="485" y="340">lower-speed
+line</text>
+</svg>
+<figcaption>
+Heavy-duty engines cross the compressor map with both speed and load.
+VGT, EGR, gear shifts, altitude and transients all move the operating
+point.
+</figcaption>
+</figure>
+<h1 id="fresh-air-versus-total-charge">2. Fresh air versus total
+charge</h1>
+<p>With EGR:</p>
+<pre class="text"><code>intake manifold mass
+=
+fresh air
++
+recirculated exhaust</code></pre>
+<p>Smoke capability depends strongly on fresh oxygen, not manifold
+pressure alone.</p>
+<p>Conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><msub><mi>O</mi><mn>2</mn></msub></msub><mo>≈</mo><msub><mi>Y</mi><mrow><msub><mi>O</mi><mn>2</mn></msub><mo>,</mo><mi>i</mi><mi>n</mi><mi>t</mi></mrow></msub><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\dot m_{O_2}
+\approx
+Y_{O_2,int}\dot m_{charge}
+</annotation></semantics></math></p>
+<h1 id="variable-geometry-turbine">3. Variable-geometry turbine</h1>
+<p>A VGT changes turbine swallowing capacity.</p>
+<p>Closing vanes can increase turbine pressure ratio, boost and
+EGR-driving pressure, but also exhaust backpressure.</p>
+<p>Opening vanes can reduce pumping loss but may reduce boost or EGR
+authority.</p>
+<h1 id="intake-throttle">4. Intake throttle</h1>
+<p>A diesel intake throttle can support EGR pressure control, shutdown,
+thermal management and smooth engine braking.</p>
+<p>It is not normally the primary positive-torque actuator.</p>
+<h1 id="egr-valve">5. EGR valve</h1>
+<p>EGR flow depends on valve area, exhaust-intake pressure difference,
+temperature and cooler state.</p>
+<p>One valve position does not equal one universal EGR fraction.</p>
+<h1 id="egr-fraction">6. EGR fraction</h1>
+<p>A conceptual mass fraction is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>E</mi><mi>G</mi><mi>R</mi></mrow></msub><mo>=</mo><mfrac><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>E</mi><mi>G</mi><mi>R</mi></mrow></msub><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>f</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>h</mi></mrow></msub><mo>+</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>E</mi><mi>G</mi><mi>R</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+x_{EGR}
+=
+\frac{\dot m_{EGR}}
+{\dot m_{fresh}+\dot m_{EGR}}
+</annotation></semantics></math></p>
+<p>Production estimation can use fresh-air flow, pressure-temperature
+models, O₂ or CO₂ concentration and observers.</p>
+<h1 id="air-path-calibration-order">7. Air-path calibration order</h1>
+<p>At each speed-load point:</p>
+<ol type="1">
+<li>establish safe no or low-EGR reference;</li>
+<li>map turbo actuator versus boost and air;</li>
+<li>quantify exhaust backpressure;</li>
+<li>add EGR target;</li>
+<li>coordinate VGT, throttle and EGR valve;</li>
+<li>verify fresh-air and oxygen state;</li>
+<li>re-optimize injection timing;</li>
+<li>verify smoke, NOx and efficiency.</li>
+</ol>
+<h1 id="transient-air-control">8. Transient air control</h1>
+<p>During tip-in, fuel demand rises before turbo speed and manifold air
+fully respond.</p>
+<p>VGT can help accelerate boost, but excessive closure can create high
+backpressure, surge risk and EGR errors.</p>
+<h1 id="air-system-control-hierarchy">9. Air-system control
+hierarchy</h1>
+<p>A useful conceptual hierarchy is:</p>
+<pre class="text"><code>torque / emissions objective
+        ↓
+fresh-air target + EGR target
+        ↓
+boost / exhaust-pressure targets
+        ↓
+VGT + EGR valve + throttle
+        ↓
+measured air / pressures / oxygen estimate</code></pre>
+<p>This prevents separate actuator loops from fighting each other.</p>
+<h1 id="pressure-ratio-interaction">10. Pressure-ratio interaction</h1>
+<p>For EGR to flow from exhaust to intake in a conventional
+high-pressure EGR path, a favorable pressure difference is normally
+required.</p>
+<p>VGT closure can create that pressure difference, but also
+increases:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">
+p_{exhaust}
+</annotation></semantics></math></p>
+<p>and therefore pumping loss.</p>
+<p>The calibration should therefore ask:</p>
+<blockquote>
+<p>what is the minimum exhaust-pressure penalty needed to achieve the
+required EGR and fresh-air target?</p>
+</blockquote>
+<h1 id="egr-cooler-effectiveness">11. EGR cooler effectiveness</h1>
+<p>A conceptual cooler effectiveness is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mrow><mi>E</mi><mi>G</mi><mi>R</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>E</mi><mi>G</mi><mi>R</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><mrow><msub><mi>T</mi><mrow><mi>E</mi><mi>G</mi><mi>R</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>c</mi><mi>o</mi><mi>o</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\epsilon
+=
+\frac{T_{EGR,in}-T_{EGR,out}}
+{T_{EGR,in}-T_{coolant,in}}
+</annotation></semantics></math></p>
+<p>Changes in cooler fouling or coolant temperature can shift intake
+temperature and NOx even with identical valve commands.</p>
+<h1 id="air-system-validation-table">12. Air-system validation
+table</h1>
+<p>At each key map point capture:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Signal</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fresh air mass</td>
+<td>smoke/O2 resource</td>
+</tr>
+<tr class="even">
+<td>intake O2 if available</td>
+<td>dilution state</td>
+</tr>
+<tr class="odd">
+<td>manifold pressure</td>
+<td>charge state</td>
+</tr>
+<tr class="even">
+<td>exhaust pressure</td>
+<td>pumping/EGR drive</td>
+</tr>
+<tr class="odd">
+<td>VGT position</td>
+<td>turbine authority</td>
+</tr>
+<tr class="even">
+<td>EGR valve position</td>
+<td>actuator state</td>
+</tr>
+<tr class="odd">
+<td>turbo speed</td>
+<td>hardware margin</td>
+</tr>
+<tr class="even">
+<td>charge temperature</td>
+<td>density/NOx state</td>
+</tr>
+</tbody>
+</table>
+<p>This gives enough information to understand <em>why</em> a smoke or
+NOx point moved.</p>
+<h1 id="hd13-e-point-b-air-path-calibration-example">13. HD13-E point B:
+air-path calibration example</h1>
+<p>At 1000 rpm high torque, the test objective is to achieve the
+required fresh oxygen with minimum pumping penalty.</p>
+<p>A useful local experiment is:</p>
+<pre class="text"><code>VGT position × EGR target</code></pre>
+<p>while maintaining a defined brake torque.</p>
+<p>Measure:</p>
+<ul>
+<li>fresh air;</li>
+<li>intake O2 where available;</li>
+<li>boost;</li>
+<li>exhaust pressure;</li>
+<li>turbo speed;</li>
+<li>NOx;</li>
+<li>smoke;</li>
+<li>BSFC.</li>
+</ul>
+<h1 id="calibration-execution-standard">14. Calibration execution
+standard</h1>
+<h2 id="objective">Objective</h2>
+<p>Meet fresh-air and dilution targets with the lowest pumping and turbo
+penalty.</p>
+<h2 id="preconditions">Preconditions</h2>
+<ul>
+<li>VGT/EGR actuator characterization complete;</li>
+<li>rail-pressure and injection state fixed;</li>
+<li>DPF restriction known;</li>
+<li>charge-air coolant stabilized.</li>
+</ul>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>fresh-air target;</li>
+<li>boost target;</li>
+<li>EGR target;</li>
+<li>VGT feedforward;</li>
+<li>EGR feedforward;</li>
+<li>feedback gains;</li>
+<li>smoke-limit interface.</li>
+</ul>
+<h2 id="fixed-variables-during-a-sweep">Fixed variables during a
+sweep</h2>
+<p>Keep constant, where possible:</p>
+<ul>
+<li>speed;</li>
+<li>brake torque;</li>
+<li>fuel type;</li>
+<li>injection timing/pressure;</li>
+<li>thermal state.</li>
+</ul>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>air mass
+intake O2 / EGR estimate
+manifold pressure
+exhaust pressure
+VGT command/position
+EGR command/position
+turbo speed
+smoke
+NOx
+BSFC</code></pre>
+<h2 id="selection-rule">Selection rule</h2>
+<p>Select the lowest fuel-consumption point that meets NOx/smoke targets
+and preserves turbo/surge margin.</p>
+<h2 id="robustness">Robustness</h2>
+<p>Repeat key points with:</p>
+<ul>
+<li>hot CAC;</li>
+<li>altitude;</li>
+<li>allowed filter restriction;</li>
+<li>aged/fouled EGR cooler state;</li>
+<li>high aftertreatment backpressure.</li>
+</ul>
+<h1 id="senior-calibration-deep-dive-target-generation-versus-actuator-control">15.
+Senior calibration deep dive — target generation versus actuator
+control</h1>
+<p>Separate <strong>what air state is desired</strong> from <strong>how
+actuators achieve it</strong>.</p>
+<p>The target layer can generate:</p>
+<pre class="text"><code>fresh-air target
+EGR / dilution target
+boost target
+exhaust-pressure constraint</code></pre>
+<p>The actuator layer then coordinates VGT, EGR valve and throttle.</p>
+<p>This separation prevents calibration maps from becoming a mixture of
+physics targets and hardware compensation.</p>
+<h2 id="pumping-efficiency-decision">Pumping-efficiency decision</h2>
+<p>At a fixed brake torque, two candidates can produce similar NOx:</p>
+<pre class="text"><code>Candidate A:
+higher VGT closure
+higher exhaust pressure
+lower EGR valve opening
+
+Candidate B:
+lower VGT closure
+lower exhaust pressure
+higher EGR valve opening</code></pre>
+<p>Measure BSFC and PMEP rather than selecting from boost tracking
+alone.</p>
+<h2 id="transient-egr-handling">Transient EGR handling</h2>
+<p>During rapid positive torque demand, EGR may temporarily need to
+reduce so fresh-air margin recovers.</p>
+<p>The transient strategy should define:</p>
+<ul>
+<li>EGR reduction rate;</li>
+<li>minimum fresh-air margin;</li>
+<li>re-entry rate after boost builds.</li>
+</ul>
+<p>Reintroducing EGR too quickly can create a second smoke/torque
+disturbance.</p>
+<h1 id="common-mistakes">16. Common mistakes</h1>
+<ul>
+<li>Controlling manifold pressure while ignoring fresh oxygen.</li>
+<li>Treating VGT as a pure boost actuator.</li>
+<li>Using EGR valve position as EGR rate.</li>
+<li>Tuning EGR without re-optimizing combustion phasing.</li>
+<li>Ignoring pumping loss from aggressive VGT closure.</li>
+</ul>
+<h1 id="key-lessons">17. Key lessons</h1>
+<ol type="1">
+<li>Heavy-duty diesel air control is a coordinated fresh-air, EGR and
+turbo problem.</li>
+<li>Smoke margin depends on oxygen, not simply boost.</li>
+<li>VGT changes both compressor drive and engine pumping.</li>
+<li>EGR estimation requires more than valve position.</li>
+<li>Air-path and injection calibration must be developed together.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. — torque-based engine
+control, air path, turbocharger and transient modeling.
+</li>
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+<a href="https://www.cummins.com/en-na/engines/on-highway/heavy-duty-truck/2027-x15">Cummins
+2027 X15 official product page</a> — current commercial example of an
+integrated heavy-duty diesel engine/aftertreatment platform including
+EGR, 48-V aftertreatment heating and DOC-DPF-SCR architecture.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../07-actuator-characterization-control-loops/">← Actuator Characterization, Feedforward, Feedback and Observer Calibration</a><span class="article-count">8 / 33</span><a href="../09-turbo-matching-two-stage-turbo-compound/">Turbocharger Matching, VGT and Multi-Stage Charging →</a></div></body>
+</html>

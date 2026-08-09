@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Heavy-Duty Diesel Engine Development Safety</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 18 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#heavy-duty-diesel-development-combines-several-high-energy-hazards" id="toc-heavy-duty-diesel-development-combines-several-high-energy-hazards">1.
+Heavy-duty diesel development combines several high-energy
+hazards</a></li>
+<li><a href="#high-pressure-injection" id="toc-high-pressure-injection">2. High-pressure injection</a></li>
+<li><a href="#residual-rail-pressure" id="toc-residual-rail-pressure">3.
+Residual rail pressure</a></li>
+<li><a href="#hot-aftertreatment" id="toc-hot-aftertreatment">4. Hot
+aftertreatment</a></li>
+<li><a href="#dpf-regeneration-safety" id="toc-dpf-regeneration-safety">5. DPF regeneration safety</a></li>
+<li><a href="#coolant-and-oil" id="toc-coolant-and-oil">6. Coolant and
+oil</a></li>
+<li><a href="#dynamometer-safety" id="toc-dynamometer-safety">7.
+Dynamometer safety</a></li>
+<li><a href="#vehicle-test-safety" id="toc-vehicle-test-safety">8.
+Vehicle test safety</a></li>
+<li><a href="#def-handling" id="toc-def-handling">9. DEF
+handling</a></li>
+<li><a href="#exhaust-exposure" id="toc-exhaust-exposure">10. Exhaust
+exposure</a></li>
+<li><a href="#safety-versus-calibration" id="toc-safety-versus-calibration">11. Safety versus
+calibration</a></li>
+<li><a href="#calibration-specific-risk-assessment" id="toc-calibration-specific-risk-assessment">12. Calibration-specific
+risk assessment</a>
+<ul>
+<li><a href="#high-pressure-fuel-sweep" id="toc-high-pressure-fuel-sweep">High-pressure fuel sweep</a></li>
+<li><a href="#turbovgt-sweep" id="toc-turbovgt-sweep">Turbo/VGT
+sweep</a></li>
+<li><a href="#dpf-regeneration-test" id="toc-dpf-regeneration-test">DPF
+regeneration test</a></li>
+<li><a href="#full-load-thermal-test" id="toc-full-load-thermal-test">Full-load thermal test</a></li>
+</ul></li>
+<li><a href="#dyno-emergency-hierarchy" id="toc-dyno-emergency-hierarchy">13. Dyno emergency hierarchy</a></li>
+<li><a href="#road-test-change-control" id="toc-road-test-change-control">14. Road-test change control</a></li>
+<li><a href="#data-after-an-abort" id="toc-data-after-an-abort">15. Data
+after an abort</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">16. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">17. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Heavy-Duty Diesel Engine Development Safety
+</h1>
+<p>
+<em>High-pressure injection, hot aftertreatment, coolant/oil,
+dynamometer and vehicle-test safety boundaries</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="heavy-duty-diesel-development-combines-several-high-energy-hazards">1.
+Heavy-duty diesel development combines several high-energy hazards</h1>
+<p>A modern heavy-duty engine test or vehicle contains:</p>
+<ul>
+<li>high-pressure fuel;</li>
+<li>hot exhaust and aftertreatment;</li>
+<li>pressurized coolant;</li>
+<li>rotating shafts, fans and dyno equipment;</li>
+<li>high electrical current;</li>
+<li>moving vehicle mass;</li>
+<li>compressed air systems on many vehicles.</li>
+</ul>
+<p>Performance work must stay inside a separately engineered safety
+system.</p>
+<h1 id="high-pressure-injection">2. High-pressure injection</h1>
+<p>Never search for a high-pressure diesel leak with a hand or
+finger.</p>
+<p>A pinhole leak can produce a jet capable of penetrating skin.</p>
+<p>Safe service requires:</p>
+<pre class="text"><code>engine stopped
+   ↓
+approved pressure decay / depressurization
+   ↓
+verified safe pressure
+   ↓
+line service</code></pre>
+<h1 id="residual-rail-pressure">3. Residual rail pressure</h1>
+<p>Common-rail systems can retain substantial pressure after the engine
+stops.</p>
+<p>The service procedure, not an assumption based on elapsed time,
+defines when the system is safe to open.</p>
+<h1 id="hot-aftertreatment">4. Hot aftertreatment</h1>
+<p>DOC, DPF and SCR components can reach very high temperature during
+normal operation and regeneration.</p>
+<p>Thermal-management calibration must consider:</p>
+<ul>
+<li>surface temperature;</li>
+<li>nearby components;</li>
+<li>shielding;</li>
+<li>thermal soak after key-off.</li>
+</ul>
+<h1 id="dpf-regeneration-safety">5. DPF regeneration safety</h1>
+<p>An active regeneration intentionally creates a hot exhaust state.</p>
+<p>Calibration should never disable temperature protection simply to
+complete a test.</p>
+<h1 id="coolant-and-oil">6. Coolant and oil</h1>
+<p>A hot engine contains pressurized coolant and hot lubricating
+oil.</p>
+<p>Opening a circuit before approved cool-down and depressurization can
+cause severe injury.</p>
+<h1 id="dynamometer-safety">7. Dynamometer safety</h1>
+<p>An engine dyno adds hazards from:</p>
+<ul>
+<li>rotating couplings;</li>
+<li>shaft failure;</li>
+<li>overspeed;</li>
+<li>exhaust extraction;</li>
+<li>fuel supply;</li>
+<li>emergency shutdown.</li>
+</ul>
+<p>The calibration engineer should know which trip functions are
+independent of the ECU.</p>
+<h1 id="vehicle-test-safety">8. Vehicle test safety</h1>
+<p>Road or proving-ground development adds:</p>
+<ul>
+<li>traffic;</li>
+<li>vehicle instability;</li>
+<li>brake temperature;</li>
+<li>driver workload;</li>
+<li>laptop/data-acquisition distraction.</li>
+</ul>
+<p>Test procedures should define which parameter changes are permitted
+while moving and which require stopping the vehicle.</p>
+<h1 id="def-handling">9. DEF handling</h1>
+<p>DEF is not diesel fuel.</p>
+<p>Prevent:</p>
+<ul>
+<li>cross-contamination;</li>
+<li>dirty transfer equipment;</li>
+<li>unsuitable storage.</li>
+</ul>
+<h1 id="exhaust-exposure">10. Exhaust exposure</h1>
+<p>Diesel exhaust is a health hazard.</p>
+<p>Indoor engine and vehicle tests need effective exhaust extraction and
+ventilation.</p>
+<h1 id="safety-versus-calibration">11. Safety versus calibration</h1>
+<p>Safety interlocks are not performance knobs.</p>
+<p>Examples:</p>
+<ul>
+<li>overspeed trip;</li>
+<li>fuel shutoff;</li>
+<li>fire protection;</li>
+<li>emergency stop;</li>
+<li>dyno containment.</li>
+</ul>
+<p>Do not alter them to “get one more data point.”</p>
+<h1 id="calibration-specific-risk-assessment">12. Calibration-specific
+risk assessment</h1>
+<p>Before a new test sequence, classify the hazards created by the
+requested experiment.</p>
+<p>Examples:</p>
+<h3 id="high-pressure-fuel-sweep">High-pressure fuel sweep</h3>
+<p>Risk: leak, line/fitting overload, unexpected pressure spike.</p>
+<h3 id="turbovgt-sweep">Turbo/VGT sweep</h3>
+<p>Risk: overspeed, compressor surge, high exhaust backpressure.</p>
+<h3 id="dpf-regeneration-test">DPF regeneration test</h3>
+<p>Risk: high exhaust/catalyst surface temperature and exotherm.</p>
+<h3 id="full-load-thermal-test">Full-load thermal test</h3>
+<p>Risk: coolant/oil overtemperature and dyno overload.</p>
+<p>The test plan should define:</p>
+<ul>
+<li>automatic limit;</li>
+<li>hard trip;</li>
+<li>operator abort criterion;</li>
+<li>safe cool-down state.</li>
+</ul>
+<h1 id="dyno-emergency-hierarchy">13. Dyno emergency hierarchy</h1>
+<p>Performance ECU limits should act before independent dyno/cell trips
+during normal calibration.</p>
+<p>If the independent trip is repeatedly the first protection to
+operate, the test/calibration limit strategy is inadequate.</p>
+<h1 id="road-test-change-control">14. Road-test change control</h1>
+<p>Use pre-approved calibration sets for safety-critical road
+testing.</p>
+<p>Large online changes to:</p>
+<ul>
+<li>torque limits;</li>
+<li>engine-brake control;</li>
+<li>smoke/fuel authority;</li>
+<li>protection thresholds;</li>
+</ul>
+<p>should be performed under a controlled process, not improvised while
+driving.</p>
+<h1 id="data-after-an-abort">15. Data after an abort</h1>
+<p>A safety abort is still valuable engineering data.</p>
+<p>Preserve high-rate pre-trigger and post-trigger channels so the team
+can identify the initiating event without repeating an unsafe test.</p>
+<h1 id="common-mistakes">16. Common mistakes</h1>
+<ul>
+<li>Checking high-pressure leaks by touch.</li>
+<li>Opening a rail because the engine has been off “long enough.”</li>
+<li>Overriding regeneration temperature protections.</li>
+<li>Treating a dyno trip as an annoying calibration limit.</li>
+<li>Making complex laptop changes while a road-test vehicle is
+moving.</li>
+</ul>
+<h1 id="key-lessons">17. Key lessons</h1>
+<ol type="1">
+<li>High-pressure fuel and hot aftertreatment are major diesel-specific
+hazards.</li>
+<li>Residual pressure and thermal soak remain after engine stop.</li>
+<li>Dyno and vehicle safety layers are independent of normal performance
+control.</li>
+<li>DEF, coolant, oil and exhaust each have distinct handling
+hazards.</li>
+<li>A strong calibration engineer stops testing when the safety boundary
+is unclear.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+<a href="https://www.cummins.com/en-eu/components/aftertreatment/twin-module-aftertreatment-system/product-overview">Cummins
+EPA27 Twin Module Aftertreatment official page</a> — current commercial
+example of electrically assisted aftertreatment thermal management.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../17-engine-braking-negative-torque/">← Engine Braking, Compression Release and Negative-Torque Calibration</a><span class="article-count">18 / 33</span><a href="../19-thermal-cooling-ambient-derating/">Cooling, Thermal State, Ambient and Torque Derating →</a></div></body>
+</html>

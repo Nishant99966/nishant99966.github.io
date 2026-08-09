@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Combustion Phasing, CA50, Pmax, MPRR and Diesel Noise</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 13 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#combustion-phasing-has-several-important-limits" id="toc-combustion-phasing-has-several-important-limits">1. Combustion
+phasing has several important limits</a></li>
+<li><a href="#ca50" id="toc-ca50">2. CA50</a></li>
+<li><a href="#pmax" id="toc-pmax">3. Pmax</a></li>
+<li><a href="#mprr" id="toc-mprr">4. MPRR</a></li>
+<li><a href="#diesel-knock-terminology" id="toc-diesel-knock-terminology">5. Diesel knock terminology</a></li>
+<li><a href="#cylinder-statistics" id="toc-cylinder-statistics">6.
+Cylinder statistics</a></li>
+<li><a href="#phasing-optimization-table" id="toc-phasing-optimization-table">7. Phasing optimization
+table</a></li>
+<li><a href="#speed-dependence" id="toc-speed-dependence">8. Speed
+dependence</a></li>
+<li><a href="#pressure-measurement-quality" id="toc-pressure-measurement-quality">9. Pressure-measurement
+quality</a></li>
+<li><a href="#speed-load-phasing-map" id="toc-speed-load-phasing-map">10. Speed-load phasing map</a></li>
+<li><a href="#high-load-pressure-limited-region" id="toc-high-load-pressure-limited-region">11. High-load
+pressure-limited region</a></li>
+<li><a href="#pressure-rise-rate-shaping" id="toc-pressure-rise-rate-shaping">12. Pressure-rise-rate
+shaping</a></li>
+<li><a href="#statistical-release-margin" id="toc-statistical-release-margin">13. Statistical release
+margin</a></li>
+<li><a href="#combustion-noise-torsional-vibration-and-low-speed-lugging" id="toc-combustion-noise-torsional-vibration-and-low-speed-lugging">14.
+Combustion noise, torsional vibration and low-speed lugging</a></li>
+<li><a href="#calibration-execution-standard" id="toc-calibration-execution-standard">15. Calibration execution
+standard</a>
+<ul>
+<li><a href="#objective" id="toc-objective">Objective</a></li>
+<li><a href="#calibration-objects" id="toc-calibration-objects">Calibration objects</a></li>
+<li><a href="#signals-to-log" id="toc-signals-to-log">Signals to
+log</a></li>
+<li><a href="#selection-rule" id="toc-selection-rule">Selection
+rule</a></li>
+</ul></li>
+<li><a href="#senior-calibration-deep-dive-constraint-hierarchy" id="toc-senior-calibration-deep-dive-constraint-hierarchy">16. Senior
+calibration deep dive — constraint hierarchy</a>
+<ul>
+<li><a href="#cycle-variability" id="toc-cycle-variability">Cycle
+variability</a></li>
+<li><a href="#low-speed-lugging-validation" id="toc-low-speed-lugging-validation">Low-speed lugging
+validation</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">17. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">18. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+Combustion Phasing, CA50, Pmax, MPRR and Diesel Noise
+</h1>
+<p>
+<em>How to locate the efficient combustion window without exceeding
+mechanical, emissions or harshness limits</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="combustion-phasing-has-several-important-limits">1. Combustion
+phasing has several important limits</h1>
+<p>The calibration target is not simply “earlier is better.”</p>
+<p>Important pressure-based metrics include:</p>
+<ul>
+<li>CA50;</li>
+<li>Pmax;</li>
+<li>maximum pressure-rise rate;</li>
+<li>IMEP.</li>
+</ul>
+<h1 id="ca50">2. CA50</h1>
+<p>CA50 is the crank angle where 50% of cumulative apparent heat release
+has occurred.</p>
+<p>Too-late phasing can increase:</p>
+<ul>
+<li>BSFC;</li>
+<li>EGT;</li>
+<li>late burn.</li>
+</ul>
+<p>Too-early phasing can increase:</p>
+<ul>
+<li>compression work;</li>
+<li>Pmax;</li>
+<li>MPRR;</li>
+<li>NOx.</li>
+</ul>
+<h1 id="pmax">3. Pmax</h1>
+<p>Peak cylinder pressure is constrained by engine hardware.</p>
+<p>The release calibration needs margin for:</p>
+<ul>
+<li>sensor uncertainty;</li>
+<li>production variation;</li>
+<li>fuel variation;</li>
+<li>cylinder spread;</li>
+<li>transient overshoot.</li>
+</ul>
+<h1 id="mprr">4. MPRR</h1>
+<p>Maximum pressure-rise rate can be represented as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>P</mi><mi>R</mi><mi>R</mi><mo>=</mo><mo>max</mo><mrow><mo form="prefix" stretchy="true">(</mo><mfrac><mrow><mi>d</mi><mi>p</mi></mrow><mrow><mi>d</mi><mi>θ</mi></mrow></mfrac><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+MPRR
+=
+\max\left(\frac{dp}{d\theta}\right)
+</annotation></semantics></math></p>
+<p>High MPRR can increase combustion harshness and structural
+excitation.</p>
+<h1 id="diesel-knock-terminology">5. Diesel knock terminology</h1>
+<p>A diesel can sound harsh when a large amount of premixed fuel
+autoignites quickly after a long ignition delay.</p>
+<p>It is clearer to discuss:</p>
+<ul>
+<li>ignition delay;</li>
+<li>premixed heat release;</li>
+<li>MPRR;</li>
+<li>combustion noise.</li>
+</ul>
+<p>This avoids confusing compression-ignition harshness with
+spark-ignition end-gas knock.</p>
+<h1 id="cylinder-statistics">6. Cylinder statistics</h1>
+<p>Track:</p>
+<ul>
+<li>maximum cylinder Pmax;</li>
+<li>maximum MPRR;</li>
+<li>CA50 spread;</li>
+<li>IMEP spread;</li>
+<li>EGT spread.</li>
+</ul>
+<p>The worst cylinder, not the average, can define the release
+boundary.</p>
+<h1 id="phasing-optimization-table">7. Phasing optimization table</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CA10</td>
+<td>combustion onset</td>
+</tr>
+<tr class="even">
+<td>CA50</td>
+<td>main phasing</td>
+</tr>
+<tr class="odd">
+<td>CA90</td>
+<td>late burn</td>
+</tr>
+<tr class="even">
+<td>Pmax</td>
+<td>mechanical loading</td>
+</tr>
+<tr class="odd">
+<td>MPRR</td>
+<td>harshness / excitation</td>
+</tr>
+<tr class="even">
+<td>IMEP</td>
+<td>indicated work</td>
+</tr>
+<tr class="odd">
+<td>NOx</td>
+<td>temperature/phasing penalty</td>
+</tr>
+<tr class="even">
+<td>smoke/PM</td>
+<td>mixing/late-burn penalty</td>
+</tr>
+<tr class="odd">
+<td>EGT</td>
+<td>exhaust-energy shift</td>
+</tr>
+</tbody>
+</table>
+<h1 id="speed-dependence">8. Speed dependence</h1>
+<p>The optimum phasing window can change with speed because time per
+crank-angle degree changes and the spray/mixing process changes.</p>
+<p>That is why a heavy-duty engine needs a phasing map across the full
+speed-load range.</p>
+<h1 id="pressure-measurement-quality">9. Pressure-measurement
+quality</h1>
+<p>Before changing maps, verify:</p>
+<ul>
+<li>TDC offset;</li>
+<li>encoder resolution;</li>
+<li>pressure pegging;</li>
+<li>thermal drift;</li>
+<li>cycle count.</li>
+</ul>
+<p>A small TDC error can create a misleading CA50 shift.</p>
+<h1 id="speed-load-phasing-map">10. Speed-load phasing map</h1>
+<p>A practical phasing target is often a base surface:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>A</mi><msub><mn>50</mn><mrow><mi>t</mi><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>n</mi><mi>e</mi></msub><mo>,</mo><mi>B</mi><mi>M</mi><mi>E</mi><mi>P</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+CA50_{target}
+=
+f(n_e,BMEP)
+</annotation></semantics></math></p>
+<p>with corrections for:</p>
+<ul>
+<li>EGR;</li>
+<li>intake temperature;</li>
+<li>fuel quality;</li>
+<li>injection pressure;</li>
+<li>thermal mode.</li>
+</ul>
+<p>The target should be a result of measured optimization, not a
+universal textbook angle.</p>
+<h1 id="high-load-pressure-limited-region">11. High-load
+pressure-limited region</h1>
+<p>At high torque:</p>
+<pre class="text"><code>timing advance
+→ efficiency may improve
+→ Pmax rises</code></pre>
+<p>If Pmax becomes active before the efficiency optimum, possible
+alternatives include:</p>
+<ul>
+<li>rate-shape change;</li>
+<li>higher/lower injection pressure;</li>
+<li>air/EGR change;</li>
+<li>slightly later CA50.</li>
+</ul>
+<p>The best response is the one with the lowest total
+emissions/efficiency/durability cost.</p>
+<h1 id="pressure-rise-rate-shaping">12. Pressure-rise-rate shaping</h1>
+<p>If MPRR is limiting while Pmax remains acceptable, pilot strategy or
+early main rate shape may reduce the sharp premixed burn without
+requiring a large overall retard.</p>
+<p>This is a more targeted correction than moving the whole combustion
+event late.</p>
+<h1 id="statistical-release-margin">13. Statistical release margin</h1>
+<p>Release against:</p>
+<pre class="text"><code>worst cylinder
++
+measurement uncertainty
++
+production variation</code></pre>
+<p>not merely the mean cylinder on one development engine.</p>
+<h1 id="combustion-noise-torsional-vibration-and-low-speed-lugging">14.
+Combustion noise, torsional vibration and low-speed lugging</h1>
+<p>Modern downspeeding places high cylinder torque at low engine
+speed.</p>
+<p>The engine, flywheel, clutch damper, gearbox and driveline form a
+torsional system.</p>
+<p>A simple two-inertia intuition is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>≈</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><msqrt><mfrac><msub><mi>k</mi><mi>t</mi></msub><msub><mi>J</mi><mrow><mi>e</mi><mi>q</mi></mrow></msub></mfrac></msqrt></mrow><annotation encoding="application/x-tex">
+f_n
+\approx
+\frac{1}{2\pi}
+\sqrt{\frac{k_t}{J_{eq}}}
+</annotation></semantics></math></p>
+<p>Real development uses a multi-inertia model and measured torsional
+response.</p>
+<p>Combustion calibration affects excitation through:</p>
+<ul>
+<li>firing-order torque pulses;</li>
+<li>cylinder imbalance;</li>
+<li>MPRR;</li>
+<li>misfire;</li>
+<li>very early heat release.</li>
+</ul>
+<p>At HD13-E point B, a timing change that improves BSFC but raises MPRR
+and driveline torsional amplitude may be unacceptable.</p>
+<h1 id="calibration-execution-standard">15. Calibration execution
+standard</h1>
+<h2 id="objective">Objective</h2>
+<p>Locate the efficient combustion window while preserving mechanical
+and NVH margin.</p>
+<h2 id="calibration-objects">Calibration objects</h2>
+<ul>
+<li>CA50/main SOI target;</li>
+<li>pilot strategy;</li>
+<li>injection pressure/rate shape;</li>
+<li>Pmax/MPRR limit correction.</li>
+</ul>
+<h2 id="signals-to-log">Signals to log</h2>
+<pre class="text"><code>CA10/50/90
+Pmax each cylinder
+MPRR each cylinder
+IMEP spread
+torsional / crank-speed signal where available
+BSFC
+NOx
+smoke</code></pre>
+<h2 id="selection-rule">Selection rule</h2>
+<p>Use the worst cylinder plus uncertainty/production margin, not the
+mean cylinder.</p>
+<h1 id="senior-calibration-deep-dive-constraint-hierarchy">16. Senior
+calibration deep dive — constraint hierarchy</h1>
+<p>The optimum should report <em>which constraint became active
+first</em>.</p>
+<p>A typical candidate ranking can be:</p>
+<pre class="text"><code>timing 1: BSFC poor, all margins large
+timing 2: BSFC better, acceptable
+timing 3: BSFC best, Pmax close to limit
+timing 4: no BSFC gain, MPRR/NOx worse</code></pre>
+<p>The release point may deliberately be timing 2 rather than timing 3
+to gain production and fuel-quality robustness.</p>
+<h2 id="cycle-variability">Cycle variability</h2>
+<p>At low load, mean CA50 can hide unstable combustion.</p>
+<p>Also track:</p>
+<ul>
+<li>standard deviation of IMEP;</li>
+<li>CA50 standard deviation;</li>
+<li>partial-burn/misfire indicators.</li>
+</ul>
+<h2 id="low-speed-lugging-validation">Low-speed lugging validation</h2>
+<p>At point B, perform slow torque ramps in a high gear and monitor:</p>
+<ul>
+<li>MPRR;</li>
+<li>torsional vibration;</li>
+<li>driver-perceived boom/rumble;</li>
+<li>gearbox rattle where instrumented.</li>
+</ul>
+<p>The lower usable engine speed is a powertrain-NVH boundary, not only
+an engine torque boundary.</p>
+<h1 id="common-mistakes">17. Common mistakes</h1>
+<ul>
+<li>Calling diesel combustion harshness SI knock.</li>
+<li>Optimizing CA50 without checking brake efficiency.</li>
+<li>Using average Pmax when one cylinder is limiting.</li>
+<li>Advancing SOI until the mechanical limit rather than balancing
+emissions and efficiency.</li>
+<li>Trusting cylinder-pressure metrics before validating TDC.</li>
+</ul>
+<h1 id="key-lessons">18. Key lessons</h1>
+<ol type="1">
+<li>CA50, Pmax and MPRR must be optimized together.</li>
+<li>The first active limit can be efficiency plateau, NOx, Pmax, MPRR or
+smoke.</li>
+<li>Phasing targets vary with speed and load.</li>
+<li>Cylinder spread matters.</li>
+<li>Pressure-based calibration is only as good as the phasing and sensor
+system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+J. B. Heywood, <em>Internal Combustion Engine Fundamentals</em>, 2nd
+ed. — diesel combustion, heat release, emissions and performance
+fundamentals.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em> — indicated/brake work, gas exchange and turbocharging
+fundamentals.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../12-injection-calibration-soi-pressure-pilot-post/">← Injection Calibration: Quantity, Pressure, SOI, Pilot, Main, Post and Dwell</a><span class="article-count">13 / 33</span><a href="../14-smoke-limiter-air-fuel-oxygen/">Smoke Limiting, Air/Fuel Ratio and Fresh-Oxygen Margin →</a></div></body>
+</html>

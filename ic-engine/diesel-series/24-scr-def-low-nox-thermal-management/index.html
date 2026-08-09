@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>SCR, DEF Dosing and Low-NOx Thermal Management</title>
+
+<style type="text/css">
+:root{
+--page-max:1180px;--text-max:860px;--content-max:1040px;--figure-max:760px;
+--navy:#17324a;--accent:#5d87ad;--soft:#eef4f8;--border:#c7d7e4;
+--ink:#1f2b34;--muted:#61717f
+}
+*{box-sizing:border-box}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:22px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.23}
+h1{max-width:var(--content-max);margin:2.1rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:1.85rem auto .7rem;font-size:1.4rem}
+h3{max-width:var(--text-max);margin:1.35rem auto .5rem;font-size:1.08rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem} li{margin:.24rem 0} a{color:#2c648f}
+.hero{max-width:var(--content-max);margin:0 auto 22px;padding:26px 28px;border-radius:16px;
+background:linear-gradient(180deg,#f7fafc,#edf4f8);border:1px solid var(--border)}
+.hero h1{margin:.15rem 0 .5rem}.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.78rem;font-weight:700}
+.publication-note,.article-note{max-width:var(--text-max);margin:14px auto 22px;padding:12px 14px;
+background:#f8fafc;border:1px solid var(--border);border-left:4px solid #9bb5c9;border-radius:8px}
+.view-controls{max-width:var(--text-max);margin:14px auto 20px;padding:10px 12px;
+border:1px solid var(--border);border-radius:9px;background:#f8fafc}
+button{cursor:pointer;border:1px solid #9eb2c2;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+nav#TOC{max-width:var(--text-max);margin:0 auto 26px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe}
+nav#TOC summary{cursor:pointer;padding:12px 15px;font-weight:700;color:var(--navy)}
+pre{width:100%;max-width:920px;margin:16px auto;background:#f7f9fb;border:1px solid #d8e2e9;
+border-radius:9px;padding:14px 16px;overflow-x:auto;line-height:1.5}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse}
+th,td{border:1px solid #d8e1e7;padding:9px 10px;vertical-align:top} th{background:#eef4f8;color:var(--navy)}
+.flow,.callout-grid,.site-grid{max-width:var(--content-max);margin:20px auto;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.flow .box,.callout{border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:13px;text-align:center}
+.flow strong,.callout strong{display:block;color:var(--navy);margin-bottom:4px}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;border:1px solid var(--border);
+border-radius:10px;background:#fbfcfe;text-align:center;overflow-x:auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e7eff5;color:#365b78;font-size:.77rem;margin-bottom:7px}
+.refs{max-width:var(--text-max);margin-left:auto;margin-right:auto}.refs li{margin-bottom:10px}
+figure,.figure-card{width:calc(100% - 24px);max-width:var(--figure-max)!important;margin:1.55rem auto 1.45rem!important;overflow:hidden}
+figure>svg,figure>img,.figure-card>svg,.figure-card>img{display:block!important;width:100%!important;max-width:100%!important;
+height:auto!important;position:static!important;left:auto!important;transform:none!important;margin:0 auto!important}
+figure figcaption,.figure-card figcaption{max-width:700px!important;margin:.48rem auto 0!important;text-align:center;
+font-size:.91rem;color:#52616f;line-height:1.48}
+.figure-card{padding:10px!important;border:1px solid var(--border)!important;border-radius:11px!important;background:#fff!important}
+svg,img{max-width:100%;height:auto} math{max-width:100%;overflow-x:auto}
+.series-nav{max-width:var(--content-max);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fbfcfe;font-size:.9rem}
+.series-nav a{text-decoration:none;font-weight:700}.series-nav .article-count{color:var(--muted);white-space:nowrap}
+.series-nav.bottom{margin-top:30px;margin-bottom:8px}
+.series-group-title{max-width:var(--content-max);margin:30px auto 8px;padding-bottom:7px;border-bottom:1px solid var(--border);
+font-size:1.15rem;color:var(--navy);font-weight:800}
+@media(max-width:760px){body{width:100%;padding:16px 14px 50px}.hero{padding:20px}h1{font-size:1.65rem}
+table{display:block;overflow-x:auto}figure,.figure-card{width:100%;max-width:100%!important;padding:7px!important}
+.series-nav{align-items:flex-start;flex-wrap:wrap}.series-nav .article-count{width:100%;order:-1}}
+@media print{.view-controls,.series-nav,nav#TOC{display:none!important}body{max-width:none;width:100%;padding:0}
+.hero,.publication-note,.article-note,.figure-card{break-inside:avoid}a{color:inherit;text-decoration:none}}
+</style>
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 24 of 33</span><span><a href="../glossary/">Glossary</a> · <a href="../calibration-workflow/">Workflow</a></span></div>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#scr-calibration-starts-from-nox-mass-flow" id="toc-scr-calibration-starts-from-nox-mass-flow">1. SCR calibration
+starts from NOx mass flow</a></li>
+<li><a href="#ammonia-to-nox-ratio" id="toc-ammonia-to-nox-ratio">2.
+Ammonia-to-NOx ratio</a></li>
+<li><a href="#catalyst-storage" id="toc-catalyst-storage">3. Catalyst
+storage</a></li>
+<li><a href="#temperature-dependence" id="toc-temperature-dependence">4.
+Temperature dependence</a></li>
+<li><a href="#def-deposit-risk" id="toc-def-deposit-risk">5. DEF deposit
+risk</a></li>
+<li><a href="#downstream-feedback" id="toc-downstream-feedback">6.
+Downstream feedback</a></li>
+<li><a href="#current-low-nox-heavy-duty-challenge" id="toc-current-low-nox-heavy-duty-challenge">7. Current low-NOx
+heavy-duty challenge</a></li>
+<li><a href="#electrically-assisted-heating" id="toc-electrically-assisted-heating">8. Electrically assisted
+heating</a></li>
+<li><a href="#twin-or-multi-scr-architectures" id="toc-twin-or-multi-scr-architectures">9. Twin or multi-SCR
+architectures</a></li>
+<li><a href="#calibration-procedure" id="toc-calibration-procedure">10.
+Calibration procedure</a></li>
+<li><a href="#worked-dosing-concept" id="toc-worked-dosing-concept">11.
+Worked dosing concept</a></li>
+<li><a href="#closed-loop-correction" id="toc-closed-loop-correction">12. Closed-loop correction</a></li>
+<li><a href="#deposit-mapping" id="toc-deposit-mapping">13. Deposit
+mapping</a></li>
+<li><a href="#heater-energy-accounting" id="toc-heater-energy-accounting">14. Heater energy accounting</a></li>
+<li><a href="#calibration-objects-and-channels" id="toc-calibration-objects-and-channels">15. Calibration objects and
+channels</a></li>
+<li><a href="#closed-loop-bandwidth" id="toc-closed-loop-bandwidth">16.
+Closed-loop bandwidth</a></li>
+<li><a href="#aged-system-validation" id="toc-aged-system-validation">17. Aged-system validation</a></li>
+<li><a href="#senior-calibration-deep-dive-ammonia-storage-state" id="toc-senior-calibration-deep-dive-ammonia-storage-state">18. Senior
+calibration deep dive — ammonia storage state</a>
+<ul>
+<li><a href="#transient-nox-event" id="toc-transient-nox-event">Transient NOx event</a></li>
+<li><a href="#def-system-plausibility" id="toc-def-system-plausibility">DEF-system plausibility</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">19. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Heavy-Duty Diesel Engine Performance, Emissions &amp; Calibration · 2026
+Committee Edition
+</div>
+<h1>
+SCR, DEF Dosing and Low-NOx Thermal Management
+</h1>
+<p>
+<em>Ammonia storage, dosing, deposits, cold/low-load operation, twin-SCR
+concepts and electrically assisted heating</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>Scope:</strong> The main teaching case is a modern turbocharged
+heavy-duty compression-ignition engine operating over a broad
+engine-speed/load map in truck, bus or comparable heavy-duty vehicle
+service. Engine speed, gear, vehicle mass, road grade, driver demand and
+aftertreatment state all move during operation. Off-highway adaptations
+are noted where useful; regulatory chapters clearly distinguish
+jurisdiction-specific requirements.
+</div>
+<div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div>
+<h1 id="scr-calibration-starts-from-nox-mass-flow">1. SCR calibration
+starts from NOx mass flow</h1>
+<p>A useful feedforward structure is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>f</mi><mi>f</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>O</mi><mi>x</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>S</mi><mi>C</mi><mi>R</mi></mrow></msub><mo>,</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\dot m_{NH3,ff}
+=
+f(\dot m_{NOx},T_{SCR},\dot m_{exh})
+</annotation></semantics></math></p>
+<p>The actual controller also needs catalyst storage and transient
+state.</p>
+<h1 id="ammonia-to-nox-ratio">2. Ammonia-to-NOx ratio</h1>
+<p>A normalized dosing quantity is often expressed through an
+ammonia-to-NOx ratio.</p>
+<p>The exact definition and species basis must be documented.</p>
+<p>Too little reductant:</p>
+<pre class="text"><code>NOx conversion insufficient</code></pre>
+<p>Too much:</p>
+<pre class="text"><code>NH3 storage saturates
+→ NH3 slip</code></pre>
+<h1 id="catalyst-storage">3. Catalyst storage</h1>
+<p>SCR catalyst can temporarily store ammonia.</p>
+<p>A conceptual state model is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>m</mi><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>s</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>r</mi><mi>e</mi><mi>a</mi><mi>c</mi><mi>t</mi></mrow></msub><mo>−</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>s</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\frac{dm_{NH3,stored}}{dt}
+=
+\dot m_{NH3,in}
+-
+\dot m_{NH3,react}
+-
+\dot m_{NH3,slip}
+</annotation></semantics></math></p>
+<h1 id="temperature-dependence">4. Temperature dependence</h1>
+<p>At low temperature:</p>
+<ul>
+<li>urea decomposition can be poor;</li>
+<li>deposits can form;</li>
+<li>catalyst kinetics are slow.</li>
+</ul>
+<p>At high temperature:</p>
+<ul>
+<li>storage changes;</li>
+<li>aging and side reactions can become important.</li>
+</ul>
+<h1 id="def-deposit-risk">5. DEF deposit risk</h1>
+<p>Dosing quality depends on:</p>
+<ul>
+<li>injector spray;</li>
+<li>mixer geometry;</li>
+<li>exhaust flow;</li>
+<li>wall temperature;</li>
+<li>residence time.</li>
+</ul>
+<p>A dosing map that meets NOx during a short test can still create
+deposits in long low-load operation.</p>
+<h1 id="downstream-feedback">6. Downstream feedback</h1>
+<p>Where sensors are available, downstream NOx and NH3 information can
+correct feedforward error.</p>
+<p>Feedback bandwidth must respect sensor and catalyst delays.</p>
+<h1 id="current-low-nox-heavy-duty-challenge">7. Current low-NOx
+heavy-duty challenge</h1>
+<p>Future and emerging heavy-duty requirements increasingly
+emphasize:</p>
+<ul>
+<li>cold start;</li>
+<li>low load;</li>
+<li>long useful life;</li>
+<li>real-world operation.</li>
+</ul>
+<p>Current production-oriented systems therefore demonstrate stronger
+thermal-management integration than older “hot SCR only” strategies.</p>
+<h1 id="electrically-assisted-heating">8. Electrically assisted
+heating</h1>
+<p>Current heavy-duty commercial development includes 48-V electrically
+powered aftertreatment heaters.</p>
+<p>The energy does not come for free.</p>
+<p>The system optimization should compare:</p>
+<pre class="text"><code>electrical heater energy
+versus
+extra fuel from engine-based thermal management
+versus
+tailpipe NOx benefit</code></pre>
+<h1 id="twin-or-multi-scr-architectures">9. Twin or multi-SCR
+architectures</h1>
+<p>Current commercial products also demonstrate multiple SCR catalyst
+regions or modules to extend conversion across wider temperature
+conditions.</p>
+<p>Architecture is product-specific.</p>
+<h1 id="calibration-procedure">10. Calibration procedure</h1>
+<ol type="1">
+<li>map upstream NOx mass flow;</li>
+<li>map catalyst temperature and exhaust flow;</li>
+<li>establish feedforward dosing;</li>
+<li>identify safe low-temperature dosing boundary;</li>
+<li>fit storage correction;</li>
+<li>add downstream feedback;</li>
+<li>measure NH3 slip and N2O where required;</li>
+<li>validate aging and transient operation.</li>
+</ol>
+<h1 id="worked-dosing-concept">11. Worked dosing concept</h1>
+<p>Suppose the upstream NOx mass flow is known.</p>
+<p>A feedforward can be written conceptually as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>D</mi><mi>E</mi><mi>F</mi></mrow></msub><mo>=</mo><mi>K</mi><mo>⋅</mo><mi>A</mi><mi>N</mi><mi>R</mi><mo>⋅</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>O</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\dot m_{DEF}
+=
+K
+\cdot
+ANR
+\cdot
+\dot m_{NOx}
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>
+converts NOx basis and DEF concentration into the required liquid
+reductant flow.</p>
+<p>The calibration should document whether NOx is expressed as:</p>
+<ul>
+<li>NO;</li>
+<li>NO2;</li>
+<li>NO2-equivalent mass.</li>
+</ul>
+<h1 id="closed-loop-correction">12. Closed-loop correction</h1>
+<p>A downstream NOx sensor can correct slow feedforward error.</p>
+<p>But catalyst storage means:</p>
+<pre class="text"><code>dosing change now
+≠
+tailpipe response immediately</code></pre>
+<p>Use a slow correction consistent with storage and sensor delay.</p>
+<h1 id="deposit-mapping">13. Deposit mapping</h1>
+<p>At low temperature and flow, map:</p>
+<ul>
+<li>DEF quantity;</li>
+<li>wall/mixer temperature;</li>
+<li>deposit observation;</li>
+<li>downstream NH3/NOx.</li>
+</ul>
+<p>This creates a deposit-free dosing boundary.</p>
+<h1 id="heater-energy-accounting">14. Heater energy accounting</h1>
+<p>For an electrical heater:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mrow><mi>h</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi></mrow></msub><mo>=</mo><mo>∫</mo><msub><mi>P</mi><mrow><mi>h</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi></mrow></msub><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+E_{heater}
+=
+\int P_{heater}\,dt
+</annotation></semantics></math></p>
+<p>Compare that energy with:</p>
+<ul>
+<li>saved fuel from reduced engine thermal management;</li>
+<li>tailpipe NOx benefit;</li>
+<li>alternator/electrical-system losses.</li>
+</ul>
+<p>A heater can improve emissions while still having a measurable
+fuel-energy cost.</p>
+<h1 id="calibration-objects-and-channels">15. Calibration objects and
+channels</h1>
+<p>Typical calibration objects include:</p>
+<pre class="text"><code>upstream NOx feedforward conversion
+ANR / DEF target
+minimum dosing temperature
+NH3 storage target
+downstream NOx feedback gain
+NH3-slip correction
+electric-heater target if fitted</code></pre>
+<p>Typical signals include:</p>
+<pre class="text"><code>upstream/downstream NOx
+exhaust mass flow
+SCR inlet/brick/outlet temperatures
+DEF command and measured flow
+NH3 storage estimate
+NH3 slip where measurable
+heater power</code></pre>
+<h1 id="closed-loop-bandwidth">16. Closed-loop bandwidth</h1>
+<p>Feedback should be deliberately slower than fast engine combustion
+control because:</p>
+<ul>
+<li>exhaust transport delays the disturbance;</li>
+<li>catalyst storage delays the chemical response;</li>
+<li>NOx sensors have their own dynamics.</li>
+</ul>
+<p>Fast feedback can chase delayed information and destabilize
+dosing.</p>
+<h1 id="aged-system-validation">17. Aged-system validation</h1>
+<p>Repeat critical low-temperature and high-NOx points with aged
+catalyst or an approved deterioration representation.</p>
+<p>Do not tune the production engine-out NOx target using only
+fresh-catalyst conversion.</p>
+<h1 id="senior-calibration-deep-dive-ammonia-storage-state">18. Senior
+calibration deep dive — ammonia storage state</h1>
+<p>A useful normalized storage state can be thought of as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>N</mi><mi>H</mi><mn>3</mn></mrow></msub><mo>=</mo><mfrac><msub><mi>m</mi><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>s</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub><msub><mi>m</mi><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>c</mi><mi>a</mi><mi>p</mi><mi>a</mi><mi>c</mi><mi>i</mi><mi>t</mi><mi>y</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+\theta_{NH3}
+=
+\frac{m_{NH3,stored}}{m_{NH3,capacity}}
+</annotation></semantics></math></p>
+<p>The actual model can be more complex and temperature dependent.</p>
+<p>The control objective is not maximum storage.</p>
+<p>Too little storage reduces transient NOx conversion.</p>
+<p>Too much storage increases NH3-slip risk during temperature/load
+changes.</p>
+<h2 id="transient-nox-event">Transient NOx event</h2>
+<p>During a rapid load increase:</p>
+<pre class="text"><code>engine-out NOx ↑ quickly
+exhaust flow ↑
+catalyst temperature changes more slowly</code></pre>
+<p>The feedforward must react before the downstream sensor reports the
+final tailpipe consequence.</p>
+<h2 id="def-system-plausibility">DEF-system plausibility</h2>
+<p>Cross-check:</p>
+<ul>
+<li>commanded DEF;</li>
+<li>measured/estimated dosing;</li>
+<li>tank quality;</li>
+<li>upstream/downstream NOx.</li>
+</ul>
+<p>A high dosing command with no downstream response can indicate
+hardware, deposit or sensor problems rather than a need for still more
+DEF.</p>
+<h1 id="common-mistakes">19. Common mistakes</h1>
+<ul>
+<li>Dosing DEF from NOx concentration without exhaust-flow context.</li>
+<li>Ignoring NH3 storage.</li>
+<li>Dosing below the validated deposit-free temperature window.</li>
+<li>Treating electrical heating as zero-energy thermal management.</li>
+<li>Calibrating fresh catalyst only.</li>
+</ul>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>SCR dosing is a dynamic NOx-mass-flow and ammonia-storage
+problem.</li>
+<li>Temperature controls both chemistry and deposit risk.</li>
+<li>Downstream feedback is delayed and should not replace a good
+feedforward model.</li>
+<li>Electrically assisted heating is an advanced heavy-duty technology
+with an energy trade-off.</li>
+<li>Future low-NOx performance is a cold, low-load and lifetime
+problem—not only a hot steady-state problem.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+<a href="https://www.cummins.com/en-eu/components/aftertreatment/twin-module-aftertreatment-system/product-overview">Cummins
+EPA27 Twin Module Aftertreatment official page</a> — current commercial
+example of electrically assisted aftertreatment thermal management.
+</li>
+<li>
+<a href="https://www.cummins.com/en-na/engines/on-highway/heavy-duty-truck/2027-x15">Cummins
+2027 X15 official product page</a> — current commercial example of an
+integrated heavy-duty diesel engine/aftertreatment platform including
+EGR, 48-V aftertreatment heating and DOC-DPF-SCR architecture.
+</li>
+<li>
+<a href="https://www.epa.gov/regulations-emissions-vehicles-and-engines/final-rule-and-related-materials-control-air-pollution">U.S.
+EPA MY2027 heavy-duty engine and vehicle criteria-pollutant rule</a> —
+more stringent heavy-duty standards beginning MY2027.
+</li>
+<li>
+<a href="https://eur-lex.europa.eu/eli/reg/2024/1257/oj/eng">Regulation
+(EU) 2024/1257 (Euro 7)</a> — current legal source; exact dated limits
+and application milestones are maintained in the series Regulatory
+Appendix.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../23-dpf-soot-ash-regeneration/">← DPF Soot Loading, Ash and Regeneration Calibration</a><span class="article-count">24 / 33</span><a href="../25-cold-start-low-load-thermal-management/">Cold Start, Low Load, Idle and Aftertreatment Warm-Up →</a></div></body>
+</html>
