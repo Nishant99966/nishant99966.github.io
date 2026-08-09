@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Idle-Speed and Low-Load Control</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Idle-Speed and Low-Load Control</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#idle-is-a-torque-control-problem-at-very-small-margin" id="toc-idle-is-a-torque-control-problem-at-very-small-margin">1. Idle
+is a torque-control problem at very small margin</a></li>
+<li><a href="#the-basic-speed-balance" id="toc-the-basic-speed-balance">2. The basic speed balance</a></li>
+<li><a href="#why-spark-is-ideal-for-fast-idle-correction" id="toc-why-spark-is-ideal-for-fast-idle-correction">3. Why spark is
+ideal for fast idle correction</a></li>
+<li><a href="#why-air-is-still-needed" id="toc-why-air-is-still-needed">4. Why air is still needed</a></li>
+<li><a href="#idle-torque-reserve" id="toc-idle-torque-reserve">5. Idle
+torque reserve</a></li>
+<li><a href="#feedforward-versus-feedback" id="toc-feedforward-versus-feedback">6. Feedforward versus feedback</a>
+<ul>
+<li><a href="#feedforward" id="toc-feedforward">Feedforward</a></li>
+<li><a href="#feedback" id="toc-feedback">Feedback</a></li>
+</ul></li>
+<li><a href="#cold-idle" id="toc-cold-idle">7. Cold idle</a></li>
+<li><a href="#idle-and-catalyst-heating" id="toc-idle-and-catalyst-heating">8. Idle and catalyst heating</a></li>
+<li><a href="#cng-idle-behavior" id="toc-cng-idle-behavior">9. CNG idle
+behavior</a></li>
+<li><a href="#vvt-at-idle" id="toc-vvt-at-idle">10. VVT at idle</a></li>
+<li><a href="#accessory-load-example" id="toc-accessory-load-example">11. Accessory load example</a></li>
+<li><a href="#idle-speed-controller-structure" id="toc-idle-speed-controller-structure">12. Idle-speed controller
+structure</a></li>
+<li><a href="#why-friction-model-accuracy-matters-at-idle" id="toc-why-friction-model-accuracy-matters-at-idle">13. Why
+friction-model accuracy matters at idle</a></li>
+<li><a href="#idle-roughness-and-combustion-stability" id="toc-idle-roughness-and-combustion-stability">14. Idle roughness and
+combustion stability</a></li>
+<li><a href="#interactive-idle-disturbance" id="toc-interactive-idle-disturbance">15. Interactive idle
+disturbance</a></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#establish-the-hot-idle-base-point" id="toc-establish-the-hot-idle-base-point">1. Establish the hot-idle
+base point</a></li>
+<li><a href="#determine-useful-spark-reserve" id="toc-determine-useful-spark-reserve">2. Determine useful spark
+reserve</a></li>
+<li><a href="#calibrate-accessory-feedforward" id="toc-calibrate-accessory-feedforward">3. Calibrate accessory
+feedforward</a></li>
+<li><a href="#tune-speed-feedback" id="toc-tune-speed-feedback">4. Tune
+speed feedback</a></li>
+<li><a href="#cold-idle-optimization" id="toc-cold-idle-optimization">5.
+Cold-idle optimization</a></li>
+<li><a href="#vvt-trade-off-at-idle" id="toc-vvt-trade-off-at-idle">6.
+VVT trade-off at idle</a></li>
+<li><a href="#validation" id="toc-validation">7. Validation</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">16. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">17. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Idle-Speed and Low-Load Control
+</h1>
+<p>
+<em>Why idle is a small-margin torque problem — fast spark, slow air,
+accessory feedforward, cold friction, catalyst heating and combustion
+stability</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="idle-is-a-torque-control-problem-at-very-small-margin">1. Idle
+is a torque-control problem at very small margin</h1>
+<p>At idle, the engine produces only enough torque to:</p>
+<ul>
+<li>overcome its own friction;</li>
+<li>drive accessories;</li>
+<li>maintain target speed.</li>
+</ul>
+<p>That means a small disturbance can represent a large percentage of
+available torque.</p>
+<p>Examples:</p>
+<ul>
+<li>A/C compressor engages.</li>
+<li>Steering load changes.</li>
+<li>Alternator demand rises.</li>
+<li>Transmission moves from neutral to drive.</li>
+<li>Cooling fan switches on.</li>
+</ul>
+<p>Idle control is therefore a miniature version of the complete torque
+structure.</p>
+<h1 id="the-basic-speed-balance">2. The basic speed balance</h1>
+<p>Engine acceleration depends on net torque:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+J\frac{d\omega}{dt}
+=
+T_{engine}
+-
+T_{load}
+</annotation></semantics></math></p>
+<p>If:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>&gt;</mo><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{engine}&gt;T_{load}
+</annotation></semantics></math></p>
+<p>speed rises.</p>
+<p>If:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>&lt;</mo><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{engine}&lt;T_{load}
+</annotation></semantics></math></p>
+<p>speed falls.</p>
+<p>The idle controller’s job is to keep those torques balanced around
+the target speed.</p>
+<h1 id="why-spark-is-ideal-for-fast-idle-correction">3. Why spark is
+ideal for fast idle correction</h1>
+<p>Spark can change torque within combustion events.</p>
+<p>If rpm starts falling:</p>
+<pre class="text"><code>rpm error negative
+    ↓
+spark can advance toward efficient timing
+    ↓
+torque rises quickly
+    ↓
+rpm fall is arrested</code></pre>
+<p>If rpm rises too high, spark can be retarded for rapid torque
+reduction.</p>
+<h1 id="why-air-is-still-needed">4. Why air is still needed</h1>
+<p>Spark cannot create unlimited torque at fixed air charge.</p>
+<p>The slow path adjusts:</p>
+<ul>
+<li>throttle;</li>
+<li>idle bypass where fitted;</li>
+<li>VVT;</li>
+<li>boost on some systems.</li>
+</ul>
+<p>The air path establishes the sustainable torque level and recreates
+spark reserve.</p>
+<h1 id="idle-torque-reserve">5. Idle torque reserve</h1>
+<p>A common concept is to operate slightly retarded from the most
+efficient spark timing.</p>
+<p>This gives the controller room to:</p>
+<ul>
+<li>advance spark if rpm falls;</li>
+<li>retard spark if rpm rises.</li>
+</ul>
+<p>The reserve should be only as large as needed because retard
+increases fuel consumption and exhaust temperature.</p>
+<h1 id="feedforward-versus-feedback">6. Feedforward versus feedback</h1>
+<p>A good idle controller should not wait for rpm to collapse before
+reacting to a known disturbance.</p>
+<h3 id="feedforward">Feedforward</h3>
+<p>If the ECU knows the A/C clutch is about to engage, it can request
+extra torque immediately.</p>
+<h3 id="feedback">Feedback</h3>
+<p>Any remaining rpm error is corrected after it appears.</p>
+<p>So:</p>
+<pre class="text"><code>Known disturbance
+   ↓
+feedforward torque
+
+rpm error
+   ↓
+feedback correction</code></pre>
+<h1 id="cold-idle">7. Cold idle</h1>
+<p>Cold operation increases:</p>
+<ul>
+<li>oil viscosity;</li>
+<li>friction;</li>
+<li>catalyst-heating demand;</li>
+<li>combustion variability.</li>
+</ul>
+<p>Therefore cold idle often needs:</p>
+<ul>
+<li>more air;</li>
+<li>more fuel depending on strategy;</li>
+<li>different spark;</li>
+<li>higher target rpm.</li>
+</ul>
+<h1 id="idle-and-catalyst-heating">8. Idle and catalyst heating</h1>
+<p>Cold-start emissions can require spark retard to raise exhaust
+temperature.</p>
+<p>That creates a conflict:</p>
+<pre class="text"><code>Catalyst heating wants retard
+          ↓
+engine torque efficiency falls
+          ↓
+idle air/fuel demand rises</code></pre>
+<p>The idle controller must keep speed stable while the emissions
+strategy intentionally makes combustion less torque-efficient.</p>
+<h1 id="cng-idle-behavior">9. CNG idle behavior</h1>
+<p>CNG engines can face:</p>
+<ul>
+<li>very small gas-injector pulse widths;</li>
+<li>rail-pressure variation;</li>
+<li>cylinder mixture imbalance;</li>
+<li>slow burn under high residual dilution.</li>
+</ul>
+<p>Methane emissions can increase if partial burn or misfire occurs.</p>
+<p>So stable idle combustion is both a drivability and emissions
+requirement.</p>
+<h1 id="vvt-at-idle">10. VVT at idle</h1>
+<p>Aggressive overlap can increase residuals and reduce stability.</p>
+<p>The preferred cam position often balances:</p>
+<ul>
+<li>stable combustion;</li>
+<li>pumping loss;</li>
+<li>catalyst heat;</li>
+<li>internal EGR.</li>
+</ul>
+<p>The exact optimum depends on hardware.</p>
+<h1 id="accessory-load-example">11. Accessory load example</h1>
+<p>Suppose idle engine torque is 22 Nm and current losses/accessories
+consume 20 Nm.</p>
+<p>Only 2 Nm remains as accelerating torque margin.</p>
+<p>If the A/C compressor suddenly adds 4 Nm load:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>n</mi><mi>e</mi><mi>t</mi></mrow></msub><mo>=</mo><mn>22</mn><mo>−</mo><mn>24</mn><mo>=</mo><mi>−</mi><mn>2</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T_{net}=22-24=-2\ \mathrm{Nm}
+</annotation></semantics></math></p>
+<p>rpm immediately begins to fall.</p>
+<p>A fast spark increase plus a slower air increase can recover the lost
+torque.</p>
+<h1 id="idle-speed-controller-structure">12. Idle-speed controller
+structure</h1>
+<p>A simplified architecture is:</p>
+<pre class="text"><code>Target rpm
+   ↓
+rpm error
+   ↓
+idle torque correction
+   ↓
+ ┌──────────────┐
+ ↓              ↓
+fast spark      slow air
+ ↓              ↓
+engine torque
+   ↓
+actual rpm</code></pre>
+<h1 id="why-friction-model-accuracy-matters-at-idle">13. Why
+friction-model accuracy matters at idle</h1>
+<p>At 200 Nm, a 2 Nm loss error is small.</p>
+<p>At 20 Nm internal torque, a 2 Nm error is huge.</p>
+<p>So idle control is especially sensitive to:</p>
+<ul>
+<li>coolant temperature;</li>
+<li>oil temperature;</li>
+<li>accessory state;</li>
+<li>friction estimation.</li>
+</ul>
+<h1 id="idle-roughness-and-combustion-stability">14. Idle roughness and
+combustion stability</h1>
+<p>Average rpm can look correct while individual cycles alternate
+between strong and weak combustion.</p>
+<p>Monitor:</p>
+<ul>
+<li>COVIMEP;</li>
+<li>crank-speed variation;</li>
+<li>misfire;</li>
+<li>cylinder torque balance;</li>
+<li>lambda distribution.</li>
+</ul>
+<p>A controller that constantly corrects a fundamentally unstable
+combustion state is not a good solution.</p>
+<h1 id="interactive-idle-disturbance">15. Interactive idle
+disturbance</h1>
+<div class="interactive-card">
+<h3>
+A/C load disturbance
+</h3>
+<label>Base internal torque [Nm]
+<input id="id-t" type="range" min="10" max="40" value="22" oninput="updateIdle()"></label>
+<label>Base losses [Nm]
+<input id="id-loss" type="range" min="8" max="30" value="20" oninput="updateIdle()"></label>
+<label>New accessory load [Nm]
+<input id="id-acc" type="range" min="0" max="10" value="4" oninput="updateIdle()"></label>
+<label>Fast spark recovery [Nm]
+<input id="id-sp" type="range" min="0" max="10" value="3" oninput="updateIdle()"></label>
+<p id="id-msg">
+</p>
+</div>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>Idle calibration balances <strong>combustion stability, fuel
+consumption, catalyst heating, accessory disturbance rejection and spark
+reserve</strong>.</p>
+<h2 id="establish-the-hot-idle-base-point">1. Establish the hot-idle
+base point</h2>
+<p>With coolant/oil fully warm and accessory loads controlled, choose an
+initial:</p>
+<ul>
+<li>target rpm;</li>
+<li>base air charge;</li>
+<li>base spark;</li>
+<li>VVT position;</li>
+<li>lambda target.</li>
+</ul>
+<p>Measure:</p>
+<ul>
+<li>mean rpm;</li>
+<li>rpm variation;</li>
+<li>COVIMEP;</li>
+<li>fuel consumption;</li>
+<li>torque reserve.</li>
+</ul>
+<h2 id="determine-useful-spark-reserve">2. Determine useful spark
+reserve</h2>
+<p>Retard spark slightly from the efficient reference and measure the
+available fast positive/negative torque authority.</p>
+<p>Too little reserve gives weak disturbance rejection.</p>
+<p>Too much reserve gives unnecessary fuel consumption and EGT.</p>
+<p>So the selected reserve is the <strong>minimum required for the
+expected disturbances</strong>.</p>
+<h2 id="calibrate-accessory-feedforward">3. Calibrate accessory
+feedforward</h2>
+<p>Switch known loads such as:</p>
+<ul>
+<li>A/C compressor;</li>
+<li>electrical/alternator load;</li>
+<li>transmission engagement.</li>
+</ul>
+<p>Measure the torque disturbance and request compensating torque before
+rpm falls.</p>
+<h2 id="tune-speed-feedback">4. Tune speed feedback</h2>
+<p>After feedforward is close, tune the feedback controller.</p>
+<p>Trade-off:</p>
+<pre class="text"><code>high feedback gain
+→ fast recovery
+but
+→ hunting / oscillation risk</code></pre>
+<pre class="text"><code>low gain
+→ smooth
+but
+→ slow rpm recovery</code></pre>
+<h2 id="cold-idle-optimization">5. Cold-idle optimization</h2>
+<p>Repeat with cold coolant/oil.</p>
+<p>Cold friction is higher, and catalyst heating may require spark
+retard.</p>
+<p>Balance:</p>
+<ul>
+<li>stable idle;</li>
+<li>catalyst heat;</li>
+<li>fuel consumption;</li>
+<li>HC/CH4/misfire.</li>
+</ul>
+<h2 id="vvt-trade-off-at-idle">6. VVT trade-off at idle</h2>
+<p>More overlap may improve pumping or thermal behavior but can increase
+residuals and reduce combustion stability.</p>
+<p>At idle, stability usually has higher priority than maximum
+gas-exchange efficiency.</p>
+<h2 id="validation">7. Validation</h2>
+<p>Validate:</p>
+<ul>
+<li>A/C on/off;</li>
+<li>electrical load;</li>
+<li>neutral-to-drive;</li>
+<li>hot restart;</li>
+<li>cold start;</li>
+<li>catalyst-heating mode;</li>
+<li>CNG gas-pressure variation;</li>
+<li>altitude.</li>
+</ul>
+<p>The final idle calibration should reject disturbances without
+requiring continuous large corrective action.</p>
+<h1 id="common-mistakes">16. Common mistakes</h1>
+<ul>
+<li>Controlling idle only with throttle.</li>
+<li>Carrying too much spark retard reserve.</li>
+<li>Ignoring accessory feedforward.</li>
+<li>Ignoring friction-temperature effects.</li>
+<li>Treating stable average rpm as proof of stable combustion.</li>
+<li>Using aggressive VVT overlap that hurts cycle stability.</li>
+</ul>
+<h1 id="key-lessons">17. Key lessons</h1>
+<ol type="1">
+<li>Idle is fundamentally a small-margin torque balance.</li>
+<li>Spark is the fast actuator; air establishes sustainable torque.</li>
+<li>Feedforward handles known loads before rpm moves.</li>
+<li>Feedback corrects remaining speed error.</li>
+<li>Cold friction and catalyst-heating strategies strongly change idle
+torque demand.</li>
+<li>CNG injector and combustion stability can be critical at very low
+load.</li>
+<li>Good idle control requires stable combustion, not only a stable rpm
+average.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The prior torque and ignition articles establish spark reserve and
+fast/slow torque paths; the supplied combustion reference notes that low
+speed and idle show especially large combustion variability.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateIdle(){
+ const t=+document.getElementById('id-t').value, loss=+document.getElementById('id-loss').value, acc=+document.getElementById('id-acc').value, sp=+document.getElementById('id-sp').value;
+ const before=t-loss, disturbed=t-loss-acc, recovered=t+sp-loss-acc;
+ document.getElementById('id-msg').innerHTML=`Before the load step, net accelerating margin is <strong>${before.toFixed(1)} Nm</strong>. After the accessory engages it becomes <strong>${disturbed.toFixed(1)} Nm</strong>. Fast spark recovery brings it to <strong>${recovered.toFixed(1)} Nm</strong> while the slower air path catches up.`;
+}
+document.addEventListener('DOMContentLoaded',updateIdle);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>

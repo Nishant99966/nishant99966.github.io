@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Volumetric Efficiency and Cylinder Filling</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Volumetric Efficiency and Cylinder Filling</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-volumetric-efficiency-deserves-its-own-article" id="toc-why-volumetric-efficiency-deserves-its-own-article">1. Why
+volumetric efficiency deserves its own article</a></li>
+<li><a href="#a-simple-definition" id="toc-a-simple-definition">2. A
+simple definition</a></li>
+<li><a href="#why-100-is-not-a-hard-ceiling" id="toc-why-100-is-not-a-hard-ceiling">3. Why 100% is not a hard
+ceiling</a></li>
+<li><a href="#same-map-does-not-mean-same-charge" id="toc-same-map-does-not-mean-same-charge">4. Same MAP does not mean
+same charge</a></li>
+<li><a href="#ideal-gas-intuition" id="toc-ideal-gas-intuition">5.
+Ideal-gas intuition</a></li>
+<li><a href="#valve-timing-changes-the-effective-filling-window" id="toc-valve-timing-changes-the-effective-filling-window">6. Valve
+timing changes the effective filling window</a></li>
+<li><a href="#exhaust-backpressure-matters" id="toc-exhaust-backpressure-matters">7. Exhaust backpressure
+matters</a></li>
+<li><a href="#intake-runner-tuning-and-pressure-waves" id="toc-intake-runner-tuning-and-pressure-waves">8. Intake-runner tuning
+and pressure waves</a></li>
+<li><a href="#throttle-position-is-not-air-charge" id="toc-throttle-position-is-not-air-charge">9. Throttle position is not
+air charge</a></li>
+<li><a href="#turbocharged-filling" id="toc-turbocharged-filling">10.
+Turbocharged filling</a></li>
+<li><a href="#cng-specific-fresh-air-displacement" id="toc-cng-specific-fresh-air-displacement">11. CNG-specific fresh-air
+displacement</a></li>
+<li><a href="#gasoline-comparison" id="toc-gasoline-comparison">12.
+Gasoline comparison</a></li>
+<li><a href="#residual-gas-versus-fresh-air-charge" id="toc-residual-gas-versus-fresh-air-charge">13. Residual gas versus
+fresh-air charge</a></li>
+<li><a href="#why-ve-matters-in-torque-structure" id="toc-why-ve-matters-in-torque-structure">14. Why VE matters in torque
+structure</a></li>
+<li><a href="#example-same-boost-different-torque" id="toc-example-same-boost-different-torque">15. Example: same boost,
+different torque</a></li>
+<li><a href="#interactive-cylinder-filling-thought-experiment" id="toc-interactive-cylinder-filling-thought-experiment">16. Interactive
+cylinder-filling thought experiment</a></li>
+<li><a href="#common-misunderstandings" id="toc-common-misunderstandings">17. Common misunderstandings</a>
+<ul>
+<li><a href="#map-is-load" id="toc-map-is-load">“MAP is load”</a></li>
+<li><a href="#ve-is-the-physical-maximum" id="toc-ve-is-the-physical-maximum">“100% VE is the physical
+maximum”</a></li>
+<li><a href="#vvt-only-changes-emissions" id="toc-vvt-only-changes-emissions">“VVT only changes
+emissions”</a></li>
+<li><a href="#boost-fixes-poor-gas-exchange" id="toc-boost-fixes-poor-gas-exchange">“Boost fixes poor gas
+exchange”</a></li>
+<li><a href="#total-trapped-mass-equals-fresh-air-mass" id="toc-total-trapped-mass-equals-fresh-air-mass">“Total trapped mass
+equals fresh-air mass”</a></li>
+</ul></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#establish-a-trustworthy-measurement-set" id="toc-establish-a-trustworthy-measurement-set">1. Establish a
+trustworthy measurement set</a></li>
+<li><a href="#build-the-base-speedload-filling-surface" id="toc-build-the-base-speedload-filling-surface">2. Build the base
+speed/load filling surface</a></li>
+<li><a href="#add-temperature-correction" id="toc-add-temperature-correction">3. Add temperature
+correction</a></li>
+<li><a href="#add-vvt-dimensions" id="toc-add-vvt-dimensions">4. Add VVT
+dimensions</a></li>
+<li><a href="#add-exhaust-backpressure-turbo-influence" id="toc-add-exhaust-backpressure-turbo-influence">5. Add
+exhaust-backpressure / turbo influence</a></li>
+<li><a href="#cng-specific-gaseous-fuel-displacement" id="toc-cng-specific-gaseous-fuel-displacement">6. CNG-specific
+gaseous-fuel displacement</a></li>
+<li><a href="#trade-off-model-accuracy-versus-complexity" id="toc-trade-off-model-accuracy-versus-complexity">7. Trade-off — model
+accuracy versus complexity</a></li>
+<li><a href="#trade-off-maximum-filling-versus-pumping-loss" id="toc-trade-off-maximum-filling-versus-pumping-loss">8. Trade-off —
+maximum filling versus pumping loss</a></li>
+<li><a href="#trade-off-fresh-air-charge-versus-residual-dilution" id="toc-trade-off-fresh-air-charge-versus-residual-dilution">9.
+Trade-off — fresh-air charge versus residual dilution</a></li>
+<li><a href="#trade-off-boost-versus-gas-exchange-efficiency" id="toc-trade-off-boost-versus-gas-exchange-efficiency">10. Trade-off —
+boost versus gas-exchange efficiency</a></li>
+<li><a href="#how-the-final-balance-is-achieved" id="toc-how-the-final-balance-is-achieved">11. How the final balance is
+achieved</a></li>
+</ul></li>
+<li><a href="#key-lessons" id="toc-key-lessons">18. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Volumetric Efficiency and Cylinder Filling
+</h1>
+<p>
+<em>Why manifold pressure is not air charge — temperature, valve timing,
+residuals, wave tuning, turbocharging and CNG displacement</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="why-volumetric-efficiency-deserves-its-own-article">1. Why
+volumetric efficiency deserves its own article</h1>
+<p>Cylinder air charge is one of the most important quantities in a
+spark-ignition engine.</p>
+<p>But air charge is not determined by manifold pressure alone.</p>
+<p>At the same manifold pressure, trapped fresh-air mass can change
+because of:</p>
+<ul>
+<li>engine speed;</li>
+<li>intake temperature;</li>
+<li>valve timing;</li>
+<li>intake-runner dynamics;</li>
+<li>residual gas;</li>
+<li>exhaust backpressure;</li>
+<li>turbocharger state;</li>
+<li>gaseous-fuel displacement.</li>
+</ul>
+<p>Volumetric efficiency is the idea that connects all of those
+effects.</p>
+<h1 id="a-simple-definition">2. A simple definition</h1>
+<p>A common conceptual definition is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>v</mi></msub><mo>=</mo><mfrac><msub><mi>m</mi><mrow><mi>f</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>h</mi><mspace width="0.222em"></mspace><mi>a</mi><mi>i</mi><mi>r</mi><mo>,</mo><mi>t</mi><mi>r</mi><mi>a</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>d</mi></mrow></msub><mrow><msub><mi>ρ</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><msub><mi>V</mi><mi>d</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_v
+=
+\frac{m_{fresh\ air,trapped}}
+{\rho_{ref}V_d}
+</annotation></semantics></math></p>
+<p>The exact reference density, cylinder/displacement basis and
+per-cycle convention must be defined by the project.</p>
+<p>The physical meaning is simple:</p>
+<blockquote>
+<p><strong>How effectively does the engine fill its displacement with
+fresh air?</strong></p>
+</blockquote>
+<h1 id="why-100-is-not-a-hard-ceiling">3. Why 100% is not a hard
+ceiling</h1>
+<p>A naturally aspirated engine can sometimes achieve volumetric
+efficiency near or above 100% because of:</p>
+<ul>
+<li>intake-wave tuning;</li>
+<li>ram effect;</li>
+<li>favorable valve timing;</li>
+<li>low restriction.</li>
+</ul>
+<p>A boosted engine can exceed 100% by a much larger amount because
+intake density is intentionally increased.</p>
+<p>So volumetric efficiency is not the same thing as “percentage
+throttle.”</p>
+<h1 id="same-map-does-not-mean-same-charge">4. Same MAP does not mean
+same charge</h1>
+<p>Imagine two points at 100 kPa manifold pressure.</p>
+<p>Point A:</p>
+<pre class="text"><code>1500 rpm
+early IVC
+cool intake air
+low exhaust backpressure</code></pre>
+<p>Point B:</p>
+<pre class="text"><code>4500 rpm
+different IVC
+hot intake air
+higher exhaust backpressure</code></pre>
+<p>The trapped air can be very different.</p>
+<p>The ECU therefore needs a cylinder-filling model rather than a simple
+pressure-to-torque conversion.</p>
+<h1 id="ideal-gas-intuition">5. Ideal-gas intuition</h1>
+<p>A first-order intake-manifold density estimate is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mfrac><mi>p</mi><mrow><mi>R</mi><mi>T</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\rho
+=
+\frac{p}{RT}
+</annotation></semantics></math></p>
+<p>At the same pressure:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>↑</mo><mo>⇒</mo><mi>ρ</mi><mo>↓</mo></mrow><annotation encoding="application/x-tex">
+T\uparrow \Rightarrow \rho\downarrow
+</annotation></semantics></math></p>
+<p>So hot charge air gives less mass for the same manifold volume.</p>
+<p>This is why intercooling helps torque even if boost pressure is
+unchanged.</p>
+<h1 id="valve-timing-changes-the-effective-filling-window">6. Valve
+timing changes the effective filling window</h1>
+<p>The piston does not simply “suck in one cylinder volume.”</p>
+<p>The real trapped mass depends on when the intake valve opens and
+closes.</p>
+<p>Later IVC can improve high-speed filling by using intake-flow
+inertia.</p>
+<p>At low speed, excessive late IVC can cause backflow.</p>
+<p>Early IVC reduces the filling duration but can support Miller
+operation and reduce effective compression.</p>
+<p>Therefore:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>v</mi></msub><mo>=</mo><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>,</mo><mi>I</mi><mi>V</mi><mi>C</mi><mo>,</mo><mi>I</mi><mi>V</mi><mi>O</mi><mo>,</mo><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>,</mo><mi>T</mi><mo>,</mo><mi>…</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\eta_v=f(n,IVC,IVO,p_{intake},p_{exhaust},T,\ldots)
+</annotation></semantics></math></p>
+<h1 id="exhaust-backpressure-matters">7. Exhaust backpressure
+matters</h1>
+<p>If exhaust pressure is high, more residual gas can remain in the
+cylinder.</p>
+<p>Residual gas occupies volume that could otherwise contain fresh
+air.</p>
+<p>So:</p>
+<pre class="text"><code>Exhaust backpressure ↑
+      ↓
+residual fraction can ↑
+      ↓
+fresh-air fraction ↓
+      ↓
+fresh-air charge can ↓</code></pre>
+<p>This is one reason turbocharger turbine matching affects cylinder
+filling.</p>
+<h1 id="intake-runner-tuning-and-pressure-waves">8. Intake-runner tuning
+and pressure waves</h1>
+<p>When an intake valve closes, pressure waves travel through the runner
+and manifold.</p>
+<p>If runner length and valve timing are favorable, a returning pressure
+wave can arrive near the next intake event and improve filling.</p>
+<p>This creates natural peaks and valleys in volumetric efficiency
+versus engine speed.</p>
+<p>A smooth-looking VE map is not always physically correct; real gas
+dynamics can create genuine structure.</p>
+<h1 id="throttle-position-is-not-air-charge">9. Throttle position is not
+air charge</h1>
+<p>At low load, throttle angle strongly affects manifold pressure.</p>
+<p>At high load, once the throttle is nearly fully open, additional
+pedal movement may not materially increase charge.</p>
+<p>The limiting factor may become:</p>
+<ul>
+<li>intake restriction;</li>
+<li>turbocharger;</li>
+<li>valve timing;</li>
+<li>exhaust backpressure;</li>
+<li>fuel system;</li>
+<li>knock/thermal limit.</li>
+</ul>
+<h1 id="turbocharged-filling">10. Turbocharged filling</h1>
+<p>For a turbo engine:</p>
+<pre class="text"><code>Compressor
+   ↓
+charge-air cooler
+   ↓
+throttle
+   ↓
+intake manifold
+   ↓
+valves
+   ↓
+trapped cylinder charge</code></pre>
+<p>Every element changes the pressure or temperature available for
+filling.</p>
+<p>The compressor may provide high pressure, but a hot intercooler
+outlet or restrictive valve event can still reduce trapped mass.</p>
+<h1 id="cng-specific-fresh-air-displacement">11. CNG-specific fresh-air
+displacement</h1>
+<p>In port-injected CNG engines, gaseous fuel occupies
+intake-port/manifold volume that would otherwise be available to
+air.</p>
+<p>Conceptually:</p>
+<pre class="text"><code>Same intake volume
+    ↓
+more gaseous fuel volume
+    ↓
+less fresh-air volume available</code></pre>
+<p>This can reduce maximum fresh-air charge compared with a
+liquid-fueled case.</p>
+<p>The effect depends on:</p>
+<ul>
+<li>injection location;</li>
+<li>gas pressure;</li>
+<li>gas temperature;</li>
+<li>injected mass;</li>
+<li>valve timing;</li>
+<li>manifold conditions.</li>
+</ul>
+<h1 id="gasoline-comparison">12. Gasoline comparison</h1>
+<p>Gasoline PFI introduces fuel vapor and wall-film behavior.</p>
+<p>GDI injects fuel directly into the cylinder and can provide charge
+cooling through evaporation.</p>
+<p>So the relationship between manifold air, total trapped charge and
+knock margin differs between:</p>
+<ul>
+<li>CNG PFI;</li>
+<li>gasoline PFI;</li>
+<li>gasoline GDI.</li>
+</ul>
+<h1 id="residual-gas-versus-fresh-air-charge">13. Residual gas versus
+fresh-air charge</h1>
+<p>The total trapped mass can be high while fresh-air mass is lower.</p>
+<p>For torque and fuel calculation, the ECU cares strongly about
+<strong>fresh oxygen-bearing air</strong>.</p>
+<p>For combustion and knock, it also cares about residual gas.</p>
+<p>A useful decomposition is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>d</mi></mrow></msub><mo>=</mo><msub><mi>m</mi><mrow><mi>f</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>h</mi></mrow></msub><mo>+</mo><msub><mi>m</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>+</mo><msub><mi>m</mi><mrow><mi>r</mi><mi>e</mi><mi>s</mi><mi>i</mi><mi>d</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>+</mo><msub><mi>m</mi><mrow><mi>E</mi><mi>G</mi><mi>R</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+m_{trapped}
+=
+m_{fresh}
++
+m_{fuel}
++
+m_{residual}
++
+m_{EGR}
+</annotation></semantics></math></p>
+<h1 id="why-ve-matters-in-torque-structure">14. Why VE matters in torque
+structure</h1>
+<p>The torque structure eventually asks for:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mrow><mi>a</mi><mi>i</mi><mi>r</mi><mo>,</mo><mi>c</mi><mi>y</mi><mi>l</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><annotation encoding="application/x-tex">
+m_{air,cyl,req}
+</annotation></semantics></math></p>
+<p>The air path must then determine which combination of:</p>
+<ul>
+<li>manifold pressure;</li>
+<li>throttle;</li>
+<li>boost;</li>
+<li>VVT;</li>
+</ul>
+<p>will actually produce that trapped mass.</p>
+<p>That conversion is only reliable if cylinder filling is modeled
+correctly.</p>
+<h1 id="example-same-boost-different-torque">15. Example: same boost,
+different torque</h1>
+<p>Suppose two points both have:</p>
+<pre class="text"><code>2.0 bar absolute manifold pressure</code></pre>
+<p>Point A has:</p>
+<ul>
+<li>45°C manifold air;</li>
+<li>favorable IVC;</li>
+<li>moderate exhaust pressure.</li>
+</ul>
+<p>Point B has:</p>
+<ul>
+<li>75°C manifold air;</li>
+<li>unfavorable IVC;</li>
+<li>high exhaust pressure.</li>
+</ul>
+<p>Point B can trap noticeably less fresh air even though “boost” is
+identical.</p>
+<p>So a boost gauge does not tell the full torque story.</p>
+<h1 id="interactive-cylinder-filling-thought-experiment">16. Interactive
+cylinder-filling thought experiment</h1>
+<div class="interactive-card">
+<h3>
+Same pressure, different fresh-air charge
+</h3>
+<label>Manifold pressure [bar abs]
+<input id="ve-p" type="range" min="0.5" max="2.5" step="0.05" value="1.0" oninput="updateVE()"></label>
+<label>Manifold temperature [°C]
+<input id="ve-t" type="range" min="20" max="100" step="2" value="40" oninput="updateVE()"></label>
+<label>Gas-exchange effectiveness [%]
+<input id="ve-g" type="range" min="60" max="115" step="1" value="90" oninput="updateVE()"></label>
+<label>CNG displacement penalty [%]
+<input id="ve-cng" type="range" min="0" max="10" step="1" value="3" oninput="updateVE()"></label>
+<div class="kpis">
+<div class="kpi">
+<strong id="ve-rel">–</strong>Relative fresh-air charge
+</div>
+</div>
+<p id="ve-msg">
+</p>
+</div>
+<h1 id="common-misunderstandings">17. Common misunderstandings</h1>
+<h2 id="map-is-load">“MAP is load”</h2>
+<p>MAP is only one input to load.</p>
+<h2 id="ve-is-the-physical-maximum">“100% VE is the physical
+maximum”</h2>
+<p>Not necessarily.</p>
+<h2 id="vvt-only-changes-emissions">“VVT only changes emissions”</h2>
+<p>VVT directly changes filling and torque.</p>
+<h2 id="boost-fixes-poor-gas-exchange">“Boost fixes poor gas
+exchange”</h2>
+<p>Boost can compensate some lost filling, but at the cost of
+compressor/turbine work.</p>
+<h2 id="total-trapped-mass-equals-fresh-air-mass">“Total trapped mass
+equals fresh-air mass”</h2>
+<p>Residuals, EGR and fuel occupy part of the cylinder.</p>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>Cylinder-filling calibration is a modeling and optimization problem
+because the engineer must determine how pressure, temperature, valve
+timing, exhaust pressure and turbo state combine to produce
+<strong>trapped fresh-air mass</strong>.</p>
+<p>The objective is:</p>
+<blockquote>
+<p><strong>Build a cylinder-filling model accurate enough that torque,
+fuel and spark calculations remain correct across the whole operating
+range.</strong></p>
+</blockquote>
+<h2 id="establish-a-trustworthy-measurement-set">1. Establish a
+trustworthy measurement set</h2>
+<p>At each steady-state point record:</p>
+<ul>
+<li>engine speed;</li>
+<li>measured air mass flow;</li>
+<li>manifold pressure;</li>
+<li>manifold temperature;</li>
+<li>throttle angle;</li>
+<li>intake/exhaust cam position;</li>
+<li>exhaust pressure;</li>
+<li>boost pressure;</li>
+<li>lambda;</li>
+<li>fuel flow;</li>
+<li>brake torque.</li>
+</ul>
+<p>For a four-stroke engine, fresh-air charge can be calculated from
+measured airflow:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mrow><mi>a</mi><mi>i</mi><mi>r</mi><mo>,</mo><mi>c</mi><mi>y</mi><mi>l</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>a</mi><mi>i</mi><mi>r</mi></mrow></msub><mspace width="0.167em"></mspace><mn>120</mn></mrow><mrow><mi>n</mi><msub><mi>N</mi><mrow><mi>c</mi><mi>y</mi><mi>l</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+m_{air,cyl}
+=
+\frac{\dot m_{air}\,120}
+{nN_{cyl}}
+</annotation></semantics></math></p>
+<p>with consistent units.</p>
+<p>This gives a measurement reference for the ECU filling model.</p>
+<h2 id="build-the-base-speedload-filling-surface">2. Build the base
+speed/load filling surface</h2>
+<p>First hold cam positions fixed.</p>
+<p>Sweep:</p>
+<ul>
+<li>engine speed;</li>
+<li>manifold pressure or air-charge/load.</li>
+</ul>
+<p>This reveals the basic speed-dependent filling shape, including real
+peaks and valleys caused by runner and valve gas dynamics.</p>
+<p>Do not automatically smooth those physical features away.</p>
+<h2 id="add-temperature-correction">3. Add temperature correction</h2>
+<p>Repeat selected points at different intake-air temperatures.</p>
+<p>The goal is to separate:</p>
+<pre class="text"><code>density effect
+from
+gas-exchange effectiveness</code></pre>
+<p>If the model uses MAP without adequate temperature correction, it
+will overpredict air charge when the manifold becomes hot.</p>
+<h2 id="add-vvt-dimensions">4. Add VVT dimensions</h2>
+<p>Now sweep intake and exhaust cam timing at selected speed/load
+points.</p>
+<p>Measure how fresh-air charge changes with:</p>
+<ul>
+<li>IVC;</li>
+<li>overlap;</li>
+<li>residual fraction;</li>
+<li>exhaust pressure.</li>
+</ul>
+<p>This builds the correction needed when the same MAP produces
+different trapped air because of valve timing.</p>
+<h2 id="add-exhaust-backpressure-turbo-influence">5. Add
+exhaust-backpressure / turbo influence</h2>
+<p>For a turbocharged engine, repeat key points at different
+exhaust-manifold pressures where possible.</p>
+<p>Higher backpressure can increase residual gas and reduce fresh-air
+fraction even when intake pressure is unchanged.</p>
+<p>So the filling model should not assume boost pressure alone defines
+charge.</p>
+<h2 id="cng-specific-gaseous-fuel-displacement">6. CNG-specific
+gaseous-fuel displacement</h2>
+<p>For port-injected CNG, characterize how gaseous fuel occupies intake
+volume that would otherwise contain fresh air.</p>
+<p>Compare selected points at different:</p>
+<ul>
+<li>CNG fuel mass;</li>
+<li>gas rail pressure;</li>
+<li>gas temperature;</li>
+<li>injection timing where relevant.</li>
+</ul>
+<p>The purpose is to quantify the fresh-air displacement caused by
+gaseous fuel.</p>
+<h2 id="trade-off-model-accuracy-versus-complexity">7. Trade-off — model
+accuracy versus complexity</h2>
+<p>Too few model dimensions cannot represent real filling physics.</p>
+<p>Too many dimensions become difficult to populate, interpolate and
+validate.</p>
+<p>The engineer therefore selects the <strong>minimum model complexity
+that still captures the dominant physics</strong>:</p>
+<ul>
+<li>speed;</li>
+<li>pressure/load;</li>
+<li>temperature;</li>
+<li>VVT;</li>
+<li>exhaust-pressure/residual influence.</li>
+</ul>
+<h2 id="trade-off-maximum-filling-versus-pumping-loss">8. Trade-off —
+maximum filling versus pumping loss</h2>
+<p>A VVT/throttle setting may increase fresh-air charge but also
+increase pumping work.</p>
+<p>For part-load efficiency, the best point may therefore use slightly
+less maximum VE if it reduces pumping loss significantly.</p>
+<h2 id="trade-off-fresh-air-charge-versus-residual-dilution">9.
+Trade-off — fresh-air charge versus residual dilution</h2>
+<p>More overlap can sometimes improve gas exchange, but it can also
+increase residual gas.</p>
+<p>The engineer must distinguish:</p>
+<pre class="text"><code>total trapped mass
+from
+fresh oxygen-bearing air</code></pre>
+<p>because only the second quantity directly supports the intended fuel
+and torque calculation.</p>
+<h2 id="trade-off-boost-versus-gas-exchange-efficiency">10. Trade-off —
+boost versus gas-exchange efficiency</h2>
+<p>Higher boost can compensate poor VE, but it increases
+compressor/turbine work and often exhaust backpressure.</p>
+<p>A good development sequence is therefore:</p>
+<pre class="text"><code>optimize gas exchange first
+      ↓
+then use boost for the remaining charge requirement</code></pre>
+<p>rather than using boost to hide a poor filling map.</p>
+<h2 id="how-the-final-balance-is-achieved">11. How the final balance is
+achieved</h2>
+<p>The final cylinder-filling map is selected to minimize fresh-air
+prediction error while preserving physically sensible trends.</p>
+<p>Validate at:</p>
+<ul>
+<li>off-grid speed/load points;</li>
+<li>hot/cold intake air;</li>
+<li>different cam positions;</li>
+<li>altitude;</li>
+<li>high turbo backpressure;</li>
+<li>CNG gas-quality variation.</li>
+</ul>
+<p>A good filling calibration is not the map that fits the original
+sweep best. It is the map that continues to predict <strong>fresh-air
+charge correctly when the boundary conditions move</strong>.</p>
+<h1 id="key-lessons">18. Key lessons</h1>
+<ol type="1">
+<li>Volumetric efficiency describes how effectively displacement is
+filled with fresh air.</li>
+<li>Same manifold pressure can produce different trapped air.</li>
+<li>Temperature, valve timing, residuals and exhaust pressure all
+matter.</li>
+<li>Intake-wave tuning creates real speed-dependent VE structure.</li>
+<li>Turbocharging increases density but does not eliminate gas-exchange
+losses.</li>
+<li>CNG PFI can displace fresh air because the fuel is already gaseous
+upstream of the cylinder.</li>
+<li>Fresh-air charge, not boost pressure alone, is what primarily
+supports potential torque.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The supplied air-charge article emphasizes that fresh-air charge is not
+simply manifold pressure and depends on speed, valve timing, residual
+gas, exhaust backpressure and charge temperature.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateVE(){
+ const p=+document.getElementById('ve-p').value;
+ const t=+document.getElementById('ve-t').value+273.15;
+ const g=+document.getElementById('ve-g').value/100;
+ const c=1-(+document.getElementById('ve-cng').value/100);
+ const rel=100*(p/1.0)*(313.15/t)*g*c/0.90;
+ document.getElementById('ve-rel').textContent=rel.toFixed(0)+'%';
+ document.getElementById('ve-msg').innerHTML=`This simplified density × gas-exchange model shows why pressure alone is not enough. Hotter air, poorer valve/gas-exchange effectiveness, or gaseous-fuel displacement can reduce fresh-air charge even at the same MAP.`;
+}
+document.addEventListener('DOMContentLoaded',updateVE);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>

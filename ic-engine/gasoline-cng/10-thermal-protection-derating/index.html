@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Engine Thermal Protection and Derating</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Engine Thermal Protection and Derating</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#performance-is-always-limited-by-hardware-temperature-somewhere" id="toc-performance-is-always-limited-by-hardware-temperature-somewhere">1.
+Performance is always limited by hardware temperature somewhere</a></li>
+<li><a href="#thermal-protection-is-not-one-limiter" id="toc-thermal-protection-is-not-one-limiter">2. Thermal protection is
+not one limiter</a></li>
+<li><a href="#exhaust-gas-temperature-and-turbine-inlet-temperature" id="toc-exhaust-gas-temperature-and-turbine-inlet-temperature">3.
+Exhaust-gas temperature and turbine inlet temperature</a></li>
+<li><a href="#catalyst-temperature" id="toc-catalyst-temperature">4.
+Catalyst temperature</a></li>
+<li><a href="#coolant-temperature" id="toc-coolant-temperature">5.
+Coolant temperature</a></li>
+<li><a href="#oil-temperature" id="toc-oil-temperature">6. Oil
+temperature</a></li>
+<li><a href="#charge-air-temperature" id="toc-charge-air-temperature">7.
+Charge-air temperature</a></li>
+<li><a href="#turbo-speed-is-a-mechanicalthermal-limit" id="toc-turbo-speed-is-a-mechanicalthermal-limit">8. Turbo speed is a
+mechanical/thermal limit</a></li>
+<li><a href="#peak-cylinder-pressure-and-pressure-rise-rate" id="toc-peak-cylinder-pressure-and-pressure-rise-rate">9. Peak cylinder
+pressure and pressure-rise rate</a></li>
+<li><a href="#protection-actuators" id="toc-protection-actuators">10.
+Protection actuators</a></li>
+<li><a href="#why-spark-retard-can-solve-one-limit-and-worsen-another" id="toc-why-spark-retard-can-solve-one-limit-and-worsen-another">11. Why
+spark retard can solve one limit and worsen another</a></li>
+<li><a href="#gasoline-enrichment-for-protection" id="toc-gasoline-enrichment-for-protection">12. Gasoline enrichment for
+protection</a></li>
+<li><a href="#cng-high-load-protection" id="toc-cng-high-load-protection">13. CNG high-load protection</a></li>
+<li><a href="#model-based-temperature-protection" id="toc-model-based-temperature-protection">14. Model-based temperature
+protection</a></li>
+<li><a href="#why-thermal-limits-have-memory" id="toc-why-thermal-limits-have-memory">15. Why thermal limits have
+memory</a></li>
+<li><a href="#derating-should-be-progressive" id="toc-derating-should-be-progressive">16. Derating should be
+progressive</a></li>
+<li><a href="#example" id="toc-example">17. Example</a></li>
+<li><a href="#interactive-thermal-derating-example" id="toc-interactive-thermal-derating-example">18. Interactive
+thermal-derating example</a></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#define-protected-components-and-boundaries" id="toc-define-protected-components-and-boundaries">1. Define protected
+components and boundaries</a></li>
+<li><a href="#validate-temperatureprotection-models" id="toc-validate-temperatureprotection-models">2. Validate
+temperature/protection models</a></li>
+<li><a href="#calibrate-progressive-derating" id="toc-calibrate-progressive-derating">3. Calibrate progressive
+derating</a></li>
+<li><a href="#select-the-correct-actuator-for-the-limiting-component" id="toc-select-the-correct-actuator-for-the-limiting-component">4.
+Select the correct actuator for the limiting component</a>
+<ul>
+<li><a href="#peak-cylinder-pressure-limiting" id="toc-peak-cylinder-pressure-limiting">Peak cylinder pressure
+limiting</a></li>
+<li><a href="#turbinecatalyst-temperature-limiting" id="toc-turbinecatalyst-temperature-limiting">Turbine/catalyst
+temperature limiting</a></li>
+<li><a href="#gasoline-exhaust-temperature-limiting" id="toc-gasoline-exhaust-temperature-limiting">Gasoline exhaust
+temperature limiting</a></li>
+</ul></li>
+<li><a href="#include-thermal-memory" id="toc-include-thermal-memory">5.
+Include thermal memory</a></li>
+<li><a href="#worst-case-validation" id="toc-worst-case-validation">6.
+Worst-case validation</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">19. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Engine Thermal Protection and Derating
+</h1>
+<p>
+<em>How exhaust, turbo, catalyst, coolant, oil, charge-air and
+cylinder-pressure limits become torque limits without destroying
+drivability</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="performance-is-always-limited-by-hardware-temperature-somewhere">1.
+Performance is always limited by hardware temperature somewhere</h1>
+<p>An engine can have enough air, enough fuel and enough knock margin
+and still be unable to deliver the requested torque.</p>
+<p>Why?</p>
+<p>Because a component can become too hot.</p>
+<p>Common thermal constraints include:</p>
+<ul>
+<li>exhaust valve temperature;</li>
+<li>turbine inlet temperature;</li>
+<li>turbocharger housing temperature;</li>
+<li>catalyst brick temperature;</li>
+<li>piston crown or ring-land temperature;</li>
+<li>cylinder-head temperature;</li>
+<li>coolant temperature;</li>
+<li>oil temperature;</li>
+<li>charge-air temperature.</li>
+</ul>
+<p>Thermal protection converts these physical limits into torque, air,
+spark or lambda limits.</p>
+<h1 id="thermal-protection-is-not-one-limiter">2. Thermal protection is
+not one limiter</h1>
+<p>A useful picture is:</p>
+<pre class="text"><code>Requested torque
+      ↓
+maximum air / boost capability
+      ↓
+combustion limits
+      ↓
+thermal limits
+      ↓
+permitted sustainable torque</code></pre>
+<p>Different components can become limiting at different operating
+points.</p>
+<h1 id="exhaust-gas-temperature-and-turbine-inlet-temperature">3.
+Exhaust-gas temperature and turbine inlet temperature</h1>
+<p>High load increases:</p>
+<ul>
+<li>fuel energy;</li>
+<li>cylinder temperature;</li>
+<li>exhaust mass flow.</li>
+</ul>
+<p>Spark retard can also increase exhaust enthalpy.</p>
+<p>Therefore:</p>
+<pre class="text"><code>load ↑ or spark retard ↑
+        ↓
+exhaust enthalpy ↑
+        ↓
+exhaust valve / turbine / catalyst thermal load ↑</code></pre>
+<p>A torque strategy that is safe for the cylinder can still be unsafe
+for the exhaust system.</p>
+<h1 id="catalyst-temperature">4. Catalyst temperature</h1>
+<p>A three-way catalyst needs high temperature for conversion but cannot
+survive unlimited temperature.</p>
+<p>So the catalyst has two opposite requirements:</p>
+<pre class="text"><code>Too cold
+  ↓
+poor conversion
+
+Useful temperature window
+  ↓
+high conversion
+
+Too hot
+  ↓
+accelerated aging / damage risk</code></pre>
+<p>This is why catalyst-heating spark retard is temporary rather than a
+permanent performance strategy.</p>
+<h1 id="coolant-temperature">5. Coolant temperature</h1>
+<p>Coolant temperature reflects the cylinder head/block thermal
+state.</p>
+<p>High coolant temperature can reduce:</p>
+<ul>
+<li>knock margin;</li>
+<li>oil cooling capability;</li>
+<li>component durability margin.</li>
+</ul>
+<p>The ECU may respond by limiting:</p>
+<ul>
+<li>air charge;</li>
+<li>boost;</li>
+<li>torque.</li>
+</ul>
+<h1 id="oil-temperature">6. Oil temperature</h1>
+<p>Hot oil reduces viscosity and can threaten:</p>
+<ul>
+<li>bearing protection;</li>
+<li>turbocharger bearing life;</li>
+<li>piston cooling effectiveness.</li>
+</ul>
+<p>Cold oil increases friction.</p>
+<p>So oil temperature affects both:</p>
+<ul>
+<li>performance availability;</li>
+<li>torque-loss estimation.</li>
+</ul>
+<h1 id="charge-air-temperature">7. Charge-air temperature</h1>
+<p>High compressor outlet or manifold temperature can:</p>
+<ul>
+<li>reduce air density;</li>
+<li>increase knock tendency;</li>
+<li>increase combustion temperature;</li>
+<li>force spark retard.</li>
+</ul>
+<p>Therefore intercooler performance can become a torque limit on a hot
+day even when boost pressure looks normal.</p>
+<h1 id="turbo-speed-is-a-mechanicalthermal-limit">8. Turbo speed is a
+mechanical/thermal limit</h1>
+<p>At altitude, compressor inlet pressure falls.</p>
+<p>To maintain the same outlet pressure:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>c</mi></msub><mo>↑</mo></mrow><annotation encoding="application/x-tex">
+\Pi_c\uparrow
+</annotation></semantics></math></p>
+<p>The compressor may need more turbo speed.</p>
+<p>So an altitude condition can hit turbo-speed limit before the same
+engine at sea level.</p>
+<p>The torque structure should then reduce the maximum available air
+charge.</p>
+<h1 id="peak-cylinder-pressure-and-pressure-rise-rate">9. Peak cylinder
+pressure and pressure-rise rate</h1>
+<p>These are not temperatures, but they belong in the same protection
+layer.</p>
+<p>High cylinder pressure can limit torque before knock occurs.</p>
+<p>Similarly, high pressure-rise rate can create:</p>
+<ul>
+<li>mechanical stress;</li>
+<li>combustion noise;</li>
+<li>bearing load.</li>
+</ul>
+<p>So maximum torque can be limited by normal-combustion pressure even
+when knock is absent.</p>
+<h1 id="protection-actuators">10. Protection actuators</h1>
+<p>The ECU has several ways to reduce thermal or mechanical load.</p>
+<div class="callout-grid">
+<div class="callout">
+<h3>
+Reduce air / boost
+</h3>
+Most direct way to lower sustainable cylinder load.
+</div>
+<div class="callout">
+<h3>
+Change spark
+</h3>
+Can reduce cylinder pressure but may increase exhaust temperature if
+heavily retarded.
+</div>
+<div class="callout">
+<h3>
+Change lambda
+</h3>
+Gasoline engines may enrich at high load; stoichiometric CNG strategies
+may prefer other measures where possible.
+</div>
+<div class="callout">
+<h3>
+Change VVT
+</h3>
+Can alter trapped charge, residuals and exhaust enthalpy.
+</div>
+<div class="callout">
+<h3>
+Limit torque rate
+</h3>
+Prevents repeated thermal overshoot during transients.
+</div>
+</div>
+<h1 id="why-spark-retard-can-solve-one-limit-and-worsen-another">11. Why
+spark retard can solve one limit and worsen another</h1>
+<p>Suppose peak cylinder pressure is too high.</p>
+<p>Retarding spark can reduce the pressure peak.</p>
+<p>But:</p>
+<pre class="text"><code>spark retard
+   ↓
+later heat release
+   ↓
+more exhaust energy
+   ↓
+EGT / turbine / catalyst temperature can rise</code></pre>
+<p>So the protection strategy must know <strong>which component is
+limiting</strong>.</p>
+<h1 id="gasoline-enrichment-for-protection">12. Gasoline enrichment for
+protection</h1>
+<p>In some high-load gasoline engines, enrichment is used to:</p>
+<ul>
+<li>reduce exhaust temperature;</li>
+<li>improve knock margin;</li>
+<li>protect components.</li>
+</ul>
+<p>This moves the engine away from stoichiometric TWC operation and
+increases fuel consumption.</p>
+<p>It is therefore a protection strategy, not a free performance
+gain.</p>
+<h1 id="cng-high-load-protection">13. CNG high-load protection</h1>
+<p>CNG often has good knock resistance and may be operated
+stoichiometrically over a wide range.</p>
+<p>But CNG still has:</p>
+<ul>
+<li>exhaust temperature limits;</li>
+<li>turbine limits;</li>
+<li>peak-pressure limits;</li>
+<li>gas-injector/rail-flow limits.</li>
+</ul>
+<p>Methane’s knock resistance does not make the hardware thermally
+unlimited.</p>
+<h1 id="model-based-temperature-protection">14. Model-based temperature
+protection</h1>
+<p>Not every component can carry a production thermocouple.</p>
+<p>The ECU may estimate temperature using models based on:</p>
+<ul>
+<li>speed;</li>
+<li>load;</li>
+<li>lambda;</li>
+<li>spark;</li>
+<li>exhaust mass flow;</li>
+<li>coolant/oil temperature;</li>
+<li>ambient state.</li>
+</ul>
+<p>A model can then produce:</p>
+<pre class="text"><code>estimated component temperature
+        ↓
+distance to limit
+        ↓
+maximum allowed torque / air charge</code></pre>
+<h1 id="why-thermal-limits-have-memory">15. Why thermal limits have
+memory</h1>
+<p>Temperature is a stored state.</p>
+<p>A component heated for 30 seconds does not instantly cool when torque
+falls.</p>
+<p>A simplified model is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mfrac><mrow><mi>d</mi><mi>T</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+C\frac{dT}{dt}
+=
+\dot Q_{in}-\dot Q_{out}
+</annotation></semantics></math></p>
+<p>So a thermal limiter may remain active after the driver reduces
+load.</p>
+<p>This is different from an instantaneous pressure limit.</p>
+<h1 id="derating-should-be-progressive">16. Derating should be
+progressive</h1>
+<p>A well-behaved protection strategy often avoids a sudden cliff.</p>
+<p>Conceptually:</p>
+<pre class="text"><code>safe region
+   ↓
+soft derate begins
+   ↓
+available torque gradually reduced
+   ↓
+hard protection if critical limit approached</code></pre>
+<p>This improves drivability while preserving hardware.</p>
+<h1 id="example">17. Example</h1>
+<p>Driver asks for 200 Nm.</p>
+<p>The engine could physically produce 210 Nm from air/fuel.</p>
+<p>But:</p>
+<pre class="text"><code>Turbo-speed limit      → 190 Nm
+Catalyst-temp limit    → 180 Nm
+Coolant-temp limit     → 195 Nm</code></pre>
+<p>The sustainable permitted torque becomes approximately:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mn>180</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T_{max}=180\ \mathrm{Nm}
+</annotation></semantics></math></p>
+<p>The driver request remains 200 Nm, but the torque coordinator should
+pass only 180 Nm downstream.</p>
+<h1 id="interactive-thermal-derating-example">18. Interactive
+thermal-derating example</h1>
+<div class="interactive-card">
+<h3>
+Which component limits torque?
+</h3>
+<label>Driver request [Nm]
+<input id="th-req" type="range" min="80" max="240" value="200" oninput="updateTherm()"></label>
+<label>Turbo limit [Nm]
+<input id="th-turbo" type="range" min="80" max="240" value="190" oninput="updateTherm()"></label>
+<label>Catalyst limit [Nm]
+<input id="th-cat" type="range" min="80" max="240" value="180" oninput="updateTherm()"></label>
+<label>Coolant/oil limit [Nm]
+<input id="th-fluid" type="range" min="80" max="240" value="195" oninput="updateTherm()"></label>
+<div class="kpis">
+<div class="kpi">
+<strong id="th-out">–</strong>Permitted torque
+</div>
+</div>
+<p id="th-msg">
+</p>
+</div>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>Thermal-protection calibration converts real component capability
+into a predictable torque limit. The objective is not to keep every
+component as cool as possible; it is to use the available thermal
+capacity <strong>without crossing durability limits</strong>.</p>
+<h2 id="define-protected-components-and-boundaries">1. Define protected
+components and boundaries</h2>
+<p>For each component establish:</p>
+<ul>
+<li>normal operating region;</li>
+<li>soft-derate region;</li>
+<li>hard protection region.</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>turbine inlet temperature;</li>
+<li>catalyst brick temperature;</li>
+<li>exhaust-valve model temperature;</li>
+<li>coolant/oil temperature;</li>
+<li>turbo speed;</li>
+<li>peak cylinder pressure.</li>
+</ul>
+<h2 id="validate-temperatureprotection-models">2. Validate
+temperature/protection models</h2>
+<p>Where direct measurement exists, compare model versus
+thermocouple/sensor across:</p>
+<ul>
+<li>speed/load;</li>
+<li>spark;</li>
+<li>lambda;</li>
+<li>ambient temperature;</li>
+<li>transient heating/cooling.</li>
+</ul>
+<p>A model that is too optimistic risks hardware. A model that is too
+conservative wastes performance.</p>
+<h2 id="calibrate-progressive-derating">3. Calibrate progressive
+derating</h2>
+<p>As the estimated state approaches the limit, reduce maximum allowed
+torque gradually.</p>
+<p>Trade-off:</p>
+<pre class="text"><code>early derate
+→ high durability margin
+but
+→ unnecessary performance loss</code></pre>
+<pre class="text"><code>late derate
+→ maximum performance
+but
+→ reduced protection margin</code></pre>
+<h2 id="select-the-correct-actuator-for-the-limiting-component">4.
+Select the correct actuator for the limiting component</h2>
+<h3 id="peak-cylinder-pressure-limiting">Peak cylinder pressure
+limiting</h3>
+<p>Spark retard or air reduction may help.</p>
+<h3 id="turbinecatalyst-temperature-limiting">Turbine/catalyst
+temperature limiting</h3>
+<p>Heavy spark retard can worsen exhaust temperature, so air/boost
+reduction may be better.</p>
+<h3 id="gasoline-exhaust-temperature-limiting">Gasoline exhaust
+temperature limiting</h3>
+<p>Enrichment may be available, but it increases fuel consumption and
+moves away from the ideal TWC window.</p>
+<p>The protection action must address the <strong>actual limiting
+component</strong>.</p>
+<h2 id="include-thermal-memory">5. Include thermal memory</h2>
+<p>Run sustained-load tests long enough to reach the real thermal
+state.</p>
+<p>Then validate cooling/recovery after load reduction.</p>
+<p>Protection margins should include:</p>
+<ul>
+<li>sensor/model uncertainty;</li>
+<li>production spread;</li>
+<li>aging;</li>
+<li>ambient extremes.</li>
+</ul>
+<h2 id="worst-case-validation">6. Worst-case validation</h2>
+<p>Test:</p>
+<ul>
+<li>high ambient temperature;</li>
+<li>altitude;</li>
+<li>repeated acceleration;</li>
+<li>sustained high load;</li>
+<li>catalyst-hot conditions;</li>
+<li>low cooling-air flow where relevant.</li>
+</ul>
+<p>The final derating map balances <strong>maximum usable
+performance</strong> against repeatable durability protection.</p>
+<h1 id="common-mistakes">19. Common mistakes</h1>
+<ul>
+<li>Treating every high-load limit as knock.</li>
+<li>Using spark retard for every protection problem.</li>
+<li>Ignoring catalyst/turbine temperature while protecting cylinder
+pressure.</li>
+<li>Ignoring thermal memory.</li>
+<li>Assuming sea-level boost is safe at altitude.</li>
+<li>Using a hard torque cut where progressive derating would work.</li>
+<li>Forgetting that coolant/oil state also changes friction and torque
+estimation.</li>
+</ul>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>Maximum performance is always bounded by component capability.</li>
+<li>Thermal protection can enter the torque structure as a maximum
+allowed torque.</li>
+<li>Spark retard can reduce cylinder pressure while increasing exhaust
+temperature.</li>
+<li>Turbo, catalyst, coolant, oil and charge-air temperatures create
+different limits.</li>
+<li>CNG knock resistance does not remove exhaust or mechanical
+limits.</li>
+<li>Temperature has memory, so thermal protection is dynamic.</li>
+<li>Good derating protects hardware while preserving predictable
+drivability.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The ignition and lambda/TWC articles already establish the opposing
+effects of spark retard on cylinder torque and exhaust temperature; the
+knock article covers peak-pressure and pressure-rise protections.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateTherm(){
+ const req=+document.getElementById('th-req').value, a=+document.getElementById('th-turbo').value, b=+document.getElementById('th-cat').value, c=+document.getElementById('th-fluid').value;
+ const out=Math.min(req,a,b,c);
+ let who=out===req?'driver request':(out===a?'turbo system':(out===b?'catalyst':'coolant/oil system'));
+ document.getElementById('th-out').textContent=out.toFixed(0)+' Nm';
+ document.getElementById('th-msg').innerHTML=`The current limiting source is <strong>${who}</strong>. The torque structure should pass the minimum physically permitted value downstream rather than asking the air path for impossible torque.`;
+}
+document.addEventListener('DOMContentLoaded',updateTherm);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>

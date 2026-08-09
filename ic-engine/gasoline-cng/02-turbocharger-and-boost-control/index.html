@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Turbocharger and Boost Control</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Turbocharger and Boost Control</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#what-the-turbocharger-really-does" id="toc-what-the-turbocharger-really-does">1. What the turbocharger
+really does</a></li>
+<li><a href="#pressure-ratio-is-more-useful-than-boost-alone" id="toc-pressure-ratio-is-more-useful-than-boost-alone">2. Pressure
+ratio is more useful than boost alone</a></li>
+<li><a href="#why-compressed-air-gets-hot" id="toc-why-compressed-air-gets-hot">3. Why compressed air gets
+hot</a></li>
+<li><a href="#the-compressor-map" id="toc-the-compressor-map">4. The
+compressor map</a></li>
+<li><a href="#why-surge-matters-during-a-fast-throttle-closure" id="toc-why-surge-matters-during-a-fast-throttle-closure">5. Why surge
+matters during a fast throttle closure</a></li>
+<li><a href="#the-turbine-side" id="toc-the-turbine-side">6. The turbine
+side</a></li>
+<li><a href="#wastegate-control" id="toc-wastegate-control">7. Wastegate
+control</a></li>
+<li><a href="#how-torque-request-becomes-boost-request" id="toc-how-torque-request-becomes-boost-request">8. How torque request
+becomes boost request</a></li>
+<li><a href="#why-the-throttle-still-exists-on-a-turbo-engine" id="toc-why-the-throttle-still-exists-on-a-turbo-engine">9. Why the
+throttle still exists on a turbo engine</a></li>
+<li><a href="#turbo-lag-is-several-delays-added-together" id="toc-turbo-lag-is-several-delays-added-together">10. Turbo lag is
+several delays added together</a></li>
+<li><a href="#exhaust-backpressure-is-the-price-paid-for-turbine-work" id="toc-exhaust-backpressure-is-the-price-paid-for-turbine-work">11.
+Exhaust backpressure is the price paid for turbine work</a></li>
+<li><a href="#compressor-efficiency-affects-both-performance-and-knock-margin" id="toc-compressor-efficiency-affects-both-performance-and-knock-margin">12.
+Compressor efficiency affects both performance and knock margin</a></li>
+<li><a href="#turbocharger-and-cng" id="toc-turbocharger-and-cng">13.
+Turbocharger and CNG</a></li>
+<li><a href="#turbocharger-and-gasoline" id="toc-turbocharger-and-gasoline">14. Turbocharger and
+gasoline</a></li>
+<li><a href="#turbocharging-and-emissions" id="toc-turbocharging-and-emissions">15. Turbocharging and emissions</a>
+<ul>
+<li><a href="#potential-advantages" id="toc-potential-advantages">Potential advantages</a></li>
+<li><a href="#challenges" id="toc-challenges">Challenges</a></li>
+</ul></li>
+<li><a href="#why-vvt-and-turbocharging-must-be-discussed-together" id="toc-why-vvt-and-turbocharging-must-be-discussed-together">16. Why
+VVT and turbocharging must be discussed together</a></li>
+<li><a href="#performance-limits-on-a-compressor-map" id="toc-performance-limits-on-a-compressor-map">17. Performance limits
+on a compressor map</a></li>
+<li><a href="#example-why-more-boost-can-stop-giving-more-torque" id="toc-example-why-more-boost-can-stop-giving-more-torque">18. Example
+— why more boost can stop giving more torque</a></li>
+<li><a href="#interactive-turbo-reasoning-tool" id="toc-interactive-turbo-reasoning-tool">19. Interactive turbo
+reasoning tool</a></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#define-the-test-grid" id="toc-define-the-test-grid">1.
+Define the test grid</a></li>
+<li><a href="#stabilize-the-boundary-conditions" id="toc-stabilize-the-boundary-conditions">2. Stabilize the boundary
+conditions</a></li>
+<li><a href="#sweep-turbine-authority" id="toc-sweep-turbine-authority">3. Sweep turbine authority</a></li>
+<li><a href="#trade-off-torque-versus-turbo-speed-margin" id="toc-trade-off-torque-versus-turbo-speed-margin">4. Trade-off —
+torque versus turbo-speed margin</a></li>
+<li><a href="#trade-off-boost-versus-compressor-efficiency" id="toc-trade-off-boost-versus-compressor-efficiency">5. Trade-off —
+boost versus compressor efficiency</a></li>
+<li><a href="#trade-off-turbine-power-versus-pumping-loss" id="toc-trade-off-turbine-power-versus-pumping-loss">6. Trade-off —
+turbine power versus pumping loss</a></li>
+<li><a href="#trade-off-response-versus-surge-margin" id="toc-trade-off-response-versus-surge-margin">7. Trade-off — response
+versus surge margin</a></li>
+<li><a href="#trade-off-performance-versus-thermal-limits" id="toc-trade-off-performance-versus-thermal-limits">8. Trade-off —
+performance versus thermal limits</a></li>
+<li><a href="#how-the-final-point-is-selected" id="toc-how-the-final-point-is-selected">9. How the final point is
+selected</a></li>
+<li><a href="#validation-across-conditions" id="toc-validation-across-conditions">10. Validation across
+conditions</a></li>
+</ul></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Turbocharger and Boost Control
+</h1>
+<p>
+<em>From exhaust enthalpy to compressor maps, wastegate control, turbo
+lag, backpressure, torque density and CNG/gasoline performance</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="what-the-turbocharger-really-does">1. What the turbocharger
+really does</h1>
+<p>A turbocharger is an energy-transfer device between the exhaust and
+intake sides of the engine.</p>
+<pre class="text"><code>Combustion
+   ↓
+hot high-energy exhaust
+   ↓
+Turbine ───shaft─── Compressor
+                  ↓
+             compressed air
+                  ↓
+             intercooler
+                  ↓
+            intake manifold
+                  ↓
+           more cylinder air
+                  ↓
+             more torque</code></pre>
+<p>The performance benefit does not come from “boost pressure” by
+itself. It comes from <strong>increasing fresh-air mass trapped in the
+cylinder</strong>.</p>
+<h1 id="pressure-ratio-is-more-useful-than-boost-alone">2. Pressure
+ratio is more useful than boost alone</h1>
+<p>A compressor works across a pressure ratio:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>c</mi></msub><mo>=</mo><mfrac><msub><mi>p</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+\Pi_c=\frac{p_{out}}{p_{in}}
+</annotation></semantics></math></p>
+<p>If compressor inlet pressure is 1.0 bar absolute and outlet pressure
+is 2.0 bar absolute:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>c</mi></msub><mo>=</mo><mn>2.0</mn></mrow><annotation encoding="application/x-tex">
+\Pi_c=2.0
+</annotation></semantics></math></p>
+<p>At altitude, the same gauge-boost target can require a larger
+compressor pressure ratio because inlet pressure is lower.</p>
+<p>That is one reason turbo speed and compressor operating margin become
+especially important at altitude.</p>
+<h1 id="why-compressed-air-gets-hot">3. Why compressed air gets hot</h1>
+<p>Ideal compression already raises temperature. Real compression adds
+additional irreversibility.</p>
+<p>A simplified relation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mn>2</mn></msub><mo>=</mo><msub><mi>T</mi><mn>1</mn></msub><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>+</mo><mfrac><mrow><msubsup><mi>Π</mi><mi>c</mi><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mi>γ</mi></mrow></msubsup><mo>−</mo><mn>1</mn></mrow><msub><mi>η</mi><mi>c</mi></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">
+T_{2}
+=
+T_{1}
+\left[
+1+
+\frac{\Pi_c^{(\gamma-1)/\gamma}-1}{\eta_c}
+\right]
+</annotation></semantics></math></p>
+<p>where:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mn>1</mn></msub><annotation encoding="application/x-tex">T_1</annotation></semantics></math>
+= compressor inlet temperature;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Π</mi><mi>c</mi></msub><annotation encoding="application/x-tex">\Pi_c</annotation></semantics></math>
+= pressure ratio;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>η</mi><mi>c</mi></msub><annotation encoding="application/x-tex">\eta_c</annotation></semantics></math>
+= compressor efficiency.</li>
+</ul>
+<p>Higher outlet temperature reduces density and increases knock
+tendency, so the intercooler is not an optional afterthought. It is part
+of the torque-producing air path.</p>
+<h1 id="the-compressor-map">4. The compressor map</h1>
+<p>A compressor map normally uses:</p>
+<ul>
+<li>pressure ratio;</li>
+<li>corrected air mass flow;</li>
+<li>corrected turbo speed;</li>
+<li>efficiency islands;</li>
+<li>surge boundary;</li>
+<li>choke boundary.</li>
+</ul>
+<div class="callout-grid">
+<div class="callout">
+<h3>
+Surge side
+</h3>
+Too little flow for the pressure ratio. Stable compressor flow can
+collapse or oscillate.
+</div>
+<div class="callout">
+<h3>
+Choke side
+</h3>
+Very high flow approaches sonic restriction. More speed produces little
+useful flow increase.
+</div>
+<div class="callout">
+<h3>
+Speed limit
+</h3>
+Turbo mechanical speed cannot increase indefinitely.
+</div>
+<div class="callout">
+<h3>
+Efficiency islands
+</h3>
+The compressor is most efficient only in part of the map.
+</div>
+</div>
+<p>Corrected variables allow the same map to represent different inlet
+temperatures and pressures.</p>
+<p>A common corrected-flow concept is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mi>o</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>∝</mo><mover><mi>m</mi><mo accent="true">̇</mo></mover><mfrac><msqrt><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></msqrt><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+\dot m_{corr}
+\propto
+\dot m
+\frac{\sqrt{T_{in}}}{p_{in}}
+</annotation></semantics></math></p>
+<p>and corrected speed is similarly temperature-normalized.</p>
+<p>Exact normalizing constants depend on map convention.</p>
+<h1 id="why-surge-matters-during-a-fast-throttle-closure">5. Why surge
+matters during a fast throttle closure</h1>
+<p>Imagine full boost followed by a sudden pedal lift.</p>
+<p>The compressor is still spinning quickly, but the throttle
+closes.</p>
+<pre class="text"><code>Throttle closes
+     ↓
+engine airflow falls quickly
+     ↓
+compressor still has high speed
+     ↓
+operating point moves toward low-flow / high-pressure-ratio side
+     ↓
+surge risk</code></pre>
+<p>A compressor bypass or recirculation valve can open to give the
+compressor another flow path and reduce this risk.</p>
+<h1 id="the-turbine-side">6. The turbine side</h1>
+<p>The turbine extracts power from exhaust enthalpy.</p>
+<p>Conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>→</mo><msub><mi>P</mi><mi>c</mi></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>b</mi><mi>e</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+P_t
+\rightarrow
+P_c + P_{bearing}
+</annotation></semantics></math></p>
+<p>At approximately steady turbo speed:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>≈</mo><msub><mi>P</mi><mi>c</mi></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+P_t\approx P_c+P_{loss}
+</annotation></semantics></math></p>
+<p>If turbine power exceeds compressor demand plus losses:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>ω</mi><mrow><mi>t</mi><mi>u</mi><mi>r</mi><mi>b</mi><mi>o</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">
+\frac{d\omega_{turbo}}{dt}&gt;0
+</annotation></semantics></math></p>
+<p>and turbo speed increases.</p>
+<p>This shaft-energy balance explains turbo lag better than simply
+saying “the turbo needs time to spool.”</p>
+<h1 id="wastegate-control">7. Wastegate control</h1>
+<p>A wastegate allows some exhaust to bypass the turbine.</p>
+<pre class="text"><code>Wastegate more closed
+        ↓
+more exhaust through turbine
+        ↓
+more turbine power
+        ↓
+turbo speed ↑
+        ↓
+compressor pressure ratio ↑
+        ↓
+air charge ↑</code></pre>
+<p>Opening the wastegate generally does the reverse.</p>
+<p>This is why wastegate position is not itself the objective. The real
+objective is typically some combination of:</p>
+<ul>
+<li>desired air charge;</li>
+<li>manifold pressure;</li>
+<li>compressor pressure ratio;</li>
+<li>turbo speed;</li>
+<li>torque.</li>
+</ul>
+<h1 id="how-torque-request-becomes-boost-request">8. How torque request
+becomes boost request</h1>
+<p>A torque-based ECU can be understood as:</p>
+<pre class="text"><code>Requested torque
+      ↓
+Required potential torque
+      ↓
+Required fresh-air charge
+      ↓
+Desired manifold state
+      ↓
+Required compressor pressure ratio
+      ↓
+Wastegate / turbine control
+      ↓
+Turbo speed
+      ↓
+Actual compressor flow
+      ↓
+Actual cylinder charge
+      ↓
+Torque</code></pre>
+<p>The turbocharger is therefore <strong>inside the air-charge
+path</strong>, not above the torque structure.</p>
+<h1 id="why-the-throttle-still-exists-on-a-turbo-engine">9. Why the
+throttle still exists on a turbo engine</h1>
+<p>A common misunderstanding is that a turbo engine controls torque only
+with boost.</p>
+<p>The throttle remains useful for:</p>
+<ul>
+<li>precise manifold-pressure control;</li>
+<li>fast load reduction;</li>
+<li>compressor surge management;</li>
+<li>idle and low-load control;</li>
+<li>transient torque shaping;</li>
+<li>coordination with VVT and EGR.</li>
+</ul>
+<p>At high load, the throttle may be nearly fully open while the
+wastegate becomes the main air-path authority.</p>
+<p>At lower load, the throttle can dominate.</p>
+<h1 id="turbo-lag-is-several-delays-added-together">10. Turbo lag is
+several delays added together</h1>
+<p>A pedal tip-in must pass through:</p>
+<pre class="text"><code>Torque request
+  ↓
+air-charge target
+  ↓
+throttle / wastegate command
+  ↓
+exhaust flow and enthalpy rise
+  ↓
+turbine torque rises
+  ↓
+turbo accelerates
+  ↓
+compressor flow rises
+  ↓
+manifold fills
+  ↓
+cylinder charge rises</code></pre>
+<p>So “turbo lag” is not one single delay.</p>
+<p>It includes:</p>
+<ul>
+<li>combustion/exhaust-energy build-up;</li>
+<li>turbo rotational inertia;</li>
+<li>compressor response;</li>
+<li>intercooler/duct volumes;</li>
+<li>intake-manifold filling.</li>
+</ul>
+<h1 id="exhaust-backpressure-is-the-price-paid-for-turbine-work">11.
+Exhaust backpressure is the price paid for turbine work</h1>
+<p>The turbine needs a pressure and enthalpy drop.</p>
+<p>That can raise exhaust-manifold pressure.</p>
+<p>Higher exhaust backpressure can increase:</p>
+<ul>
+<li>pumping work;</li>
+<li>residual gas fraction;</li>
+<li>exhaust temperature;</li>
+<li>valve-overlap sensitivity.</li>
+</ul>
+<p>It can also change:</p>
+<ul>
+<li>volumetric efficiency;</li>
+<li>knock tendency;</li>
+<li>combustion phasing;</li>
+<li>internal EGR.</li>
+</ul>
+<p>Therefore “more boost” is not free torque.</p>
+<h1 id="compressor-efficiency-affects-both-performance-and-knock-margin">12.
+Compressor efficiency affects both performance and knock margin</h1>
+<p>Suppose two compressor operating points both provide the same outlet
+pressure.</p>
+<p>If one operates at 76% efficiency and another at 60%, the
+lower-efficiency point produces hotter outlet air.</p>
+<p>That means:</p>
+<pre class="text"><code>lower compressor efficiency
+       ↓
+compressor outlet T ↑
+       ↓
+intercooler load ↑
+       ↓
+manifold T can rise
+       ↓
+air density ↓
+knock tendency ↑
+spark margin ↓</code></pre>
+<p>So compressor efficiency affects more than fuel economy.</p>
+<h1 id="turbocharger-and-cng">13. Turbocharger and CNG</h1>
+<p>For CNG engines:</p>
+<ul>
+<li>methane-rich fuel often provides strong knock resistance;</li>
+<li>gaseous PFI can displace intake-air volume;</li>
+<li>gas composition changes burn rate and knock margin;</li>
+<li>boost can recover torque density lost through gaseous-fuel
+displacement;</li>
+<li>high exhaust temperatures and turbo speed still require
+protection.</li>
+</ul>
+<p>CNG’s knock resistance can enable strong boosted performance, but it
+does not remove:</p>
+<ul>
+<li>compressor speed limits;</li>
+<li>turbine temperature limits;</li>
+<li>peak cylinder-pressure limits;</li>
+<li>gas-system flow limits.</li>
+</ul>
+<h1 id="turbocharger-and-gasoline">14. Turbocharger and gasoline</h1>
+<p>Gasoline adds:</p>
+<ul>
+<li>stronger knock sensitivity in many high-load regions;</li>
+<li>charge cooling from fuel evaporation, especially with GDI;</li>
+<li>possible enrichment for component protection;</li>
+<li>ethanol-content effects;</li>
+<li>LSPI/pre-ignition concerns in some downsized boosted engines.</li>
+</ul>
+<p>This can make the maximum useful boost strongly dependent on fuel
+quality and combustion strategy.</p>
+<h1 id="turbocharging-and-emissions">15. Turbocharging and
+emissions</h1>
+<p>Turbocharging has both positive and negative system effects.</p>
+<h3 id="potential-advantages">Potential advantages</h3>
+<ul>
+<li>downsizing can reduce pumping and friction losses;</li>
+<li>higher torque density allows a smaller engine;</li>
+<li>loaded operation can provide strong exhaust enthalpy once warm.</li>
+</ul>
+<h3 id="challenges">Challenges</h3>
+<ul>
+<li>turbine extracts energy that would otherwise heat a downstream
+catalyst;</li>
+<li>turbine housing absorbs heat during cold start;</li>
+<li>high GHSV can reduce catalyst residence time;</li>
+<li>high backpressure changes residuals and combustion;</li>
+<li>protection enrichment or spark retard can increase fuel consumption
+and emissions.</li>
+</ul>
+<h1 id="why-vvt-and-turbocharging-must-be-discussed-together">16. Why
+VVT and turbocharging must be discussed together</h1>
+<p>Valve overlap determines how the pressure difference between intake
+and exhaust manifolds interacts with the cylinder.</p>
+<p>If:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>&gt;</mo><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+p_{exhaust}&gt;p_{intake}
+</annotation></semantics></math></p>
+<p>large overlap can encourage exhaust residuals or reverse flow.</p>
+<p>If:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>&gt;</mo><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+p_{intake}&gt;p_{exhaust}
+</annotation></semantics></math></p>
+<p>overlap can support scavenging.</p>
+<p>So the same cam timing can behave very differently depending on
+turbine backpressure and boost.</p>
+<p>This is why turbocharging cannot be calibrated independently from gas
+exchange.</p>
+<h1 id="performance-limits-on-a-compressor-map">17. Performance limits
+on a compressor map</h1>
+<p>A requested torque can fail because the turbo system reaches:</p>
+<ul>
+<li>compressor surge margin;</li>
+<li>compressor choke;</li>
+<li>turbo-speed limit;</li>
+<li>turbine-flow limit;</li>
+<li>wastegate authority limit;</li>
+<li>exhaust-temperature limit;</li>
+<li>exhaust-backpressure limit;</li>
+<li>intercooler thermal limit.</li>
+</ul>
+<p>The torque structure should convert these hardware limits into a
+<strong>maximum available torque</strong> rather than continuing to
+request impossible charge.</p>
+<h1 id="example-why-more-boost-can-stop-giving-more-torque">18. Example
+— why more boost can stop giving more torque</h1>
+<p>Suppose boost rises from 1.5 to 2.0 bar absolute and initially
+increases fresh-air charge.</p>
+<p>Later:</p>
+<pre class="text"><code>pressure ratio ↑
+compressor efficiency ↓
+outlet temperature ↑
+exhaust backpressure ↑
+knock margin ↓
+spark retard ↑</code></pre>
+<p>Potential air charge may continue increasing while <strong>actual
+torque gain becomes much smaller</strong> because spark efficiency and
+pumping losses deteriorate.</p>
+<p>This is a classic system-level trade-off.</p>
+<h1 id="interactive-turbo-reasoning-tool">19. Interactive turbo
+reasoning tool</h1>
+<div class="interactive-card">
+<h3>
+Pressure ratio and compressor temperature
+</h3>
+<label>Compressor inlet pressure [bar abs]
+<input id="tb-pin" type="range" min="0.70" max="1.05" step="0.01" value="1.00" oninput="updateTurboPerf()"></label>
+<label>Outlet pressure [bar abs]
+<input id="tb-pout" type="range" min="1.00" max="2.80" step="0.05" value="2.00" oninput="updateTurboPerf()"></label>
+<label>Inlet temperature [°C]
+<input id="tb-temp" type="range" min="-10" max="60" step="1" value="25" oninput="updateTurboPerf()"></label>
+<label>Compressor efficiency
+<input id="tb-eff" type="range" min="0.50" max="0.82" step="0.01" value="0.72" oninput="updateTurboPerf()"></label>
+<div class="kpis">
+<div class="kpi">
+<strong id="tb-pr">–</strong>Pressure ratio
+</div>
+<div class="kpi">
+<strong id="tb-tout">–</strong>Compressor outlet temperature
+</div>
+</div>
+<p id="tb-msg">
+</p>
+</div>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>Turbocharger calibration is an optimization problem because the goal
+is <strong>not maximum boost pressure</strong>. The real objective is to
+achieve the requested fresh-air charge and torque while keeping the
+compressor, turbine, combustion system and exhaust hardware inside an
+efficient and safe operating region.</p>
+<p>A useful calibration question is:</p>
+<blockquote>
+<p><strong>What boost and wastegate strategy gives the requested torque
+with the best combination of response, compressor efficiency, knock
+margin, turbine backpressure, fuel consumption and hardware
+margin?</strong></p>
+</blockquote>
+<h2 id="define-the-test-grid">1. Define the test grid</h2>
+<p>Start with a speed/load grid that covers the intended operating
+range, for example:</p>
+<pre class="text"><code>1500 / 2000 / 2500 / 3000 / 4000 rpm
+×
+low / medium / high / full load</code></pre>
+<p>At each point, measure at least:</p>
+<ul>
+<li>fresh-air charge;</li>
+<li>compressor inlet/outlet pressure;</li>
+<li>compressor outlet temperature;</li>
+<li>intercooler outlet temperature;</li>
+<li>turbo speed where available;</li>
+<li>exhaust-manifold pressure;</li>
+<li>turbine inlet temperature;</li>
+<li>wastegate command;</li>
+<li>brake torque;</li>
+<li>final spark;</li>
+<li>knock activity;</li>
+<li>lambda;</li>
+<li>VVT position.</li>
+</ul>
+<h2 id="stabilize-the-boundary-conditions">2. Stabilize the boundary
+conditions</h2>
+<p>Before comparing two wastegate or boost settings, hold as constant as
+practical:</p>
+<ul>
+<li>engine speed;</li>
+<li>lambda;</li>
+<li>spark-control mode;</li>
+<li>cam timing;</li>
+<li>charge-air temperature;</li>
+<li>coolant/oil temperature;</li>
+<li>CNG gas pressure/temperature or gasoline fuel state;</li>
+<li>ambient pressure.</li>
+</ul>
+<p>Otherwise, a torque change may be incorrectly attributed to boost
+when it was actually caused by spark, temperature or fuel state.</p>
+<h2 id="sweep-turbine-authority">3. Sweep turbine authority</h2>
+<p>At one operating point, gradually increase turbine work by closing
+the wastegate or increasing the boost target.</p>
+<p>Observe the complete chain:</p>
+<pre class="text"><code>Wastegate closes
+      ↓
+turbine flow / turbine power ↑
+      ↓
+turbo speed ↑
+      ↓
+compressor pressure ratio ↑
+      ↓
+fresh-air charge ↑
+      ↓
+potential torque ↑</code></pre>
+<p>Do not evaluate torque alone. Plot torque together with turbo speed,
+compressor efficiency, outlet temperature, exhaust backpressure and
+final spark.</p>
+<h2 id="trade-off-torque-versus-turbo-speed-margin">4. Trade-off —
+torque versus turbo-speed margin</h2>
+<p>More boost can increase charge and torque, but turbo speed rises.</p>
+<p>The final steady-state point should preserve margin for:</p>
+<ul>
+<li>altitude;</li>
+<li>hot ambient conditions;</li>
+<li>transient overshoot;</li>
+<li>production variation;</li>
+<li>aging.</li>
+</ul>
+<p>So the engineer does not normally calibrate directly on the
+mechanical speed boundary.</p>
+<h2 id="trade-off-boost-versus-compressor-efficiency">5. Trade-off —
+boost versus compressor efficiency</h2>
+<p>A higher pressure ratio can move the compressor away from its best
+efficiency island.</p>
+<pre class="text"><code>Compressor efficiency ↓
+      ↓
+outlet temperature ↑
+      ↓
+air density benefit reduced
+      ↓
+knock tendency ↑
+      ↓
+more spark retard may be required</code></pre>
+<p>A slightly lower boost point can sometimes give nearly the same
+<strong>actual</strong> torque with lower temperature and better
+efficiency.</p>
+<h2 id="trade-off-turbine-power-versus-pumping-loss">6. Trade-off —
+turbine power versus pumping loss</h2>
+<p>Closing the wastegate creates more turbine power but generally
+increases exhaust-manifold pressure.</p>
+<p>That can increase:</p>
+<ul>
+<li>pumping work;</li>
+<li>residual gas;</li>
+<li>exhaust temperature;</li>
+<li>VVT sensitivity.</li>
+</ul>
+<p>The useful region is where the extra compressor benefit is still
+larger than the extra turbine/backpressure penalty.</p>
+<h2 id="trade-off-response-versus-surge-margin">7. Trade-off — response
+versus surge margin</h2>
+<p>Aggressive wastegate closing improves spool, but the compressor can
+move closer to surge during rapid load changes.</p>
+<p>The transient strategy therefore needs enough surge margin for:</p>
+<ul>
+<li>fast throttle closure;</li>
+<li>gear shifts;</li>
+<li>traction intervention;</li>
+<li>production variation.</li>
+</ul>
+<h2 id="trade-off-performance-versus-thermal-limits">8. Trade-off —
+performance versus thermal limits</h2>
+<p>More load and more turbine work can increase turbine inlet
+temperature, exhaust-valve temperature and catalyst temperature.</p>
+<p>The boost map therefore has to remain compatible with
+thermal-protection limits.</p>
+<h2 id="how-the-final-point-is-selected">9. How the final point is
+selected</h2>
+<p>At each speed/load point, the engineer looks for the setting that
+satisfies all of the following:</p>
+<pre class="text"><code>Required torque achieved
+      +
+acceptable compressor efficiency
+      +
+safe turbo speed
+      +
+acceptable exhaust backpressure
+      +
+acceptable knock margin
+      +
+acceptable thermal state</code></pre>
+<p>The final calibration is normally the <strong>minimum turbo effort
+that reliably produces the required charge and torque with adequate
+margin</strong>, not the highest boost the hardware can make.</p>
+<h2 id="validation-across-conditions">10. Validation across
+conditions</h2>
+<p>After building the steady-state map, validate:</p>
+<ul>
+<li>off-grid speed/load points;</li>
+<li>hot ambient;</li>
+<li>low ambient pressure / altitude;</li>
+<li>repeated full-load operation;</li>
+<li>fast tip-in;</li>
+<li>fast tip-out;</li>
+<li>gear shifts;</li>
+<li>catalyst-hot conditions.</li>
+</ul>
+<p>The calibration is complete only when the requested torque remains
+achievable without surge, overspeed, excessive backpressure, knock or
+thermal protection across the whole operating envelope.</p>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>Turbocharging increases torque by increasing trapped fresh-air mass,
+not by “boost pressure” alone.</li>
+<li>Compressor pressure ratio depends on both outlet and inlet
+pressure.</li>
+<li>Compressor efficiency strongly affects outlet temperature and knock
+margin.</li>
+<li>Surge, choke and turbo-speed limits define the usable compressor
+region.</li>
+<li>Turbine power accelerates the turbo; the wastegate controls how much
+exhaust energy reaches the turbine.</li>
+<li>Turbo lag is the combined result of exhaust-energy build-up, shaft
+inertia and manifold filling.</li>
+<li>Turbine backpressure affects pumping work, residuals, VVT behavior
+and combustion.</li>
+<li>A torque-based ECU converts torque demand into charge demand, then
+boost control helps realize that charge.</li>
+<li>CNG and gasoline have different fuel-specific limits, but the turbo
+air-path physics is the same.</li>
+<li>Turbocharger, VVT, spark, lambda, knock and catalyst temperature
+must be treated as one coupled system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The supplied engine-control reference describes compressor maps using
+pressure ratio, corrected mass flow, corrected speed and efficiency, and
+identifies surge, choke and mechanical speed as major compressor limits.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateTurboPerf(){
+ const pin=+document.getElementById('tb-pin').value;
+ const pout=+document.getElementById('tb-pout').value;
+ const tc=+document.getElementById('tb-temp').value;
+ const eff=+document.getElementById('tb-eff').value;
+ const pr=pout/pin, g=1.4, Tin=tc+273.15;
+ const Tout=Tin*(1+(Math.pow(pr,(g-1)/g)-1)/eff)-273.15;
+ document.getElementById('tb-pr').textContent=pr.toFixed(2);
+ document.getElementById('tb-tout').textContent=Tout.toFixed(0)+' °C';
+ document.getElementById('tb-msg').innerHTML=`At the same outlet pressure, lower inlet pressure increases pressure ratio. Lower compressor efficiency raises outlet temperature, increasing intercooler demand and potentially reducing knock margin.`;
+}
+document.addEventListener('DOMContentLoaded',updateTurboPerf);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>
