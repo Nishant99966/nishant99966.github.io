@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Engine-Out Emissions Measurement and Electrical-Efficiency Optimization</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="NOx, CH4, formaldehyde, mass/g-kWh reporting, EU installation-scale
+framing, methane slip and compliance-monitoring logic" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 13 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Engine-Out Emissions Measurement and Electrical-Efficiency Optimization
+</h1>
+<p>
+<em>NOx, CH4, formaldehyde, mass/g-kWh reporting, EU installation-scale
+framing, methane slip and compliance-monitoring logic</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#emissions-optimization-in-a-lean-burn-cng-genset" id="toc-emissions-optimization-in-a-lean-burn-cng-genset">1. Emissions
+optimization in a lean-burn CNG genset</a></li>
+<li><a href="#why-nox-and-methane-move-in-opposite-directions-near-the-lean-limit" id="toc-why-nox-and-methane-move-in-opposite-directions-near-the-lean-limit">2.
+Why NOx and methane move in opposite directions near the lean
+limit</a></li>
+<li><a href="#calibration-procedure" id="toc-calibration-procedure">3.
+Calibration procedure</a></li>
+<li><a href="#mass-specific-emissions" id="toc-mass-specific-emissions">4. Mass-specific emissions</a></li>
+<li><a href="#trade-off-electrical-efficiency-versus-emissions" id="toc-trade-off-electrical-efficiency-versus-emissions">5. Trade-off —
+electrical efficiency versus emissions</a></li>
+<li><a href="#low-load-challenge" id="toc-low-load-challenge">6.
+Low-load challenge</a></li>
+<li><a href="#high-load-challenge" id="toc-high-load-challenge">7.
+High-load challenge</a></li>
+<li><a href="#aftertreatment-interaction" id="toc-aftertreatment-interaction">8. Aftertreatment
+interaction</a></li>
+<li><a href="#final-balance" id="toc-final-balance">9. Final
+balance</a></li>
+<li><a href="#emissions-measurement-concentration-is-not-enough" id="toc-emissions-measurement-concentration-is-not-enough">10. Emissions
+measurement: concentration is not enough</a></li>
+<li><a href="#wetdry-and-oxygen-reference-basis" id="toc-wetdry-and-oxygen-reference-basis">11. Wet/dry and
+oxygen-reference basis</a></li>
+<li><a href="#analyzer-and-sample-system-dynamics" id="toc-analyzer-and-sample-system-dynamics">12. Analyzer and
+sample-system dynamics</a></li>
+<li><a href="#methane-thc-and-nmhc" id="toc-methane-thc-and-nmhc">13.
+Methane, THC and NMHC</a></li>
+<li><a href="#formaldehyde-and-other-species" id="toc-formaldehyde-and-other-species">14. Formaldehyde and other
+species</a></li>
+<li><a href="#engine-out-versus-aftertreatment-out" id="toc-engine-out-versus-aftertreatment-out">15. Engine-out versus
+aftertreatment-out</a></li>
+<li><a href="#calibration-procedure-with-repeatability" id="toc-calibration-procedure-with-repeatability">16. Calibration
+procedure with repeatability</a></li>
+<li><a href="#emissions-optimization-as-a-multi-objective-problem" id="toc-emissions-optimization-as-a-multi-objective-problem">17.
+Emissions optimization as a multi-objective problem</a></li>
+<li><a href="#regulatory-target-is-a-project-input" id="toc-regulatory-target-is-a-project-input">18. Regulatory target is a
+project input</a></li>
+<li><a href="#measurement-uncertainty" id="toc-measurement-uncertainty">19. Measurement uncertainty</a></li>
+<li><a href="#regulatory-framework-by-installation-scale" id="toc-regulatory-framework-by-installation-scale">20. Regulatory
+framework by installation scale</a></li>
+<li><a href="#formaldehyde" id="toc-formaldehyde">21.
+Formaldehyde</a></li>
+<li><a href="#methane-as-greenhouse-gas-slip" id="toc-methane-as-greenhouse-gas-slip">22. Methane as greenhouse-gas
+slip</a></li>
+<li><a href="#cems-compliance-monitoring" id="toc-cems-compliance-monitoring">23. CEMS / compliance
+monitoring</a></li>
+<li><a href="#explicit-conversion-to-gkwh" id="toc-explicit-conversion-to-gkwh">24. Explicit conversion to
+g/kWh</a></li>
+<li><a href="#industrial-emissions-directive-update" id="toc-industrial-emissions-directive-update">25. 2026 Industrial
+Emissions Directive update</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">26. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">27. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="emissions-optimization-in-a-lean-burn-cng-genset">1. Emissions
+optimization in a lean-burn CNG genset</h1>
+<p>The main engine-out trade-offs typically include:</p>
+<ul>
+<li>NOx;</li>
+<li>CO;</li>
+<li>methane/THC;</li>
+<li>efficiency.</li>
+</ul>
+<p>The exact aftertreatment architecture depends on the application, so
+this article keeps engine-out calibration separate from optional
+oxidation catalyst or SCR strategy.</p>
+<h1 id="why-nox-and-methane-move-in-opposite-directions-near-the-lean-limit">2.
+Why NOx and methane move in opposite directions near the lean limit</h1>
+<p>Leaner combustion lowers temperature:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><msub><mi>O</mi><mi>x</mi></msub><mo>↓</mo></mrow><annotation encoding="application/x-tex">
+NO_x\downarrow
+</annotation></semantics></math></p>
+<p>But near unstable combustion:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><msub><mi>H</mi><mn>4</mn></msub><mi>/</mi><mi>T</mi><mi>H</mi><mi>C</mi><mo>↑</mo></mrow><annotation encoding="application/x-tex">
+CH_4/THC\uparrow
+</annotation></semantics></math></p>
+<p>So “leaner is cleaner” is not universally correct.</p>
+<h1 id="calibration-procedure">3. Calibration procedure</h1>
+<p>At each load:</p>
+<ol type="1">
+<li>stabilize at the nominal rated-frequency operating point and thermal
+state;</li>
+<li>perform lambda sweep;</li>
+<li>re-optimize spark/CA50;</li>
+<li>record fuel flow and electrical efficiency;</li>
+<li>record NOx, CO, CH4/THC;</li>
+<li>record COVIMEP/misfire;</li>
+<li>select balanced point.</li>
+</ol>
+<h1 id="mass-specific-emissions">4. Mass-specific emissions</h1>
+<p>For gensets, emissions can be expressed relative to generated
+energy:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>/</mi><mi>k</mi><mi>W</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">
+g/kWh
+</annotation></semantics></math></p>
+<p>This is often more meaningful than concentration alone because
+exhaust flow changes with load.</p>
+<h1 id="trade-off-electrical-efficiency-versus-emissions">5. Trade-off —
+electrical efficiency versus emissions</h1>
+<p>A point with best electrical efficiency may not satisfy NOx or
+methane target.</p>
+<p>A point with very low NOx may have poor methane emissions.</p>
+<p>The engineer needs a weighted compromise.</p>
+<h1 id="low-load-challenge">6. Low-load challenge</h1>
+<p>Low load can create:</p>
+<ul>
+<li>lower combustion temperature;</li>
+<li>weaker turbo energy;</li>
+<li>lower aftertreatment temperature;</li>
+<li>more incomplete combustion.</li>
+</ul>
+<p>So methane/CO can become difficult even though NOx is low.</p>
+<h1 id="high-load-challenge">7. High-load challenge</h1>
+<p>High load can create:</p>
+<ul>
+<li>higher NOx;</li>
+<li>higher knock/pressure;</li>
+<li>higher turbine temperature.</li>
+</ul>
+<p>So high-load calibration may need more air, different spark or power
+derating.</p>
+<h1 id="aftertreatment-interaction">8. Aftertreatment interaction</h1>
+<p>If an oxidation catalyst is used, methane conversion depends strongly
+on catalyst temperature and formulation.</p>
+<p>If SCR is used for NOx, engine-out NOx strategy must consider
+aftertreatment conversion and reagent control.</p>
+<p>Do not optimize engine-out and tailpipe independently.</p>
+<h1 id="final-balance">9. Final balance</h1>
+<p>The final load-wise calibration should satisfy:</p>
+<pre class="text"><code>electrical efficiency target
++
+NOx target
++
+CH4/THC target
++
+CO target
++
+combustion stability
++
+thermal durability</code></pre>
+<p>with margin for aging and fuel variation.</p>
+<h1 id="emissions-measurement-concentration-is-not-enough">10. Emissions
+measurement: concentration is not enough</h1>
+<p>A calibration engineer should distinguish:</p>
+<ul>
+<li>ppm concentration;</li>
+<li>normalized concentration;</li>
+<li>pollutant mass flow;</li>
+<li>energy-specific emissions such as g/kWh.</li>
+</ul>
+<p>A conceptual mass-specific result is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><mo>=</mo><mfrac><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>l</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+e_{pollutant}
+=
+\frac{\dot m_{pollutant}}
+{P_{electrical}}
+</annotation></semantics></math></p>
+<p>with units such as g/kWh when integrated and converted
+consistently.</p>
+<h1 id="wetdry-and-oxygen-reference-basis">11. Wet/dry and
+oxygen-reference basis</h1>
+<p>Combustion exhaust contains water and excess oxygen.</p>
+<p>Depending on the reporting requirement, concentrations may need:</p>
+<ul>
+<li>wet/dry conversion;</li>
+<li>normalization to a specified reference oxygen concentration;</li>
+<li>standard/reference gas-volume conditions.</li>
+</ul>
+<p>The exact method must follow the applicable regulation or project
+standard.</p>
+<p>A value reported simply as:</p>
+<blockquote>
+<p>“500 ppm NOx”</p>
+</blockquote>
+<p>is incomplete unless the measurement basis is known.</p>
+<h1 id="analyzer-and-sample-system-dynamics">12. Analyzer and
+sample-system dynamics</h1>
+<p>Record:</p>
+<ul>
+<li>sample location;</li>
+<li>heated-line condition;</li>
+<li>analyzer transport delay;</li>
+<li>analyzer response time;</li>
+<li>exhaust-flow signal delay.</li>
+</ul>
+<p>Engine torque and combustion can change much faster than a long
+emissions sample line responds.</p>
+<p>Time-align the channels before explaining a transient emissions
+spike.</p>
+<h1 id="methane-thc-and-nmhc">13. Methane, THC and NMHC</h1>
+<p>For CNG:</p>
+<ul>
+<li>THC measures total hydrocarbons;</li>
+<li>CH4 is often the dominant hydrocarbon;</li>
+<li>NMHC represents the non-methane portion.</li>
+</ul>
+<p>A THC signal alone does not explain whether the emissions problem is
+mainly methane slip or another hydrocarbon component.</p>
+<h1 id="formaldehyde-and-other-species">14. Formaldehyde and other
+species</h1>
+<p>Depending on application and regulation, additional species such as
+formaldehyde may matter.</p>
+<p>The series does not assume one universal regulatory package.</p>
+<p>The calibration engineer should always start from the actual project
+emissions requirements.</p>
+<h1 id="engine-out-versus-aftertreatment-out">15. Engine-out versus
+aftertreatment-out</h1>
+<p>Always state measurement location.</p>
+<p>For example:</p>
+<pre class="text"><code>Engine-out NOx
+      ↓
+SCR where fitted
+      ↓
+Tailpipe NOx</code></pre>
+<p>or:</p>
+<pre class="text"><code>Engine-out CH4/CO
+      ↓
+Oxidation catalyst where fitted
+      ↓
+Tailpipe CH4/CO</code></pre>
+<p>A change that worsens engine-out emissions can still improve tailpipe
+emissions if it strongly improves aftertreatment temperature or
+conversion—but that trade-off must be quantified.</p>
+<h1 id="calibration-procedure-with-repeatability">16. Calibration
+procedure with repeatability</h1>
+<p>For each steady load point:</p>
+<ol type="1">
+<li>precondition thermal state;</li>
+<li>hold gas composition;</li>
+<li>record repeat reference point;</li>
+<li>sweep lambda/spark as planned;</li>
+<li>wait for analyzer settling;</li>
+<li>repeat the reference point;</li>
+<li>reject data if drift exceeds project tolerance.</li>
+</ol>
+<p>This helps distinguish real calibration effects from slow analyzer or
+thermal drift.</p>
+<h1 id="emissions-optimization-as-a-multi-objective-problem">17.
+Emissions optimization as a multi-objective problem</h1>
+<p>The final point should consider:</p>
+<pre class="text"><code>electrical efficiency
+NOx
+CH4 / THC / NMHC
+CO
+combustion stability
+aftertreatment temperature
+gas consumption</code></pre>
+<p>The best point is rarely the minimum of one pollutant.</p>
+<h1 id="regulatory-target-is-a-project-input">18. Regulatory target is a
+project input</h1>
+<p>There is no universal 2026 stationary-gas-engine emissions number
+that can be inserted into every calibration.</p>
+<p>The target depends on:</p>
+<ul>
+<li>country/jurisdiction;</li>
+<li>plant thermal input/output;</li>
+<li>fuel;</li>
+<li>commissioning date;</li>
+<li>operating hours;</li>
+<li>emergency/non-emergency status;</li>
+<li>permit conditions;</li>
+<li>aftertreatment configuration.</li>
+</ul>
+<p>For example, European medium combustion plants are covered by
+Directive (EU) 2015/2193 with applicability and timing depending on
+plant category, while U.S. stationary spark-ignition engines can fall
+under 40 CFR Part 60 Subpart JJJJ.</p>
+<p>The calibration process should therefore begin with:</p>
+<pre class="text"><code>Applicable regulation / permit
+        ↓
+required measurement basis
+        ↓
+emissions target
+        ↓
+engine + aftertreatment calibration</code></pre>
+<p>not with a copied ppm or mg/Nm³ target.</p>
+<h1 id="measurement-uncertainty">19. Measurement uncertainty</h1>
+<p>A reported improvement is meaningful only if it is larger than the
+combined uncertainty and repeatability of:</p>
+<ul>
+<li>analyzer;</li>
+<li>exhaust-flow estimate;</li>
+<li>electrical-power measurement;</li>
+<li>gas flow;</li>
+<li>reference-oxygen correction.</li>
+</ul>
+<p>This topic is developed in the dedicated Test-Cell Instrumentation
+article.</p>
+<h1 id="regulatory-framework-by-installation-scale">20. Regulatory
+framework by installation scale</h1>
+<p>For EU-oriented training, distinguish at least:</p>
+<pre class="text"><code>1 MW to &lt;50 MW thermal input
+      ↓
+Medium Combustion Plant framework can apply
+
+Large combustion installation / Chapter III IED scope
+      ↓
+Large Combustion Plant BAT conclusions can apply</code></pre>
+<p>Aggregation rules, operating hours, commissioning date, plant type
+and national permit conditions matter.</p>
+<p>Do not classify a site from one engine’s electrical MW rating
+alone.</p>
+<h1 id="formaldehyde">21. Formaldehyde</h1>
+<p>Formaldehyde is an important gas-engine species and can be
+specifically regulated or included in BAT requirements depending on
+plant size and jurisdiction.</p>
+<p>Therefore an emissions plan may need:</p>
+<ul>
+<li>NOx;</li>
+<li>CO;</li>
+<li>CH4;</li>
+<li>NMHC/THC;</li>
+<li>formaldehyde;</li>
+<li>NH3 slip where SCR is fitted.</li>
+</ul>
+<h1 id="methane-as-greenhouse-gas-slip">22. Methane as greenhouse-gas
+slip</h1>
+<p>Methane is not only a local hydrocarbon-emissions issue.</p>
+<p>A very lean point that improves electrical efficiency but materially
+increases methane slip can worsen the broader greenhouse-gas result.</p>
+<p>The project should therefore distinguish:</p>
+<ul>
+<li>regulated stack emissions;</li>
+<li>climate/CO2-equivalent reporting where required.</li>
+</ul>
+<h1 id="cems-compliance-monitoring">23. CEMS / compliance
+monitoring</h1>
+<p>Continuous or periodic monitoring requirements are
+permit-specific.</p>
+<p>Where CEMS is used, the team must control:</p>
+<ul>
+<li>analyzer QA/QC;</li>
+<li>zero/span checks;</li>
+<li>calibration gases;</li>
+<li>data availability;</li>
+<li>basis conversions;</li>
+<li>maintenance state.</li>
+</ul>
+<h1 id="explicit-conversion-to-gkwh">24. Explicit conversion to
+g/kWh</h1>
+<p>If pollutant mass flow is measured in grams per hour:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><msub><mi>e</mi><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">[</mo><mi>g</mi><mi>/</mi><mi>k</mi><mi>W</mi><mi>h</mi><mo form="postfix" stretchy="true">]</mo></mrow><mo>=</mo><mfrac><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">[</mo><mi>g</mi><mi>/</mi><mi>h</mi><mo form="postfix" stretchy="true">]</mo></mrow></mrow><mrow><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">[</mo><mi>k</mi><mi>W</mi><mo form="postfix" stretchy="true">]</mo></mrow></mrow></mfrac></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+e_{pollutant}[g/kWh]
+=
+\frac{\dot m_{pollutant}[g/h]}
+{P_{el}[kW]}
+}
+</annotation></semantics></math></p>
+<p>If pollutant mass flow is measured in grams per second:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><msub><mi>e</mi><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">[</mo><mi>g</mi><mi>/</mi><mi>k</mi><mi>W</mi><mi>h</mi><mo form="postfix" stretchy="true">]</mo></mrow><mo>=</mo><mfrac><mrow><mn>3600</mn><mspace width="0.167em"></mspace><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">[</mo><mi>g</mi><mi>/</mi><mi>s</mi><mo form="postfix" stretchy="true">]</mo></mrow></mrow><mrow><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">[</mo><mi>k</mi><mi>W</mi><mo form="postfix" stretchy="true">]</mo></mrow></mrow></mfrac></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+e_{pollutant}[g/kWh]
+=
+\frac{3600\,\dot m_{pollutant}[g/s]}
+{P_{el}[kW]}
+}
+</annotation></semantics></math></p>
+<p>Always state whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">P_{el}</annotation></semantics></math>
+is gross generator power or net exported power. The denominator boundary
+must match the reporting requirement.</p>
+<h1 id="industrial-emissions-directive-update">25. 2026 Industrial
+Emissions Directive update</h1>
+<p>For EU-oriented 2026 training, reference Directive 2010/75/EU
+<strong>as amended</strong>, including Directive (EU) 2024/1785.</p>
+<p>The 2024 amendment entered into force in 2024 and includes a
+Member-State transposition deadline of 1 July 2026. For a 2026
+engineering project, the environmental-permit team should therefore
+verify the applicable national implementation and current permit basis
+rather than assuming that an older IED summary is sufficient.</p>
+<h1 id="common-mistakes">26. Common mistakes</h1>
+<ul>
+<li>Applying one regulatory limit to every site.</li>
+<li>Using electrical MW instead of rated thermal input when determining
+environmental scope.</li>
+<li>Treating methane as only “another HC.”</li>
+<li>Omitting formaldehyde from the test plan where it is a project
+requirement.</li>
+<li>Comparing ppm values on different O2/wet-dry bases.</li>
+</ul>
+<h1 id="key-lessons">27. Key lessons</h1>
+<ol type="1">
+<li>Regulatory target-setting starts with plant scope, not a copied
+emissions number.</li>
+<li>Gas-engine emissions include methane and potentially formaldehyde in
+addition to NOx/CO.</li>
+<li>g/kWh or mass-based results need correct exhaust and electrical
+boundaries.</li>
+<li>Measurement basis and compliance-monitoring QA matter as much as the
+nominal analyzer reading.</li>
+<li>Climate-related methane slip can influence system optimization
+beyond local pollutant limits.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+Directive (EU) 2024/1785 — amending Directive 2010/75/EU on industrial
+emissions; current EU legal update with 1 July 2026 transposition
+deadline.
+</li>
+<li>
+Commission Implementing Decision (EU) 2021/2326 — Large Combustion Plant
+BAT conclusions, including natural-gas lean-burn engine NOx, CH4 and
+formaldehyde provisions where applicable.
+</li>
+<li>
+Directive (EU) 2015/2193 — Medium Combustion Plant Directive for plants
+from 1 MW to &lt;50 MW thermal input, subject to scope/exemptions and
+national implementation.
+</li>
+<li>
+ISO 8528-6:2023 — Test methods for complete generating sets.
+</li>
+<li>
+W. W. Pulkrabek, Engineering Fundamentals of the Internal Combustion
+Engine.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../12-miller-gas-exchange-turbo-matching/">← Miller Timing, Gas Exchange and Turbo Matching at Nominal 1500 rpm</a><span class="article-count">13 / 23</span><a href="../14-lean-burn-aftertreatment-calibration/">Lean-Burn Gas Engine Aftertreatment Calibration →</a></div></body>
+</html>

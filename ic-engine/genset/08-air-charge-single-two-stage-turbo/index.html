@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Air Charge, Single-/Two-Stage Turbocharging and Charge Cooling</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="Compressor maps, corrected flow/speed, surge/choke, stage matching,
+turbine power and site-cooling calibration" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 8 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Air Charge, Single-/Two-Stage Turbocharging and Charge Cooling
+</h1>
+<p>
+<em>Compressor maps, corrected flow/speed, surge/choke, stage matching,
+turbine power and site-cooling calibration</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#fixed-speed-changes-turbo-calibration" id="toc-fixed-speed-changes-turbo-calibration">1. Fixed speed changes
+turbo calibration</a></li>
+<li><a href="#what-must-be-calibrated" id="toc-what-must-be-calibrated">2. What must be calibrated</a></li>
+<li><a href="#test-cell-procedure" id="toc-test-cell-procedure">3.
+Test-cell procedure</a></li>
+<li><a href="#wastegate-bypass-sweep" id="toc-wastegate-bypass-sweep">4.
+Wastegate / bypass sweep</a></li>
+<li><a href="#trade-off-boost-versus-pumping-loss" id="toc-trade-off-boost-versus-pumping-loss">5. Trade-off — boost versus
+pumping loss</a></li>
+<li><a href="#trade-off-air-excess-versus-turbo-work" id="toc-trade-off-air-excess-versus-turbo-work">6. Trade-off — air
+excess versus turbo work</a></li>
+<li><a href="#trade-off-compressor-efficiency-versus-knock" id="toc-trade-off-compressor-efficiency-versus-knock">7. Trade-off —
+compressor efficiency versus knock</a></li>
+<li><a href="#low-load-problem" id="toc-low-load-problem">8. Low-load
+problem</a></li>
+<li><a href="#ambient-and-altitude-correction" id="toc-ambient-and-altitude-correction">9. Ambient and altitude
+correction</a></li>
+<li><a href="#final-map-selection" id="toc-final-map-selection">10.
+Final map selection</a></li>
+<li><a href="#validation" id="toc-validation">11. Validation</a></li>
+<li><a href="#advanced-charging-architectures-single-stage-and-two-stage-turbocharging" id="toc-advanced-charging-architectures-single-stage-and-two-stage-turbocharging">12.
+Advanced charging architectures: single-stage and two-stage
+turbocharging</a>
+<ul>
+<li><a href="#single-stage-concept" id="toc-single-stage-concept">Single-stage concept</a></li>
+<li><a href="#two-stage-concept" id="toc-two-stage-concept">Two-stage
+concept</a></li>
+</ul></li>
+<li><a href="#why-two-stages-can-help" id="toc-why-two-stages-can-help">13. Why two stages can help</a></li>
+<li><a href="#pressure-ratio-split-calibration" id="toc-pressure-ratio-split-calibration">14. Pressure-ratio split
+calibration</a></li>
+<li><a href="#compressor-bypass-and-low-load-operation" id="toc-compressor-bypass-and-low-load-operation">15. Compressor bypass
+and low-load operation</a></li>
+<li><a href="#charge-air-cooling-is-part-of-the-turbo-calibration" id="toc-charge-air-cooling-is-part-of-the-turbo-calibration">16.
+Charge-air cooling is part of the turbo calibration</a></li>
+<li><a href="#where-gas-is-introduced-is-architecture-specific" id="toc-where-gas-is-introduced-is-architecture-specific">17. Where gas
+is introduced is architecture-specific</a></li>
+<li><a href="#stage-interaction-during-transients" id="toc-stage-interaction-during-transients">18. Stage interaction
+during transients</a></li>
+<li><a href="#compressor-map-calculations" id="toc-compressor-map-calculations">19. Compressor-map
+calculations</a></li>
+<li><a href="#compressor-temperature-rise" id="toc-compressor-temperature-rise">20. Compressor temperature
+rise</a></li>
+<li><a href="#turbo-shaft-power-balance" id="toc-turbo-shaft-power-balance">21. Turbo shaft-power
+balance</a></li>
+<li><a href="#full-calibration-procedure" id="toc-full-calibration-procedure">22. Full calibration
+procedure</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">23.
+Engineering figure</a></li>
+<li><a href="#turbine-side-calibration-and-map-interpretation" id="toc-turbine-side-calibration-and-map-interpretation">24.
+Turbine-side calibration and map interpretation</a></li>
+<li><a href="#what-to-look-for-on-the-turbine-side" id="toc-what-to-look-for-on-the-turbine-side">25. What to look for on
+the turbine side</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">26. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">27. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="fixed-speed-changes-turbo-calibration">1. Fixed speed changes
+turbo calibration</h1>
+<p>Around the nominal 1500-rpm operating point, compressor and turbine
+behavior move mainly with <strong>engine load and gas-path
+state</strong>; actual speed still follows electrical frequency and
+transients.</p>
+<p>The typical path is:</p>
+<pre class="text"><code>low electrical load
+   ↓
+low exhaust flow / low turbo speed
+   ↓
+medium load
+   ↓
+boost builds
+   ↓
+full load
+   ↓
+high compressor flow / high turbine power</code></pre>
+<p>So the calibration axis becomes:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi><mo>→</mo><mi>a</mi><mi>i</mi><mi>r</mi><mspace width="0.222em"></mspace><mi>c</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mo>→</mo><mi>b</mi><mi>o</mi><mi>o</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+load\rightarrow air\ charge\rightarrow boost
+</annotation></semantics></math></p>
+<h1 id="what-must-be-calibrated">2. What must be calibrated</h1>
+<p>At each load point, determine the air-system state that provides:</p>
+<ul>
+<li>enough oxygen for lean combustion;</li>
+<li>acceptable compressor efficiency;</li>
+<li>adequate knock margin;</li>
+<li>acceptable exhaust backpressure;</li>
+<li>safe turbo speed;</li>
+<li>good electrical efficiency.</li>
+</ul>
+<h1 id="test-cell-procedure">3. Test-cell procedure</h1>
+<p>Choose load points such as:</p>
+<pre class="text"><code>10 / 25 / 50 / 75 / 90 / 100%</code></pre>
+<p>At each point stabilize:</p>
+<ul>
+<li>1500 rpm;</li>
+<li>lambda target;</li>
+<li>spark;</li>
+<li>gas quality;</li>
+<li>coolant/oil;</li>
+<li>intake temperature.</li>
+</ul>
+<p>Measure:</p>
+<ul>
+<li>MAF;</li>
+<li>manifold pressure;</li>
+<li>manifold temperature;</li>
+<li>compressor inlet/outlet pressure;</li>
+<li>turbo speed if available;</li>
+<li>exhaust-manifold pressure;</li>
+<li>turbine inlet temperature;</li>
+<li>lambda;</li>
+<li>electrical power;</li>
+<li>fuel flow;</li>
+<li>knock;</li>
+<li>cylinder balance.</li>
+</ul>
+<h1 id="wastegate-bypass-sweep">4. Wastegate / bypass sweep</h1>
+<p>Where the hardware provides turbine bypass or another boost actuator,
+sweep the control gradually.</p>
+<p>The engineer is not searching for maximum boost.</p>
+<p>The objective is:</p>
+<blockquote>
+<p><strong>minimum compressor/turbine effort that still gives the
+required fresh-air charge and combustion margin.</strong></p>
+</blockquote>
+<h1 id="trade-off-boost-versus-pumping-loss">5. Trade-off — boost versus
+pumping loss</h1>
+<p>More turbine work can raise boost.</p>
+<p>But:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>↑</mo></mrow><annotation encoding="application/x-tex">
+p_{exhaust}\uparrow
+</annotation></semantics></math></p>
+<p>can increase pumping work and residual gas.</p>
+<p>A point with slightly less boost can sometimes give better
+<strong>net electrical efficiency</strong>.</p>
+<h1 id="trade-off-air-excess-versus-turbo-work">6. Trade-off — air
+excess versus turbo work</h1>
+<p>A lean-burn gas engine needs air excess.</p>
+<p>Increasing air excess can reduce combustion temperature and NOx.</p>
+<p>But pushing more air requires more compressor work and can:</p>
+<ul>
+<li>increase pumping loss;</li>
+<li>move compressor operation;</li>
+<li>lower exhaust temperature;</li>
+<li>affect methane oxidation aftertreatment.</li>
+</ul>
+<h1 id="trade-off-compressor-efficiency-versus-knock">7. Trade-off —
+compressor efficiency versus knock</h1>
+<p>Low compressor efficiency raises charge temperature.</p>
+<p>Higher charge temperature can reduce knock margin and force spark
+retard.</p>
+<p>So the best turbo point is not always the highest pressure ratio.</p>
+<h1 id="low-load-problem">8. Low-load problem</h1>
+<p>At low load, exhaust energy may be insufficient for strong boost.</p>
+<p>The calibration must still maintain:</p>
+<ul>
+<li>stable lean combustion;</li>
+<li>acceptable mixture distribution;</li>
+<li>acceptable turbo operating margin.</li>
+</ul>
+<p>This is one reason low-load operation can require a different
+air/mixture strategy from full load.</p>
+<h1 id="ambient-and-altitude-correction">9. Ambient and altitude
+correction</h1>
+<p>At altitude:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>s</mi><mi>o</mi><mi>r</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>↓</mo></mrow><annotation encoding="application/x-tex">
+p_{compressor,in}\downarrow
+</annotation></semantics></math></p>
+<p>so the same manifold pressure requires higher compressor pressure
+ratio.</p>
+<p>The controller may need to derate maximum power to preserve
+turbo-speed margin.</p>
+<h1 id="final-map-selection">10. Final map selection</h1>
+<p>At each load point choose the air/turbo state that gives the best
+compromise among:</p>
+<ul>
+<li>electrical efficiency;</li>
+<li>NOx;</li>
+<li>CH4/THC;</li>
+<li>knock;</li>
+<li>EGT;</li>
+<li>turbo speed;</li>
+<li>compressor efficiency;</li>
+<li>exhaust backpressure.</li>
+</ul>
+<h1 id="validation">11. Validation</h1>
+<p>Repeat at:</p>
+<ul>
+<li>hot ambient;</li>
+<li>cold ambient;</li>
+<li>altitude/low inlet pressure;</li>
+<li>degraded intercooler;</li>
+<li>gas-quality extremes;</li>
+<li>load steps;</li>
+<li>sustained 100% load.</li>
+</ul>
+<h1 id="advanced-charging-architectures-single-stage-and-two-stage-turbocharging">12.
+Advanced charging architectures: single-stage and two-stage
+turbocharging</h1>
+<p>Modern large gas engines can use either single-stage or multi-stage
+charging.</p>
+<h2 id="single-stage-concept">Single-stage concept</h2>
+<pre class="text"><code>Ambient air
+   ↓
+Compressor
+   ↓
+Charge-air cooler
+   ↓
+Mixture / throttle system
+   ↓
+Engine</code></pre>
+<p>It is mechanically simpler and can be highly efficient when the
+required pressure ratio fits one compressor stage well.</p>
+<h2 id="two-stage-concept">Two-stage concept</h2>
+<pre class="text"><code>Ambient air
+   ↓
+Low-pressure compressor
+   ↓
+Intercooling
+   ↓
+High-pressure compressor
+   ↓
+Aftercooling / mixture cooling
+   ↓
+Engine</code></pre>
+<p>The total pressure ratio is approximately:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>Π</mi><mrow><mi>L</mi><mi>P</mi></mrow></msub><msub><mi>Π</mi><mrow><mi>H</mi><mi>P</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\Pi_{total}
+=
+\Pi_{LP}\Pi_{HP}
+</annotation></semantics></math></p>
+<p>For a total ratio of 4, a conceptual split might be:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">
+2\times2=4
+</annotation></semantics></math></p>
+<p>rather than forcing one compressor to produce the whole ratio.</p>
+<p>The real optimum is not necessarily an equal split.</p>
+<h1 id="why-two-stages-can-help">13. Why two stages can help</h1>
+<p>Splitting pressure ratio can:</p>
+<ul>
+<li>keep each compressor nearer an efficient region;</li>
+<li>reduce temperature rise per stage with intercooling;</li>
+<li>provide higher overall pressure ratio;</li>
+<li>support high Miller-cycle charge demand.</li>
+</ul>
+<p>But it adds:</p>
+<ul>
+<li>more hardware;</li>
+<li>more pressure losses;</li>
+<li>more thermal interfaces;</li>
+<li>more surge/choke constraints;</li>
+<li>more control complexity.</li>
+</ul>
+<h1 id="pressure-ratio-split-calibration">14. Pressure-ratio split
+calibration</h1>
+<p>Where stage control is available, the engineer can sweep the LP/HP
+contribution at a fixed electrical load.</p>
+<p>Measure:</p>
+<ul>
+<li>stage pressure ratios;</li>
+<li>stage outlet temperatures;</li>
+<li>corrected flow;</li>
+<li>turbo speeds;</li>
+<li>exhaust backpressure;</li>
+<li>electrical efficiency;</li>
+<li>knock;</li>
+<li>cylinder charge.</li>
+</ul>
+<p>The final split should minimize total compressor/turbine penalty
+while preserving surge, speed and temperature margins.</p>
+<h1 id="compressor-bypass-and-low-load-operation">15. Compressor bypass
+and low-load operation</h1>
+<p>Advanced systems may use bypass paths around one compressor stage or
+around the engine air system.</p>
+<p>At low load, forcing all air through a high-pressure-ratio
+architecture can be inefficient.</p>
+<p>A bypass can reduce pumping/compressor losses and improve
+controllability.</p>
+<h1 id="charge-air-cooling-is-part-of-the-turbo-calibration">16.
+Charge-air cooling is part of the turbo calibration</h1>
+<p>Cooling effectiveness changes:</p>
+<ul>
+<li>manifold density;</li>
+<li>knock margin;</li>
+<li>required pressure ratio;</li>
+<li>combustion temperature.</li>
+</ul>
+<p>Therefore a turbo map validated with an ideal cold test-cell water
+circuit may not be valid under hot site cooling conditions.</p>
+<p>The turbo calibration must be repeated or corrected across the real
+low-temperature cooling envelope.</p>
+<h1 id="where-gas-is-introduced-is-architecture-specific">17. Where gas
+is introduced is architecture-specific</h1>
+<p>The fuel-mixing location changes the air-system problem.</p>
+<p>Possible concepts include:</p>
+<pre class="text"><code>Air compressed first
+      ↓
+gas added downstream</code></pre>
+<p>or architectures where an air-gas mixture passes through a larger
+portion of the charging path.</p>
+<p>The choice influences:</p>
+<ul>
+<li>compressor working fluid;</li>
+<li>density and corrected-flow interpretation;</li>
+<li>intake-volume dynamics;</li>
+<li>mixture homogeneity;</li>
+<li>backfire/explosion-risk design;</li>
+<li>transient fuel transport.</li>
+</ul>
+<p>Therefore compressor maps and manifold-volume models should always be
+interpreted using the actual project’s mixture architecture.</p>
+<h1 id="stage-interaction-during-transients">18. Stage interaction
+during transients</h1>
+<p>In a two-stage system, the LP and HP stages do not accelerate
+identically.</p>
+<p>During a rapid load increase, monitor:</p>
+<ul>
+<li>LP turbo speed;</li>
+<li>HP turbo speed;</li>
+<li>interstage pressure;</li>
+<li>interstage temperature;</li>
+<li>final manifold pressure.</li>
+</ul>
+<p>A controller that achieves the correct final boost can still
+momentarily push one stage too close to surge or overspeed.</p>
+<h1 id="compressor-map-calculations">19. Compressor-map
+calculations</h1>
+<p>Compressor pressure ratio is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>c</mi></msub><mo>=</mo><mfrac><msub><mi>p</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>a</mi><mi>b</mi><mi>s</mi></mrow></msub><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mo>,</mo><mi>a</mi><mi>b</mi><mi>s</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+\Pi_c
+=
+\frac{p_{out,abs}}
+{p_{in,abs}}
+</annotation></semantics></math></p>
+<p>Corrected flow and corrected speed are used so map position can be
+compared across inlet conditions. The exact supplier convention must be
+followed.</p>
+<p>A common conceptual form is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mi>o</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><mover><mi>m</mi><mo accent="true">̇</mo></mover><mfrac><msqrt><mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></msqrt><mrow><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>p</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\dot m_{corr}
+=
+\dot m
+\frac{\sqrt{T_{in}/T_{ref}}}
+{p_{in}/p_{ref}}
+</annotation></semantics></math></p>
+<p>and:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mrow><mi>c</mi><mi>o</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><mi>N</mi><msqrt><mfrac><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mfrac></msqrt></mrow><annotation encoding="application/x-tex">
+N_{corr}
+=
+N
+\sqrt{\frac{T_{ref}}{T_{in}}}
+</annotation></semantics></math></p>
+<h1 id="compressor-temperature-rise">20. Compressor temperature
+rise</h1>
+<p>For a compressor efficiency estimate:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><msubsup><mi>Π</mi><mi>c</mi><mrow><mrow><mo form="prefix" stretchy="true">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="true">)</mo></mrow><mi>/</mi><mi>γ</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">
+T_{out,s}
+=
+T_{in}\Pi_c^{(\gamma-1)/\gamma}
+</annotation></semantics></math></p>
+<p>and:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>c</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><mrow><msub><mi>T</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_c
+=
+\frac{T_{out,s}-T_{in}}
+{T_{out}-T_{in}}
+</annotation></semantics></math></p>
+<p>with consistent absolute temperatures.</p>
+<h1 id="turbo-shaft-power-balance">21. Turbo shaft-power balance</h1>
+<p>A simplified dynamic balance is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>−</mo><msub><mi>P</mi><mi>c</mi></msub><mo>−</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>e</mi><mi>c</mi><mi>h</mi></mrow></msub><mo>=</mo><msub><mi>J</mi><mi>t</mi></msub><msub><mi>ω</mi><mi>t</mi></msub><mfrac><mrow><mi>d</mi><msub><mi>ω</mi><mi>t</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+P_t-P_c-P_{mech}
+=
+J_t\omega_t\frac{d\omega_t}{dt}
+</annotation></semantics></math></p>
+<p>At steady turbo speed:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>≈</mo><msub><mi>P</mi><mi>c</mi></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>e</mi><mi>c</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+P_t\approx P_c+P_{mech}
+</annotation></semantics></math></p>
+<p>This explains why higher boost demand normally requires more turbine
+work and can increase exhaust backpressure.</p>
+<h1 id="full-calibration-procedure">22. Full calibration procedure</h1>
+<p>At 25/50/75/100% load:</p>
+<ol type="1">
+<li>calculate compressor pressure ratio;</li>
+<li>place measured corrected flow and speed on the supplier map;</li>
+<li>identify efficiency island;</li>
+<li>quantify surge margin;</li>
+<li>quantify turbo-speed margin;</li>
+<li>measure exhaust backpressure;</li>
+<li>calculate/estimate compressor outlet temperature;</li>
+<li>evaluate electrical efficiency and knock.</li>
+</ol>
+<h1 id="engineering-figure">23. Compressor-map interpretation</h1>
+<figure class="figure-card">
+<svg aria-label="Illustrative compressor map with genset load points" role="img" viewbox="0 0 820 460">
+<rect fill="white" height="460" width="820"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="390" y2="390"></line>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="390" y2="55"></line>
+<text fill="#17324a" font-size="17" x="590" y="430">Corrected mass
+flow</text>
+<text fill="#17324a" font-size="17" transform="rotate(-90 25,85)" x="25" y="85">Pressure
+ratio</text>
+<path d="M150 350 C130 280,135 210,175 120" fill="none" stroke="#17324a" stroke-width="3"></path>
+<text fill="#17324a" font-size="14" x="112" y="110">surge line</text>
+<path d="M185 330 C280 250,420 220,650 250" fill="none" stroke="#9bb5c9" stroke-width="2"></path>
+<path d="M205 350 C315 270,480 250,705 300" fill="none" stroke="#9bb5c9" stroke-width="2"></path>
+<path d="M225 365 C350 305,535 300,725 340" fill="none" stroke="#9bb5c9" stroke-width="2"></path>
+<text fill="#61717f" font-size="13" x="665" y="250">speed lines</text>
+<ellipse cx="430" cy="255" fill="none" rx="170" ry="90" stroke="#c7d7e4" stroke-width="2"></ellipse>
+<ellipse cx="430" cy="255" fill="none" rx="115" ry="58" stroke="#c7d7e4" stroke-width="2"></ellipse>
+<text fill="#61717f" font-size="14" x="390" y="250">higher ηc</text>
+<g fill="#17324a">
+<circle cx="230" cy="338" r="7"></circle><circle cx="330" cy="303" r="7"></circle><circle cx="455" cy="266" r="7"></circle><circle cx="590" cy="255" r="7"></circle>
+</g>
+<text font-size="13" x="205" y="360">25%</text><text font-size="13" x="305" y="325">50%</text>
+<text font-size="13" x="430" y="288">75%</text><text font-size="13" x="565" y="277">100%</text>
+<text fill="#61717f" font-size="14" x="690" y="370">choke / high-flow
+region →</text>
+</svg>
+<figcaption>
+Illustrative nominal-speed load path on a compressor map. Real
+calibration uses supplier compressor maps, corrected flow/speed
+definitions, measured turbo speed and validated surge/choke margin.
+</figcaption>
+</figure>
+<h1 id="turbine-side-calibration-and-map-interpretation">24.
+Turbine-side calibration and map interpretation</h1>
+<p>The compressor cannot be calibrated correctly without understanding
+the turbine that supplies its shaft power.</p>
+<p>A simple turbine expansion ratio can be written as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Π</mi><mi>t</mi></msub><mo>=</mo><mfrac><msub><mi>p</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><msub><mi>p</mi><mrow><mi>t</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+\Pi_t
+=
+\frac{p_{t,in}}{p_{t,out}}
+</annotation></semantics></math></p>
+<p>using absolute pressure. Supplier maps can use total-to-total,
+total-to-static or other defined conventions, so the project must use
+the map supplier’s exact pressure basis.</p>
+<p>A first-law interpretation of actual turbine power is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>≈</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><msub><mi>c</mi><mi>p</mi></msub><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+P_t
+\approx
+\dot m_{exh}c_p
+\left(
+T_{t,in}-T_{t,out}
+\right)
+</annotation></semantics></math></p>
+<p>when a suitable mean
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>p</mi></msub><annotation encoding="application/x-tex">c_p</annotation></semantics></math>
+is used.</p>
+<p>Turbine isentropic efficiency can be expressed conceptually as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>t</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><mrow><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>s</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\eta_t
+=
+\frac{T_{t,in}-T_{t,out}}
+{T_{t,in}-T_{t,out,s}}
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>o</mi><mi>u</mi><mi>t</mi><mo>,</mo><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">T_{t,out,s}</annotation></semantics></math>
+is the ideal isentropic outlet temperature for the same pressure
+ratio.</p>
+<p>Supplier turbine maps can also use corrected flow and corrected
+speed. A common conceptual form is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>t</mi><mo>,</mo><mi>c</mi><mi>o</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mi>t</mi></msub><mfrac><msqrt><mrow><msub><mi>T</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></msqrt><mrow><msub><mi>p</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>p</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\dot m_{t,corr}
+=
+\dot m_t
+\frac{\sqrt{T_{t,in}/T_{ref}}}
+{p_{t,in}/p_{ref}}
+</annotation></semantics></math></p>
+<p>but the actual normalization convention must come from the
+supplier.</p>
+<h1 id="what-to-look-for-on-the-turbine-side">25. What to look for on
+the turbine side</h1>
+<p>At each load point monitor:</p>
+<ul>
+<li>turbine inlet/outlet absolute pressure;</li>
+<li>turbine inlet/outlet temperature;</li>
+<li>corrected turbine flow;</li>
+<li>turbo speed;</li>
+<li>wastegate / bypass position where fitted;</li>
+<li>exhaust-manifold pressure.</li>
+</ul>
+<p>The trade-off is:</p>
+<pre class="text"><code>More turbine expansion
+        ↓
+more compressor shaft power
+
+BUT
+
+exhaust manifold pressure can increase
+        ↓
+PMEP / residual fraction can increase
+        ↓
+engine brake efficiency can fall</code></pre>
+<p>For a two-stage charging system, both turbine stages should be
+checked independently, not only the final boost pressure.</p>
+<h1 id="common-mistakes">26. Common mistakes</h1>
+<ul>
+<li>Using gauge pressure in a pressure-ratio calculation.</li>
+<li>Plotting uncorrected flow on a corrected-flow map.</li>
+<li>Calibrating only manifold pressure and ignoring compressor map
+position.</li>
+<li>Looking only at final boost in a two-stage system.</li>
+<li>Ignoring charge-cooler site-water temperature.</li>
+</ul>
+<h1 id="key-lessons">27. Key lessons</h1>
+<ol type="1">
+<li>Boost pressure is not the calibration objective; fresh-air charge
+and system efficiency are.</li>
+<li>Compressor maps require corrected quantities and absolute pressure
+ratio.</li>
+<li>Two-stage systems need stage-specific transient monitoring.</li>
+<li>Turbine backpressure is part of the engine efficiency
+trade-off.</li>
+<li>Site cooling and gas-mixing architecture change the real operating
+map.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+Wärtsilä 46TS-SG current product documentation — current commercial
+example of a large lean-burn gas engine using two-stage turbocharging;
+cited only as evidence of technology relevance.
+</li>
+<li>
+ISO 8528-2:2018 — Engines; principal characteristics and speed-governing
+terminology for generating-set applications.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+<li>
+W. W. Pulkrabek, Engineering Fundamentals of the Internal Combustion
+Engine.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../07-natural-gas-process-safety/">← Natural-Gas Process Safety, Ventilation, Purging and Hazardous Areas</a><span class="article-count">8 / 23</span><a href="../09-lean-burn-closed-loop-mixture-control/">Lean-Burn Lambda, Efficiency and Closed-Loop Mixture Control →</a></div></body>
+</html>

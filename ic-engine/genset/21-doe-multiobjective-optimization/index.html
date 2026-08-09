@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Design of Experiments and Multi-Objective Calibration</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="Replication, blocking, interactions, response surfaces, Pareto
+trade-offs and robust production-optimum selection" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 21 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Design of Experiments and Multi-Objective Calibration
+</h1>
+<p>
+<em>Replication, blocking, interactions, response surfaces, Pareto
+trade-offs and robust production-optimum selection</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-one-factor-at-a-time-sweeps-are-not-enough" id="toc-why-one-factor-at-a-time-sweeps-are-not-enough">1. Why
+one-factor-at-a-time sweeps are not enough</a></li>
+<li><a href="#interaction-example-lambda-spark" id="toc-interaction-example-lambda-spark">2. Interaction example: lambda
+× spark</a></li>
+<li><a href="#design-of-experiments" id="toc-design-of-experiments">3.
+Design of Experiments</a></li>
+<li><a href="#screening-stage" id="toc-screening-stage">4. Screening
+stage</a></li>
+<li><a href="#response-surface-stage" id="toc-response-surface-stage">5.
+Response-surface stage</a></li>
+<li><a href="#constraints" id="toc-constraints">6. Constraints</a></li>
+<li><a href="#pareto-trade-off" id="toc-pareto-trade-off">7. Pareto
+trade-off</a></li>
+<li><a href="#doe-does-not-replace-engineering-physics" id="toc-doe-does-not-replace-engineering-physics">8. DoE does not
+replace engineering physics</a></li>
+<li><a href="#sequential-calibration-strategy" id="toc-sequential-calibration-strategy">9. Sequential calibration
+strategy</a></li>
+<li><a href="#robust-optimization" id="toc-robust-optimization">10.
+Robust optimization</a></li>
+<li><a href="#map-building" id="toc-map-building">11. Map
+building</a></li>
+<li><a href="#test-efficiency" id="toc-test-efficiency">12. Test
+efficiency</a></li>
+<li><a href="#replication" id="toc-replication">13. Replication</a></li>
+<li><a href="#randomization" id="toc-randomization">14.
+Randomization</a></li>
+<li><a href="#blocking" id="toc-blocking">15. Blocking</a></li>
+<li><a href="#center-points" id="toc-center-points">16. Center
+points</a></li>
+<li><a href="#model-validation" id="toc-model-validation">17. Model
+validation</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">18.
+Engineering figure</a></li>
+<li><a href="#restricted-randomization-and-split-plot-thinking-for-large-engines" id="toc-restricted-randomization-and-split-plot-thinking-for-large-engines">19.
+Restricted randomization and split-plot thinking for large
+engines</a></li>
+<li><a href="#doe-reference-discipline" id="toc-doe-reference-discipline">20. DoE reference discipline</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">21. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">22. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="why-one-factor-at-a-time-sweeps-are-not-enough">1. Why
+one-factor-at-a-time sweeps are not enough</h1>
+<p>Single-variable sweeps are excellent for learning physics:</p>
+<pre class="text"><code>Hold everything constant
+        ↓
+change lambda
+        ↓
+observe response</code></pre>
+<p>But real calibration variables interact.</p>
+<p>For example:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>e</mi><mi>l</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>λ</mi><mo>,</mo><msub><mi>θ</mi><mrow><mi>s</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>k</mi></mrow></msub><mo>,</mo><msub><mi>p</mi><mrow><mi>b</mi><mi>o</mi><mi>o</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>,</mo><msub><mi>m</mi><mrow><mi>P</mi><mi>C</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>,</mo><mi>g</mi><mi>a</mi><mi>s</mi><mspace width="0.222em"></mspace><mi>q</mi><mi>u</mi><mi>a</mi><mi>l</mi><mi>i</mi><mi>t</mi><mi>y</mi><mo>,</mo><mi>…</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\eta_{el}
+=
+f(\lambda,\theta_{spark},p_{boost},m_{PC},T_{intake},gas\ quality,\ldots)
+</annotation></semantics></math></p>
+<p>The best spark can change when lambda changes.</p>
+<p>The best boost can change when Miller timing changes.</p>
+<p>The best prechamber fuel can change when main lambda changes.</p>
+<h1 id="interaction-example-lambda-spark">2. Interaction example: lambda
+× spark</h1>
+<p>If lambda becomes leaner:</p>
+<pre class="text"><code>burn duration ↑
+   ↓
+best spark normally moves</code></pre>
+<p>A lambda sweep performed at one fixed spark does not show the true
+best efficiency available at each lambda.</p>
+<p>This is an interaction.</p>
+<h1 id="design-of-experiments">3. Design of Experiments</h1>
+<p>A DoE deliberately varies multiple factors in a structured way.</p>
+<p>Typical goals:</p>
+<ul>
+<li>identify important factors;</li>
+<li>estimate interactions;</li>
+<li>build a response-surface model;</li>
+<li>reduce test hours.</li>
+</ul>
+<h1 id="screening-stage">4. Screening stage</h1>
+<p>When many variables exist, first determine which ones matter
+most.</p>
+<p>Possible factors:</p>
+<ul>
+<li>lambda;</li>
+<li>spark;</li>
+<li>boost target;</li>
+<li>prechamber fuel;</li>
+<li>charge-air temperature;</li>
+<li>gas quality.</li>
+</ul>
+<p>Responses:</p>
+<ul>
+<li>electrical efficiency;</li>
+<li>NOx;</li>
+<li>CH4;</li>
+<li>Pmax;</li>
+<li>COVIMEP;</li>
+<li>EGT.</li>
+</ul>
+<h1 id="response-surface-stage">5. Response-surface stage</h1>
+<p>After screening, focus on the important variables.</p>
+<p>Build a model such as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>12</mn></msub><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>11</mn></msub><msubsup><mi>x</mi><mn>1</mn><mn>2</mn></msubsup><mo>+</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">
+y
+=
+\beta_0
++
+\beta_1x_1
++
+\beta_2x_2
++
+\beta_{12}x_1x_2
++
+\beta_{11}x_1^2
++\ldots
+</annotation></semantics></math></p>
+<p>The purpose is not the polynomial itself.</p>
+<p>The purpose is to predict the operating region between measured test
+points.</p>
+<h1 id="constraints">6. Constraints</h1>
+<p>Optimization should include hard or soft constraints.</p>
+<p>Example:</p>
+<pre class="text"><code>Maximize electrical efficiency
+
+subject to:
+NOx ≤ target
+CH4 ≤ target
+Pmax ≤ limit
+COVIMEP ≤ stability limit
+Turbo speed ≤ limit
+EGT ≤ limit</code></pre>
+<p>This is much closer to real calibration than “find the maximum
+efficiency point.”</p>
+<h1 id="pareto-trade-off">7. Pareto trade-off</h1>
+<p>Sometimes no single point is best for all objectives.</p>
+<p>A Pareto front contains points where one objective cannot improve
+without another getting worse.</p>
+<p>Example:</p>
+<pre class="text"><code>Point A:
+best efficiency, higher NOx
+
+Point B:
+slightly lower efficiency, much lower NOx
+
+Point C:
+lowest NOx, CH4 begins rising</code></pre>
+<p>The calibration engineer then selects the point that best fits
+program priorities.</p>
+<h1 id="doe-does-not-replace-engineering-physics">8. DoE does not
+replace engineering physics</h1>
+<p>A mathematically good surface can still be physically wrong if:</p>
+<ul>
+<li>sensors drift;</li>
+<li>factors cross unsafe boundaries;</li>
+<li>the model extrapolates beyond tested space;</li>
+<li>the test plan ignores known combustion constraints.</li>
+</ul>
+<p>Use DoE to organize experiments, not to replace engine
+understanding.</p>
+<h1 id="sequential-calibration-strategy">9. Sequential calibration
+strategy</h1>
+<p>A practical workflow is:</p>
+<pre class="text"><code>Physics understanding
+    ↓
+safe factor ranges
+    ↓
+screening DoE
+    ↓
+response surface
+    ↓
+constrained optimization
+    ↓
+candidate optimum
+    ↓
+repeat verification point
+    ↓
+off-grid validation</code></pre>
+<h1 id="robust-optimization">10. Robust optimization</h1>
+<p>The best nominal point may be too sensitive to variation.</p>
+<p>Compare:</p>
+<pre class="text"><code>Point A:
+45.4% efficiency
+very close to misfire boundary
+
+Point B:
+45.3% efficiency
+large stability margin</code></pre>
+<p>Point B can be the better production calibration.</p>
+<p>Robust optimization includes sensitivity to:</p>
+<ul>
+<li>gas composition;</li>
+<li>ambient temperature;</li>
+<li>production hardware spread;</li>
+<li>sensor error.</li>
+</ul>
+<h1 id="map-building">11. Map building</h1>
+<p>Once optimum targets are found at key loads:</p>
+<ol type="1">
+<li>fit/smooth the load-based map;</li>
+<li>preserve real physical trends;</li>
+<li>prevent unphysical interpolation;</li>
+<li>validate intermediate loads;</li>
+<li>validate transients.</li>
+</ol>
+<p>Do not smooth away real gas-dynamic or combustion structure merely to
+make a map look attractive.</p>
+<h1 id="test-efficiency">12. Test efficiency</h1>
+<p>A well-designed DoE can reduce test hours compared with dense
+independent sweeps.</p>
+<p>That matters because high-load multi-megawatt testing consumes:</p>
+<ul>
+<li>fuel;</li>
+<li>test-cell time;</li>
+<li>hardware life;</li>
+<li>engineering time.</li>
+</ul>
+<h1 id="replication">13. Replication</h1>
+<p>Repeat selected points to estimate test repeatability.</p>
+<p>Without replication, the model can confuse measurement noise with
+real response.</p>
+<h1 id="randomization">14. Randomization</h1>
+<p>Where practical and safe, vary run order so slow drift does not align
+perfectly with one factor.</p>
+<p>For a large thermal engine, complete randomization may be
+inefficient; use engineering judgement.</p>
+<h1 id="blocking">15. Blocking</h1>
+<p>Use blocks for known nuisance changes such as:</p>
+<ul>
+<li>different test day;</li>
+<li>different gas batch;</li>
+<li>different ambient/cooling state.</li>
+</ul>
+<h1 id="center-points">16. Center points</h1>
+<p>Center points help reveal:</p>
+<ul>
+<li>repeatability;</li>
+<li>curvature.</li>
+</ul>
+<h1 id="model-validation">17. Model validation</h1>
+<p>After fitting a response surface:</p>
+<ol type="1">
+<li>inspect residuals;</li>
+<li>check lack-of-fit;</li>
+<li>verify key interaction signs make physical sense;</li>
+<li>run independent confirmation points;</li>
+<li>do not extrapolate beyond the tested domain.</li>
+</ol>
+<h1 id="engineering-figure">18. Pareto trade-off illustration</h1>
+<figure class="figure-card">
+<svg aria-label="Pareto tradeoff between efficiency and NOx" role="img" viewbox="0 0 820 430">
+<rect fill="white" height="430" width="820"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="350" y2="350"></line>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="350" y2="55"></line>
+<text fill="#17324a" font-size="17" x="570" y="397">NOx / constraint
+burden →</text>
+<text fill="#17324a" font-size="17" transform="rotate(-90 24,120)" x="24" y="120">Electrical
+efficiency ↑</text> <g fill="#c7d7e4">
+<circle cx="180" cy="285" r="7"></circle><circle cx="245" cy="245" r="7"></circle><circle cx="310" cy="210" r="7"></circle>
+<circle cx="380" cy="182" r="7"></circle><circle cx="455" cy="165" r="7"></circle><circle cx="540" cy="155" r="7"></circle>
+<circle cx="620" cy="162" r="7"></circle><circle cx="675" cy="190" r="7"></circle> </g>
+<path d="M180 285 C280 220,400 170,540 155" fill="none" stroke="#17324a" stroke-width="3"></path>
+<circle cx="430" cy="170" fill="#5d87ad" r="9"></circle>
+<text fill="#17324a" font-size="14" x="445" y="168">robust selected
+point</text>
+</svg>
+<figcaption>
+Illustrative Pareto concept. The release target is chosen from feasible
+trade-offs and may intentionally sacrifice a tiny nominal efficiency
+gain to obtain more emissions, stability or durability margin.
+</figcaption>
+</figure>
+<h1 id="restricted-randomization-and-split-plot-thinking-for-large-engines">19.
+Restricted randomization and split-plot thinking for large engines</h1>
+<p>A multi-megawatt thermal engine cannot always follow a perfectly
+randomized test order.</p>
+<p>Some factors are <strong>hard to change</strong>, for example:</p>
+<ul>
+<li>fully cold versus fully hot thermal state;</li>
+<li>site cooling-water temperature;</li>
+<li>a new gas composition or gas bottle/batch;</li>
+<li>hardware configuration.</li>
+</ul>
+<p>Other factors are relatively easy to change within a stabilized
+block:</p>
+<ul>
+<li>spark;</li>
+<li>lambda;</li>
+<li>selected boost target;</li>
+<li>small prechamber trims.</li>
+</ul>
+<p>That creates a restricted-randomization problem.</p>
+<p>A useful approach is:</p>
+<pre class="text"><code>Whole-plot / hard-to-change factor:
+gas quality or thermal state
+        ↓
+stabilize one block
+        ↓
+randomize easy-to-change calibration factors inside that block</code></pre>
+<p>This is the intuition behind split-plot or other
+restricted-randomization designs.</p>
+<p>The statistical model and error structure must reflect that
+hierarchy; otherwise the analysis can overstate the significance of
+hard-to-change factors.</p>
+<h1 id="doe-reference-discipline">20. DoE reference discipline</h1>
+<p>A calibration DoE should document:</p>
+<ul>
+<li>factor coding and units;</li>
+<li>randomization restrictions;</li>
+<li>blocks;</li>
+<li>replicate strategy;</li>
+<li>center points;</li>
+<li>response transformations;</li>
+<li>model terms retained;</li>
+<li>residual checks;</li>
+<li>lack-of-fit;</li>
+<li>independent confirmation points.</li>
+</ul>
+<p>This makes the statistical result auditable instead of treating the
+optimization package as a black box.</p>
+<h1 id="common-mistakes">21. Common mistakes</h1>
+<ul>
+<li>Treating a fitted polynomial as engine physics.</li>
+<li>Running a DoE with factor ranges that cross unsafe regions.</li>
+<li>Omitting replication.</li>
+<li>Accepting a mathematical optimum without a confirmation run.</li>
+<li>Smoothing a response surface until a real physical boundary
+disappears.</li>
+</ul>
+<h1 id="key-lessons">22. Key lessons</h1>
+<ol type="1">
+<li>DoE is a structured way to learn interactions, not a substitute for
+engine understanding.</li>
+<li>Replication, blocking and model validation are part of a defensible
+experiment.</li>
+<li>Pareto trade-offs make multi-objective decisions explicit.</li>
+<li>Robust targets can be better than fragile nominal maxima.</li>
+<li>Every optimum needs independent verification.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+NIST/SEMATECH e-Handbook of Statistical Methods — Design of Experiments
+sections covering randomized/blocked designs, screening,
+response-surface methods, center points and constrained/non-classical
+design situations.
+</li>
+<li>
+ISO 8528-6:2023 — Test methods for complete generating sets.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../20-cooling-lubrication-auxiliary-systems/">← Cooling, Lubrication and Auxiliary Systems as Calibration Boundaries</a><span class="article-count">21 / 23</span><a href="../22-complete-genset-calibration-validation-strategy/">Complete CNG Genset Calibration, Validation and Release Strategy →</a></div></body>
+</html>

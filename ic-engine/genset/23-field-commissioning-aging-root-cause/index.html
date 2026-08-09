@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Field Commissioning, Aging and Root-Cause Diagnosis</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="How to separate installation, hardware and calibration problems
+after the development cell—and how to revalidate after component or site
+changes" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 23 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Field Commissioning, Aging and Root-Cause Diagnosis
+</h1>
+<p>
+<em>How to separate installation, hardware and calibration problems
+after the development cell—and how to revalidate after component or site
+changes</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-factory-calibration-is-not-the-end-of-the-engineering-problem" id="toc-why-factory-calibration-is-not-the-end-of-the-engineering-problem">1.
+Why factory calibration is not the end of the engineering
+problem</a></li>
+<li><a href="#factory-calibration-versus-site-commissioning" id="toc-factory-calibration-versus-site-commissioning">2. Factory
+calibration versus site commissioning</a></li>
+<li><a href="#commissioning-baseline" id="toc-commissioning-baseline">3.
+Commissioning baseline</a></li>
+<li><a href="#first-power-ramp" id="toc-first-power-ramp">4. First power
+ramp</a></li>
+<li><a href="#when-site-performance-is-lower-than-factory-expectation" id="toc-when-site-performance-is-lower-than-factory-expectation">5. When
+site performance is lower than factory expectation</a></li>
+<li><a href="#case-study-1-rated-power-not-achieved" id="toc-case-study-1-rated-power-not-achieved">6. Case study 1 — rated
+power not achieved</a></li>
+<li><a href="#case-study-2-one-cylinder-high-ch4-instability" id="toc-case-study-2-one-cylinder-high-ch4-instability">7. Case study 2
+— one cylinder high CH4 / instability</a></li>
+<li><a href="#case-study-3-current-limit-before-engine-rated-power" id="toc-case-study-3-current-limit-before-engine-rated-power">8. Case
+study 3 — current limit before engine rated power</a></li>
+<li><a href="#aging-and-service-changes" id="toc-aging-and-service-changes">9. Aging and service changes</a></li>
+<li><a href="#component-replacement" id="toc-component-replacement">10.
+Component replacement</a>
+<ul>
+<li><a href="#turbocharger-replacement" id="toc-turbocharger-replacement">Turbocharger replacement</a></li>
+<li><a href="#prechamber-component-replacement" id="toc-prechamber-component-replacement">Prechamber component
+replacement</a></li>
+<li><a href="#generator-work" id="toc-generator-work">Generator
+work</a></li>
+</ul></li>
+<li><a href="#field-recalibration" id="toc-field-recalibration">11.
+Field recalibration</a></li>
+<li><a href="#root-cause-discipline" id="toc-root-cause-discipline">12.
+Root-cause discipline</a></li>
+<li><a href="#site-commissioning-of-a-high-pressure-cng-supply" id="toc-site-commissioning-of-a-high-pressure-cng-supply">13. Site
+commissioning of a high-pressure CNG supply</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">14. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">15. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="why-factory-calibration-is-not-the-end-of-the-engineering-problem">1.
+Why factory calibration is not the end of the engineering problem</h1>
+<p>A calibration can be correct in a development cell and still fail to
+deliver the expected result at site because the installed system has
+different:</p>
+<ul>
+<li>gas quality;</li>
+<li>cooling water;</li>
+<li>ventilation;</li>
+<li>exhaust backpressure;</li>
+<li>generator/grid condition;</li>
+<li>sensor installation;</li>
+<li>aging state.</li>
+</ul>
+<p>Field commissioning verifies the <strong>complete
+installation</strong>.</p>
+<h1 id="factory-calibration-versus-site-commissioning">2. Factory
+calibration versus site commissioning</h1>
+<p>Factory calibration defines the approved engine/system behavior.</p>
+<p>Site commissioning verifies that the installation provides the
+expected boundary conditions.</p>
+<p>The normal approach should be:</p>
+<blockquote>
+<p>do not create a new site-specific base calibration simply to hide an
+installation problem.</p>
+</blockquote>
+<h1 id="commissioning-baseline">3. Commissioning baseline</h1>
+<p>Record:</p>
+<ul>
+<li>hardware/software/calibration version;</li>
+<li>generator configuration;</li>
+<li>gas analysis;</li>
+<li>ambient conditions;</li>
+<li>cooling inlet temperatures/flows;</li>
+<li>exhaust backpressure;</li>
+<li>electrical P/Q/PF;</li>
+<li>emissions basis;</li>
+<li>protection status.</li>
+</ul>
+<h1 id="first-power-ramp">4. First power ramp</h1>
+<p>Increase load in controlled steps.</p>
+<p>At each load verify:</p>
+<ul>
+<li>gas pressure;</li>
+<li>lambda;</li>
+<li>turbo speeds/pressures;</li>
+<li>knock/Pmax;</li>
+<li>electrical efficiency;</li>
+<li>generator temperatures/current;</li>
+<li>emissions;</li>
+<li>cooling temperatures.</li>
+</ul>
+<h1 id="when-site-performance-is-lower-than-factory-expectation">5. When
+site performance is lower than factory expectation</h1>
+<p>Use a structured decomposition:</p>
+<pre class="text"><code>Electrical power low
+   ↓
+Is engine shaft capability low?
+   ↓
+Is generator loss/capability limiting?
+   ↓
+Is gas energy/flow limiting?
+   ↓
+Is air/turbo/cooling limiting?
+   ↓
+Is knock/thermal derate active?</code></pre>
+<h1 id="case-study-1-rated-power-not-achieved">6. Case study 1 — rated
+power not achieved</h1>
+<p>Observed:</p>
+<pre class="text"><code>gas command near maximum
+lambda correct
+boost lower than reference
+compressor inlet temperature high</code></pre>
+<p>Likely investigation:</p>
+<ul>
+<li>site ventilation;</li>
+<li>charge-cooling water;</li>
+<li>compressor inlet restriction;</li>
+<li>ambient correction;</li>
+<li>turbo margin.</li>
+</ul>
+<p>Do not immediately add fuel.</p>
+<h1 id="case-study-2-one-cylinder-high-ch4-instability">7. Case study 2
+— one cylinder high CH4 / instability</h1>
+<p>Observed:</p>
+<pre class="text"><code>average lambda normal
+one cylinder COVIMEP high
+that cylinder EGT low</code></pre>
+<p>Investigate:</p>
+<ul>
+<li>main gas distribution;</li>
+<li>prechamber gas path;</li>
+<li>ignition system;</li>
+<li>compression/valves;</li>
+<li>local air/residual distribution.</li>
+</ul>
+<p>Do not immediately enrich the complete engine.</p>
+<h1 id="case-study-3-current-limit-before-engine-rated-power">8. Case
+study 3 — current limit before engine rated power</h1>
+<p>Observed:</p>
+<pre class="text"><code>engine torque margin available
+generator stator current at limit
+reactive power high</code></pre>
+<p>This is primarily an electrical capability problem, not a combustion
+calibration problem.</p>
+<h1 id="aging-and-service-changes">9. Aging and service changes</h1>
+<p>Performance can drift due to:</p>
+<ul>
+<li>turbo fouling;</li>
+<li>charge-cooler fouling;</li>
+<li>prechamber deposits;</li>
+<li>spark/ignition aging;</li>
+<li>catalyst aging;</li>
+<li>sensor drift;</li>
+<li>valve/compression wear.</li>
+</ul>
+<p>The response should separate:</p>
+<pre class="text"><code>maintenance need
+from
+calibration adaptation</code></pre>
+<h1 id="component-replacement">10. Component replacement</h1>
+<p>After replacing a critical component, define which checks are
+required.</p>
+<p>Examples:</p>
+<h3 id="turbocharger-replacement">Turbocharger replacement</h3>
+<ul>
+<li>boost/pressure ratio;</li>
+<li>turbo speed;</li>
+<li>wastegate/bypass control;</li>
+<li>exhaust backpressure.</li>
+</ul>
+<h3 id="prechamber-component-replacement">Prechamber component
+replacement</h3>
+<ul>
+<li>cylinder balance;</li>
+<li>CA50;</li>
+<li>stability;</li>
+<li>knock.</li>
+</ul>
+<h3 id="generator-work">Generator work</h3>
+<ul>
+<li>electrical loss/capability validation where applicable;</li>
+<li>synchronization and protection checks.</li>
+</ul>
+<h1 id="field-recalibration">11. Field recalibration</h1>
+<p>Field adaptation can be appropriate when the approved architecture
+explicitly includes:</p>
+<ul>
+<li>fuel-quality adaptation;</li>
+<li>cylinder trims;</li>
+<li>sensor offsets;</li>
+<li>site derating.</li>
+</ul>
+<p>It should not become uncontrolled local editing of base maps.</p>
+<h1 id="root-cause-discipline">12. Root-cause discipline</h1>
+<p>Use the sequence:</p>
+<pre class="text"><code>Define symptom
+   ↓
+Check measurement validity
+   ↓
+Identify active limiter/controller
+   ↓
+Separate installation vs hardware vs calibration
+   ↓
+Run targeted test
+   ↓
+Correct root cause
+   ↓
+Re-validate affected release evidence</code></pre>
+<h1 id="site-commissioning-of-a-high-pressure-cng-supply">13. Site
+commissioning of a high-pressure CNG supply</h1>
+<p>Where the plant is supplied from CNG storage/trailers rather than a
+pipeline header, add to the site baseline:</p>
+<ul>
+<li>initial and minimum expected storage pressure;</li>
+<li>pressure-reduction-stage inlet/outlet pressures;</li>
+<li>gas temperature after pressure reduction;</li>
+<li>regulator/heater state;</li>
+<li>storage switching/cascade logic;</li>
+<li>maximum fuel-flow margin at rated load.</li>
+</ul>
+<p>A plant can have an engine calibration that is correct while the
+<strong>upstream CNG pressure-reduction system</strong> is unable to
+maintain the required engine-inlet condition at low storage
+pressure.</p>
+<h1 id="common-mistakes">14. Common mistakes</h1>
+<ul>
+<li>Recalibrating around a blocked cooler.</li>
+<li>Changing base spark to hide poor gas quality.</li>
+<li>Enriching the whole engine for one weak cylinder.</li>
+<li>Ignoring generator P-Q limits.</li>
+<li>Accepting site data without traceable configuration.</li>
+</ul>
+<h1 id="key-lessons">15. Key lessons</h1>
+<ol type="1">
+<li>Commissioning validates the installation; it is not permission to
+bypass the released calibration concept.</li>
+<li>Root-cause diagnosis begins with measurement validity and active
+system limits.</li>
+<li>Maintenance faults and calibration faults must be separated.</li>
+<li>Component changes require defined revalidation.</li>
+<li>Lead engineers protect configuration and evidence across factory,
+site and service life.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+ISO 8528-5:2025 — Generating sets; design and performance criteria.
+</li>
+<li>
+ISO 8528-6:2023 — Test methods for complete generating sets.
+</li>
+<li>
+ISO 8528-13:2026 — Safety requirements for generating sets; does not
+cover special requirements for potentially explosive atmospheres.
+</li>
+<li>
+ISO 15550:2016 — Internal-combustion engine power measurement and
+reference conditions; current in 2026.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../22-complete-genset-calibration-validation-strategy/">← Complete CNG Genset Calibration, Validation and Release Strategy</a><span class="article-count">23 / 23</span><a href="../">Series overview →</a></div></body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Complete CNG Genset Torque and Power Structure</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="How electrical power demand becomes shaft torque, internal torque
+and air/gas/ignition commands without confusing nominal speed or power
+boundaries" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 3 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Complete CNG Genset Torque and Power Structure
+</h1>
+<p>
+<em>How electrical power demand becomes shaft torque, internal torque
+and air/gas/ignition commands without confusing nominal speed or power
+boundaries</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#the-fundamental-difference-from-an-automotive-engine" id="toc-the-fundamental-difference-from-an-automotive-engine">1. The
+fundamental difference from an automotive engine</a></li>
+<li><a href="#the-operating-point-collapses-from-speed-load-to-mainly-load" id="toc-the-operating-point-collapses-from-speed-load-to-mainly-load">2.
+The operating point collapses from speed × load to mainly load</a></li>
+<li><a href="#where-does-the-torque-request-come-from" id="toc-where-does-the-torque-request-come-from">3. Where does the
+torque request come from?</a>
+<ul>
+<li><a href="#grid-parallel-operation" id="toc-grid-parallel-operation">Grid-parallel operation</a></li>
+<li><a href="#island-operation" id="toc-island-operation">Island
+operation</a></li>
+</ul></li>
+<li><a href="#electrical-power-becomes-shaft-torque" id="toc-electrical-power-becomes-shaft-torque">4. Electrical power
+becomes shaft torque</a></li>
+<li><a href="#electrical-power-is-not-exactly-engine-brake-power" id="toc-electrical-power-is-not-exactly-engine-brake-power">5.
+Electrical power is not exactly engine brake power</a></li>
+<li><a href="#engine-losses-must-still-be-added" id="toc-engine-losses-must-still-be-added">6. Engine losses must still
+be added</a></li>
+<li><a href="#a-referencepotential-torque-model-can-be-useful" id="toc-a-referencepotential-torque-model-can-be-useful">7. A
+reference/potential-torque model can be useful</a></li>
+<li><a href="#genset-torque-conversion-chain" id="toc-genset-torque-conversion-chain">8. Genset torque-conversion
+chain</a></li>
+<li><a href="#the-generator-presents-resisting-electromagnetic-torque-to-the-engine" id="toc-the-generator-presents-resisting-electromagnetic-torque-to-the-engine">9.
+The generator presents resisting electromagnetic torque to the
+engine</a></li>
+<li><a href="#active-power-and-reactive-power-must-be-separated" id="toc-active-power-and-reactive-power-must-be-separated">10. Active
+power and reactive power must be separated</a></li>
+<li><a href="#grid-parallel-torque-structure" id="toc-grid-parallel-torque-structure">11. Grid-parallel torque
+structure</a></li>
+<li><a href="#islanded-torque-structure" id="toc-islanded-torque-structure">12. Islanded torque
+structure</a></li>
+<li><a href="#limiters-in-a-cng-genset" id="toc-limiters-in-a-cng-genset">13. Limiters in a CNG genset</a></li>
+<li><a href="#why-this-architecture-is-representative-of-modern-large-gas-engines" id="toc-why-this-architecture-is-representative-of-modern-large-gas-engines">14.
+Why this architecture is representative of modern large gas
+engines</a></li>
+<li><a href="#interactive-1500-rpm-power-to-torque-converter" id="toc-interactive-1500-rpm-power-to-torque-converter">15. Interactive
+1500-rpm power-to-torque converter</a></li>
+<li><a href="#power-boundaries-that-must-be-defined-before-using-the-torque-structure" id="toc-power-boundaries-that-must-be-defined-before-using-the-torque-structure">16.
+Power boundaries that must be defined before using the torque
+structure</a></li>
+<li><a href="#which-limits-should-enter-the-genset-torque-structure" id="toc-which-limits-should-enter-the-genset-torque-structure">17. Which
+limits should enter the genset torque structure?</a></li>
+<li><a href="#using-an-operating-dependent-generator-loss-model-in-the-torque-calculation" id="toc-using-an-operating-dependent-generator-loss-model-in-the-torque-calculation">18.
+Using an operating-dependent generator loss model in the torque
+calculation</a></li>
+<li><a href="#torque-model-architecture-is-not-universal" id="toc-torque-model-architecture-is-not-universal">19. Torque-model
+architecture is not universal</a></li>
+<li><a href="#actual-speed-torque-conversion" id="toc-actual-speed-torque-conversion">20. Actual-speed torque
+conversion</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">21. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">22. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="the-fundamental-difference-from-an-automotive-engine">1. The
+fundamental difference from an automotive engine</h1>
+<p>In an automotive torque structure, the driver presses the pedal and
+the ECU converts pedal position into a torque request.</p>
+<p>A nominally fixed-speed genset is different.</p>
+<p>The engine is mechanically coupled to a generator, and its main job
+is:</p>
+<blockquote>
+<p><strong>Produce exactly enough shaft torque to balance the
+generator’s electromagnetic load while keeping speed/frequency around
+the required operating value.</strong></p>
+</blockquote>
+<p>For a four-pole synchronous generator at 50 Hz:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mn>120</mn><mi>f</mi></mrow><msub><mi>N</mi><mi>p</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mn>120</mn><mo>×</mo><mn>50</mn></mrow><mn>4</mn></mfrac><mo>=</mo><mn>1500</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+n_s=\frac{120f}{N_p}
+=\frac{120\times50}{4}
+=1500\ \mathrm{rpm}
+</annotation></semantics></math></p>
+<p>So speed is not the main operating-axis variable anymore.
+<strong>Load becomes the dominant axis.</strong></p>
+<h1 id="the-operating-point-collapses-from-speed-load-to-mainly-load">2.
+The operating point collapses from speed × load to mainly load</h1>
+<p>An automotive engine may need maps across:</p>
+<pre class="text"><code>1000 → 6000 rpm
+×
+low → full load</code></pre>
+<p>A 50 Hz genset is normally centered around:</p>
+<pre class="text"><code>1500 rpm
+×
+0 → 100% electrical load</code></pre>
+<p>with corrections for:</p>
+<ul>
+<li>ambient pressure;</li>
+<li>intake temperature;</li>
+<li>coolant/oil temperature;</li>
+<li>gas quality;</li>
+<li>generator power factor;</li>
+<li>aging and hardware limits.</li>
+</ul>
+<p>That makes the calibration space narrower in speed but deeper in
+<strong>load, efficiency, emissions and durability
+optimization</strong>.</p>
+<h1 id="where-does-the-torque-request-come-from">3. Where does the
+torque request come from?</h1>
+<p>There are two important operating modes.</p>
+<h2 id="grid-parallel-operation">Grid-parallel operation</h2>
+<p>The grid fixes electrical frequency very tightly.</p>
+<p>The plant/load controller requests <strong>active electrical
+power</strong>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><annotation encoding="application/x-tex">
+P_{elec,req}
+</annotation></semantics></math></p>
+<p>That becomes a required generator shaft power and engine torque.</p>
+<h2 id="island-operation">Island operation</h2>
+<p>There is no strong external grid fixing frequency.</p>
+<p>The speed governor watches:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mrow><mi>t</mi><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>n</mi><mrow><mi>a</mi><mi>c</mi><mi>t</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+n_{target}-n_{actual}
+</annotation></semantics></math></p>
+<p>A load increase creates extra generator electromagnetic torque,
+engine speed begins to fall, and the governor requests more engine
+torque.</p>
+<p>So the request chain becomes:</p>
+<pre class="text"><code>Electrical load increases
+        ↓
+generator resisting torque increases
+        ↓
+engine speed tends to fall
+        ↓
+speed governor requests more engine torque
+        ↓
+air + fuel + spark are increased
+        ↓
+1500 rpm is recovered</code></pre>
+<h1 id="electrical-power-becomes-shaft-torque">4. Electrical power
+becomes shaft torque</h1>
+<p>At a given instantaneous engine speed:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mi>T</mi><mi>ω</mi></mrow><annotation encoding="application/x-tex">
+P=T\omega
+</annotation></semantics></math></p>
+<p>At the nominal 1500-rpm point:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi><mo>×</mo><mn>1500</mn></mrow><mn>60</mn></mfrac><mo>≈</mo><mn>157.1</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">s</mi></mrow></mrow><annotation encoding="application/x-tex">
+\omega=\frac{2\pi\times1500}{60}
+\approx157.1\ \mathrm{rad/s}
+</annotation></semantics></math></p>
+<p>At nominal 1500 rpm, every 1 MW of shaft power corresponds to
+roughly:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≈</mo><mn>6.37</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">k</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T\approx6.37\ \mathrm{kNm}
+</annotation></semantics></math></p>
+<p>This makes the genset torque structure intuitive.</p>
+<p>If <strong>shaft power itself</strong> is 4.5 MW, the corresponding
+torque at nominal 1500 rpm is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mfrac><mrow><mn>4.5</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup></mrow><mn>157.1</mn></mfrac><mo>≈</mo><mn>28.6</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">k</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T
+=
+\frac{4.5\times10^6}{157.1}
+\approx
+28.6\ \mathrm{kNm}
+</annotation></semantics></math></p>
+<p>If <strong>4.5 MW is electrical output</strong>, required shaft power
+and shaft torque are higher because generator losses must first be
+added. At an illustrative 97% generator efficiency, 4.5 MW electrical
+corresponds to about 4.64 MW shaft power and about 29.5 kNm at nominal
+1500 rpm.</p>
+<h1 id="electrical-power-is-not-exactly-engine-brake-power">5.
+Electrical power is not exactly engine brake power</h1>
+<p>Generator efficiency is less than 100%.</p>
+<p>Therefore:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><msub><mi>η</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+P_{shaft,req}
+=
+\frac{P_{elec,req}}{\eta_{gen}}
+</annotation></semantics></math></p>
+<p>and:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mi>ω</mi></mfrac></mrow><annotation encoding="application/x-tex">
+T_{brake,req}
+=
+\frac{P_{shaft,req}}{\omega}
+</annotation></semantics></math></p>
+<p>Suppose:</p>
+<pre class="text"><code>Electrical request        4.00 MW
+Generator efficiency      97%</code></pre>
+<p>Then:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mfrac><mn>4.00</mn><mn>0.97</mn></mfrac><mo>=</mo><mn>4.124</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">W</mi></mrow></mrow><annotation encoding="application/x-tex">
+P_{shaft,req}
+=
+\frac{4.00}{0.97}
+=
+4.124\ \mathrm{MW}
+</annotation></semantics></math></p>
+<p>and at the nominal 1500-rpm steady-state point:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>≈</mo><mn>26.3</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">k</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+T_{brake,req}
+\approx26.3\ \mathrm{kNm}
+</annotation></semantics></math></p>
+<h1 id="engine-losses-must-still-be-added">6. Engine losses must still
+be added</h1>
+<p>The cylinders must produce more than brake torque.</p>
+<p>Conceptually:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>n</mi><mi>a</mi><mi>l</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>+</mo><msub><mi>T</mi><mrow><mi>f</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>+</mo><msub><mi>T</mi><mrow><mi>p</mi><mi>u</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow></msub><mo>+</mo><msub><mi>T</mi><mrow><mi>a</mi><mi>u</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{internal,req}
+=
+T_{brake,req}
++
+T_{friction}
++
+T_{pumping}
++
+T_{aux}
+</annotation></semantics></math></p>
+<p>This includes:</p>
+<ul>
+<li>piston/ring/bearing friction;</li>
+<li>valve-train friction;</li>
+<li>pumping work;</li>
+<li>oil/coolant pumps;</li>
+<li>turbo/exhaust backpressure effects;</li>
+<li>engine-mounted auxiliaries.</li>
+</ul>
+<h1 id="a-referencepotential-torque-model-can-be-useful">7. A
+reference/potential-torque model can be useful</h1>
+<p>The engine’s fresh-air charge defines a potential/reference
+torque.</p>
+<p>Actual internal torque can be represented conceptually as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>n</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>p</mi><mi>o</mi><mi>t</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>a</mi><mi>l</mi></mrow></msub><msub><mi>η</mi><mrow><mi>s</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>k</mi></mrow></msub><msub><mi>η</mi><mrow><mi>m</mi><mi>i</mi><mi>x</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>e</mi></mrow></msub><msub><mi>η</mi><mrow><mi>o</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{internal}
+=
+T_{potential}
+\eta_{spark}
+\eta_{mixture}
+\eta_{other}
+</annotation></semantics></math></p>
+<p>For a lean-burn gas engine, mixture efficiency should not
+automatically be interpreted as the same lambda-efficiency convention
+used in a stoichiometric automotive TWC engine. The torque model must
+match the project’s actual combustion reference.</p>
+<h1 id="genset-torque-conversion-chain">8. Genset torque-conversion
+chain</h1>
+<div class="flow">
+<div class="box">
+<strong>Electrical power demand</strong>Grid controller, plant
+controller, islanded frequency governor or load-sharing controller.
+</div>
+<div class="box">
+<strong>Allowed active power</strong>Limited by thermal, knock, turbo,
+gas-quality and emissions capability.
+</div>
+<div class="box">
+<strong>Shaft power / brake torque</strong>Electrical demand corrected
+for generator efficiency.
+</div>
+<div class="box">
+<strong>Internal torque</strong>Engine losses added.
+</div>
+<div class="box">
+<strong>Potential combustion torque</strong>Reference torque needed
+before spark/mixture effects.
+</div>
+<div class="box">
+<strong>Air + fuel + spark</strong>Turbocharger, mixture control, gas
+valve/injectors and ignition realize torque.
+</div>
+<div class="box">
+<strong>Actual shaft torque</strong>Balances generator electromagnetic
+torque.
+</div>
+<div class="box">
+<strong>Speed/frequency response</strong>Nominal speed/frequency is
+controlled; actual speed follows the electrical and transient state.
+</div>
+</div>
+<h1 id="the-generator-presents-resisting-electromagnetic-torque-to-the-engine">9.
+The generator presents resisting electromagnetic torque to the
+engine</h1>
+<p>The generator produces electromagnetic resisting torque.</p>
+<p>The clean dynamic relationship is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mrow><mi>e</mi><mi>q</mi></mrow></msub><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi><mo>,</mo><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi><mo>,</mo><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+J_{eq}\frac{d\omega}{dt}
+=
+T_{engine,shaft}
+-
+T_{generator,input}
+</annotation></semantics></math></p>
+<p>Acceleration is <strong>not a loss term</strong>. It is the result of
+a temporary torque imbalance.</p>
+<p>At a steady operating point at nominal 50 Hz:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">
+\frac{d\omega}{dt}=0
+</annotation></semantics></math></p>
+<p>therefore:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi><mo>,</mo><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi></mrow></msub><mo>≈</mo><msub><mi>T</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi><mo>,</mo><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{engine,shaft}
+\approx
+T_{generator,input}
+</annotation></semantics></math></p>
+<p>The location of generator mechanical/electrical losses must be
+defined consistently. If generator efficiency is used to convert
+electrical power into required shaft power, those generator losses must
+not be added a second time in the engine loss model.</p>
+<h1 id="active-power-and-reactive-power-must-be-separated">10. Active
+power and reactive power must be separated</h1>
+<p>This is important in genset work.</p>
+<p><strong>Active power (kW/MW)</strong> requires real mechanical shaft
+power from the engine.</p>
+<p><strong>Reactive power (kVAr/MVAr)</strong> is mainly managed through
+generator excitation/AVR and strongly affects current, voltage and
+generator thermal loading.</p>
+<p>The engine torque structure should therefore primarily follow
+<strong>active power</strong>, while generator current/power factor can
+still impose a system limit.</p>
+<h1 id="grid-parallel-torque-structure">11. Grid-parallel torque
+structure</h1>
+<pre class="text"><code>Plant active-power request
+        ↓
+ramp / dispatch / grid-service logic
+        ↓
+maximum allowed electrical power
+        ↓
+generator-efficiency correction
+        ↓
+required engine brake torque
+        ↓
+engine losses
+        ↓
+required internal torque
+        ↓
+combustion reference / potential torque
+        ↓
+air + gas + spark
+        ↓
+engine shaft power</code></pre>
+<p>Speed is nearly fixed by grid frequency.</p>
+<h1 id="islanded-torque-structure">12. Islanded torque structure</h1>
+<pre class="text"><code>50 Hz / 1500 rpm setpoint
+        ↓
+speed error
+        ↓
+governor torque request
+        ↓
+torque limits
+        ↓
+air + gas + spark response
+        ↓
+engine torque
+        ↓
+frequency recovery</code></pre>
+<p>In this mode, the torque request is dynamically created by
+<strong>frequency error</strong>.</p>
+<h1 id="limiters-in-a-cng-genset">13. Limiters in a CNG genset</h1>
+<p>A genset can be power-limited by:</p>
+<ul>
+<li>compressor/turbo speed;</li>
+<li>knock;</li>
+<li>peak cylinder pressure;</li>
+<li>prechamber stability;</li>
+<li>lean-burn stability;</li>
+<li>gas pressure/flow;</li>
+<li>high intake temperature;</li>
+<li>exhaust/turbine temperature;</li>
+<li>coolant/oil temperature;</li>
+<li>NOx/CH4 emissions target;</li>
+<li>generator current/apparent-power limit.</li>
+</ul>
+<p>The final available active-power request is the lowest safe
+value.</p>
+<h1 id="why-this-architecture-is-representative-of-modern-large-gas-engines">14.
+Why this architecture is representative of modern large gas engines</h1>
+<p>Modern multi-megawatt gas-engine gensets commonly combine fixed-speed
+operation, turbocharging, lean combustion, advanced ignition systems and
+carefully optimized valve timing.</p>
+<p>This combination makes a 1500-rpm multi-megawatt lean-burn engine a
+useful teaching reference for the series.</p>
+<p>The exact implementation varies by manufacturer, so the block
+diagrams here should be read as engineering models rather than a copy of
+any proprietary ECU.</p>
+<h1 id="interactive-1500-rpm-power-to-torque-converter">15. Interactive
+1500-rpm power-to-torque converter</h1>
+<div class="interactive-card">
+<h3>
+Electrical demand → engine torque
+</h3>
+<label>Electrical active power [MW]
+<input id="gt-p" max="4.6" min="0.2" oninput="updateGT()" step="0.1" type="range" value="4.0"/></label>
+<label>Generator efficiency
+<input id="gt-e" max="0.99" min="0.94" oninput="updateGT()" step="0.005" type="range" value="0.97"/></label>
+<label>Engine loss torque [kNm]
+<input id="gt-l" max="4" min="0.5" oninput="updateGT()" step="0.1" type="range" value="2.0"/></label>
+<div class="kpis">
+<div class="kpi">
+<strong id="gt-shaft">–</strong>Shaft power
+</div>
+<div class="kpi">
+<strong id="gt-brake">–</strong>Brake torque
+</div>
+<div class="kpi">
+<strong id="gt-int">–</strong>Internal torque
+</div>
+</div>
+<p id="gt-msg">
+</p>
+</div>
+<h1 id="power-boundaries-that-must-be-defined-before-using-the-torque-structure">16.
+Power boundaries that must be defined before using the torque
+structure</h1>
+<p>A genset has several power boundaries:</p>
+<pre class="text"><code>Fuel chemical power
+      ↓
+Engine internal/indicated power
+      ↓
+Engine brake / shaft power
+      ↓
+Generator gross electrical power
+      ↓
+Plant auxiliaries
+      ↓
+Net electrical export</code></pre>
+<p>The engine torque structure should normally work with a clearly
+defined <strong>engine shaft/brake torque boundary</strong>.</p>
+<p>If the incoming request is electrical power:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi><mo>,</mo><mi>g</mi><mi>r</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><msub><mi>η</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+P_{shaft,req}
+=
+\frac{P_{el,gross,req}}
+{\eta_{gen}}
+</annotation></semantics></math></p>
+<p>If the plant controller requests net exported power, auxiliary
+consumption may also need to be accounted for upstream.</p>
+<p>This prevents a common systems error: comparing a net plant MW target
+with an engine brake-power model as though they were the same
+quantity.</p>
+<h1 id="which-limits-should-enter-the-genset-torque-structure">17. Which
+limits should enter the genset torque structure?</h1>
+<p>A strong power coordinator can receive maximum allowed power from
+several domains:</p>
+<pre class="text"><code>Engine combustion limit
+Turbo / air-system limit
+Gas-flow limit
+Thermal limit
+Generator P-Q capability
+Grid / plant dispatch limit
+Protection / reliability limit</code></pre>
+<p>The permitted power is conceptually the most restrictive valid
+limit.</p>
+<p>This is the genset equivalent of automotive torque arbitration, but
+the competing requests are plant/electrical rather than
+pedal/traction/transmission requests.</p>
+<h1 id="using-an-operating-dependent-generator-loss-model-in-the-torque-calculation">18.
+Using an operating-dependent generator loss model in the torque
+calculation</h1>
+<p>A higher-fidelity conversion is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><msub><mi>P</mi><mrow><mi>e</mi><mi>l</mi><mo>,</mo><mi>g</mi><mi>r</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi><mo>,</mo><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub><mrow><mo form="prefix" stretchy="true">(</mo><mi>P</mi><mo>,</mo><mi>Q</mi><mo>,</mo><mi>T</mi><mo>,</mo><mi>…</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+P_{shaft,req}
+=
+P_{el,gross,req}
++
+P_{gen,loss}(P,Q,T,\ldots)
+</annotation></semantics></math></p>
+<p>rather than relying only on one constant efficiency.</p>
+<p>Then:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>s</mi><mi>h</mi><mi>a</mi><mi>f</mi><mi>t</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mi>ω</mi></mfrac></mrow><annotation encoding="application/x-tex">
+T_{brake,req}
+=
+\frac{P_{shaft,req}}{\omega}
+</annotation></semantics></math></p>
+<p>At a steady operating point near nominal 1500 rpm, the angular speed
+is nearly constant over the averaging window, so generator-loss-model
+error maps almost directly into torque-request error. During transients,
+use the actual measured or estimated ω(t).</p>
+<p>This is particularly important when comparing:</p>
+<ul>
+<li>low versus rated load;</li>
+<li>different power factors;</li>
+<li>hot versus cold generator operation.</li>
+</ul>
+<h1 id="torque-model-architecture-is-not-universal">19. Torque-model
+architecture is not universal</h1>
+<p>A reference/potential-torque formulation is one useful torque-based
+implementation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>n</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>≈</mo><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><mspace width="0.167em"></mspace><msub><mi>η</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>b</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{internal}
+\approx
+T_{ref}
+\,\eta_{comb}
+</annotation></semantics></math></p>
+<p>where the combustion correction can depend on:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>b</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mi>θ</mi><mrow><mi>s</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>k</mi></mrow></msub><mo>,</mo><mi>λ</mi><mo>,</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mo>,</mo><mi>r</mi><mi>e</mi><mi>s</mi><mi>i</mi><mi>d</mi><mi>u</mi><mi>a</mi><mi>l</mi><mi>s</mi><mo>,</mo><mi>T</mi><mo>,</mo><mi>…</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\eta_{comb}
+=
+f(\theta_{spark},\lambda,prechamber,residuals,T,\ldots)
+</annotation></semantics></math></p>
+<p>It should not be interpreted as proof that every production genset
+ECU uses independent multiplicative spark and lambda efficiencies.</p>
+<p>The interaction terms matter:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>k</mi><mo>×</mo><mi>λ</mi></mrow><annotation encoding="application/x-tex">
+spark\times\lambda
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mo>×</mo><mi>λ</mi></mrow><annotation encoding="application/x-tex">
+prechamber\times\lambda
+</annotation></semantics></math></p>
+<p>and are treated explicitly in the DoE article.</p>
+<h1 id="actual-speed-torque-conversion">20. Actual-speed torque
+conversion</h1>
+<p>During a transient, use:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><mrow><mi>ω</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+T(t)
+=
+\frac{P(t)}{\omega(t)}
+</annotation></semantics></math></p>
+<p>not a hard-coded 1500-rpm conversion.</p>
+<h1 id="common-mistakes">21. Common mistakes</h1>
+<ul>
+<li>Converting electrical MW directly to engine torque without generator
+losses.</li>
+<li>Treating 1500 rpm as exact during an island frequency dip.</li>
+<li>Double-counting generator losses inside the engine loss model.</li>
+<li>Treating the conceptual potential-torque formulation as one
+universal ECU implementation.</li>
+<li>Ignoring active electrical limits when the engine itself has spare
+torque.</li>
+</ul>
+<h1 id="key-lessons">22. Key lessons</h1>
+<ol type="1">
+<li>Electrical demand must cross a clearly defined generator-loss
+boundary before becoming engine brake torque.</li>
+<li>Actual speed belongs in transient torque conversion.</li>
+<li>Engine losses convert brake torque into required internal
+torque.</li>
+<li>Combustion models can be structured in different ways; interaction
+terms must be respected.</li>
+<li>Permitted power is the minimum of plant, generator, gas, air,
+combustion and protection capability.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+ISO 8528-1:2018 — Application, ratings and performance (current in 2026;
+revision under development).
+</li>
+<li>
+ISO 8528-2:2018 — Engines; principal characteristics and speed-governing
+terminology for generating-set applications.
+</li>
+<li>
+ISO 8528-3:2020 — AC generators for generating sets; current after
+confirmation in 2026.
+</li>
+<li>
+ISO 15550:2016 — Internal-combustion engine power measurement and
+reference conditions; current in 2026.
+</li>
+<li>
+ISO 3046-1:2002 — Additional engine performance/declaration
+requirements; current in 2026 but under revision.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../02-generator-avr-active-reactive-power/">← Synchronous Generator, AVR, Active/Reactive Power and Capability</a><span class="article-count">3 / 23</span><a href="../04-governor-frequency-load-sharing/">Governor, Frequency, Active-Power and Load-Sharing Control →</a></div></body>
+</html>

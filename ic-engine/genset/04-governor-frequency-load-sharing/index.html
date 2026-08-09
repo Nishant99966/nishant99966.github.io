@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Governor, Frequency, Active-Power and Load-Sharing Control</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="Isochronous control, droop, load sharing, nominal-versus-transient
+speed and standards-based load-step acceptance" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 4 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Governor, Frequency, Active-Power and Load-Sharing Control
+</h1>
+<p>
+<em>Isochronous control, droop, load sharing, nominal-versus-transient
+speed and standards-based load-step acceptance</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-the-governor-is-the-heart-of-a-genset" id="toc-why-the-governor-is-the-heart-of-a-genset">1. Why the governor
+is the heart of a genset</a></li>
+<li><a href="#isochronous-versus-droop-operation" id="toc-isochronous-versus-droop-operation">2. Isochronous versus droop
+operation</a>
+<ul>
+<li><a href="#isochronous-control" id="toc-isochronous-control">Isochronous control</a></li>
+<li><a href="#droop-control" id="toc-droop-control">Droop
+control</a></li>
+</ul></li>
+<li><a href="#grid-parallel-control" id="toc-grid-parallel-control">3.
+Grid-parallel control</a></li>
+<li><a href="#calibration-procedure-island-mode" id="toc-calibration-procedure-island-mode">4. Calibration procedure —
+island mode</a>
+<ul>
+<li><a href="#step-1-warm-steady-reference" id="toc-step-1-warm-steady-reference">Step 1: Warm steady
+reference</a></li>
+<li><a href="#step-2-apply-defined-load-steps" id="toc-step-2-apply-defined-load-steps">Step 2: Apply defined load
+steps</a></li>
+<li><a href="#step-3-tune-governor-gain" id="toc-step-3-tune-governor-gain">Step 3: Tune governor gain</a></li>
+<li><a href="#step-4-tune-feedforward" id="toc-step-4-tune-feedforward">Step 4: Tune feedforward</a></li>
+</ul></li>
+<li><a href="#calibration-procedure-droopload-sharing" id="toc-calibration-procedure-droopload-sharing">5. Calibration
+procedure — droop/load sharing</a></li>
+<li><a href="#main-trade-off-frequency-stiffness-versus-stability" id="toc-main-trade-off-frequency-stiffness-versus-stability">6. Main
+trade-off: frequency stiffness versus stability</a></li>
+<li><a href="#main-trade-off-fuel-spike-versus-frequency-dip" id="toc-main-trade-off-fuel-spike-versus-frequency-dip">7. Main
+trade-off: fuel spike versus frequency dip</a></li>
+<li><a href="#load-rejection" id="toc-load-rejection">8. Load
+rejection</a></li>
+<li><a href="#validation-matrix" id="toc-validation-matrix">9.
+Validation matrix</a></li>
+<li><a href="#governor-calibration-in-terms-of-real-engine-delays" id="toc-governor-calibration-in-terms-of-real-engine-delays">10.
+Governor calibration in terms of real engine delays</a>
+<ul>
+<li><a href="#practical-identification-step" id="toc-practical-identification-step">Practical identification
+step</a></li>
+</ul></li>
+<li><a href="#p-only-versus-pq-disturbances" id="toc-p-only-versus-pq-disturbances">11. P-only versus P+Q
+disturbances</a></li>
+<li><a href="#load-sharing-beyond-simple-droop" id="toc-load-sharing-beyond-simple-droop">12. Load sharing beyond simple
+droop</a></li>
+<li><a href="#performance-standard-context" id="toc-performance-standard-context">13. 2026 performance-standard
+context</a></li>
+<li><a href="#nominal-speed-versus-actual-speed" id="toc-nominal-speed-versus-actual-speed">14. Nominal speed versus
+actual speed</a></li>
+<li><a href="#acceptance-test-matrix" id="toc-acceptance-test-matrix">15. Acceptance-test matrix</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">16. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">17. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="why-the-governor-is-the-heart-of-a-genset">1. Why the governor
+is the heart of a genset</h1>
+<p>For a genset, torque control cannot be understood without frequency
+control.</p>
+<p>The generator load is a disturbance torque acting on the engine.</p>
+<p>Rotational dynamics are:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+J\frac{d\omega}{dt}
+=
+T_{engine}-T_{generator}
+</annotation></semantics></math></p>
+<p>If generator torque suddenly rises, engine speed falls unless engine
+torque rises quickly enough.</p>
+<h1 id="isochronous-versus-droop-operation">2. Isochronous versus droop
+operation</h1>
+<h2 id="isochronous-control">Isochronous control</h2>
+<p>The controller attempts to restore the nominal rated-speed/frequency
+target. During load transients, speed can deviate before recovery.</p>
+<p>after a load disturbance.</p>
+<p>This is common for a single islanded genset or one designated master
+unit.</p>
+<h2 id="droop-control">Droop control</h2>
+<p>Speed/frequency reference intentionally decreases slightly as active
+power rises.</p>
+<p>This allows multiple generators to share load without fighting each
+other.</p>
+<p>A conceptual droop relation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><mi>f</mi><mo>=</mo><mi>−</mi><msub><mi>K</mi><mrow><mi>d</mi><mi>r</mi><mi>o</mi><mi>o</mi><mi>p</mi></mrow></msub><mi>Δ</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">
+\Delta f
+=
+-K_{droop}\Delta P
+</annotation></semantics></math></p>
+<h1 id="grid-parallel-control">3. Grid-parallel control</h1>
+<p>Once synchronized to a strong grid, frequency is largely imposed
+externally.</p>
+<p>Changing engine torque mainly changes <strong>active power exported
+to the grid</strong>, not steady engine speed.</p>
+<p>So the governor/load controller changes from:</p>
+<pre class="text"><code>speed-control problem</code></pre>
+<p>toward:</p>
+<pre class="text"><code>active-power-control problem</code></pre>
+<h1 id="calibration-procedure-island-mode">4. Calibration procedure —
+island mode</h1>
+<h2 id="step-1-warm-steady-reference">Step 1: Warm steady reference</h2>
+<p>Hold 1500 rpm at low load.</p>
+<p>Stabilize:</p>
+<ul>
+<li>coolant/oil;</li>
+<li>gas pressure/temperature;</li>
+<li>intake temperature;</li>
+<li>lambda;</li>
+<li>ignition;</li>
+<li>turbo state.</li>
+</ul>
+<h2 id="step-2-apply-defined-load-steps">Step 2: Apply defined load
+steps</h2>
+<p>Examples:</p>
+<pre class="text"><code>10% → 25%
+25% → 50%
+50% → 75%
+75% → 100%</code></pre>
+<p>Measure:</p>
+<ul>
+<li>frequency nadir;</li>
+<li>maximum rpm drop;</li>
+<li>recovery time;</li>
+<li>torque request;</li>
+<li>gas command;</li>
+<li>boost/air response;</li>
+<li>lambda excursion;</li>
+<li>knock;</li>
+<li>EGT.</li>
+</ul>
+<h2 id="step-3-tune-governor-gain">Step 3: Tune governor gain</h2>
+<p>Too little gain:</p>
+<pre class="text"><code>stable
+but
+slow frequency recovery</code></pre>
+<p>Too much gain:</p>
+<pre class="text"><code>fast response
+but
+frequency hunting / torque oscillation</code></pre>
+<h2 id="step-4-tune-feedforward">Step 4: Tune feedforward</h2>
+<p>If generator active power is measured quickly, the controller can
+estimate the new torque requirement before frequency falls far.</p>
+<p>Feedforward reduces the amount of work the feedback loop must do.</p>
+<h1 id="calibration-procedure-droopload-sharing">5. Calibration
+procedure — droop/load sharing</h1>
+<p>With two or more gensets:</p>
+<ol type="1">
+<li>synchronize units;</li>
+<li>apply a total plant load;</li>
+<li>verify active-power sharing;</li>
+<li>change one unit’s droop/reference;</li>
+<li>confirm stable redistribution;</li>
+<li>test communication loss or unit trip scenarios.</li>
+</ol>
+<p>The objective is stable load sharing without circulating active-power
+oscillation.</p>
+<h1 id="main-trade-off-frequency-stiffness-versus-stability">6. Main
+trade-off: frequency stiffness versus stability</h1>
+<p>A very aggressive governor tries to keep frequency nearly
+perfect.</p>
+<p>But gas engine air/fuel/turbo dynamics have delay.</p>
+<p>If the controller demands torque faster than the engine can
+physically create it, oscillation can result.</p>
+<p>The engineer therefore chooses a response that is:</p>
+<ul>
+<li>fast enough for grid/island requirements;</li>
+<li>slow enough to respect combustion and air-path dynamics.</li>
+</ul>
+<h1 id="main-trade-off-fuel-spike-versus-frequency-dip">7. Main
+trade-off: fuel spike versus frequency dip</h1>
+<p>A strong feedforward fuel/air increase can reduce frequency dip.</p>
+<p>But too aggressive a command can produce:</p>
+<ul>
+<li>rich excursion;</li>
+<li>knock;</li>
+<li>boost overshoot;</li>
+<li>frequency overshoot.</li>
+</ul>
+<p>The selected calibration balances <strong>frequency quality and
+combustion quality</strong>.</p>
+<h1 id="load-rejection">8. Load rejection</h1>
+<p>A sudden load rejection is the opposite problem.</p>
+<pre class="text"><code>Generator torque falls suddenly
+      ↓
+engine still produces high torque
+      ↓
+speed tends to overshoot</code></pre>
+<p>Fast torque reduction may use:</p>
+<ul>
+<li>gas reduction;</li>
+<li>spark retard;</li>
+<li>air-path action;</li>
+<li>turbo bypass/wastegate action where available.</li>
+</ul>
+<p>Calibration must avoid:</p>
+<ul>
+<li>overspeed;</li>
+<li>compressor surge;</li>
+<li>misfire;</li>
+<li>high exhaust temperature.</li>
+</ul>
+<h1 id="validation-matrix">9. Validation matrix</h1>
+<p>Validate:</p>
+<ul>
+<li>cold/hot engine;</li>
+<li>10–100% load;</li>
+<li>low gas pressure;</li>
+<li>high intake temperature;</li>
+<li>altitude;</li>
+<li>different gas quality;</li>
+<li>single-unit island;</li>
+<li>parallel operation;</li>
+<li>load rejection.</li>
+</ul>
+<h1 id="governor-calibration-in-terms-of-real-engine-delays">10.
+Governor calibration in terms of real engine delays</h1>
+<p>The governor should be calibrated against the real torque-generation
+path:</p>
+<pre class="text"><code>Torque request
+   ↓
+gas-flow response
+   +
+air / turbo response
+   +
+ignition response
+   ↓
+combustion torque
+   ↓
+shaft acceleration / frequency response</code></pre>
+<p>A gain that looks stable with a fast actuator model can oscillate
+when the real turbo, manifold and gas-path delays are included.</p>
+<h2 id="practical-identification-step">Practical identification
+step</h2>
+<p>Before final governor tuning, identify the approximate load-to-torque
+response at several loads:</p>
+<ul>
+<li>low load;</li>
+<li>medium load;</li>
+<li>near rated load.</li>
+</ul>
+<p>The response can change with load because turbo authority and mixture
+sensitivity change.</p>
+<h1 id="p-only-versus-pq-disturbances">11. P-only versus P+Q
+disturbances</h1>
+<p>A pure active-power load step mainly challenges the governor.</p>
+<p>A reactive-power step mainly challenges the AVR.</p>
+<p>A mixed load step challenges both.</p>
+<p>During commissioning, record together:</p>
+<ul>
+<li>frequency;</li>
+<li>voltage;</li>
+<li>P;</li>
+<li>Q;</li>
+<li>power factor;</li>
+<li>generator current;</li>
+<li>governor torque request;</li>
+<li>AVR output/excitation signal;</li>
+<li>engine lambda/boost/spark.</li>
+</ul>
+<p>This avoids misdiagnosing an electrical voltage-control problem as an
+engine torque-response problem.</p>
+<h1 id="load-sharing-beyond-simple-droop">12. Load sharing beyond simple
+droop</h1>
+<p>Modern multi-unit plants may use:</p>
+<ul>
+<li>classical speed droop;</li>
+<li>load-sharing lines/signals;</li>
+<li>supervisory plant control;</li>
+<li>master/follower concepts;</li>
+<li>active-power setpoint distribution.</li>
+</ul>
+<p>The exact architecture varies.</p>
+<p>The calibration principle remains: each unit must accept its assigned
+active power without unstable interaction with the other units or the
+electrical network.</p>
+<h1 id="performance-standard-context">13. 2026 performance-standard
+context</h1>
+<p>Generating-set transient acceptance should be tied to the
+<strong>project’s required performance class and contractual/grid
+requirements</strong>, not to a universal frequency-dip number copied
+from another machine.</p>
+<p>ISO 8528-5:2025 is the current edition of the generating-set
+design/performance standard family in 2026.</p>
+<p>For calibration planning, define before testing:</p>
+<ul>
+<li>allowed frequency deviation;</li>
+<li>allowed voltage deviation;</li>
+<li>recovery time;</li>
+<li>load-step magnitude;</li>
+<li>initial load;</li>
+<li>power factor;</li>
+<li>ambient/fuel state.</li>
+</ul>
+<p>A governor cannot be judged fairly without first defining the
+required transient envelope.</p>
+<h1 id="nominal-speed-versus-actual-speed">14. Nominal speed versus
+actual speed</h1>
+<p>For the 50 Hz / four-pole case:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mrow><mi>n</mi><mi>o</mi><mi>m</mi></mrow></msub><mo>=</mo><mn>1500</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+n_{nom}=1500\ \mathrm{rpm}
+</annotation></semantics></math></p>
+<p>but in island operation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>t</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>≠</mo><mn>1500</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+n(t)\neq1500\ \mathrm{rpm}
+</annotation></semantics></math></p>
+<p>during a load step.</p>
+<p>In grid-parallel operation, synchronous speed follows actual grid
+frequency.</p>
+<h1 id="acceptance-test-matrix">15. Acceptance-test matrix</h1>
+<p>Before tuning the governor, define:</p>
+<ul>
+<li>initial load;</li>
+<li>final load;</li>
+<li>load power factor;</li>
+<li>allowed frequency deviation;</li>
+<li>recovery time;</li>
+<li>voltage requirement;</li>
+<li>gas/ambient condition.</li>
+</ul>
+<p>The test should then follow the approved project/ISO 8528-5/ISO
+8528-6 framework rather than a universal internet frequency-dip
+number.</p>
+<h1 id="common-mistakes">16. Common mistakes</h1>
+<ul>
+<li>Tuning only one low-load step and assuming the same dynamics at
+rated load.</li>
+<li>Using aggressive governor gain to compensate for a slow gas/turbo
+system.</li>
+<li>Ignoring P-Q coupling during mixed load steps.</li>
+<li>Comparing tests with different initial load or power factor.</li>
+<li>Treating speed droop and plant active-power droop as interchangeable
+without defining the architecture.</li>
+</ul>
+<h1 id="key-lessons">17. Key lessons</h1>
+<ol type="1">
+<li>Governor tuning is a mechanical-power/frequency problem constrained
+by real engine delays.</li>
+<li>Actual speed deviates during island transients.</li>
+<li>Load-step acceptance criteria must be defined before
+calibration.</li>
+<li>Feedforward and feedback should be coordinated, not used to hide
+air/fuel system delays.</li>
+<li>Multi-unit load sharing must be validated as a plant system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+ISO 8528-2:2018 — Engines; principal characteristics and speed-governing
+terminology for generating-set applications.
+</li>
+<li>
+ISO 8528-5:2025 — Generating sets; design and performance criteria.
+</li>
+<li>
+ISO 8528-6:2023 — Test methods for complete generating sets.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../03-genset-torque-power-structure/">← Complete CNG Genset Torque and Power Structure</a><span class="article-count">4 / 23</span><a href="../05-engine-losses-imep-bmep/">Engine Losses, IMEP/BMEP and Cylinder-to-Electrical Power →</a></div></body>
+</html>

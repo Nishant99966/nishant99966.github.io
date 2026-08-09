@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK6DVJ0JMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CK6DVJ0JMK');
+</script>
+
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Lean-Burn Gas Engine Aftertreatment Calibration</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="Methane/CO/formaldehyde oxidation, dedicated methane-catalyst
+limits, SCR dosing, NH3 slip, temperature windows and aging" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 14 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Lean-Burn Gas Engine Aftertreatment Calibration
+</h1>
+<p>
+<em>Methane/CO/formaldehyde oxidation, dedicated methane-catalyst
+limits, SCR dosing, NH3 slip, temperature windows and aging</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-lean-burn-aftertreatment-differs-from-a-stoichiometric-three-way-catalyst" id="toc-why-lean-burn-aftertreatment-differs-from-a-stoichiometric-three-way-catalyst">1.
+Why lean-burn aftertreatment differs from a stoichiometric three-way
+catalyst</a></li>
+<li><a href="#oxidation-catalyst-for-co-and-hydrocarbons" id="toc-oxidation-catalyst-for-co-and-hydrocarbons">2. Oxidation
+catalyst for CO and hydrocarbons</a></li>
+<li><a href="#methane-light-off-and-catalyst-temperature" id="toc-methane-light-off-and-catalyst-temperature">3. Methane light-off
+and catalyst temperature</a></li>
+<li><a href="#space-velocity" id="toc-space-velocity">4. Space
+velocity</a></li>
+<li><a href="#scr-for-nox" id="toc-scr-for-nox">5. SCR for NOx</a></li>
+<li><a href="#ureadef-dosing-chain" id="toc-ureadef-dosing-chain">6.
+Urea/DEF dosing chain</a></li>
+<li><a href="#scr-temperature-window" id="toc-scr-temperature-window">7.
+SCR temperature window</a></li>
+<li><a href="#ammonia-slip" id="toc-ammonia-slip">8. Ammonia
+slip</a></li>
+<li><a href="#closed-loop-aftertreatment-control" id="toc-closed-loop-aftertreatment-control">9. Closed-loop
+aftertreatment control</a></li>
+<li><a href="#calibration-procedure-oxidation-catalyst" id="toc-calibration-procedure-oxidation-catalyst">10. Calibration
+procedure — oxidation catalyst</a></li>
+<li><a href="#calibration-procedure-scr" id="toc-calibration-procedure-scr">11. Calibration procedure —
+SCR</a></li>
+<li><a href="#engine-calibration-and-aftertreatment-must-be-optimized-together" id="toc-engine-calibration-and-aftertreatment-must-be-optimized-together">12.
+Engine calibration and aftertreatment must be optimized
+together</a></li>
+<li><a href="#catalyst-aging-and-poisoning" id="toc-catalyst-aging-and-poisoning">13. Catalyst aging and
+poisoning</a></li>
+<li><a href="#cold-start-and-low-load" id="toc-cold-start-and-low-load">14. Cold start and low load</a></li>
+<li><a href="#measurement-locations" id="toc-measurement-locations">15.
+Measurement locations</a></li>
+<li><a href="#dedicated-methane-oxidation-catalyst-considerations" id="toc-dedicated-methane-oxidation-catalyst-considerations">16.
+Dedicated methane-oxidation catalyst considerations</a></li>
+<li><a href="#formaldehyde-interaction" id="toc-formaldehyde-interaction">17. Formaldehyde interaction</a></li>
+<li><a href="#scr-dosing-worked-logic" id="toc-scr-dosing-worked-logic">18. SCR dosing worked logic</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">19.
+Engineering figure</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">20. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">21. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="why-lean-burn-aftertreatment-differs-from-a-stoichiometric-three-way-catalyst">1.
+Why lean-burn aftertreatment differs from a stoichiometric three-way
+catalyst</h1>
+<p>A lean-burn gas engine normally has excess oxygen in the exhaust.</p>
+<p>That means a conventional three-way catalyst cannot simultaneously
+perform the same NOx-reduction function it provides around
+stoichiometric operation.</p>
+<p>The two common aftertreatment objectives are therefore separated:</p>
+<pre class="text"><code>CH4 / CO / HC oxidation
+        ↓
+Oxidation catalyst
+
+NOx reduction in oxygen-rich exhaust
+        ↓
+SCR or another approved NOx system</code></pre>
+<p>Actual architecture depends on project requirements.</p>
+<h1 id="oxidation-catalyst-for-co-and-hydrocarbons">2. Oxidation
+catalyst for CO and hydrocarbons</h1>
+<p>A conventional oxidation catalyst can efficiently oxidize CO and many
+hydrocarbons when temperature and formulation are suitable. Methane is
+much more difficult: generic oxidation-catalyst activity should
+<strong>not</strong> be assumed to provide strong CH4 conversion.
+Dedicated methane-oxidation formulations and sufficiently high
+temperature may be required.</p>
+<p>For CO and suitable hydrocarbons, oxidation reactions include:</p>
+<p>For carbon monoxide:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><mn>2</mn><mi>C</mi><mi>O</mi><mo>+</mo><msub><mi>O</mi><mn>2</mn></msub><mo>→</mo><mn>2</mn><mi>C</mi><msub><mi>O</mi><mn>2</mn></msub></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+2CO+O_2
+\rightarrow
+2CO_2
+}
+</annotation></semantics></math></p>
+<p>For a generic hydrocarbon
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>x</mi></msub><msub><mi>H</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">C_xH_y</annotation></semantics></math>
+under complete oxidation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><msub><mi>C</mi><mi>x</mi></msub><msub><mi>H</mi><mi>y</mi></msub><mo>+</mo><mrow><mo form="prefix" stretchy="true">(</mo><mi>x</mi><mo>+</mo><mfrac><mi>y</mi><mn>4</mn></mfrac><mo form="postfix" stretchy="true">)</mo></mrow><msub><mi>O</mi><mn>2</mn></msub><mo>→</mo><mi>x</mi><mi>C</mi><msub><mi>O</mi><mn>2</mn></msub><mo>+</mo><mfrac><mi>y</mi><mn>2</mn></mfrac><msub><mi>H</mi><mn>2</mn></msub><mi>O</mi></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+C_xH_y+
+\left(
+x+\frac{y}{4}
+\right)O_2
+\rightarrow
+xCO_2+\frac{y}{2}H_2O
+}
+</annotation></semantics></math></p>
+<p>For natural-gas engines, methane is especially important because CH4
+is unusually stable. EU large-combustion BAT material explicitly notes
+that oxidation catalysts are not effective for saturated hydrocarbons
+with fewer than four carbon atoms; therefore CH4 control must not be
+presented as a guaranteed result of a generic oxidation catalyst.</p>
+<h1 id="methane-light-off-and-catalyst-temperature">3. Methane light-off
+and catalyst temperature</h1>
+<p>Methane conversion is strongly temperature-dependent.</p>
+<p>Conceptually:</p>
+<pre class="text"><code>Catalyst cold
+   ↓
+CH4 conversion low
+
+Catalyst warms
+   ↓
+conversion rises rapidly
+
+Catalyst hot enough
+   ↓
+high conversion possible</code></pre>
+<p>The exact light-off curve depends on catalyst formulation, aging,
+sulfur/contaminants and gas composition.</p>
+<h1 id="space-velocity">4. Space velocity</h1>
+<p>Catalyst residence time can be represented using gas hourly space
+velocity:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>H</mi><mi>S</mi><mi>V</mi><mo>=</mo><mfrac><msub><mover><mi>V</mi><mo accent="true">̇</mo></mover><mrow><mi>e</mi><mi>x</mi><mi>h</mi><mi>a</mi><mi>u</mi><mi>s</mi><mi>t</mi></mrow></msub><msub><mi>V</mi><mrow><mi>c</mi><mi>a</mi><mi>t</mi><mi>a</mi><mi>l</mi><mi>y</mi><mi>s</mi><mi>t</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+GHSV
+=
+\frac{\dot V_{exhaust}}
+{V_{catalyst}}
+</annotation></semantics></math></p>
+<p>At higher exhaust flow:</p>
+<pre class="text"><code>GHSV ↑
+   ↓
+residence time ↓</code></pre>
+<p>which can reduce conversion if chemistry is not fast enough.</p>
+<h1 id="scr-for-nox">5. SCR for NOx</h1>
+<p>Selective catalytic reduction uses a reductant-derived ammonia source
+to reduce NOx in oxygen-rich exhaust.</p>
+<p>Two useful balanced reactions are:</p>
+<p>Standard SCR:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><mn>4</mn><mi>N</mi><msub><mi>H</mi><mn>3</mn></msub><mo>+</mo><mn>4</mn><mi>N</mi><mi>O</mi><mo>+</mo><msub><mi>O</mi><mn>2</mn></msub><mo>→</mo><mn>4</mn><msub><mi>N</mi><mn>2</mn></msub><mo>+</mo><mn>6</mn><msub><mi>H</mi><mn>2</mn></msub><mi>O</mi></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+4NH_3+4NO+O_2
+\rightarrow
+4N_2+6H_2O
+}
+</annotation></semantics></math></p>
+<p>Fast SCR:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><mn>2</mn><mi>N</mi><msub><mi>H</mi><mn>3</mn></msub><mo>+</mo><mi>N</mi><mi>O</mi><mo>+</mo><mi>N</mi><msub><mi>O</mi><mn>2</mn></msub><mo>→</mo><mn>2</mn><msub><mi>N</mi><mn>2</mn></msub><mo>+</mo><mn>3</mn><msub><mi>H</mi><mn>2</mn></msub><mi>O</mi></mrow></menclose><annotation encoding="application/x-tex">
+\boxed{
+2NH_3+NO+NO_2
+\rightarrow
+2N_2+3H_2O
+}
+</annotation></semantics></math></p>
+<p>The real system additionally involves catalyst storage, NO/NO2 ratio,
+side reactions, temperature and mass-transfer effects.</p>
+<h1 id="ureadef-dosing-chain">6. Urea/DEF dosing chain</h1>
+<p>Where aqueous urea is used:</p>
+<pre class="text"><code>DEF injection
+   ↓
+evaporation / thermolysis / hydrolysis
+   ↓
+NH3 generated
+   ↓
+NH3 stored/reacts on SCR catalyst
+   ↓
+NOx reduced</code></pre>
+<p>Poor mixing or insufficient temperature can create deposits and poor
+conversion.</p>
+<h1 id="scr-temperature-window">7. SCR temperature window</h1>
+<p>Too cold:</p>
+<ul>
+<li>slow urea decomposition;</li>
+<li>deposit risk;</li>
+<li>low NOx conversion.</li>
+</ul>
+<p>Useful temperature:</p>
+<ul>
+<li>good dosing and conversion.</li>
+</ul>
+<p>Too hot:</p>
+<ul>
+<li>NH3 storage changes;</li>
+<li>catalyst durability and side-reaction concerns can increase.</li>
+</ul>
+<p>The approved window is catalyst-specific.</p>
+<h1 id="ammonia-slip">8. Ammonia slip</h1>
+<p>Too much reductant can produce unreacted ammonia downstream:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><msub><mi>H</mi><mn>3</mn></msub><mspace width="0.222em"></mspace><mi>s</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">
+NH_3\ slip
+</annotation></semantics></math></p>
+<p>So dosing is a trade-off:</p>
+<pre class="text"><code>More NH3
+ → NOx conversion ↑
+
+BUT
+
+too much
+ → ammonia slip ↑</code></pre>
+<h1 id="closed-loop-aftertreatment-control">9. Closed-loop
+aftertreatment control</h1>
+<p>A generic SCR control architecture can use:</p>
+<ul>
+<li>upstream NOx;</li>
+<li>downstream NOx;</li>
+<li>exhaust mass flow;</li>
+<li>catalyst temperature;</li>
+<li>NH3 storage model;</li>
+<li>dosing command.</li>
+</ul>
+<p>Conceptually:</p>
+<pre class="text"><code>Engine-out NOx
+      ↓
+Feedforward NH3 demand
+      ↓
+Temperature/storage correction
+      ↓
+DEF dosing
+      ↓
+Downstream NOx feedback</code></pre>
+<h1 id="calibration-procedure-oxidation-catalyst">10. Calibration
+procedure — oxidation catalyst</h1>
+<p>At representative loads:</p>
+<ol type="1">
+<li>stabilize engine-out lambda and emissions;</li>
+<li>record catalyst inlet/outlet temperature;</li>
+<li>measure engine-out and tailpipe CH4/CO/THC;</li>
+<li>calculate conversion efficiency;</li>
+<li>repeat across catalyst temperature and flow;</li>
+<li>repeat after aging/poisoning exposure where required.</li>
+</ol>
+<h1 id="calibration-procedure-scr">11. Calibration procedure — SCR</h1>
+<p>Across load/temperature:</p>
+<ol type="1">
+<li>map engine-out NOx;</li>
+<li>characterize exhaust flow;</li>
+<li>establish catalyst temperature state;</li>
+<li>start with conservative reductant dosing;</li>
+<li>increase dosing while monitoring downstream NOx and NH3 slip;</li>
+<li>build feedforward dosage;</li>
+<li>add storage/feedback correction.</li>
+</ol>
+<h1 id="engine-calibration-and-aftertreatment-must-be-optimized-together">12.
+Engine calibration and aftertreatment must be optimized together</h1>
+<p>A lower engine-out NOx point may have:</p>
+<ul>
+<li>higher CH4;</li>
+<li>lower exhaust temperature;</li>
+<li>worse catalyst activity.</li>
+</ul>
+<p>A slightly higher engine-out NOx point can sometimes produce a better
+total system result if it:</p>
+<ul>
+<li>improves combustion efficiency;</li>
+<li>raises catalyst temperature;</li>
+<li>gives the SCR a favorable operating state.</li>
+</ul>
+<p>The correct objective is:</p>
+<blockquote>
+<p><strong>minimum compliant tailpipe emissions at the best practical
+system efficiency and durability</strong>, not minimum engine-out NOx
+alone.</p>
+</blockquote>
+<h1 id="catalyst-aging-and-poisoning">13. Catalyst aging and
+poisoning</h1>
+<p>Catalyst activity changes with:</p>
+<ul>
+<li>thermal aging;</li>
+<li>sulfur;</li>
+<li>phosphorus/oil-derived contamination;</li>
+<li>fuel contaminants;</li>
+<li>repeated high-temperature exposure.</li>
+</ul>
+<p>Calibration should include aged-system margin where required.</p>
+<h1 id="cold-start-and-low-load">14. Cold start and low load</h1>
+<p>Low exhaust temperature is often difficult because:</p>
+<ul>
+<li>oxidation catalyst CH4 conversion is weak;</li>
+<li>SCR activity/dosing may be limited;</li>
+<li>engine combustion itself may have higher CH4/CO.</li>
+</ul>
+<p>Therefore low-load emissions control can require a combined
+strategy:</p>
+<pre class="text"><code>stable combustion
++
+sufficient exhaust temperature
++
+aftertreatment activity</code></pre>
+<h1 id="measurement-locations">15. Measurement locations</h1>
+<p>Always distinguish:</p>
+<pre class="text"><code>Engine-out
+Catalyst inlet
+Between catalyst elements
+Tailpipe / stack</code></pre>
+<p>A conversion calculation is meaningless if inlet and outlet signals
+are not time-aligned.</p>
+<h1 id="dedicated-methane-oxidation-catalyst-considerations">16.
+Dedicated methane-oxidation catalyst considerations</h1>
+<p>Where methane oxidation is a design objective, characterize:</p>
+<ul>
+<li>catalyst formulation;</li>
+<li>light-off temperature;</li>
+<li>sulfur sensitivity;</li>
+<li>water inhibition;</li>
+<li>thermal aging;</li>
+<li>space velocity;</li>
+<li>pressure drop.</li>
+</ul>
+<p>Do not transfer a CO light-off curve directly to methane.</p>
+<h1 id="formaldehyde-interaction">17. Formaldehyde interaction</h1>
+<p>Oxidation catalysts can also be relevant to aldehyde control.</p>
+<p>Therefore catalyst optimization can involve:</p>
+<pre class="text"><code>CO
+NMHC
+formaldehyde
+CH4
+pressure drop
+temperature
+aging</code></pre>
+<p>with different conversion behavior for each species.</p>
+<h1 id="scr-dosing-worked-logic">18. SCR dosing worked logic</h1>
+<p>A feedforward dosing request can be based conceptually on:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>H</mi><mn>3</mn><mo>,</mo><mi>r</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>N</mi><mi>O</mi><mi>x</mi></mrow></msub><mo>,</mo><msub><mover><mi>m</mi><mo accent="true">̇</mo></mover><mrow><mi>e</mi><mi>x</mi><mi>h</mi></mrow></msub><mo>,</mo><msub><mi>T</mi><mrow><mi>c</mi><mi>a</mi><mi>t</mi></mrow></msub><mo>,</mo><mi>N</mi><mi>H</mi><msub><mn>3</mn><mrow><mi>s</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>e</mi></mrow></msub><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\dot m_{NH3,req}
+=
+f(\dot m_{NOx},\dot m_{exh},T_{cat},NH3_{store})
+</annotation></semantics></math></p>
+<p>The release calibration then constrains the command by:</p>
+<ul>
+<li>minimum dosing temperature;</li>
+<li>deposit risk;</li>
+<li>maximum NH3 slip;</li>
+<li>reductant-system capacity.</li>
+</ul>
+<h1 id="engineering-figure">19. Aftertreatment temperature-window illustration</h1>
+<figure class="figure-card">
+<svg aria-label="Aftertreatment temperature windows" role="img" viewbox="0 0 820 430">
+<rect fill="white" height="430" width="820"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="350" y2="350"></line>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="350" y2="55"></line>
+<text fill="#17324a" font-size="17" x="555" y="397">Catalyst temperature
+→</text>
+<path d="M120 330 C260 320,330 235,390 135 C450 85,600 90,720 120" fill="none" stroke="#17324a" stroke-width="3"></path>
+<text fill="#17324a" font-size="14" x="505" y="105">SCR NOx
+conversion</text>
+<path d="M120 345 C360 340,500 320,600 235 C650 190,690 145,720 115" fill="none" stroke="#5d87ad" stroke-width="3"></path>
+<text fill="#5d87ad" font-size="14" x="575" y="270">methane oxidation
+can require high T</text>
+<text fill="#61717f" font-size="13" x="120" y="75">cold / deposit /
+low-conversion region</text>
+</svg>
+<figcaption>
+Qualitative only. SCR and methane-oxidation catalysts have different
+temperature sensitivities; approved catalyst maps must come from the
+actual aftertreatment system.
+</figcaption>
+</figure>
+<h1 id="common-mistakes">20. Common mistakes</h1>
+<ul>
+<li>Calling any oxidation catalyst a methane catalyst.</li>
+<li>Optimizing engine-out NOx without checking SCR temperature.</li>
+<li>Ignoring NH3 slip.</li>
+<li>Comparing catalyst conversion without time-aligning inlet/outlet
+signals.</li>
+<li>Validating only fresh catalyst.</li>
+</ul>
+<h1 id="key-lessons">21. Key lessons</h1>
+<ol type="1">
+<li>Lean-burn NOx and methane control require aftertreatment strategies
+different from stoichiometric TWC operation.</li>
+<li>Methane oxidation is technically difficult and
+catalyst-specific.</li>
+<li>SCR calibration balances NOx conversion, NH3 storage, dosing
+temperature and ammonia slip.</li>
+<li>Formaldehyde can be a relevant gas-engine species.</li>
+<li>Engine and aftertreatment should be optimized as one
+emissions/efficiency system.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+Commission Implementing Decision (EU) 2021/2326 — Large Combustion Plant
+BAT conclusions, including natural-gas lean-burn engine NOx, CH4 and
+formaldehyde provisions where applicable.
+</li>
+<li>
+Directive (EU) 2015/2193 — Medium Combustion Plant Directive for plants
+from 1 MW to &lt;50 MW thermal input, subject to scope/exemptions and
+national implementation.
+</li>
+<li>
+W. W. Pulkrabek, Engineering Fundamentals of the Internal Combustion
+Engine.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../13-emissions-measurement-efficiency-optimization/">← Engine-Out Emissions Measurement and Electrical-Efficiency Optimization</a><span class="article-count">14 / 23</span><a href="../15-test-cell-instrumentation-data-quality/">Test-Cell Instrumentation, Uncertainty and Data Quality →</a></div></body>
+</html>
