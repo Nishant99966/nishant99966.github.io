@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Torque Monitoring and Plausibility</title>
+  
+  <style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+:root{
+--page-max:1180px; --text-max:860px; --content-max:1080px;
+--navy:#17324a; --accent:#5d87ad; --soft:#eef4f8; --border:#c7d7e4;
+--ink:#1e2a34; --muted:#607080; --bg:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.68;color:var(--ink);background:var(--bg);
+max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:28px 0 64px}
+h1,h2,h3{color:var(--navy);line-height:1.22}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2rem auto .75rem;font-size:1.42rem}
+h3{max-width:var(--text-max);margin:1.5rem auto .55rem;font-size:1.12rem}
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.85rem}
+li{margin:.24rem 0}
+a{color:#2b638f}
+nav#TOC{max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--border);border-radius:10px;background:#fbfcfe;padding:0}
+nav#TOC summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--navy)}
+nav#TOC ul{max-width:none;margin-top:.25rem;margin-bottom:.75rem}
+pre{max-width:var(--content-max);margin:16px auto;background:#f7f9fb;border:1px solid #d9e3ea;border-radius:9px;
+padding:14px 16px;overflow-x:auto;font-size:.94rem;line-height:1.5}
+code{font-family:Consolas,Monaco,monospace}
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table}
+th,td{border:1px solid #d7e0e7;padding:9px 10px;vertical-align:top}
+th{background:#eef4f8;color:var(--navy)}
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.92rem}
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:11px 14px;border-left:3px solid #9bb5c9;background:#f8fafc;border-radius:6px}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;background:#f8fafc}
+.hero{max-width:var(--content-max);margin:0 auto 24px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#f6f9fb,#eef4f8);border:1px solid var(--border)}
+.hero h1{margin:.1rem 0 .55rem}
+.hero p{max-width:none;margin:.4rem 0}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.8rem;font-weight:700}
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:#fbfcfe;border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center}
+.flow .box strong{display:block;color:var(--navy);margin-bottom:4px}
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.callout{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fbfcfe}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem}
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:14px 16px;background:#fbfcfe;border:1px solid var(--border);border-radius:10px;text-align:center}
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fbfcfe}
+.interactive-card input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{padding:11px;background:var(--soft);border:1px solid var(--border);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.08rem}
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px}
+button{cursor:pointer;border:1px solid #99afc1;background:white;border-radius:7px;padding:7px 10px;color:var(--navy)}
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--content-max);margin:22px auto}
+.site-card{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:12px;padding:16px;background:#fbfcfe}
+.site-card:hover{box-shadow:0 4px 16px rgba(30,50,70,.08)}
+.site-card strong{display:block;color:var(--navy);margin-bottom:5px}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8f0f6;color:#365b78;font-size:.78rem;margin-right:5px}
+@media(max-width:760px){
+body{width:100%;padding:18px 14px 50px}
+table{display:block;overflow-x:auto}
+.hero{padding:20px}
+h1{font-size:1.65rem}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+
+<header id="title-block-header">
+<h1 class="title">Torque Monitoring and Plausibility</h1>
+</header>
+<nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-a-torque-based-ecu-must-monitor-torque-as-well-as-request-it" id="toc-why-a-torque-based-ecu-must-monitor-torque-as-well-as-request-it">1.
+Why a torque-based ECU must monitor torque as well as request
+it</a></li>
+<li><a href="#requested-permitted-and-actual-estimated-torque-are-different" id="toc-requested-permitted-and-actual-estimated-torque-are-different">2.
+Requested, permitted and actual-estimated torque are different</a></li>
+<li><a href="#why-torque-is-usually-modeled-rather-than-directly-measured-in-the-vehicle" id="toc-why-torque-is-usually-modeled-rather-than-directly-measured-in-the-vehicle">3.
+Why torque is usually modeled rather than directly measured in the
+vehicle</a></li>
+<li><a href="#forward-torque-estimate" id="toc-forward-torque-estimate">4. Forward torque estimate</a></li>
+<li><a href="#plausibility-means-does-this-combination-make-physical-sense" id="toc-plausibility-means-does-this-combination-make-physical-sense">5.
+Plausibility means “does this combination make physical sense?”</a>
+<ul>
+<li><a href="#case-a" id="toc-case-a">Case A</a></li>
+<li><a href="#case-b" id="toc-case-b">Case B</a></li>
+</ul></li>
+<li><a href="#independent-information-improves-monitoring" id="toc-independent-information-improves-monitoring">6. Independent
+information improves monitoring</a></li>
+<li><a href="#crank-acceleration-contains-torque-information" id="toc-crank-acceleration-contains-torque-information">7. Crank
+acceleration contains torque information</a></li>
+<li><a href="#cylinder-pressure-torque-in-development" id="toc-cylinder-pressure-torque-in-development">8. Cylinder-pressure
+torque in development</a></li>
+<li><a href="#torque-plausibility-during-spark-retard" id="toc-torque-plausibility-during-spark-retard">9. Torque plausibility
+during spark retard</a></li>
+<li><a href="#torque-plausibility-during-lambda-change" id="toc-torque-plausibility-during-lambda-change">10. Torque
+plausibility during lambda change</a></li>
+<li><a href="#torque-monitoring-and-limitations" id="toc-torque-monitoring-and-limitations">11. Torque monitoring and
+limitations</a></li>
+<li><a href="#diagnostics-versus-protection" id="toc-diagnostics-versus-protection">12. Diagnostics versus
+protection</a></li>
+<li><a href="#example-mismatch" id="toc-example-mismatch">13. Example
+mismatch</a></li>
+<li><a href="#time-alignment-matters" id="toc-time-alignment-matters">14. Time alignment matters</a></li>
+<li><a href="#cng-specific-plausibility" id="toc-cng-specific-plausibility">15. CNG-specific
+plausibility</a></li>
+<li><a href="#interactive-plausibility-check" id="toc-interactive-plausibility-check">16. Interactive plausibility
+check</a></li>
+<li><a href="#calibration-procedure-and-optimization-trade-offs" id="toc-calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</a>
+<ul>
+<li><a href="#establish-the-normal-error-distribution" id="toc-establish-the-normal-error-distribution">1. Establish the normal
+error distribution</a></li>
+<li><a href="#calibrate-steady-state-thresholds" id="toc-calibrate-steady-state-thresholds">2. Calibrate steady-state
+thresholds</a></li>
+<li><a href="#calibrate-transient-thresholds" id="toc-calibrate-transient-thresholds">3. Calibrate transient
+thresholds</a></li>
+<li><a href="#use-independent-plausibility-paths" id="toc-use-independent-plausibility-paths">4. Use independent
+plausibility paths</a></li>
+<li><a href="#validate-real-faults-and-normal-interventions" id="toc-validate-real-faults-and-normal-interventions">5. Validate real
+faults and normal interventions</a></li>
+</ul></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">17. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">18. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+<div class="hero">
+<div class="kicker">
+Powertrain Performance Series
+</div>
+<h1>
+Torque Monitoring and Plausibility
+</h1>
+<p>
+<em>How requested, permitted and estimated torque are checked against
+air, fuel, spark, losses and vehicle response without confusing control
+targets with measured output</em>
+</p>
+</div>
+<div class="publication-note">
+<strong>A note on the examples:</strong> Numerical values and simplified
+models are included to make the physics easy to follow. They are not
+production limits, release targets, or substitutes for the approved ECU
+and hardware documentation of a specific engine project.
+</div>
+<div class="view-controls">
+<p><strong>Reading mode:</strong>
+<button onclick="setMode(&#39;simple&#39;)">Simple view</button>
+<button onclick="setMode(&#39;detailed&#39;)">Detailed view</button> <span id="mode-label">Practical notes visible</span></p>
+</div>
+<h1 id="why-a-torque-based-ecu-must-monitor-torque-as-well-as-request-it">1.
+Why a torque-based ECU must monitor torque as well as request it</h1>
+<p>A torque structure does two different jobs:</p>
+<ol type="1">
+<li>it decides what torque should be produced;</li>
+<li>it estimates whether the engine is actually producing a plausible
+amount of torque.</li>
+</ol>
+<p>This second function matters because the engine, transmission and
+vehicle-dynamics controllers all rely on a trustworthy torque value.</p>
+<h1 id="requested-permitted-and-actual-estimated-torque-are-different">2.
+Requested, permitted and actual-estimated torque are different</h1>
+<p>A useful set of quantities is:</p>
+<pre class="text"><code>Driver requested torque
+        ↓
+Permitted / coordinated torque
+        ↓
+Commanded internal/potential torque
+        ↓
+Estimated actual engine torque</code></pre>
+<p>A mismatch between them can be normal during transients.</p>
+<p>A persistent or physically impossible mismatch needs
+investigation.</p>
+<h1 id="why-torque-is-usually-modeled-rather-than-directly-measured-in-the-vehicle">3.
+Why torque is usually modeled rather than directly measured in the
+vehicle</h1>
+<p>A dyno has a torque transducer.</p>
+<p>A production vehicle normally does not have a precision crankshaft
+torque sensor.</p>
+<p>So the ECU estimates torque from variables such as:</p>
+<ul>
+<li>air charge;</li>
+<li>engine speed;</li>
+<li>spark;</li>
+<li>lambda;</li>
+<li>fuel;</li>
+<li>losses;</li>
+<li>VVT/EGR state.</li>
+</ul>
+<p>This makes model quality essential.</p>
+<h1 id="forward-torque-estimate">4. Forward torque estimate</h1>
+<p>A simplified model is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi><mo>,</mo><mi>e</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>p</mi><mi>o</mi><mi>t</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>a</mi><mi>l</mi></mrow></msub><msub><mi>η</mi><mrow><mi>s</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>k</mi></mrow></msub><msub><mi>η</mi><mi>λ</mi></msub><msub><mi>η</mi><mrow><mi>o</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>r</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+T_{brake,est}
+=
+T_{potential}
+\eta_{spark}
+\eta_{\lambda}
+\eta_{other}
+-
+T_{loss}
+</annotation></semantics></math></p>
+<p>This should be consistent with the inverse model used to request
+air.</p>
+<p>If the forward and inverse models disagree badly, torque control can
+become unstable or inaccurate.</p>
+<h1 id="plausibility-means-does-this-combination-make-physical-sense">5.
+Plausibility means “does this combination make physical sense?”</h1>
+<p>Examples:</p>
+<h3 id="case-a">Case A</h3>
+<pre class="text"><code>Air charge says high torque
+spark efficiency says near 1
+lambda says normal
+but estimated torque is very low</code></pre>
+<p>Possible issue:</p>
+<ul>
+<li>torque model error;</li>
+<li>loss model error;</li>
+<li>air measurement error.</li>
+</ul>
+<h3 id="case-b">Case B</h3>
+<pre class="text"><code>Driver requests 200 Nm
+active thermal limit is 150 Nm
+air path is trying to produce 200 Nm</code></pre>
+<p>This is an arbitration inconsistency.</p>
+<h1 id="independent-information-improves-monitoring">6. Independent
+information improves monitoring</h1>
+<p>Torque plausibility can use different information paths.</p>
+<p>For example:</p>
+<pre class="text"><code>Path 1:
+air charge → potential torque → corrected torque
+
+Path 2:
+fuel energy / combustion model → torque estimate
+
+Path 3:
+crank acceleration / vehicle response → plausibility</code></pre>
+<p>The goal is not to make three identical models.</p>
+<p>Independent physics gives better fault detection.</p>
+<h1 id="crank-acceleration-contains-torque-information">7. Crank
+acceleration contains torque information</h1>
+<p>From rotational dynamics:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+J\frac{d\omega}{dt}
+=
+T_{engine}
+-
+T_{load}
+</annotation></semantics></math></p>
+<p>If the ECU claims a large positive torque increase but crank
+acceleration does not respond as expected, something may be
+inconsistent.</p>
+<p>Vehicle/driveline inertia makes this a complicated measurement, but
+the principle is useful.</p>
+<h1 id="cylinder-pressure-torque-in-development">8. Cylinder-pressure
+torque in development</h1>
+<p>Development engines can use cylinder pressure to estimate indicated
+work directly.</p>
+<p>That provides valuable ground truth for:</p>
+<ul>
+<li>air-charge torque model;</li>
+<li>spark efficiency;</li>
+<li>lambda efficiency;</li>
+<li>cylinder balance.</li>
+</ul>
+<p>It is normally a development reference rather than production
+hardware.</p>
+<h1 id="torque-plausibility-during-spark-retard">9. Torque plausibility
+during spark retard</h1>
+<p>Suppose air charge is unchanged but knock control retards spark.</p>
+<p>Then:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>s</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>k</mi></mrow></msub><mo>↓</mo></mrow><annotation encoding="application/x-tex">
+\eta_{spark}\downarrow
+</annotation></semantics></math></p>
+<p>Estimated torque should fall.</p>
+<p>If the torque model does not respond to the measured final spark, it
+can over-report delivered torque to the transmission.</p>
+<h1 id="torque-plausibility-during-lambda-change">10. Torque
+plausibility during lambda change</h1>
+<p>A rich or lean excursion can change torque even when air charge is
+constant.</p>
+<p>Therefore the torque estimate should follow the lambda-efficiency
+convention implemented in the ECU.</p>
+<p>This is especially important during:</p>
+<ul>
+<li>catalyst heating;</li>
+<li>high-load protection;</li>
+<li>fuel-quality transitions;</li>
+<li>transient lambda error.</li>
+</ul>
+<h1 id="torque-monitoring-and-limitations">11. Torque monitoring and
+limitations</h1>
+<p>A torque monitor should know when the requested value is
+impossible.</p>
+<p>Example:</p>
+<pre class="text"><code>Requested charge        700 mg/event
+Maximum turbo-safe      620 mg/event
+Fuel system maximum     equivalent 600 mg/event</code></pre>
+<p>The maximum available torque should be based on the achievable system
+state rather than on the driver request.</p>
+<h1 id="diagnostics-versus-protection">12. Diagnostics versus
+protection</h1>
+<p>Torque plausibility can support:</p>
+<ul>
+<li>sensor diagnostics;</li>
+<li>actuator diagnostics;</li>
+<li>model rationality;</li>
+<li>transmission coordination;</li>
+<li>safety monitoring.</li>
+</ul>
+<p>This article stays at the conceptual level because exact production
+safety architectures and thresholds are project-specific.</p>
+<h1 id="example-mismatch">13. Example mismatch</h1>
+<p>Suppose:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Permitted brake torque</td>
+<td style="text-align: right;">140 Nm</td>
+</tr>
+<tr class="even">
+<td>Estimated actual torque</td>
+<td style="text-align: right;">165 Nm</td>
+</tr>
+<tr class="odd">
+<td>Difference</td>
+<td style="text-align: right;">+25 Nm</td>
+</tr>
+</tbody>
+</table>
+<p>That difference is not automatically a fault.</p>
+<p>Ask:</p>
+<ul>
+<li>Is the signal time-aligned?</li>
+<li>Is a transient occurring?</li>
+<li>Did spark change?</li>
+<li>Is air-charge measurement delayed?</li>
+<li>Is loss torque wrong?</li>
+<li>Is the model in the correct fuel mode?</li>
+</ul>
+<p>Monitoring requires both physics and timing.</p>
+<h1 id="time-alignment-matters">14. Time alignment matters</h1>
+<p>During a tip-in:</p>
+<pre class="text"><code>pedal request changes now
+air charge changes later
+turbo changes later
+actual torque changes with combustion events
+vehicle acceleration changes after driveline dynamics</code></pre>
+<p>Comparing asynchronous signals can create a false torque
+mismatch.</p>
+<h1 id="cng-specific-plausibility">15. CNG-specific plausibility</h1>
+<p>CNG torque estimation should account for:</p>
+<ul>
+<li>gas composition;</li>
+<li>gas rail pressure/temperature;</li>
+<li>gaseous-fuel air displacement;</li>
+<li>final lambda;</li>
+<li>final spark;</li>
+<li>injector flow capability.</li>
+</ul>
+<p>A wrong gas-quality assumption can make lambda correct but
+energy-based torque prediction wrong.</p>
+<h1 id="interactive-plausibility-check">16. Interactive plausibility
+check</h1>
+<div class="interactive-card">
+<h3>
+Torque plausibility
+</h3>
+<label>Permitted torque [Nm]
+<input id="tm-perm" type="range" min="50" max="220" value="140" oninput="updateTM()"></label>
+<label>Estimated actual torque [Nm]
+<input id="tm-act" type="range" min="50" max="220" value="145" oninput="updateTM()"></label>
+<label>Expected transient tolerance [Nm]
+<input id="tm-tol" type="range" min="2" max="30" value="10" oninput="updateTM()"></label>
+<p id="tm-msg">
+</p>
+</div>
+<h1 id="calibration-procedure-and-optimization-trade-offs">Calibration
+procedure and optimization trade-offs</h1>
+<p>Torque monitoring needs calibration because every plausibility
+comparison contains model uncertainty, sensor uncertainty and transient
+delay.</p>
+<p>The goal is to detect genuinely implausible torque without creating
+false faults during normal operation.</p>
+<h2 id="establish-the-normal-error-distribution">1. Establish the normal
+error distribution</h2>
+<p>Compare estimated torque with development references such as:</p>
+<ul>
+<li>dyno torque;</li>
+<li>cylinder-pressure indicated torque where available.</li>
+</ul>
+<p>Cover:</p>
+<ul>
+<li>speed;</li>
+<li>load;</li>
+<li>spark;</li>
+<li>lambda;</li>
+<li>VVT;</li>
+<li>temperature;</li>
+<li>fuel mode.</li>
+</ul>
+<p>This defines the normal model error before fault thresholds are
+chosen.</p>
+<h2 id="calibrate-steady-state-thresholds">2. Calibrate steady-state
+thresholds</h2>
+<p>At stable points, thresholds can be relatively tight because timing
+mismatch is small.</p>
+<p>Trade-off:</p>
+<pre class="text"><code>tight threshold
+→ sensitive detection
+but
+→ false faults from normal model error</code></pre>
+<pre class="text"><code>wide threshold
+→ robust
+but
+→ weak fault sensitivity</code></pre>
+<h2 id="calibrate-transient-thresholds">3. Calibrate transient
+thresholds</h2>
+<p>During tip-in/tip-out, torque requests and physical response are
+naturally time-shifted.</p>
+<p>Use where needed:</p>
+<ul>
+<li>state-dependent thresholds;</li>
+<li>delay compensation;</li>
+<li>filtering;</li>
+<li>temporary larger windows.</li>
+</ul>
+<h2 id="use-independent-plausibility-paths">4. Use independent
+plausibility paths</h2>
+<p>Avoid building every monitor from the same inputs.</p>
+<p>Possible paths include:</p>
+<ul>
+<li>air-based torque model;</li>
+<li>fuel/energy plausibility;</li>
+<li>crank-acceleration plausibility.</li>
+</ul>
+<p>The more physically independent the information, the stronger the
+monitor.</p>
+<h2 id="validate-real-faults-and-normal-interventions">5. Validate real
+faults and normal interventions</h2>
+<p>Inject or simulate faults such as:</p>
+<ul>
+<li>sensor bias;</li>
+<li>stuck actuator;</li>
+<li>wrong spark;</li>
+<li>air-charge error;</li>
+<li>fuel-pressure error.</li>
+</ul>
+<p>Also verify normal states:</p>
+<ul>
+<li>gear shifts;</li>
+<li>traction intervention;</li>
+<li>cold start;</li>
+<li>thermal derating.</li>
+</ul>
+<p>The final monitor must distinguish <strong>normal control
+behavior</strong> from genuine implausibility.</p>
+<h1 id="common-mistakes">17. Common mistakes</h1>
+<ul>
+<li>Treating requested torque as measured torque.</li>
+<li>Ignoring signal delay during plausibility checks.</li>
+<li>Using the same flawed input for every “independent” estimate.</li>
+<li>Ignoring final spark and lambda corrections.</li>
+<li>Ignoring loss-model error.</li>
+<li>Ignoring fuel mode and gas quality.</li>
+<li>Declaring a fault from one instantaneous mismatch.</li>
+</ul>
+<h1 id="key-lessons">18. Key lessons</h1>
+<ol type="1">
+<li>A torque-based ECU needs both a request path and an
+estimation/monitoring path.</li>
+<li>Production torque is usually modeled rather than directly
+measured.</li>
+<li>Air, spark, lambda, fuel and losses must all affect the torque
+estimate consistently.</li>
+<li>Independent physical estimates improve plausibility checking.</li>
+<li>Time alignment is essential during transients.</li>
+<li>Maximum available torque should reflect real actuator and protection
+limits.</li>
+<li>Torque monitoring supports control coordination, diagnostics and
+safety.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="ref-list">
+<li>
+L. Guzzella and C. H. Onder, <em>Introduction to Modeling and Control of
+Internal Combustion Engine Systems</em>, 2nd ed. Used for torque-based
+engine control, air-path dynamics, compressor/turbine models, mean-value
+engine modeling, and control structure.
+</li>
+<li>
+W. W. Pulkrabek, <em>Engineering Fundamentals of the Internal Combustion
+Engine</em>. Used for gas exchange, valve timing, Miller-cycle
+discussion, combustion variability, friction/pumping concepts,
+turbocharging, and emissions fundamentals.
+</li>
+<li>
+Earlier articles in this series: CNG air-charge and torque calibration;
+spark/lambda efficiency maps; ignition-timing sweep and MBT; knock
+control; lambda window and three-way-catalyst calibration.
+</li>
+<li>
+The torque-structure and air-charge articles establish forward/inverse
+torque models and actual torque estimation; this article keeps
+monitoring at a conceptual level rather than describing project-specific
+safety implementation.
+</li>
+</ol>
+<p>
+<a href="../">← Back to the Powertrain Performance Series</a>
+</p>
+<script>
+function setMode(mode){
+  document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+  const label=document.getElementById('mode-label');
+  if(label) label.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<script>
+function updateTM(){
+ const p=+document.getElementById('tm-perm').value, a=+document.getElementById('tm-act').value, tol=+document.getElementById('tm-tol').value;
+ const e=a-p, ok=Math.abs(e)<=tol;
+ document.getElementById('tm-msg').innerHTML=`Torque difference = <strong>${e>=0?'+':''}${e.toFixed(0)} Nm</strong>. With the chosen illustrative tolerance, this is <strong>${ok?'plausible':'outside the expected window'}</strong>. A real monitor would also consider operating state, signal delay, model uncertainty and active interventions.`;
+}
+document.addEventListener('DOMContentLoaded',updateTM);
+</script>
+<div class="series-back"><a href="../series.html">← Back to series index</a></div>
+</body>
+</html>

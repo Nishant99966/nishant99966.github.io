@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Miller Timing, Gas Exchange and Turbo Matching at Nominal 1500 rpm</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="Geometric/effective/expansion ratio, EIVC/LIVC, nominal-speed
+optimization and the boost-work trade-off" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 12 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Miller Timing, Gas Exchange and Turbo Matching at Nominal 1500 rpm
+</h1>
+<p>
+<em>Geometric/effective/expansion ratio, EIVC/LIVC, nominal-speed
+optimization and the boost-work trade-off</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#nominal-speed-miller-timing-is-still-a-load-dependent-gas-exchange-problem" id="toc-nominal-speed-miller-timing-is-still-a-load-dependent-gas-exchange-problem">1.
+Nominal-speed Miller timing is still a load-dependent gas-exchange
+problem</a></li>
+<li><a href="#fixed-cam-versus-variable-cam-hardware" id="toc-fixed-cam-versus-variable-cam-hardware">2. Fixed cam versus
+variable cam hardware</a>
+<ul>
+<li><a href="#fixed-miller-timing" id="toc-fixed-miller-timing">Fixed
+Miller timing</a></li>
+<li><a href="#variable-valve-timing" id="toc-variable-valve-timing">Variable valve timing</a></li>
+</ul></li>
+<li><a href="#why-turbocharging-and-miller-timing-belong-together" id="toc-why-turbocharging-and-miller-timing-belong-together">3. Why
+turbocharging and Miller timing belong together</a></li>
+<li><a href="#calibration-procedure-with-variable-timing" id="toc-calibration-procedure-with-variable-timing">4. Calibration
+procedure with variable timing</a></li>
+<li><a href="#trade-off-knock-margin-versus-turbo-work" id="toc-trade-off-knock-margin-versus-turbo-work">5. Trade-off — knock
+margin versus turbo work</a></li>
+<li><a href="#trade-off-pumping-work-versus-expansion-work" id="toc-trade-off-pumping-work-versus-expansion-work">6. Trade-off —
+pumping work versus expansion work</a></li>
+<li><a href="#nominal-speed-design-advantage" id="toc-nominal-speed-design-advantage">7. Nominal-speed design
+advantage</a></li>
+<li><a href="#full-load-validation" id="toc-full-load-validation">8.
+Full-load validation</a></li>
+<li><a href="#nominal-speed-miller-timing-the-main-genset-case" id="toc-nominal-speed-miller-timing-the-main-genset-case">9.
+Nominal-speed Miller timing: the main genset case</a></li>
+<li><a href="#early-intake-valve-closing" id="toc-early-intake-valve-closing">10. Early intake-valve
+closing</a></li>
+<li><a href="#late-intake-valve-closing" id="toc-late-intake-valve-closing">11. Late intake-valve
+closing</a></li>
+<li><a href="#calibration-procedure-for-a-fixed-miller-design" id="toc-calibration-procedure-for-a-fixed-miller-design">12. Calibration
+procedure for a fixed Miller design</a></li>
+<li><a href="#variable-valve-timing-as-an-advanced-alternative" id="toc-variable-valve-timing-as-an-advanced-alternative">13. Variable
+valve timing as an advanced alternative</a></li>
+<li><a href="#main-trade-off-miller-benefit-versus-charging-system-work" id="toc-main-trade-off-miller-benefit-versus-charging-system-work">14.
+Main trade-off — Miller benefit versus charging-system work</a></li>
+<li><a href="#geometric-effective-and-expansion-ratios" id="toc-geometric-effective-and-expansion-ratios">15. Geometric,
+effective and expansion ratios</a>
+<ul>
+<li><a href="#geometric-compression-ratio" id="toc-geometric-compression-ratio">Geometric compression
+ratio</a></li>
+<li><a href="#effective-compression-ratio" id="toc-effective-compression-ratio">Effective compression
+ratio</a></li>
+<li><a href="#expansion-ratio" id="toc-expansion-ratio">Expansion
+ratio</a></li>
+</ul></li>
+<li><a href="#calibration-procedure" id="toc-calibration-procedure">16.
+Calibration procedure</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">17.
+Engineering figure</a></li>
+<li><a href="#optional-egr-and-dilution-architectures" id="toc-optional-egr-and-dilution-architectures">18. Optional EGR and
+dilution architectures</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">19. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">20. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="nominal-speed-miller-timing-is-still-a-load-dependent-gas-exchange-problem">1.
+Nominal-speed Miller timing is still a load-dependent gas-exchange
+problem</h1>
+<p>Advanced nominal-speed gas engines can use Miller-cycle intake-valve
+timing to reduce effective compression temperature and improve knock
+margin.</p>
+<p>The core idea is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>e</mi><mi>x</mi><mi>p</mi><mi>a</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>&gt;</mo><msub><mi>r</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>v</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+r_{expansion}&gt;r_{effective\ compression}
+</annotation></semantics></math></p>
+<p>through early or late intake-valve closing.</p>
+<h1 id="fixed-cam-versus-variable-cam-hardware">2. Fixed cam versus
+variable cam hardware</h1>
+<p>Not every genset has variable valve timing.</p>
+<p>So there are two cases:</p>
+<h2 id="fixed-miller-timing">Fixed Miller timing</h2>
+<p>The cam timing is hardware-defined.</p>
+<p>Calibration work focuses on validating:</p>
+<ul>
+<li>charge;</li>
+<li>knock;</li>
+<li>turbo matching;</li>
+<li>efficiency;</li>
+<li>emissions;</li>
+</ul>
+<p>across load and ambient conditions.</p>
+<h2 id="variable-valve-timing">Variable valve timing</h2>
+<p>If VVT is available, valve timing itself becomes a calibration
+dimension.</p>
+<h1 id="why-turbocharging-and-miller-timing-belong-together">3. Why
+turbocharging and Miller timing belong together</h1>
+<p>Miller timing can reduce effective trapped charge.</p>
+<p>The turbocharger can recover that charge by increasing intake
+pressure.</p>
+<p>Conceptually:</p>
+<pre class="text"><code>Miller timing
+   ↓
+effective compression temperature ↓
+knock margin ↑
+   +
+boost
+   ↓
+air charge recovered</code></pre>
+<h1 id="calibration-procedure-with-variable-timing">4. Calibration
+procedure with variable timing</h1>
+<p>At a fixed load:</p>
+<ol type="1">
+<li>hold 1500 rpm;</li>
+<li>hold lambda;</li>
+<li>hold spark target;</li>
+<li>sweep intake timing;</li>
+<li>measure air charge, boost, exhaust pressure, efficiency and
+knock;</li>
+<li>then re-optimize turbo control.</li>
+</ol>
+<h1 id="trade-off-knock-margin-versus-turbo-work">5. Trade-off — knock
+margin versus turbo work</h1>
+<p>More aggressive Miller effect can improve knock.</p>
+<p>But recovering torque needs more boost.</p>
+<p>That can increase:</p>
+<ul>
+<li>compressor work;</li>
+<li>exhaust backpressure;</li>
+<li>turbo speed.</li>
+</ul>
+<p>The best point is where the knock/efficiency gain remains larger than
+turbo losses.</p>
+<h1 id="trade-off-pumping-work-versus-expansion-work">6. Trade-off —
+pumping work versus expansion work</h1>
+<p>Valve timing and exhaust-valve opening can alter:</p>
+<ul>
+<li>pumping loop;</li>
+<li>expansion work;</li>
+<li>turbine enthalpy.</li>
+</ul>
+<p>Earlier exhaust opening may help turbine power but reduce cylinder
+expansion work.</p>
+<h1 id="nominal-speed-design-advantage">7. Nominal-speed design
+advantage</h1>
+<p>Because rpm is fixed, gas-dynamic behavior is easier to characterize
+than in an automotive engine.</p>
+<p>The main sweep becomes:</p>
+<pre class="text"><code>load × ambient × gas quality</code></pre>
+<p>rather than a large speed map.</p>
+<h1 id="full-load-validation">8. Full-load validation</h1>
+<p>At full load check:</p>
+<ul>
+<li>turbo speed;</li>
+<li>compressor margin;</li>
+<li>exhaust pressure;</li>
+<li>peak pressure;</li>
+<li>knock;</li>
+<li>electrical efficiency;</li>
+<li>EGT.</li>
+</ul>
+<p>The Miller/turbo combination must remain balanced under the worst
+hot/altitude condition.</p>
+<h1 id="nominal-speed-miller-timing-the-main-genset-case">9.
+Nominal-speed Miller timing: the main genset case</h1>
+<p>A nominally fixed-speed genset has an important design
+advantage:</p>
+<blockquote>
+<p>The valve timing can be optimized around a very narrow speed
+region.</p>
+</blockquote>
+<p>That means advanced gas engines can use <strong>fixed Miller-oriented
+valve timing</strong> designed specifically for nominal 1500-rpm
+operation.</p>
+<p>In that case, the calibration engineer does not “sweep a VVT map” in
+production.</p>
+<p>Instead, the job is to validate how the fixed gas-exchange design
+behaves across:</p>
+<ul>
+<li>electrical load;</li>
+<li>boost;</li>
+<li>exhaust backpressure;</li>
+<li>ambient temperature;</li>
+<li>altitude;</li>
+<li>gas quality.</li>
+</ul>
+<h1 id="early-intake-valve-closing">10. Early intake-valve closing</h1>
+<p>One Miller implementation uses early intake-valve closing.</p>
+<p>Conceptually:</p>
+<pre class="text"><code>Intake valve closes before BDC
+        ↓
+trapped charge expands during rest of intake stroke
+        ↓
+effective compression starts from lower pressure/temperature
+        ↓
+knock tendency can reduce</code></pre>
+<p>Turbocharging is then used to recover the fresh-air charge needed for
+power.</p>
+<h1 id="late-intake-valve-closing">11. Late intake-valve closing</h1>
+<p>Another implementation uses late intake-valve closing:</p>
+<pre class="text"><code>Piston begins compression
+      ↓
+intake valve remains open
+      ↓
+some charge can move back toward intake
+      ↓
+effective compression begins later</code></pre>
+<p>Both can create the same high-level goal:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>e</mi><mi>x</mi><mi>p</mi><mi>a</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>&gt;</mo><msub><mi>r</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>v</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>s</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+r_{expansion}
+&gt;
+r_{effective\ compression}
+</annotation></semantics></math></p>
+<h1 id="calibration-procedure-for-a-fixed-miller-design">12. Calibration
+procedure for a fixed Miller design</h1>
+<p>At each load:</p>
+<ol type="1">
+<li>measure trapped fresh-air charge;</li>
+<li>measure manifold and exhaust pressure;</li>
+<li>measure compressor/turbo operating point;</li>
+<li>optimize lambda;</li>
+<li>optimize ignition/CA50;</li>
+<li>evaluate Pmax/knock;</li>
+<li>calculate electrical efficiency.</li>
+</ol>
+<p>The calibration variable is mainly <strong>air/turbo/mixture/ignition
+coordination around the fixed valve timing</strong>.</p>
+<h1 id="variable-valve-timing-as-an-advanced-alternative">13. Variable
+valve timing as an advanced alternative</h1>
+<p>Some engines may also use variable cam phasing.</p>
+<p>Where available, VVT adds another optimization dimension.</p>
+<p>But it should be presented as an architecture option, not assumed for
+every nominally fixed-speed genset.</p>
+<h1 id="main-trade-off-miller-benefit-versus-charging-system-work">14.
+Main trade-off — Miller benefit versus charging-system work</h1>
+<p>A stronger Miller effect can improve knock margin and allow more
+favorable combustion phasing.</p>
+<p>But if too much charge is lost, the turbo system must work
+harder.</p>
+<p>The final system benefit exists only if:</p>
+<pre class="text"><code>combustion / knock / expansion benefit
+&gt;
+extra compressor + turbine + pumping penalty</code></pre>
+<p>This is why Miller timing and turbo matching should be evaluated as
+one thermodynamic system.</p>
+<h1 id="geometric-effective-and-expansion-ratios">15. Geometric,
+effective and expansion ratios</h1>
+<p>Three ratios should be kept separate.</p>
+<h2 id="geometric-compression-ratio">Geometric compression ratio</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>g</mi></msub><mo>=</mo><mfrac><msub><mi>V</mi><mrow><mi>B</mi><mi>D</mi><mi>C</mi></mrow></msub><msub><mi>V</mi><mrow><mi>T</mi><mi>D</mi><mi>C</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+r_g
+=
+\frac{V_{BDC}}{V_{TDC}}
+</annotation></semantics></math></p>
+<p>This is fixed by engine geometry.</p>
+<h2 id="effective-compression-ratio">Effective compression ratio</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">
+r_{eff}
+</annotation></semantics></math></p>
+<p>depends on when the intake valve effectively traps the charge.</p>
+<p>Miller timing can reduce this relative to the geometric value.</p>
+<h2 id="expansion-ratio">Expansion ratio</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mrow><mi>e</mi><mi>x</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">
+r_{exp}
+</annotation></semantics></math></p>
+<p>describes the volume ratio available during expansion.</p>
+<p>The key Miller/Atkinson idea is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>e</mi><mi>x</mi><mi>p</mi></mrow></msub><mo>&gt;</mo><msub><mi>r</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+r_{exp}&gt;r_{eff}
+</annotation></semantics></math></p>
+<p>without requiring the geometric piston stroke to change.</p>
+<p>This distinction prevents the common misunderstanding that Miller
+operation physically changes the engine’s geometric compression ratio
+during operation.</p>
+<h1 id="calibration-procedure">16. Calibration procedure</h1>
+<p>For a fixed Miller hardware design:</p>
+<ol type="1">
+<li>establish gas-exchange pressures at each load;</li>
+<li>measure trapped fresh-air charge;</li>
+<li>place turbo operation on compressor maps;</li>
+<li>optimize lambda;</li>
+<li>optimize ignition;</li>
+<li>quantify knock/Pmax benefit;</li>
+<li>quantify pumping/backpressure cost;</li>
+<li>compare electrical efficiency with the reference
+design/strategy.</li>
+</ol>
+<h1 id="engineering-figure">17. Miller valve-timing illustration</h1>
+<figure class="figure-card">
+<svg aria-label="Miller intake valve closing concepts" role="img" viewbox="0 0 820 440">
+<rect fill="white" height="440" width="820"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="350" y2="350"></line>
+<text font-size="14" x="90" y="388">TDC</text><text font-size="14" x="375" y="388">BDC</text><text font-size="14" x="700" y="388">TDC</text>
+<path d="M95 320 C160 190,260 120,390 140 C510 155,610 230,710 320" fill="none" stroke="#c7d7e4" stroke-width="6"></path>
+<path d="M100 315 L100 130 L305 130 L305 315" fill="none" stroke="#17324a" stroke-width="5"></path>
+<text fill="#17324a" font-size="14" x="185" y="112">EIVC example</text>
+<path d="M100 315 L100 205 L500 205 L500 315" fill="none" stroke="#5d87ad" stroke-width="5"></path>
+<text fill="#5d87ad" font-size="14" x="405" y="190">LIVC example</text>
+<text fill="#61717f" font-size="13" x="255" y="338">intake stroke</text>
+<text fill="#61717f" font-size="13" x="510" y="338">compression
+stroke</text>
+</svg>
+<figcaption>
+Conceptual valve-event comparison. EIVC and LIVC are different ways to
+reduce effective compression relative to expansion; the actual valve
+lift and closing angles are engine-design-specific.
+</figcaption>
+</figure>
+<h1 id="optional-egr-and-dilution-architectures">18. Optional EGR and
+dilution architectures</h1>
+<p>External EGR is <strong>not universal</strong> on large lean-burn gas
+gensets, so it should be treated as an architecture option rather than a
+default assumption.</p>
+<p>Where used, dilution can:</p>
+<ul>
+<li>reduce combustion temperature;</li>
+<li>reduce NOx;</li>
+<li>improve knock margin;</li>
+<li>change pumping work.</li>
+</ul>
+<p>But excessive dilution can:</p>
+<ul>
+<li>slow combustion;</li>
+<li>increase COVIMEP;</li>
+<li>increase CH4/partial-burn risk;</li>
+<li>change turbocharger flow and backpressure.</li>
+</ul>
+<p>A generic optimization is:</p>
+<pre class="text"><code>0% dilution reference
+      ↓
+increase EGR / residual fraction
+      ↓
+re-optimize spark
+      ↓
+measure efficiency, NOx, CH4, CA50 and COVIMEP
+      ↓
+select a target with margin from the stability boundary</code></pre>
+<p>Internal residual-gas control through valve timing can create similar
+combustion effects without a separate external-EGR circuit.</p>
+<p>The torque/air model must distinguish:</p>
+<pre class="text"><code>fresh oxygen-bearing air
+from
+total trapped cylinder mass</code></pre>
+<p>when dilution is present.</p>
+<h1 id="common-mistakes">19. Common mistakes</h1>
+<ul>
+<li>Calling geometric compression ratio “reduced” when only effective
+compression changes.</li>
+<li>Assuming all industrial Miller engines have VVT.</li>
+<li>Evaluating Miller timing without re-matching boost.</li>
+<li>Ignoring exhaust backpressure.</li>
+<li>Claiming an efficiency gain from lower knock alone without checking
+turbo work.</li>
+</ul>
+<h1 id="key-lessons">20. Key lessons</h1>
+<ol type="1">
+<li>Miller timing changes effective compression, not the fixed geometric
+ratio.</li>
+<li>Nominal-speed engines can optimize valve timing around a narrow
+speed range.</li>
+<li>Boost can recover charge lost by EIVC/LIVC.</li>
+<li>Miller and turbo matching must be evaluated as one system.</li>
+<li>The benefit exists only if combustion/knock gains exceed extra
+charging and pumping losses.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+ISO 8528-2:2018 — Engines; principal characteristics and speed-governing
+terminology for generating-set applications.
+</li>
+<li>
+W. W. Pulkrabek, Engineering Fundamentals of the Internal Combustion
+Engine.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../11-prechamber-combustion-cylinder-balancing/">← Prechamber Combustion, Lean-Limit Extension and Cylinder Balancing</a><span class="article-count">12 / 23</span><a href="../13-emissions-measurement-efficiency-optimization/">Engine-Out Emissions Measurement and Electrical-Efficiency Optimization →</a></div></body>
+</html>
