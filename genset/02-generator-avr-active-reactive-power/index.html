@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Synchronous Generator, AVR, Active/Reactive Power and Capability</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="P-Q control, power factor, operating-dependent generator losses,
+capability curves, excitation limiters and synchronization" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 2 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Synchronous Generator, AVR, Active/Reactive Power and Capability
+</h1>
+<p>
+<em>P-Q control, power factor, operating-dependent generator losses,
+capability curves, excitation limiters and synchronization</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-an-engine-calibration-engineer-needs-generator-fundamentals" id="toc-why-an-engine-calibration-engineer-needs-generator-fundamentals">1.
+Why an engine calibration engineer needs generator fundamentals</a></li>
+<li><a href="#synchronous-speed" id="toc-synchronous-speed">2.
+Synchronous speed</a></li>
+<li><a href="#active-reactive-and-apparent-power" id="toc-active-reactive-and-apparent-power">3. Active, reactive and
+apparent power</a></li>
+<li><a href="#why-reactive-load-can-reduce-available-active-power" id="toc-why-reactive-load-can-reduce-available-active-power">4. Why
+reactive load can reduce available active power</a></li>
+<li><a href="#what-the-avr-does" id="toc-what-the-avr-does">5. What the
+AVR does</a></li>
+<li><a href="#governor-and-avr-must-not-fight-each-other" id="toc-governor-and-avr-must-not-fight-each-other">6. Governor and AVR
+must not fight each other</a></li>
+<li><a href="#synchronization-before-breaker-closing" id="toc-synchronization-before-breaker-closing">7. Synchronization
+before breaker closing</a></li>
+<li><a href="#what-changes-immediately-after-synchronization" id="toc-what-changes-immediately-after-synchronization">8. What changes
+immediately after synchronization</a></li>
+<li><a href="#generator-capability-limits" id="toc-generator-capability-limits">9. Generator capability
+limits</a></li>
+<li><a href="#calibration-commissioning-procedure" id="toc-calibration-commissioning-procedure">10. Calibration /
+commissioning procedure</a>
+<ul>
+<li><a href="#step-1-no-load-voltage-build" id="toc-step-1-no-load-voltage-build">Step 1 — no-load voltage
+build</a></li>
+<li><a href="#step-2-synchronization" id="toc-step-2-synchronization">Step 2 — synchronization</a></li>
+<li><a href="#step-3-active-power-loading" id="toc-step-3-active-power-loading">Step 3 — active-power
+loading</a></li>
+<li><a href="#step-4-reactive-power-sweep" id="toc-step-4-reactive-power-sweep">Step 4 — reactive-power
+sweep</a></li>
+</ul></li>
+<li><a href="#main-trade-off-active-power-versus-reactive-margin" id="toc-main-trade-off-active-power-versus-reactive-margin">11. Main
+trade-off — active power versus reactive margin</a></li>
+<li><a href="#interactive-p-q-pf-calculator" id="toc-interactive-p-q-pf-calculator">12. Interactive P-Q-PF
+calculator</a></li>
+<li><a href="#generator-efficiency-is-an-operating-map-not-one-constant" id="toc-generator-efficiency-is-an-operating-map-not-one-constant">13.
+Generator efficiency is an operating map, not one constant</a></li>
+<li><a href="#capability-curve-thinking" id="toc-capability-curve-thinking">14. Capability-curve
+thinking</a></li>
+<li><a href="#excitation-limiters" id="toc-excitation-limiters">15.
+Excitation limiters</a></li>
+<li><a href="#worked-capability-example" id="toc-worked-capability-example">16. Worked capability
+example</a></li>
+<li><a href="#calibration-commissioning-outputs" id="toc-calibration-commissioning-outputs">17. Calibration /
+commissioning outputs</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">18.
+Engineering figure</a></li>
+<li><a href="#reactive-power-sign-convention-leading-and-lagging-power-factor" id="toc-reactive-power-sign-convention-leading-and-lagging-power-factor">19.
+Reactive-power sign convention, leading and lagging power
+factor</a></li>
+<li><a href="#power-quality-and-faultgrid-code-awareness" id="toc-power-quality-and-faultgrid-code-awareness">20. Power-quality
+and fault/grid-code awareness</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">21. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">22. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="why-an-engine-calibration-engineer-needs-generator-fundamentals">1.
+Why an engine calibration engineer needs generator fundamentals</h1>
+<p>The engine creates <strong>mechanical torque</strong>.</p>
+<p>The generator converts that torque into electrical power.</p>
+<p>But the generator also has its own control problem: terminal voltage
+and reactive power.</p>
+<p>The simplest separation is:</p>
+<pre class="text"><code>Governor / engine torque
+        ↓
+Active power P
+
+AVR / field excitation
+        ↓
+Voltage and reactive power Q</code></pre>
+<p>The two channels interact through machine current, thermal limits and
+the electrical network.</p>
+<h1 id="synchronous-speed">2. Synchronous speed</h1>
+<p>For a synchronous generator:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mn>120</mn><mi>f</mi></mrow><msub><mi>N</mi><mi>p</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
+n_s=\frac{120f}{N_p}
+</annotation></semantics></math></p>
+<p>At nominal 50 Hz with four poles:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>s</mi></msub><mo>=</mo><mn>1500</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+n_s=1500\ \mathrm{rpm}
+</annotation></semantics></math></p>
+<p>More generally, synchronous speed follows actual electrical
+frequency. For example at 49.8 Hz:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>s</mi></msub><mo>=</mo><mn>1494</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+n_s=1494\ \mathrm{rpm}
+</annotation></semantics></math></p>
+<p>So 1500 rpm is a nominal operating point, not an immutable transient
+value.</p>
+<p>At 60 Hz with four poles:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>s</mi></msub><mo>=</mo><mn>1800</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">m</mi></mrow></mrow><annotation encoding="application/x-tex">
+n_s=1800\ \mathrm{rpm}
+</annotation></semantics></math></p>
+<p>This is why many large 50 Hz gas gensets are designed around 1500
+rpm.</p>
+<h1 id="active-reactive-and-apparent-power">3. Active, reactive and
+apparent power</h1>
+<p>Active power:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mspace width="0.222em"></mspace><mrow><mo form="prefix" stretchy="true">[</mo><mi>k</mi><mi>W</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>M</mi><mi>W</mi><mo form="postfix" stretchy="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">
+P\ [kW,\ MW]
+</annotation></semantics></math></p>
+<p>does useful energy work and ultimately requires engine shaft
+power.</p>
+<p>Reactive power:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mspace width="0.222em"></mspace><mrow><mo form="prefix" stretchy="true">[</mo><mi>k</mi><mi>V</mi><mi>A</mi><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>M</mi><mi>V</mi><mi>A</mi><mi>r</mi><mo form="postfix" stretchy="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">
+Q\ [kVAr,\ MVAr]
+</annotation></semantics></math></p>
+<p>supports the electric/magnetic fields of the network and loads.</p>
+<p>Apparent power:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><msqrt><mrow><msup><mi>P</mi><mn>2</mn></msup><mo>+</mo><msup><mi>Q</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">
+S=\sqrt{P^2+Q^2}
+</annotation></semantics></math></p>
+<p>Power factor:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>F</mi><mo>=</mo><mfrac><mi>P</mi><mi>S</mi></mfrac></mrow><annotation encoding="application/x-tex">
+PF=\frac{P}{S}
+</annotation></semantics></math></p>
+<p>A generator can therefore reach its current or apparent-power limit
+even when the engine still has mechanical power available.</p>
+<h1 id="why-reactive-load-can-reduce-available-active-power">4. Why
+reactive load can reduce available active power</h1>
+<p>Suppose the generator has a fixed MVA capability.</p>
+<p>If reactive power increases:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>↑</mo></mrow><annotation encoding="application/x-tex">
+Q\uparrow
+</annotation></semantics></math></p>
+<p>then for the same apparent-power limit:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>↓</mo></mrow><annotation encoding="application/x-tex">
+P_{max}\downarrow
+</annotation></semantics></math></p>
+<p>This creates an <strong>electrical power limit</strong> that must
+feed back into the permitted engine power request.</p>
+<h1 id="what-the-avr-does">5. What the AVR does</h1>
+<p>The automatic voltage regulator changes generator field
+excitation.</p>
+<p>Conceptually:</p>
+<pre class="text"><code>Voltage / reactive-power target
+        ↓
+AVR
+        ↓
+Field current
+        ↓
+Generator internal magnetic field
+        ↓
+Terminal voltage / Q response</code></pre>
+<p>In island operation, the AVR usually plays a major role in holding
+terminal voltage.</p>
+<p>In grid-parallel operation, the grid strongly constrains
+voltage/frequency and excitation changes mainly influence reactive-power
+exchange within the allowed control mode.</p>
+<h1 id="governor-and-avr-must-not-fight-each-other">6. Governor and AVR
+must not fight each other</h1>
+<p>The governor should not try to correct a voltage problem by adding
+torque.</p>
+<p>The AVR should not try to correct a frequency problem by changing
+excitation.</p>
+<p>A recruit should mentally separate:</p>
+<pre class="text"><code>P / frequency  → mechanical side
+Q / voltage    → excitation side</code></pre>
+<p>while remembering that the generator capability limit couples
+them.</p>
+<h1 id="synchronization-before-breaker-closing">7. Synchronization
+before breaker closing</h1>
+<p>Before connecting a generator to an energized bus, the machine should
+satisfy the project requirements for:</p>
+<ul>
+<li>voltage magnitude;</li>
+<li>frequency;</li>
+<li>phase sequence;</li>
+<li>phase-angle difference.</li>
+</ul>
+<p>The exact synchronization tolerances are project- and
+grid-code-specific.</p>
+<p>The conceptual sequence is:</p>
+<pre class="text"><code>Engine reaches rated speed
+      ↓
+Generator voltage is established
+      ↓
+Frequency matched
+      ↓
+Voltage matched
+      ↓
+Phase sequence confirmed
+      ↓
+Phase angle approaches acceptable window
+      ↓
+Breaker closes</code></pre>
+<h1 id="what-changes-immediately-after-synchronization">8. What changes
+immediately after synchronization</h1>
+<p>Before breaker close, the machine can change speed relatively
+freely.</p>
+<p>After connection to a strong grid:</p>
+<ul>
+<li>frequency is constrained by the grid;</li>
+<li>increasing engine torque mainly increases active power export;</li>
+<li>changing excitation mainly changes reactive-power behavior.</li>
+</ul>
+<p>This is a fundamental transition in the control structure.</p>
+<h1 id="generator-capability-limits">9. Generator capability limits</h1>
+<p>Possible electrical limits include:</p>
+<ul>
+<li>stator current;</li>
+<li>rotor/field current;</li>
+<li>apparent power;</li>
+<li>under/over excitation;</li>
+<li>terminal voltage;</li>
+<li>winding temperature;</li>
+<li>bearing temperature;</li>
+<li>reverse power;</li>
+<li>over/under frequency;</li>
+<li>grid-code protection.</li>
+</ul>
+<p>These limits can reduce the active-power request even when the engine
+itself is healthy.</p>
+<h1 id="calibration-commissioning-procedure">10. Calibration /
+commissioning procedure</h1>
+<p>This is more commissioning than combustion calibration, but the
+engine-control engineer must understand it.</p>
+<h2 id="step-1-no-load-voltage-build">Step 1 — no-load voltage
+build</h2>
+<p>At rated speed, establish generator voltage and verify stable AVR
+behavior.</p>
+<h2 id="step-2-synchronization">Step 2 — synchronization</h2>
+<p>Verify safe synchronization logic and breaker-close behavior.</p>
+<h2 id="step-3-active-power-loading">Step 3 — active-power loading</h2>
+<p>Increase active power in controlled steps while monitoring:</p>
+<ul>
+<li>kW/MW;</li>
+<li>frequency;</li>
+<li>engine torque request;</li>
+<li>current;</li>
+<li>generator temperatures.</li>
+</ul>
+<h2 id="step-4-reactive-power-sweep">Step 4 — reactive-power sweep</h2>
+<p>At selected active-power points, vary reactive-power or power-factor
+target within the approved capability region.</p>
+<p>Measure:</p>
+<ul>
+<li>Q;</li>
+<li>current;</li>
+<li>field current;</li>
+<li>voltage;</li>
+<li>temperatures.</li>
+</ul>
+<h1 id="main-trade-off-active-power-versus-reactive-margin">11. Main
+trade-off — active power versus reactive margin</h1>
+<p>At a given MVA/current capability:</p>
+<pre class="text"><code>Reactive demand ↑
+        ↓
+electrical current margin ↓
+        ↓
+available active power may need to decrease</code></pre>
+<p>The system-level controller must respect generator capability, not
+only engine capability.</p>
+<h1 id="interactive-p-q-pf-calculator">12. Interactive P-Q-PF
+calculator</h1>
+<div class="interactive-card">
+<h3>
+Generator power triangle
+</h3>
+<label>Active power P [MW]
+<input id="pq-p" max="5.0" min="0.5" oninput="updatePQ()" step="0.1" type="range" value="4.0"/></label>
+<label>Reactive power Q [MVAr]
+<input id="pq-q" max="3.0" min="-3.0" oninput="updatePQ()" step="0.1" type="range" value="1.5"/></label>
+<div class="kpis">
+<div class="kpi">
+<strong id="pq-s">–</strong>Apparent power S
+</div>
+<div class="kpi">
+<strong id="pq-pf">–</strong>Power factor |PF|
+</div>
+</div>
+<p id="pq-msg">
+</p>
+</div>
+<h1 id="generator-efficiency-is-an-operating-map-not-one-constant">13.
+Generator efficiency is an operating map, not one constant</h1>
+<p>For a teaching calculation it is convenient to assume:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi></mrow></msub><mo>=</mo><mi>c</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
+\eta_{gen}=constant
+</annotation></semantics></math></p>
+<p>A real generator behaves more like:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>g</mi><mi>e</mi><mi>n</mi></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo form="prefix" stretchy="true">(</mo><mi>P</mi><mo>,</mo><mi>Q</mi><mo>,</mo><mi>V</mi><mo>,</mo><msub><mi>T</mi><mrow><mi>w</mi><mi>i</mi><mi>n</mi><mi>d</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow></msub><mo>,</mo><mi>c</mi><mi>o</mi><mi>o</mi><mi>l</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo>,</mo><mi>…</mi><mo form="postfix" stretchy="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\eta_{gen}
+=
+f(P,Q,V,T_{winding},cooling,\ldots)
+</annotation></semantics></math></p>
+<p>Losses include:</p>
+<ul>
+<li>copper losses;</li>
+<li>iron/core losses;</li>
+<li>windage/ventilation;</li>
+<li>bearing/mechanical losses;</li>
+<li>excitation-related losses.</li>
+</ul>
+<p>Therefore the conversion from electrical MW back to required shaft
+torque should use the approved generator efficiency/loss model when
+accuracy matters.</p>
+<h1 id="capability-curve-thinking">14. Capability-curve thinking</h1>
+<p>A synchronous generator capability curve conceptually combines limits
+such as:</p>
+<ul>
+<li>stator current;</li>
+<li>rotor/field current;</li>
+<li>under-excitation;</li>
+<li>over-excitation;</li>
+<li>thermal boundaries.</li>
+</ul>
+<p>The allowed operating region is therefore not a rectangle in P-Q
+space.</p>
+<pre class="text"><code>        Q
+        ↑
+   allowed operating
+       region
+        │
+        └────────→ P</code></pre>
+<p>At high reactive demand, the remaining active-power margin can
+shrink.</p>
+<p>A plant power coordinator should receive this electrical capability
+rather than assuming the engine can always use its full mechanical
+rating.</p>
+<h1 id="excitation-limiters">15. Excitation limiters</h1>
+<p>Advanced AVR systems can include limiting functions such as:</p>
+<ul>
+<li>over-excitation limiting;</li>
+<li>under-excitation limiting;</li>
+<li>stator-current limiting.</li>
+</ul>
+<p>These functions should be distinguished from the main voltage
+regulator itself.</p>
+<p>When a limiter becomes active, the commanded Q/voltage response can
+change even though the normal AVR target has not changed.</p>
+<h1 id="worked-capability-example">16. Worked capability example</h1>
+<p>Suppose a generator is limited to 5.0 MVA. If reactive power is 3.0
+MVAr, the maximum active power from that simple apparent-power boundary
+would be:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><msqrt><mrow><msup><mi>S</mi><mn>2</mn></msup><mo>−</mo><msup><mi>Q</mi><mn>2</mn></msup></mrow></msqrt><mo>=</mo><msqrt><mrow><msup><mn>5</mn><mn>2</mn></msup><mo>−</mo><msup><mn>3</mn><mn>2</mn></msup></mrow></msqrt><mo>=</mo><mn>4.0</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">W</mi></mrow></mrow><annotation encoding="application/x-tex">
+P_{max}
+=
+\sqrt{S^2-Q^2}
+=
+\sqrt{5^2-3^2}
+=
+4.0\ \mathrm{MW}
+</annotation></semantics></math></p>
+<p>The real generator capability curve can be more restrictive because
+stator current, field current, under-excitation and thermal limits do
+not form a perfect circle.</p>
+<h1 id="calibration-commissioning-outputs">17. Calibration /
+commissioning outputs</h1>
+<p>Record the approved:</p>
+<ul>
+<li>P-Q capability map;</li>
+<li>generator efficiency/loss map;</li>
+<li>excitation limiter behavior;</li>
+<li>winding/field temperature corrections;</li>
+<li>voltage and reactive-power controller limits.</li>
+</ul>
+<h1 id="engineering-figure">18. Generator P-Q capability illustration</h1>
+<figure class="figure-card">
+<svg aria-label="Conceptual generator P-Q capability curve" role="img" viewbox="0 0 820 430">
+<rect fill="white" height="430" width="820" x="0" y="0"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="760" y1="350" y2="350"></line>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="380" y2="55"></line>
+<text fill="#17324a" font-size="18" x="735" y="380">P</text>
+<text fill="#17324a" font-size="18" x="55" y="70">Q</text>
+<path d="M160 330 C220 170, 340 95, 500 90 C650 95, 730 185, 740 310 C650 342, 300 360, 160 330Z" fill="#eef4f8" stroke="#5d87ad" stroke-width="3"></path>
+<line stroke="#9bb5c9" stroke-dasharray="8 7" stroke-width="2" x1="530" x2="530" y1="350" y2="98"></line>
+<circle cx="530" cy="180" fill="#17324a" r="7"></circle>
+<text fill="#17324a" font-size="15" x="545" y="177">example operating
+point</text>
+<text fill="#61717f" font-size="14" x="205" y="155">under-excitation /
+stability side</text>
+<text fill="#61717f" font-size="14" x="500" y="72">field / rotor-current
+side</text>
+<text fill="#61717f" font-size="14" x="570" y="328">stator-current / MVA
+side</text>
+</svg>
+<figcaption>
+Conceptual P-Q capability envelope. The real curve and limiter structure
+come from the approved generator documentation; the allowable region is
+not a simple rectangular P–Q box.
+</figcaption>
+</figure>
+<h1 id="reactive-power-sign-convention-leading-and-lagging-power-factor">19.
+Reactive-power sign convention, leading and lagging power factor</h1>
+<p>Power-factor language can be confusing because generator and load
+sign conventions are not always identical.</p>
+<p>For this series, use the explicit convention:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">
+Q&gt;0
+</annotation></semantics></math></p>
+<p>means <strong>reactive power exported from the generator to the
+bus</strong>, and:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">
+Q&lt;0
+</annotation></semantics></math></p>
+<p>means reactive power absorbed from the bus.</p>
+<p>With a common generator convention:</p>
+<ul>
+<li>over-excited operation usually exports reactive power and is often
+described as lagging power factor;</li>
+<li>under-excited operation absorbs reactive power and is often
+described as leading power factor.</li>
+</ul>
+<p>Do not rely only on the words <em>leading</em> and <em>lagging</em>.
+Record:</p>
+<pre class="text"><code>P sign
+Q sign
+generator import/export convention
+field current
+terminal voltage</code></pre>
+<p>from the actual plant metering definition.</p>
+<h1 id="power-quality-and-faultgrid-code-awareness">20. Power-quality
+and fault/grid-code awareness</h1>
+<p>The simple relation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><msqrt><mrow><msup><mi>P</mi><mn>2</mn></msup><mo>+</mo><msup><mi>Q</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">
+S=\sqrt{P^2+Q^2}
+</annotation></semantics></math></p>
+<p>is the ordinary balanced, sinusoidal steady-state teaching model.</p>
+<p>A real generating set can also be constrained by:</p>
+<ul>
+<li>harmonic current / voltage distortion;</li>
+<li>phase-voltage or current unbalance;</li>
+<li>negative-sequence heating;</li>
+<li>short-circuit / fault-current capability;</li>
+<li>grid-code voltage and frequency ride-through requirements.</li>
+</ul>
+<p>These are primarily electrical-system topics, but they can change the
+<strong>allowed active-power envelope</strong> and therefore the
+permitted engine torque.</p>
+<h1 id="common-mistakes">21. Common mistakes</h1>
+<ul>
+<li>Treating power factor as only an electrical reporting number.</li>
+<li>Assuming generator efficiency is constant.</li>
+<li>Treating the P-Q capability envelope as a rectangle.</li>
+<li>Diagnosing a Q/voltage problem as an engine governor problem.</li>
+<li>Using generic capability curves instead of the approved machine
+curve.</li>
+</ul>
+<h1 id="key-lessons">22. Key lessons</h1>
+<ol type="1">
+<li>Engine torque primarily supplies active power.</li>
+<li>Excitation primarily controls voltage/reactive behavior.</li>
+<li>Generator P-Q limits can become engine power limits.</li>
+<li>Nominal speed follows electrical frequency.</li>
+<li>Capability and efficiency must be represented with approved
+generator data for release work.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+ISO 8528-3:2020 — AC generators for generating sets; current after
+confirmation in 2026.
+</li>
+<li>
+ISO 8528-4:2025 — Controlgear and switchgear.
+</li>
+<li>
+IEC 60034-1:2026 — Rotating electrical machines, rating and performance.
+</li>
+<li>
+IEC 60034-2-2:2024 — Specific methods for determining separate losses of
+large rotating machines.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../01-complete-genset-physical-system/">← The Complete CNG Genset as One Physical System</a><span class="article-count">2 / 23</span><a href="../03-genset-torque-power-structure/">Complete CNG Genset Torque and Power Structure →</a></div></body>
+</html>

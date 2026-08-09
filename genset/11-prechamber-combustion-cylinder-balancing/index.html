@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<title>Prechamber Combustion, Lean-Limit Extension and Cylinder Balancing</title>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<meta content="Jet ignition physics, λPC, pressure differential, prechamber fuel
+fraction, instrumentation, aging margin and cylinder diagnosis" name="description"/><link rel="stylesheet" href="../series.css">
+</head>
+<body>
+<div class="site-nav"><div class="inner">
+<a href="../../../index.html" class="logo">NISHANT<span>.</span>TYAGI</a>
+<div class="links">
+<a href="../../index.html">All Notes</a>
+<a href="../series.html">Series Index</a>
+<a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+</div>
+</div></div>
+<div class="series-nav"><a href="../series.html">← Series overview</a><span class="article-count">Article 11 of 23</span><span></span></div><div class="hero">
+<div class="kicker">
+CNG Genset Performance, Emissions &amp; Controls · Nominal 1500 rpm ·
+2026 Publication Edition
+</div>
+<h1>
+Prechamber Combustion, Lean-Limit Extension and Cylinder Balancing
+</h1>
+<p>
+<em>Jet ignition physics, λPC, pressure differential, prechamber fuel
+fraction, instrumentation, aging margin and cylinder diagnosis</em>
+</p>
+</div><div class="publication-note">
+<strong>A note on scope:</strong> This series describes generic
+technologies used across modern large lean-burn natural-gas generating
+sets. Nominal speed is 1500 rpm for the 50 Hz / four-pole teaching case;
+actual synchronous or transient speed follows frequency and operating
+state. “CNG” is used deliberately for compressed natural gas fuel: where
+fuel is supplied from high-pressure CNG storage, the upstream
+pressure-reduction/conditioning system is part of the plant; where
+pipeline natural gas is used, the engine-side gas train starts from the
+regulated site supply. Hardware, limits, safety architecture and
+regulations remain project-specific.
+</div><div class="view-controls">
+<strong>Reading mode:</strong>
+<button onclick="setMode('simple')">Simple view</button>
+<button onclick="setMode('detailed')">Detailed view</button> <span id="mode-label">Practical notes visible</span>
+</div><nav id="TOC" role="doc-toc"><details><summary>Article contents</summary>
+<ul>
+<li><a href="#why-prechamber-combustion-is-important-in-large-lean-burn-gas-engines" id="toc-why-prechamber-combustion-is-important-in-large-lean-burn-gas-engines">1.
+Why prechamber combustion is important in large lean-burn gas
+engines</a></li>
+<li><a href="#what-must-be-optimized" id="toc-what-must-be-optimized">2.
+What must be optimized</a></li>
+<li><a href="#baseline-prechamber-calibration-procedure" id="toc-baseline-prechamber-calibration-procedure">3. Baseline
+prechamber calibration procedure</a></li>
+<li><a href="#trade-off-ignition-robustness-versus-fuel-consumption" id="toc-trade-off-ignition-robustness-versus-fuel-consumption">4.
+Trade-off — ignition robustness versus fuel consumption</a></li>
+<li><a href="#cylinder-balancing" id="toc-cylinder-balancing">5.
+Cylinder balancing</a></li>
+<li><a href="#diagnose-before-trimming" id="toc-diagnose-before-trimming">6. Diagnose before trimming</a></li>
+<li><a href="#lean-limit-mapping" id="toc-lean-limit-mapping">7.
+Lean-limit mapping</a></li>
+<li><a href="#trade-off-lean-operation-versus-ch4" id="toc-trade-off-lean-operation-versus-ch4">8. Trade-off — lean
+operation versus CH4</a></li>
+<li><a href="#validation" id="toc-validation">9. Validation</a></li>
+<li><a href="#how-an-active-prechamber-actually-ignites-the-main-chamber" id="toc-how-an-active-prechamber-actually-ignites-the-main-chamber">10.
+How an active prechamber actually ignites the main chamber</a></li>
+<li><a href="#passive-versus-actively-fueled-prechambers" id="toc-passive-versus-actively-fueled-prechambers">11. Passive versus
+actively fueled prechambers</a>
+<ul>
+<li><a href="#passive-prechamber" id="toc-passive-prechamber">Passive
+prechamber</a></li>
+<li><a href="#actively-fueled-scavenged-prechamber" id="toc-actively-fueled-scavenged-prechamber">Actively fueled /
+scavenged prechamber</a></li>
+</ul></li>
+<li><a href="#what-the-calibration-engineer-actually-changes" id="toc-what-the-calibration-engineer-actually-changes">12. What the
+calibration engineer actually changes</a></li>
+<li><a href="#detailed-prechamberlean-limit-optimization-procedure" id="toc-detailed-prechamberlean-limit-optimization-procedure">13.
+Detailed prechamber/lean-limit optimization procedure</a>
+<ul>
+<li><a href="#step-1-establish-the-main-chamber-reference" id="toc-step-1-establish-the-main-chamber-reference">Step 1 — establish
+the main-chamber reference</a></li>
+<li><a href="#step-2-start-with-conservative-prechamber-fueling" id="toc-step-2-start-with-conservative-prechamber-fueling">Step 2 —
+start with conservative prechamber fueling</a></li>
+<li><a href="#step-3-reduce-or-increase-prechamber-authority-systematically" id="toc-step-3-reduce-or-increase-prechamber-authority-systematically">Step
+3 — reduce or increase prechamber authority systematically</a></li>
+<li><a href="#step-4-lean-limit-test" id="toc-step-4-lean-limit-test">Step 4 — lean-limit test</a></li>
+</ul></li>
+<li><a href="#main-trade-off-ignition-robustness-versus-prechamber-fuel" id="toc-main-trade-off-ignition-robustness-versus-prechamber-fuel">14.
+Main trade-off — ignition robustness versus prechamber fuel</a></li>
+<li><a href="#nozzle-and-jet-behavior" id="toc-nozzle-and-jet-behavior">15. Nozzle and jet behavior</a></li>
+<li><a href="#cylinder-balancing-with-prechambers" id="toc-cylinder-balancing-with-prechambers">16. Cylinder balancing with
+prechambers</a></li>
+<li><a href="#aging-and-fouling-validation" id="toc-aging-and-fouling-validation">17. Aging and fouling
+validation</a></li>
+<li><a href="#useful-prechamber-state-variables" id="toc-useful-prechamber-state-variables">18. Useful prechamber state
+variables</a>
+<ul>
+<li><a href="#prechamber-mixture-strength" id="toc-prechamber-mixture-strength">Prechamber mixture
+strength</a></li>
+<li><a href="#prechamber-to-main-pressure-difference" id="toc-prechamber-to-main-pressure-difference">Prechamber-to-main
+pressure difference</a></li>
+<li><a href="#prechamber-fuel-fraction" id="toc-prechamber-fuel-fraction">Prechamber fuel fraction</a></li>
+</ul></li>
+<li><a href="#instrumentation-for-prechamber-development" id="toc-instrumentation-for-prechamber-development">19. Instrumentation
+for prechamber development</a></li>
+<li><a href="#trade-off-pressure-differential-versus-jet-authority" id="toc-trade-off-pressure-differential-versus-jet-authority">20.
+Trade-off — pressure differential versus jet authority</a></li>
+<li><a href="#worked-calibration-example" id="toc-worked-calibration-example">21. Worked calibration
+example</a></li>
+<li><a href="#engineering-figure" id="toc-engineering-figure">22.
+Engineering figure</a></li>
+<li><a href="#common-mistakes" id="toc-common-mistakes">23. Common
+mistakes</a></li>
+<li><a href="#key-lessons" id="toc-key-lessons">24. Key lessons</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</details></nav>
+
+
+
+
+
+<h1 id="why-prechamber-combustion-is-important-in-large-lean-burn-gas-engines">1.
+Why prechamber combustion is important in large lean-burn gas
+engines</h1>
+<p>A prechamber allows a small energetic ignition region to create
+strong jets/flame kernels that ignite a much leaner main-cylinder
+mixture than a conventional spark plug alone could reliably ignite.</p>
+<p>Modern multi-megawatt lean-burn gas engines can use actively
+scavenged or fueled prechambers to extend lean combustion while
+maintaining ignition robustness.</p>
+<h1 id="what-must-be-optimized">2. What must be optimized</h1>
+<p>Depending on hardware architecture, relevant parameters can
+include:</p>
+<ul>
+<li>prechamber fuel quantity;</li>
+<li>prechamber/main-chamber mixture relationship;</li>
+<li>ignition timing;</li>
+<li>main-cylinder lambda;</li>
+<li>gas pressure;</li>
+<li>cylinder-specific trims.</li>
+</ul>
+<h1 id="baseline-prechamber-calibration-procedure">3. Baseline
+prechamber calibration procedure</h1>
+<p>At one load point:</p>
+<ol type="1">
+<li>establish stable main lambda;</li>
+<li>stabilize spark and turbo state;</li>
+<li>vary prechamber fueling/mixture in controlled steps;</li>
+<li>measure cylinder pressure and stability;</li>
+<li>identify minimum prechamber energy/fuel that gives reliable
+ignition.</li>
+</ol>
+<h1 id="trade-off-ignition-robustness-versus-fuel-consumption">4.
+Trade-off — ignition robustness versus fuel consumption</h1>
+<p>More prechamber enrichment/energy can improve:</p>
+<ul>
+<li>ignition reliability;</li>
+<li>lean-limit margin.</li>
+</ul>
+<p>But too much can:</p>
+<ul>
+<li>waste fuel;</li>
+<li>increase local NOx;</li>
+<li>alter pressure rise;</li>
+<li>create thermal stress.</li>
+</ul>
+<p>So the optimum is <strong>enough ignition authority, not maximum
+prechamber fueling</strong>.</p>
+<h1 id="cylinder-balancing">5. Cylinder balancing</h1>
+<p>At each load, compare cylinders for:</p>
+<ul>
+<li>IMEP;</li>
+<li>COVIMEP;</li>
+<li>CA50;</li>
+<li>knock;</li>
+<li>EGT;</li>
+<li>misfire.</li>
+</ul>
+<p>A cylinder-specific correction may be necessary.</p>
+<h1 id="diagnose-before-trimming">6. Diagnose before trimming</h1>
+<p>A weak cylinder can be caused by:</p>
+<ul>
+<li>gas injector variation;</li>
+<li>prechamber restriction;</li>
+<li>ignition system;</li>
+<li>valve/compression issue;</li>
+<li>air-distribution difference.</li>
+</ul>
+<p>Do not use a fuel trim to hide a mechanical fault.</p>
+<h1 id="lean-limit-mapping">7. Lean-limit mapping</h1>
+<p>At stable load, gradually lean the main mixture while keeping
+prechamber settings controlled.</p>
+<p>Observe when:</p>
+<ul>
+<li>COVIMEP rises;</li>
+<li>methane/THC rises;</li>
+<li>CA50 becomes unstable;</li>
+<li>misfire begins.</li>
+</ul>
+<p>The production target should remain with margin from this
+boundary.</p>
+<h1 id="trade-off-lean-operation-versus-ch4">8. Trade-off — lean
+operation versus CH4</h1>
+<p>Stronger prechamber ignition may extend the lean limit.</p>
+<p>But if the main chamber becomes too lean, incomplete burn still
+increases methane.</p>
+<p>The prechamber does not remove the basic combustion-stability
+trade-off.</p>
+<h1 id="validation">9. Validation</h1>
+<p>Repeat across:</p>
+<ul>
+<li>low/high load;</li>
+<li>gas-quality extremes;</li>
+<li>hot/cold conditions;</li>
+<li>aging;</li>
+<li>cylinder hardware variation.</li>
+</ul>
+<h1 id="how-an-active-prechamber-actually-ignites-the-main-chamber">10.
+How an active prechamber actually ignites the main chamber</h1>
+<p>A useful physical sequence is:</p>
+<pre class="text"><code>Prechamber receives a locally ignitable mixture
+        ↓
+Spark initiates combustion in prechamber
+        ↓
+Prechamber pressure rises
+        ↓
+Hot reacting jets leave through nozzle holes
+        ↓
+Several energetic ignition sites enter main chamber
+        ↓
+Lean main mixture ignites at multiple locations
+        ↓
+Main-chamber burn becomes faster and more robust</code></pre>
+<p>The advantage is not simply “a stronger spark.”</p>
+<p>The jets combine:</p>
+<ul>
+<li>thermal energy;</li>
+<li>radicals/reactive species;</li>
+<li>high momentum;</li>
+<li>turbulence generation.</li>
+</ul>
+<p>That helps ignite a main mixture that may be too lean for one
+conventional flame kernel to burn reliably.</p>
+<h1 id="passive-versus-actively-fueled-prechambers">11. Passive versus
+actively fueled prechambers</h1>
+<h2 id="passive-prechamber">Passive prechamber</h2>
+<p>The prechamber is filled mainly through gas exchange with the main
+chamber.</p>
+<p>Advantages: - simpler fuel system.</p>
+<p>Challenges: - prechamber mixture is strongly coupled to main-chamber
+conditions.</p>
+<h2 id="actively-fueled-scavenged-prechamber">Actively fueled /
+scavenged prechamber</h2>
+<p>A separate small gas flow can create a locally richer or more
+ignitable prechamber mixture.</p>
+<p>Advantages: - stronger control over ignition energy; - larger
+lean-limit authority.</p>
+<p>Challenges: - additional fuel metering; - pressure control; -
+cylinder-specific variation; - thermal loading.</p>
+<h1 id="what-the-calibration-engineer-actually-changes">12. What the
+calibration engineer actually changes</h1>
+<p>Depending on architecture:</p>
+<ul>
+<li>prechamber gas quantity;</li>
+<li>prechamber gas pressure;</li>
+<li>timing of prechamber gas delivery;</li>
+<li>main-chamber lambda;</li>
+<li>ignition timing;</li>
+<li>cylinder-specific prechamber trim.</li>
+</ul>
+<h1 id="detailed-prechamberlean-limit-optimization-procedure">13.
+Detailed prechamber/lean-limit optimization procedure</h1>
+<h2 id="step-1-establish-the-main-chamber-reference">Step 1 — establish
+the main-chamber reference</h2>
+<p>At one load, stabilize:</p>
+<ul>
+<li>air charge;</li>
+<li>main lambda;</li>
+<li>ignition;</li>
+<li>temperatures.</li>
+</ul>
+<h2 id="step-2-start-with-conservative-prechamber-fueling">Step 2 —
+start with conservative prechamber fueling</h2>
+<p>Use enough prechamber fuel to obtain robust combustion.</p>
+<h2 id="step-3-reduce-or-increase-prechamber-authority-systematically">Step
+3 — reduce or increase prechamber authority systematically</h2>
+<p>For each setting measure:</p>
+<ul>
+<li>IMEP;</li>
+<li>COVIMEP;</li>
+<li>CA50;</li>
+<li>Pmax;</li>
+<li>pressure-rise rate;</li>
+<li>knock;</li>
+<li>NOx;</li>
+<li>CH4/THC;</li>
+<li>prechamber/exhaust temperature where available.</li>
+</ul>
+<h2 id="step-4-lean-limit-test">Step 4 — lean-limit test</h2>
+<p>Once prechamber operation is stable, gradually increase main-chamber
+lambda.</p>
+<p>Observe the point where:</p>
+<ul>
+<li>COVIMEP rises;</li>
+<li>CH4 rises;</li>
+<li>CA50 variation rises;</li>
+<li>partial burn/misfire appears.</li>
+</ul>
+<p>The useful operating point should remain before this steep
+degradation.</p>
+<h1 id="main-trade-off-ignition-robustness-versus-prechamber-fuel">14.
+Main trade-off — ignition robustness versus prechamber fuel</h1>
+<p>More prechamber fuel/energy can:</p>
+<ul>
+<li>extend the lean limit;</li>
+<li>reduce cycle variability;</li>
+<li>improve load-step robustness.</li>
+</ul>
+<p>But it can also:</p>
+<ul>
+<li>consume more fuel;</li>
+<li>increase local temperature;</li>
+<li>increase NOx tendency locally;</li>
+<li>increase pressure-rise severity;</li>
+<li>increase prechamber component thermal stress.</li>
+</ul>
+<p>The optimum is therefore <strong>minimum prechamber effort that gives
+the required main-chamber stability margin</strong>.</p>
+<h1 id="nozzle-and-jet-behavior">15. Nozzle and jet behavior</h1>
+<p>Nozzle-hole geometry is mainly a hardware-design parameter, not a
+normal calibration map.</p>
+<p>But the calibration engineer should understand its consequences.</p>
+<p>Jet penetration and direction influence:</p>
+<ul>
+<li>how many regions ignite;</li>
+<li>how quickly the flame spreads;</li>
+<li>local wall interaction;</li>
+<li>pressure-rise shape.</li>
+</ul>
+<p>A change in prechamber fuel pressure can also change jet momentum
+even if the nominal fuel mass is similar.</p>
+<h1 id="cylinder-balancing-with-prechambers">16. Cylinder balancing with
+prechambers</h1>
+<p>A cylinder can be weak because of:</p>
+<ul>
+<li>main gas distribution;</li>
+<li>prechamber gas distribution;</li>
+<li>ignition hardware;</li>
+<li>nozzle deposits/restriction;</li>
+<li>compression;</li>
+<li>valve condition;</li>
+<li>cooling difference.</li>
+</ul>
+<p>Therefore balancing should be diagnostic.</p>
+<p>A cylinder-specific gas trim should not be the first response to
+every weak cylinder.</p>
+<h1 id="aging-and-fouling-validation">17. Aging and fouling
+validation</h1>
+<p>Prechamber performance should be checked with realistic aging/deposit
+conditions where possible.</p>
+<p>A calibration that works only with clean new hardware may have
+insufficient ignition margin in service.</p>
+<h1 id="useful-prechamber-state-variables">18. Useful prechamber state
+variables</h1>
+<p>To understand an actively fueled prechamber, useful conceptual
+quantities include:</p>
+<h3 id="prechamber-mixture-strength">Prechamber mixture strength</h3>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mrow><mi>P</mi><mi>C</mi></mrow></msub><annotation encoding="application/x-tex">
+\lambda_{PC}
+</annotation></semantics></math></p>
+<p>or the equivalent fuel-air equivalence ratio.</p>
+<h3 id="prechamber-to-main-pressure-difference">Prechamber-to-main
+pressure difference</h3>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msub><mi>p</mi><mrow><mi>P</mi><mi>C</mi><mo>−</mo><mi>m</mi><mi>a</mi><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>p</mi><mrow><mi>P</mi><mi>C</mi></mrow></msub><mo>−</mo><msub><mi>p</mi><mrow><mi>m</mi><mi>a</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+\Delta p_{PC-main}
+=
+p_{PC}-p_{main}
+</annotation></semantics></math></p>
+<h3 id="prechamber-fuel-fraction">Prechamber fuel fraction</h3>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>P</mi><mi>C</mi><mo>,</mo><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>m</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi><mo>,</mo><mi>P</mi><mi>C</mi></mrow></msub><msub><mi>m</mi><mrow><mi>f</mi><mi>u</mi><mi>e</mi><mi>l</mi><mo>,</mo><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
+x_{PC,fuel}
+=
+\frac{m_{fuel,PC}}
+{m_{fuel,total}}
+</annotation></semantics></math></p>
+<p>These variables explain why the same total engine fuel flow can
+produce very different ignition behavior.</p>
+<h1 id="instrumentation-for-prechamber-development">19. Instrumentation
+for prechamber development</h1>
+<p>Depending on test hardware, development can use:</p>
+<ul>
+<li>prechamber pressure;</li>
+<li>main-cylinder pressure;</li>
+<li>prechamber gas pressure;</li>
+<li>prechamber fuel flow;</li>
+<li>optical tools in research engines;</li>
+<li>cylinder-resolved exhaust temperature.</li>
+</ul>
+<p>The production ECU may not measure all of these.</p>
+<p>They are development tools used to establish robust maps and
+margins.</p>
+<h1 id="trade-off-pressure-differential-versus-jet-authority">20.
+Trade-off — pressure differential versus jet authority</h1>
+<p>Higher prechamber pressure relative to the main chamber can increase
+jet momentum.</p>
+<p>But excessive pressure rise can increase:</p>
+<ul>
+<li>nozzle thermal/mechanical stress;</li>
+<li>pressure-rise severity;</li>
+<li>local wall interaction.</li>
+</ul>
+<p>This gives another reason not to equate “stronger prechamber” with
+“better calibration.”</p>
+<h1 id="worked-calibration-example">21. Worked calibration example</h1>
+<p>At a fixed medium-high load:</p>
+<ol type="1">
+<li>hold main lambda at the approved reference;</li>
+<li>establish stable prechamber fuel fraction;</li>
+<li>reduce prechamber fuel in small steps;</li>
+<li>watch COVIMEP and CA50 spread;</li>
+<li>then increase main lambda until stability degrades;</li>
+<li>move back to a target with defined stability margin.</li>
+</ol>
+<p>A useful result is not “maximum prechamber fuel.”</p>
+<p>It is:</p>
+<blockquote>
+<p>the minimum prechamber authority that permits the required
+main-chamber lean target with robust cylinder-to-cylinder stability.</p>
+</blockquote>
+<h1 id="engineering-figure">22. Prechamber pressure-trace illustration</h1>
+<figure class="figure-card">
+<svg aria-label="Prechamber and main chamber pressure traces" role="img" viewbox="0 0 820 430">
+<rect fill="white" height="430" width="820"></rect>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="750" y1="350" y2="350"></line>
+<line stroke="#52697a" stroke-width="2" x1="90" x2="90" y1="350" y2="55"></line>
+<text fill="#17324a" font-size="17" x="600" y="395">Crank angle</text>
+<text fill="#17324a" font-size="17" transform="rotate(-90 20,90)" x="20" y="90">Pressure</text>
+<path d="M120 330 C260 320,340 295,400 190 C430 130,460 105,500 160 C550 235,620 285,710 310" fill="none" stroke="#17324a" stroke-width="3"></path>
+<path d="M120 332 C300 330,360 300,400 205 C418 165,438 145,455 170 C500 245,590 292,710 314" fill="none" stroke="#5d87ad" stroke-width="3"></path>
+<text fill="#17324a" font-size="14" x="500" y="150">prechamber</text>
+<text fill="#5d87ad" font-size="14" x="520" y="245">main chamber</text>
+<line stroke="#9bb5c9" stroke-dasharray="7 6" x1="420" x2="420" y1="70" y2="350"></line>
+<text fill="#61717f" font-size="13" x="345" y="65">jet discharge /
+ignition coupling</text>
+</svg>
+<figcaption>
+Schematic only: an actively fueled prechamber can develop an early
+pressure rise and discharge energetic reacting jets into the main
+chamber. Real traces depend strongly on hardware, load, λPC and timing.
+</figcaption>
+</figure>
+<h1 id="common-mistakes">23. Common mistakes</h1>
+<ul>
+<li>Using total gas flow without separating prechamber fuel.</li>
+<li>Treating stronger jet momentum as automatically better.</li>
+<li>Correcting a weak cylinder before checking prechamber hardware
+condition.</li>
+<li>Calibrating lean limit only on new/clean hardware.</li>
+<li>Ignoring prechamber pressure instrumentation uncertainty.</li>
+</ul>
+<h1 id="key-lessons">24. Key lessons</h1>
+<ol type="1">
+<li>Prechamber combustion is an ignition-energy and jet-dynamics
+problem, not simply a richer spark plug.</li>
+<li>λPC, pressure differential and prechamber fuel fraction are useful
+development state variables.</li>
+<li>The production target needs aging/fouling margin.</li>
+<li>Cylinder balancing should diagnose the source before applying
+trims.</li>
+<li>Prechamber and main lambda must be optimized together.</li>
+</ol>
+<h1 id="references">References</h1>
+<ol class="refs">
+<li>
+W. W. Pulkrabek, Engineering Fundamentals of the Internal Combustion
+Engine.
+</li>
+<li>
+L. Guzzella and C. H. Onder, Introduction to Modeling and Control of
+Internal Combustion Engine Systems, 2nd ed.
+</li>
+<li>
+ISO 8528-2:2018 — Engines; principal characteristics and speed-governing
+terminology for generating-set applications.
+</li>
+</ol>
+
+<script>
+function setMode(mode){
+ document.querySelectorAll('.article-note').forEach(n=>n.style.display=(mode==='simple'?'none':'block'));
+ const l=document.getElementById('mode-label');
+ if(l)l.textContent=(mode==='simple'?'Practical notes hidden':'Practical notes visible');
+}
+</script>
+<div class="series-nav bottom"><a href="../10-ignition-ca50-knock-pressure-limits/">← Ignition, CA50, Knock, Peak Pressure and Pressure-Rise Limits</a><span class="article-count">11 / 23</span><a href="../12-miller-gas-exchange-turbo-matching/">Miller Timing, Gas Exchange and Turbo Matching at Nominal 1500 rpm →</a></div></body>
+</html>

@@ -1,0 +1,147 @@
+/* ============================================================
+   POWERTRAIN SERIES — restyled to match nishant99966.github.io
+   Shared by all 13 articles. Maps the original navy/Arial design
+   onto the site's copper/navy + Space Grotesk / JetBrains Mono system.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  --ink:#0F1B2D;
+  --paper:#F7F5F0;
+  --paper-2:#EFEBE2;
+  --copper:#E8622C;
+  --blue:#2D6CDF;
+  --line:#D8D2C4;
+  --muted:#5B6472;
+  --white:#FFFFFF;
+
+  /* map the article's original variables onto the site palette */
+  --page-max:1100px; --text-max:820px; --content-max:1000px;
+  --navy:var(--ink); --accent:var(--copper); --soft:var(--paper-2);
+  --border:var(--line); --bg:var(--paper);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+body{
+  font-family:'Inter',sans-serif;line-height:1.68;color:#212C3A;background:var(--paper);
+  max-width:var(--page-max);width:calc(100% - 32px);margin:0 auto;padding:0 0 64px;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--copper);color:var(--white);}
+
+/* --- Site nav bar injected at top of each article --- */
+.site-nav{
+  position:sticky;top:0;z-index:50;width:100vw;margin-left:calc(50% - 50vw);
+  background:rgba(247,245,240,0.9);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);margin-bottom:8px;
+}
+.site-nav .inner{
+  max-width:var(--page-max);margin:0 auto;padding:0 16px;height:64px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.site-nav .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.02em;color:var(--ink);text-decoration:none;}
+.site-nav .logo span{color:var(--copper);}
+.site-nav .links{display:flex;gap:24px;font-family:'JetBrains Mono',monospace;font-size:13px;}
+.site-nav .links a{color:var(--muted);text-decoration:none;transition:color .15s;}
+.site-nav .links a:hover{color:var(--ink);}
+
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;color:var(--ink);line-height:1.22;letter-spacing:-0.01em;}
+h1{max-width:var(--content-max);margin:2.2rem auto 1rem;font-size:2rem}
+h2{max-width:var(--text-max);margin:2.4rem auto .75rem;font-size:1.5rem;padding-top:1.4rem;border-top:1px solid var(--line);}
+h3{max-width:var(--text-max);margin:1.6rem auto .55rem;font-size:1.15rem}
+
+p,ul,ol,blockquote,.math{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+p{margin-top:.65rem;margin-bottom:.9rem}
+li{margin:.3rem 0}
+strong{color:var(--ink);font-weight:600;}
+a{color:var(--blue)}
+
+blockquote{
+  border-left:3px solid var(--copper);background:var(--paper-2);
+  padding:14px 18px;border-radius:0 6px 6px 0;margin:20px auto;color:#2A3441;
+}
+
+/* Table of contents */
+#TOC, nav#TOC{
+  max-width:var(--text-max);margin:0 auto 28px;border:1px solid var(--line);
+  border-radius:10px;background:var(--white);padding:0;
+}
+#TOC summary{cursor:pointer;padding:13px 16px;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:13px;color:var(--copper);text-transform:uppercase;letter-spacing:0.06em;}
+#TOC ul{max-width:none;margin:.25rem 0 .75rem;}
+#TOC a{color:var(--muted);text-decoration:none;}
+#TOC a:hover{color:var(--copper);}
+
+/* hide the pandoc auto title block (we show our own hero) */
+#title-block-header{display:none;}
+
+pre{
+  max-width:var(--content-max);margin:16px auto;background:var(--ink);color:#E8EDF2;
+  border-radius:9px;padding:14px 16px;overflow-x:auto;font-size:.9rem;line-height:1.5;
+  font-family:'JetBrains Mono',monospace;
+}
+code{font-family:'JetBrains Mono',monospace;background:var(--paper-2);padding:2px 6px;border-radius:4px;font-size:.9em;}
+pre code{background:none;padding:0;color:inherit;}
+
+table{width:min(100%,var(--content-max));margin:18px auto;border-collapse:collapse;display:table;font-size:.92rem;}
+th,td{border:1px solid var(--line);padding:9px 11px;vertical-align:top}
+th{background:var(--paper-2);color:var(--copper);font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;text-align:left;font-weight:500;}
+
+figure{width:100%;max-width:var(--content-max);margin:1.7rem auto}
+figure svg,figure img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto!important;border-radius:8px;border:1px solid var(--line);}
+figcaption,.figure-caption{max-width:900px;margin:.45rem auto;text-align:center;color:var(--muted);font-size:.9rem;font-family:'JetBrains Mono',monospace;}
+
+/* HERO */
+.hero{max-width:var(--content-max);margin:24px auto;padding:40px 32px;border-radius:16px;background:linear-gradient(180deg,#FBF9F5,var(--paper-2));border:1px solid var(--line)}
+.hero h1{margin:.1rem 0 .55rem;font-size:clamp(28px,4vw,40px);}
+.hero p{max-width:none;margin:.4rem 0;color:var(--muted);font-size:1.05rem;}
+.kicker{text-transform:uppercase;letter-spacing:.1em;color:var(--copper);font-size:.78rem;font-weight:500;font-family:'JetBrains Mono',monospace;}
+
+/* FLOW step boxes */
+.flow{max-width:var(--content-max);margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:stretch}
+.flow .box{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:.9rem;}
+.flow .box strong{display:block;color:var(--copper);margin-bottom:5px;font-family:'Space Grotesk',sans-serif;}
+
+/* CALLOUT grids */
+.callout-grid{max-width:var(--content-max);margin:18px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.callout{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--white)}
+.callout h3{margin:.1rem 0 .4rem;font-size:1rem;color:var(--ink);}
+
+/* Article note (toggleable practical notes) */
+.article-note{max-width:var(--text-max);margin:16px auto 20px;padding:12px 16px;border-left:3px solid var(--blue);background:rgba(45,108,223,0.06);border-radius:0 6px 6px 0}
+.publication-note{max-width:var(--text-max);margin:14px auto 24px;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--copper);border-radius:8px;background:var(--paper-2)}
+
+/* Equation card */
+.equation-card{max-width:var(--text-max);margin:18px auto;padding:16px 18px;background:var(--white);border:1px solid var(--line);border-radius:10px;text-align:center;font-family:'JetBrains Mono',monospace;}
+
+/* KPI cards */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px auto;max-width:var(--text-max);}
+.kpi{padding:12px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;text-align:center}
+.kpi strong{display:block;color:var(--copper);font-size:1.1rem;font-family:'Space Grotesk',sans-serif;}
+
+/* Interactive slider card */
+.interactive-card{max-width:var(--content-max);margin:22px auto;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--white)}
+.interactive-card input[type=range]{width:100%;accent-color:var(--copper)}
+.interactive-card label{font-size:.9rem;color:var(--muted);}
+
+/* View toggle controls */
+.view-controls{max-width:var(--text-max);margin:14px auto 18px;padding:10px 14px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+button{cursor:pointer;border:1px solid var(--line);background:var(--white);border-radius:20px;padding:7px 14px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;transition:border-color .15s,background .15s;}
+button:hover{border-color:var(--copper);}
+
+.ref-list{max-width:var(--text-max);margin-left:auto;margin-right:auto}
+.ref-list li{margin-bottom:10px;font-size:.92rem;color:var(--muted);}
+
+/* Back link */
+.series-back{max-width:var(--text-max);margin:24px auto 0;font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+.series-back a{color:var(--muted);text-decoration:none;}
+.series-back a:hover{color:var(--copper);}
+
+@media(max-width:760px){
+ body{width:100%;padding:0 14px 50px}
+ table{display:block;overflow-x:auto}
+ .hero{padding:24px 20px}
+ h1{font-size:1.6rem}
+ .site-nav .links{gap:14px;}
+}
