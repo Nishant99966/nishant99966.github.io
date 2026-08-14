@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Notes — Nishant Tyagi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="nav-logo">NISHANT<span>.</span>TYAGI</a>
+    <div class="nav-links">
+      <a href="#notes">Technical Notes</a>
+      <a href="gasoline-cng/series.html">Series</a>
+      <a href="mailto:nishant.tyagi@student.tugraz.at">Contact</a>
+    </div>
+  </div>
+</nav>
+<header class="hero" style="padding:72px 0 24px;">
+  <div class="wrap">
+    <div class="eyebrow">IC Engine — Combustion, Performance &amp; Emissions</div>
+    <h1 style="font-size:clamp(32px,5vw,48px);">Nishant Tyagi</h1>
+    <p class="blog-intro">
+      Automotive engineer with hands-on experience in IC engine efficiency, power optimization,
+      and emission control. This is a working set of technical notes — calibration procedures
+      and techniques from my time in the industry, written up so I can revisit and refine them,
+      and so anyone evaluating this work can see it directly.
+    </p>
+    <div class="contact-row" style="margin-top:20px;">
+      <a href="mailto:nishant.tyagi@student.tugraz.at">nishant.tyagi@student.tugraz.at</a>
+      <span>Graz, Austria</span>
+    </div>
+  </div>
+</header>
+<div class="wrap" id="notes">
+  <a href="gasoline-cng/series.html" style="display:block;border:1px solid var(--line);border-left:3px solid var(--copper);border-radius:10px;background:var(--white);padding:20px 22px;margin-bottom:24px;text-decoration:none;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--copper);margin-bottom:6px;">14-Part Series</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:4px;">Gasoline / CNG Engine Series &rarr;</div>
+    <div style="font-size:13.5px;color:var(--muted);">Torque structure, boost, gas exchange, combustion stability, transients, thermal limits and full calibration strategy — with interactive calculators.</div>
+  </a>
+  <a href="genset/series.html" style="display:block;border:1px solid var(--line);border-left:3px solid var(--copper);border-radius:10px;background:var(--white);padding:20px 22px;margin-bottom:24px;text-decoration:none;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--copper);margin-bottom:6px;">23-Part Series</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:4px;">CNG Genset Series &rarr;</div>
+    <div style="font-size:13.5px;color:var(--muted);">Nominal 1500-rpm CNG generator engines: genset fundamentals, gas safety, lean-burn combustion, turbocharging, generator control, emissions, validation and field commissioning.</div>
+  </a>
+  <a href="diesel-series/series.html" style="display:block;border:1px solid var(--line);border-left:3px solid var(--copper);border-radius:10px;background:var(--white);padding:20px 22px;margin-bottom:24px;text-decoration:none;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--copper);margin-bottom:6px;">33-Part Series</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:4px;">Heavy-Duty Diesel Series &rarr;</div>
+    <div style="font-size:13.5px;color:var(--muted);">Modern heavy-duty diesel: torque-based ECU, fuel systems, air charge, combustion &amp; injection calibration, aftertreatment (DPF/SCR), emissions certification, vehicle integration and validation.</div>
+  </a>
+  <div id="postsContainer"></div>
+</div>
+<footer style="margin-top:20px;">
+  Built by Nishant Tyagi · Graz, Austria
+</footer>
+<script src="../assets/content-engine.js"></script>
+<script>renderContentGrid('postsContainer', 'content', 'note.html', false);</script>
+</body>
+</html>
